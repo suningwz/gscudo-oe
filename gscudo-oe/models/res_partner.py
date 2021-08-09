@@ -6,7 +6,7 @@ class Partner (models.Model):
     _inherit='res.partner'
     
     sg_clients_id  = fields.Integer(string='ID Cliente SaWGest')
-    sg_branches_id = fields.Integer(string='ID Ufficio SaWGest')
+    sg_branches_id = fields.Integer(string='ID Ufficio SaWGest ')
     sg_employee_id = fields.Integer(string='ID Impiegato SaWGest')
     
 
