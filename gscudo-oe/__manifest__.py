@@ -3,7 +3,9 @@
     'name': "Gruppo Scudo Odoo Enterprise",
 
     'summary': """
-        Common Configuration for Odoo """,
+        Common Configuration for Odoo 
+        
+        installet to have a bridge on sawgest """,
 
     'description': """
         
@@ -16,14 +18,14 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.1',
+    'version': '0.2',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','contacts'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        # 'security/ir.model.access.csv', 
         'views/res_partner_views.xml',
         'views/views.xml',
         'views/templates.xml',
