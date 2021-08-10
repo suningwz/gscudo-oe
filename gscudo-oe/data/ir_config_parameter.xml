@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <record id="myid" model="ir.config_parameter">
+            <field name="key">sawgest_branches_url</field>
+            <field name="value">https://gestionale.grupposcudo.it/#/app/branches/{}</field>
+        </record>
+
+    </data>
+</odoo>

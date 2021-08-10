@@ -27,6 +27,7 @@
 
     # always loaded
     'data': [
+        'data/ir_config_parameter.xml',
         # 'security/ir.model.access.csv', 
         'views/res_partner_views.xml',
         'views/views.xml',

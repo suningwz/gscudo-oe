@@ -18,7 +18,7 @@ class ResPartner (models.Model):
         base_url = irconfigparam.sudo().get_param('sawgest_branches_url')
         if base_url:
             for record in self:
-                if record.sg_branches_id > 0:
+                if record.sg_branches_id and record.sg_branches_id > 0:
                     record.sg_url = base_url.format(record.sg_branches_id)    
                 else:
                     record.sg_url = False
