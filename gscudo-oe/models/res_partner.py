@@ -10,15 +10,15 @@ class ResPartner (models.Model):
     sg_esolver_id = fields.Integer(string="ID ESolver")
     
 
-    # sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
+    sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
 
     
-    # def _compute_sg_url(self):
-    #     irconfigparam = self.env['ir.config_parameter']
-    #     base_url = irconfigparam.sudo().get_param('sawgest_branches_url')
-    #     if base_url:
-    #         for record in self:
-    #             if record.sg_branches_id > 0:
-    #                 record.sg_url = base_url.format(record.sg_branches_id)    
-    #             else:
-    #                 record.sg_url = False
+    def _compute_sg_url(self):
+        irconfigparam = self.env['ir.config_parameter']
+        base_url = irconfigparam.sudo().get_param('sawgest_branches_url')
+        if base_url:
+            for record in self:
+                if record.sg_branches_id > 0:
+                    record.sg_url = base_url.format(record.sg_branches_id)    
+                else:
+                    record.sg_url = False
