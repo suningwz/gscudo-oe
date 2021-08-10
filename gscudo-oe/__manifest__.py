@@ -4,10 +4,12 @@
 
     'summary': """
         Common Configuration for Odoo 
-        
-        installet to have a bridge on sawgest """,
+        """,
 
     'description': """
+      Common Configuration for Odoo 
+        installet to have a bridge on sawgest 
+        some personalizations on projects 
         
     """,
 
