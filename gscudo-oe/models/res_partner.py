@@ -1,13 +1,13 @@
 # -*- coding: utf-8 -*-
 from odoo import models, fields, api, _
 
-
 class Partner (models.Model):
     _inherit='res.partner'
     
     sg_clients_id  = fields.Integer(string='ID Cliente SaWGest')
     sg_branches_id = fields.Integer(string='ID Ufficio SaWGest ')
     sg_employee_id = fields.Integer(string='ID Impiegato SaWGest')
+    sg_esolver_id = fields.Integer(string='ID ESolver')
     
 
     sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
