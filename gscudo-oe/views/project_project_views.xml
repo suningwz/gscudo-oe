@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_edit_project_gscudo" model="ir.ui.view">
+        <field name="name">GScudo project extension</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="before">
+                <field name="department_id" />
+            </field>
+            <notebook position="inside">
+                <page name="project_date" string="Date">
+                    <group>
+                        <field name="date_start" />
+                        <field name="date" />
+                    </group>
+
+                </page>
+            </notebook>
+        </field>
+    </record>
+
+</odoo>

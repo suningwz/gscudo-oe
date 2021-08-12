@@ -23,13 +23,16 @@
     'version': '0.2',
 
     # any module necessary for this one to work correctly
-    'depends': ['base','contacts'],
+    'depends': ['base', 'contacts','project','hr_timesheet', 'helpdesk'],
 
     # always loaded
     'data': [
         'data/ir_config_parameter.xml',
-        # 'security/ir.model.access.csv', 
+        # 'security/ir.model.access.csv',
+        'security/security_groups.xml',
         'views/res_partner_views.xml',
+        'views/hr_department_views.xml',
+        'views/project_project_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],
