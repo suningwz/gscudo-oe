@@ -11,7 +11,7 @@
                 <group>
                     <field name="sg_esolver_id" />
                     <field name="sg_branches_id" />
-                    <field name="sg_url" widget="url" readonly="1" />
+                    <field name="sg_url" widget="url" readonly="1"  text="vedi in SAWGest"  />
                 </group>
             </page>
         </xpath>

@@ -17,6 +17,14 @@
                     </group>
 
                 </page>
+                <page name="SAWGest">
+                    <group>
+                        <field name="sg_offer"/>
+                        <field name="sg_offer_id"/>
+                        <field name="sg_url"  widget="url" readonly="1" text="vedi in SAWGest" />
+                    </group>
+
+                </page>
             </notebook>
         </field>
     </record>
