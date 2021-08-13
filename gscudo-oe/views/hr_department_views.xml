@@ -22,7 +22,7 @@
 
         <field name="arch" type="xml">
            
-                <xpath expr="//div[@class='o_secondary']" position="inside">
+                <xpath expr="//div[hasclass('o_secondary')]" position="inside">
                     <field name="department_code" />
                 </xpath>
                 <!-- Add your xpath here -->

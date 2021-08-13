@@ -9,23 +9,23 @@
             <field name="user_id" position="before">
                 <field name="department_id" />
             </field>
-            <notebook position="inside">
-                <page name="project_date" string="Date">
+            <page name="settings" position="inside">
+                <group>
+                    <field name="date_start" />
+                    <field name="date" />
+                </group>
+
+            </page>
+            <page name="settings" position="after">
+                <page name="SAWGest" string="SawGest">
                     <group>
-                        <field name="date_start" />
-                        <field name="date" />
+                        <field name="sg_offer" />
+                        <field name="sg_offer_id" />
+                        <field name="sg_url" widget="url" readonly="1" text="vedi in SAWGest" />
                     </group>
 
                 </page>
-                <page name="SAWGest">
-                    <group>
-                        <field name="sg_offer"/>
-                        <field name="sg_offer_id"/>
-                        <field name="sg_url"  widget="url" readonly="1" text="vedi in SAWGest" />
-                    </group>
-
-                </page>
-            </notebook>
+            </page>
         </field>
     </record>
 
