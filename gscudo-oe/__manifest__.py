@@ -3,18 +3,16 @@
     'name': "Gruppo Scudo Odoo Enterprise",
 
     'summary': """
-        Common Configuration for Odoo 
+      Gruppo Scudo Odoo Customizations
         """,
 
     'description': """
-      Common Configuration for Odoo 
-        installet to have a bridge on sawgest 
-        some personalizations on projects 
+      This module customize several Odoo models to fit GS needs
         
     """,
 
-    'author': "Gruppo Scudo Srl",
-    'website': "http://grupposcudo.it",
+    'author': "Gruppo Scudo Srl / LGIT",
+    'website': "http://www.grupposcudo.it",
 
     # Categories can be used to filter modules in modules listing
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
@@ -27,9 +25,12 @@
 
     # always loaded
     'data': [
-        'data/ir_config_parameter.xml',
-        # 'security/ir.model.access.csv',
         'security/security_groups.xml',
+        'security/ir.model.access.csv',
+
+        'data/ir_config_parameter.xml',
+        'data/gs_partner_division.xml',
+
         'views/res_partner_views.xml',
         'views/hr_department_views.xml',
         'views/project_project_views.xml',

@@ -1,2 +1,3 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_gscudo-oe_gscudo-oe,gscudo-oe.gscudo-oe,model_gscudo-oe_gscudo-oe,base.group_user,1,1,1,1
+access_gs_partner_division,access_gs_partner_division,model_gs_partner_division,base.group_user,1,0,0,0
+manage_gs_partner_division,manage_gs_partner_division,model_gs_partner_division,base.group_user,1,1,1,1

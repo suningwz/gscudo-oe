@@ -8,15 +8,15 @@
   </record>
 
   <!-- Gruppo Scudo  User Group -->
-  <record id="gscudo_group_user" model="res.groups">
-    <field name="name">Gruppo Scudo  User</field>
+  <record id="group_user" model="res.groups">
+    <field name="name">Gruppo Scudo User</field>
     <field name="category_id" ref="gscudo_category"/>
     <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
   </record>
 
   <!-- Gruppo Scudo  Manager Group -->
-  <record id="gscudo_group_manager" model="res.groups">
-    <field name="name">Gruppo Scudo System Manager</field>
+  <record id="group_manager" model="res.groups">
+    <field name="name">Gruppo Scudo Manager</field>
     <field name="category_id" ref="gscudo_category"/>
     <field name="implied_ids" eval="[(4, ref('gscudo_group_user'))]"/>
     <field name="users" eval="[(4, ref('base.user_root')),

@@ -22,3 +22,7 @@ class ResPartner (models.Model):
                     record.sg_url = base_url.format(record.sg_branches_id)    
                 else:
                     record.sg_url = False
+
+    tmk_user_id = fields.Many2one(comodel_name='res.users', string='Telemarketing operator')
+    gs_partner_division_id =fields.Many2one(comodel_name='gs_partner_division', string='Division')
+    
