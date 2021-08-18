@@ -14,4 +14,11 @@
         </record>
 
     </data>
+    <data noupdate="1">
+        <record id="sawgest_base_url" model="ir.config_parameter">
+            <field name="key">sawgest_base_url</field>
+            <field name="value">https://gestionale.grupposcudo.it/#/app/</field>
+        </record>
+
+    </data>
 </odoo>
