@@ -1,25 +1,26 @@
 <odoo>
-  <!-- res.partner inherit form view -->
-<record id="view_partner_form" model="ir.ui.view">
-    <field name="name">res.partner.inherit.view.form</field>
-    <field name="model">res.partner</field>
-    <field name="inherit_id" ref="base.view_partner_form" />
-    <field name="arch" type="xml">
+    <!-- res.partner inherit form view -->
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.inherit.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="arch" type="xml">
 
-        <xpath expr="//page" position="after">
-            <page string="SaWGest">
-                <group>
-                    <field name="sg_esolver_id" />
-                    <field name="sg_branches_id" />
-                    <field name="sg_url" widget="url" readonly="1"  text="link"  />
-                    <field name="tmk_user_id" />
-                    <field name="gs_partner_division_id"/>
-                </group>
-            </page>
-        </xpath>
-
-    </field>
-</record>
+            <xpath expr="//page" position="after">
+                <page string="SaWGest" groups="gscudo-oe.group_user,gscudo-oe.group_manager">
+                    <group>
+                        <field name="sg_esolver_id" />
+                        <field name="sg_branches_id" />
+                        <field name="sg_url" widget="url" readonly="1" text="link" />
+                        <field name="tmk_user_id" />
+                        <field name="gs_partner_division_id" />
+                    </group>
+                </page>
+                
+            </xpath>
+            
+        </field>
+    </record>
 
 
 </odoo>

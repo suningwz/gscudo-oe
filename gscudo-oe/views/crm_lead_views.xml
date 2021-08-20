@@ -1,0 +1,33 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data noupdate="1">
+        <!-- crm.lead inherit form view -->
+        <record id="crm_lead_view_form_inherited" model="ir.ui.view">
+            <field name="name">crm.lead.inherit.view.form</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.crm_lead_view_form" />
+            <field name="arch" type="xml">
+                <!-- Add your xpath here -->
+                <field name="user_id" position="after">
+                    <field name="tmk_user_id" />
+                    <field name="gs_partner_division_id" />
+                </field>
+            </field>
+        </record>
+
+
+
+        <record model="ir.actions.server" id="crm_lead_create_call">
+            <field name="name">Create Call</field>
+            <field name="model_id" ref="model_crm_lead" />
+            <field name="binding_model_id" ref="model_crm_lead" />
+            <field name="binding_type">action</field>
+            <field name="state">code</field>
+            <field name="code">
+    if records:
+      for rec in records:
+        action = rec.createcall()
+            </field>
+        </record>
+    </data>
+</odoo>
