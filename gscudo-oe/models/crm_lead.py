@@ -3,7 +3,12 @@ from datetime import datetime
 
 class CrmLeads(models.Model):
     _inherit = 'crm.lead'
-
+    
+    fiscalcode = fields.Char("Fiscal Code", size=16, help="Italian Fiscal Code")   
+    pec = fields.Char(
+        "Addressee PEC",
+    )
+ 
     tmk_user_id = fields.Many2one(comodel_name='res.users', string='Telemarketing operator', tracking=True)
     gs_partner_division_id =fields.Many2one(comodel_name='gs_partner_division', string='Division', tracking=True)
 
@@ -11,7 +16,14 @@ class CrmLeads(models.Model):
     position_inps = fields.Char(string='Posizione INPS')
     position_cema = fields.Char(string='Posizione CEMA')
     
-
+    cciaa = fields.Char(string='CCIAA')
+    nrea = fields.Char(string='N REA')
+    
+    revenue = fields.Integer('Fatturato')
+    balance_year = fields.Integer(string="Anno bilancio", default='')
+    employee_qty = fields.Integer('Adetti')
+    ateco_id = fields.Many2one("ateco.category", string="Descrizione ATECO 2007")
+   
 
     def createcall(self):
         for record in self:
