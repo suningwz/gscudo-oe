@@ -25,4 +25,9 @@ class ResPartner (models.Model):
 
     tmk_user_id = fields.Many2one(comodel_name='res.users', string='Telemarketing operator')
     gs_partner_division_id =fields.Many2one(comodel_name='gs_partner_division', string='Division')
+
+
+    position_inail = fields.Char(string='Posizione Inail')
+    position_inps = fields.Char(string='Posizione INPS')
+    position_cema = fields.Char(string='Posizione CEMA')
     

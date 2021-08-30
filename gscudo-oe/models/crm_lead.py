@@ -4,9 +4,13 @@ from datetime import datetime
 class CrmLeads(models.Model):
     _inherit = 'crm.lead'
 
-    tmk_user_id = fields.Many2one(comodel_name='res.users', string='Telemarketing operator',track_visibility=True)
-    gs_partner_division_id =fields.Many2one(comodel_name='gs_partner_division', string='Division',track_visibility=True)
+    tmk_user_id = fields.Many2one(comodel_name='res.users', string='Telemarketing operator', tracking=True)
+    gs_partner_division_id =fields.Many2one(comodel_name='gs_partner_division', string='Division', tracking=True)
 
+    position_inail = fields.Char(string='Posizione Inail')
+    position_inps = fields.Char(string='Posizione INPS')
+    position_cema = fields.Char(string='Posizione CEMA')
+    
 
 
     def createcall(self):
