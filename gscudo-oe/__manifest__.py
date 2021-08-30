@@ -21,7 +21,8 @@
     'version': '0.2',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts','project','hr_timesheet', 'helpdesk', 'crm'],
+    'depends': ['base', 'contacts','project','hr_timesheet', 'helpdesk', 'crm',
+                'crm_lead_vat',],
 
     # always loaded
     'data': [
