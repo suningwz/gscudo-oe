@@ -3,22 +3,22 @@
     <data noupdate="1">
         <record id="sawgest_branches_url" model="ir.config_parameter">
             <field name="key">sawgest_branches_url</field>
-            <field name="value">https://gestionale.grupposcudo.it/#/app/branches/{}</field>
+            <field name="value">https://gestionale.grupposcudo.it/#/app/branches/&#123;&#125;</field>
         </record>
 
-    </data>
-    <data noupdate="1">
+   
+    
         <record id="sawgest_offers_url" model="ir.config_parameter">
             <field name="key">sawgest_offers_url</field>
-            <field name="value">https://gestionale.grupposcudo.it/#/app/offers/{}</field>
+            <field name="value">https://gestionale.grupposcudo.it/#/app/offers/&#123;&#125;</field>
         </record>
 
-    </data>
-    <data noupdate="1">
+
         <record id="sawgest_base_url" model="ir.config_parameter">
             <field name="key">sawgest_base_url</field>
             <field name="value">https://gestionale.grupposcudo.it/#/app/</field>
         </record>
 
+        
     </data>
 </odoo>
