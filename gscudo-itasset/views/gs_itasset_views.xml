@@ -10,6 +10,10 @@
           <field name="itasset_type_id" />
           <field name="description" />
           <field name="employee_id" />
+         <!-- 
+          <field name="itasset_position" /> 
+          <field name="department" />
+        -->
         </tree>
       </field>
     </record>
@@ -28,6 +32,8 @@
               <field name="itasset_type_id" />
               <field name="description" />
               <field name="employee_id" />
+              <!-- <field name="itasset_position" /> 
+              <field name="department" />-->
             </group>
             <group>
               <field name="note"></field>
