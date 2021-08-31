@@ -21,14 +21,20 @@
     'version': '0.2',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'contacts','project','hr_timesheet', 'helpdesk', 'crm',
-                'crm_lead_vat',	'l10n_it_ateco'],
+    'depends': ['base', 
+                #'contacts',
+                # 'project',
+                # 'hr_timesheet', 
+                # 'helpdesk', 
+                'crm',
+                'crm_lead_vat',	
+                'l10n_it_ateco'],
 
     # always loaded
     'data': [
         'security/security_groups.xml',
         'security/ir.model.access.csv',
-
+        'security/custom_rules.xml',
         'data/ir_config_parameter.xml',
         'data/gs_partner_division.xml',
 
@@ -36,6 +42,7 @@
         'views/hr_department_views.xml',
         'views/project_project_views.xml',
         'views/crm_lead_views.xml',
+        'views/call_scheduler_wizard.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

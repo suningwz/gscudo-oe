@@ -25,7 +25,9 @@ class CrmLeads(models.Model):
     ateco_id = fields.Many2one("ateco.category", string="Descrizione ATECO 2007")
    
 
-    def createcall(self):
+    def createcall(self,calldate):
+        if calldate == False:
+            calldate=datetime.now() 
         for record in self:
             record.message_subscribe([record.tmk_user_id.id or self.user_id.id],None)
             activity_data = {
@@ -33,8 +35,8 @@ class CrmLeads(models.Model):
                 'res_model' : 'crm.lead',
                 'res_model_id': self.env['ir.model'].search([('model', '=', 'crm.lead')]).id,
                 'res_id' :record.id,
-                'user_id' : record.tmk_user_id.id or self.user_id.id,
-                'date_deadline' : datetime.now() ,
+                'user_id' : record.tmk_user_id.id or self.user_id.id or self.env.user.id,
+                'date_deadline' : calldate,
                 'summary': 'Chiamare',
                 'activity_category':'default',
                 'previous_activity_type_id': False,
@@ -43,3 +45,5 @@ class CrmLeads(models.Model):
                 }
             
             self.env['mail.activity'].create(activity_data)
+            
+   

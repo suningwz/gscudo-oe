@@ -35,6 +35,22 @@
             </field>
         </record>
 
+        <record id="view_crm_case_leads_filter_inhetited" model="ir.ui.view">
+            <field name="name">crm.lead.search.inherited</field>
+            <field name="model">crm.lead</field>
+            <field name="inherit_id" ref="crm.view_crm_case_leads_filter" />
+            <field name="arch" type="xml">
+                <field name="user_id" position="before">
+                    <field name="tmk_user_id" />
+                </field>
+                <field name="city" position="after">
+                    <field name="state_id" />
+                </field>
+                <xpath expr="//group" position="inside">
+                    <filter string="Telemarketer" name="tmk_user" context="{'group_by':'tmk_user_id'}"/>
+                </xpath>
+            </field>
+        </record>
 
 
         <record model="ir.actions.server" id="crm_lead_create_call">

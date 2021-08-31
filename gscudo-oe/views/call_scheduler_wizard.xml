@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="view_call_scheduler_wizard" model="ir.ui.view">
+        <field name="name">Call Scheduler Wizard</field>
+        <field name="model">call_scheduler</field>
+        <field name="type">form</field>
+        <field name="arch" type="xml">
+            <form string="Pianificazione chiamate">
+                <sheet>
+                    <group>
+                        <field name="res_model_id" invisible="1"/>
+                        <field name="date_from" />
+                        <field name="date_to" />
+                        <field name="call_per_day" />
+                       
+
+                        <field name="activity_type_id" required="1" options="{'no_create': True, 'no_open': True}"
+                         domain="['|' , ('res_model_id','=', False),('res_model_id','=', res_model_id)]"/>
+                         <field name="summary" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="schedule_call" type="object" string="Pianifica" class="oe_highlight" />
+					or
+                    <button special="cancel" string="Cancel" />
+                </footer>
+
+            </form>
+        </field>
+    </record>
+
+    <record model="ir.actions.act_window" id="schedule_call_formaction_wizard">
+        <field name="name">Pianifica Telefonate</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">call_scheduler</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="view_call_scheduler_wizard"/>
+        <field name="binding_model_id" ref="model_crm_lead"/>
+
+    </record>
+
+
+  
+</odoo>
