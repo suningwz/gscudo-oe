@@ -17,6 +17,8 @@
                 <field name="user_id" position="after">
                     <field name="tmk_user_id" />
                     <field name="gs_partner_division_id" />
+                    <field name="sg_branches_id" />
+                    <field name="sg_url" widget="url" readonly="1" text="link" />
                 </field>
                 <notebook position="inside">
                     <page name="analysis" string="Business Analysis">

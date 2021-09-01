@@ -3,6 +3,25 @@ from datetime import datetime
 
 class CrmLeads(models.Model):
     _inherit = 'crm.lead'
+
+    sg_clients_id  = fields.Integer(string="ID Cliente SaWGest")
+    sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ")
+   
+    
+
+    sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
+
+    
+    def _compute_sg_url(self):
+        irconfigparam = self.env['ir.config_parameter']
+        base_url = irconfigparam.sudo().get_param('sawgest_branches_url')
+        if base_url:
+            for record in self:
+                if record.sg_branches_id and record.sg_branches_id > 0:
+                    record.sg_url = base_url.format(record.sg_branches_id)    
+                else:
+                    record.sg_url = False
+
     
     fiscalcode = fields.Char("Fiscal Code", size=16, help="Italian Fiscal Code")   
     pec = fields.Char(

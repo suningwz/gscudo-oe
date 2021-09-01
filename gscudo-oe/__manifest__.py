@@ -23,9 +23,9 @@
     # any module necessary for this one to work correctly
     'depends': ['base', 
                 #'contacts',
-                # 'project',
-                # 'hr_timesheet', 
-                # 'helpdesk', 
+                'project',
+                'hr_timesheet', 
+                'helpdesk', 
                 'crm',
                 'crm_lead_vat',	
                 'l10n_it_ateco'],
