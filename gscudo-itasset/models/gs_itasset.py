@@ -11,10 +11,10 @@ class ItAsset(models.Model):
     name = fields.Char(string="Cespite",  tracking=True)
     description = fields.Char(string="Descrizione" , tracking=True)
     active = fields.Boolean(string='Attivo' , default= True , tracking=True)
-    #itasset_position = fields.Char(string="Sede")
+    itasset_position = fields.Selection(string='Sede', selection=[('UD', 'Udine'), ('PN', 'Pordenone'), ('PN', 'Tolmezzo')])
     itasset_type_id = fields.Many2one(comodel_name='gs_itasset_type', string='Tipologia',  tracking=True)
     employee_id = fields.Many2one(comodel_name='hr.employee', string='Assegnatario',  tracking=True)
-    #department = fields.Char(string='Ufficio', related = 'employee_id.department_id.name')
+    department = fields.Char(string='Ufficio', related = 'employee_id.department_id.name')
     note = fields.Text(string='Annotazioni')
     
     
