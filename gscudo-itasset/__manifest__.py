@@ -19,11 +19,14 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base',"web","gscudo-oe"],
+    'depends': ['base',"web","hr"],
 
     # always loaded
     'data': [
+
+        'security/security_groups.xml',
         'security/ir.model.access.csv',
+
         'views/gs_itasset_views.xml',
         'views/hr_employee_views.xml',
         'views/templates.xml',

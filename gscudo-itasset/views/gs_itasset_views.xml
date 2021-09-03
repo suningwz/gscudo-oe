@@ -9,11 +9,12 @@
           <field name="name" />
           <field name="itasset_type_id" />
           <field name="description" />
+          <field name="status" />
           <field name="employee_id" />
          
-          <field name="itasset_position" /> 
           <field name="department" />
-       
+          <field name="itasset_location" /> 
+          
         </tree>
       </field>
     </record>
@@ -31,13 +32,19 @@
               <field name="name" />
               <field name="itasset_type_id" />
               <field name="description" />
-              <field name="employee_id" />
-              <!-- <field name="itasset_position" /> 
-              <field name="department" />-->
+              <field name="serial" />
+              <field name="status" />
+              <field name="parent_id" />
             </group>
             <group>
+              <field name="employee_id" attrs="{'readonly':[('parent_id','!=',False)]}" />
+              <field name="department" />
+              <field name="itasset_location" /> 
               <field name="note"></field>
             </group>
+            </group>
+            <group>
+              <field name="children_ids" />
             </group>
           </sheet>
           <div class="oe_chatter">
@@ -74,7 +81,7 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="IT Assets" id="itasset_menu" />
+    <menuitem name="IT Assets" id="itasset_menu" groups="gscudo-itasset.group_it_manager"/>
 
     <!-- menu categories -->
     <!--
