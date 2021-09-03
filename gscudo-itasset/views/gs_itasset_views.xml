@@ -11,10 +11,10 @@
           <field name="description" />
           <field name="status" />
           <field name="employee_id" />
-         
+
           <field name="department" />
-          <field name="itasset_location" /> 
-          
+          <field name="itasset_location" />
+
         </tree>
       </field>
     </record>
@@ -29,26 +29,26 @@
           <sheet>
             <group>
               <group>
-              <field name="name" />
-              <field name="itasset_type_id" />
-              <field name="description" />
-              <field name="serial" />
-              <field name="status" />
-              <field name="parent_id" />
-            </group>
-            <group>
-              <field name="employee_id" attrs="{'readonly':[('parent_id','!=',False)]}" />
-              <field name="department" />
-              <field name="itasset_location" /> 
-              <field name="note"></field>
-            </group>
+                <field name="name" />
+                <field name="itasset_type_id" />
+                <field name="description" />
+                <field name="serial" />
+                <field name="status" />
+                <field name="parent_id" />
+              </group>
+              <group>
+                <field name="employee_id" attrs="{'readonly':[('parent_id','!=',False)]}" />
+                <field name="department" />
+                <field name="itasset_location" />
+                <field name="note"></field>
+              </group>
             </group>
             <group>
               <field name="children_ids" />
             </group>
           </sheet>
           <div class="oe_chatter">
-            <field name="activity_ids" widget="mail_activity"/>
+            <field name="activity_ids" widget="mail_activity" />
             <field name="message_follower_ids" widget="mail_followers" />
             <field name="message_ids" widget="mail_thread" />
           </div>
@@ -79,18 +79,7 @@
     </record>
 -->
 
-    <!-- Top menu item -->
-
-    <menuitem name="IT Assets" id="itasset_menu" groups="gscudo-itasset.group_it_manager"/>
-
-    <!-- menu categories -->
-    <!--
-    <menuitem name="Menu 1" id="gscudo-itasset.menu_1" parent="gscudo-itasset.menu_root"/>
-    <menuitem name="Menu 2" id="gscudo-itasset.menu_2" parent="gscudo-itasset.menu_root"/>
--->
-    <!-- actions -->
-
-    <menuitem name="Lista" id="gscudo-itasset.itasset_list" parent="itasset_menu" action="gscudo-itasset.action_window" />
+    <menuitem name="Lista" id="gscudo-itasset.itasset_list" parent="itasset_menu_root" action="gscudo-itasset.action_window" />
 
   </data>
 </odoo>

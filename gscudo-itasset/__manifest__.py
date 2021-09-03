@@ -26,7 +26,7 @@
 
         'security/security_groups.xml',
         'security/ir.model.access.csv',
-
+        'views/views.xml',
         'views/gs_itasset_views.xml',
         'views/hr_employee_views.xml',
         'views/templates.xml',

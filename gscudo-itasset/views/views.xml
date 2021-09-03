@@ -1,0 +1,6 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <data >
+        <menuitem id="itasset_menu_root" name="IT Assets"  web_icon="gscudo,static/description/icon.png"/>
+    </data>
+</odoo>
