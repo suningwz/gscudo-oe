@@ -9,8 +9,8 @@
                         <div class="row" style="margin-left:500px">
                             Spett. <br />
                         <t t-esc="doc.name" />
-                        <br/>
-                        <br/>
+                        <br />
+                        <br />
                     </div>
                     <div class="row">
                             Con la presente Le consegniamo i seguenti materiali come dotazione aziendale:
@@ -43,28 +43,39 @@
                             </tbody>
                         </table>
                     </div>
-
                     <div class="row">
-                        <br/> <br/>
+                        <br />
+                        <br />
+                        <em>NOTA</em>
+                        <br />
+                        L’utilizzo di queste dotazioni è subordinato all’accettazione del regolamento aziendale e della policy informatica. 
+                        
+                        <br />
+                    </div>
+                    <div class="row">
+                        <br />
+                        <br />
                             Udine, <span t-esc="context_timestamp(datetime.datetime.now()).strftime('%Y-%m-%d')" />
                     <br />
                 </div>
                 <div class="row" style="margin-left:500px">
-                    <br/> <br/>
-                    firma per consegna (Azienda)<br/>
-                    <br/>
+                    <br />
+                    <br />
+                    firma per consegna (Azienda)<br />
+                <br />
 ___________________________
 
             </div>
             <div class="row" style="margin-left:500px">
-                <br/> <br/>
-                firma per ricevuta (Dipendente)<br/>
-                <br/>
+                <br />
+                <br />
+                firma per ricevuta (Dipendente)<br />
+            <br />
 ___________________________
 
         </div>
-        </div>
-    </t>
+    </div>
+</t>
 </t>
 </t>
 </template>
