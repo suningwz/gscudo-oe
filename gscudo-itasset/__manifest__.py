@@ -29,6 +29,8 @@
         'views/views.xml',
         'views/gs_itasset_views.xml',
         'views/hr_employee_views.xml',
+        'reports/emp_itasset_template.xml',
+        'reports/emp_itasset_report.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode
