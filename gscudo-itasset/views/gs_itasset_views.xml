@@ -31,7 +31,7 @@
             <filter string="Collocazione" name="itasset_location" context="{'group_by':'itasset_location'}" />
 
 
-          </group> 
+          </group>
         </search>
       </field>
     </record>
@@ -78,8 +78,13 @@
                 <field name="department" />
                 <field name="itasset_location" />
                 <field name="accounting_ref" />
-                <field name="note"></field>
+                <field name="acquisition_date" />
+                <field name="expiration_date" />
               </group>
+            </group>
+            <group>
+
+              <field name="note"></field>
             </group>
             <group>
               <field name="children_ids" />

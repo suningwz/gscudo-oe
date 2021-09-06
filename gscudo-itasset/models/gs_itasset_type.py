@@ -6,4 +6,6 @@ class ITAssetType(models.Model):
     _description = 'Tipo di asset'
 
     name = fields.Char(string='Tipo Asset')
+    family = fields.Char(string='Famiglia')
+    
     active = fields.Boolean(string='Attivo' , default= True)    
