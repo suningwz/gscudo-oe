@@ -30,4 +30,15 @@ class ResPartner (models.Model):
     position_inail = fields.Char(string='Posizione Inail')
     position_inps = fields.Char(string='Posizione INPS')
     position_cema = fields.Char(string='Posizione CEMA')
+    cciaa = fields.Char(string='CCIAA')
+    nrea = fields.Char(string='N REA')
+    
+    revenue = fields.Integer('Fatturato')
+    balance_year = fields.Integer(string="Anno bilancio", default='')
+    employee_qty = fields.Integer('Adetti')
+    #ateco_id = fields.Many2one("ateco.category", string="Descrizione ATECO 2007")
+    rating = fields.Integer(string='Rating')
+    share_capital = fields.Float(string='Capitale Sociale')
+    #credit_limit = fields.Float(string='Fido')
+    prejudicials = fields.Boolean(string='Pregiudizievoli')
     

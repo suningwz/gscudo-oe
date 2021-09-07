@@ -43,7 +43,17 @@ class CrmLeads(models.Model):
     balance_year = fields.Integer(string="Anno bilancio", default='')
     employee_qty = fields.Integer('Adetti')
     ateco_id = fields.Many2one("ateco.category", string="Descrizione ATECO 2007")
-   
+    rating = fields.Integer(string='Rating')
+    share_capital = fields.Float(string='Capitale Sociale')
+    credit_limit = fields.Float(string='Fido')
+    prejudicials = fields.Boolean(string='Pregiudizievoli')
+    
+    
+    
+    
+    
+
+
 
     def createcall(self,calldate):
         if calldate == False:

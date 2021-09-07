@@ -30,6 +30,10 @@
                             </group>
                             <group string="Employee" name="employee">
                                 <field name="employee_qty" />
+                                <field name="rating"/>
+                                <field name="share_capital" />
+                                <field name="credit_limit" />
+                                <field name="prejudicials" />
                             </group>
                         </group>
                     </page>
