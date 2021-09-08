@@ -4,6 +4,8 @@ from datetime import datetime
 class CrmLeads(models.Model):
     _inherit = 'crm.lead'
 
+    _sql_constraints = [('vat', 'unique(vat)',
+'P.IVA già presente')]
 
     sg_clients_id  = fields.Integer(string="ID Cliente SaWGest")
     sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ")

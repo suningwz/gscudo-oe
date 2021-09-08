@@ -46,7 +46,9 @@
             <field name="model">crm.lead</field>
             <field name="inherit_id" ref="crm.view_crm_case_leads_filter" />
             <field name="arch" type="xml">
+                
                 <field name="user_id" position="before">
+                    <field name="vat" />
                     <field name="tmk_user_id" />
                 </field>
                 <field name="city" position="after">
@@ -59,7 +61,7 @@
         </record>
 
 
-        <record model="ir.actions.server" id="crm_lead_create_call">
+        <!-- <record model="ir.actions.server" id="crm_lead_create_call">
             <field name="name">Create Call</field>
             <field name="model_id" ref="model_crm_lead" />
             <field name="binding_model_id" ref="model_crm_lead" />
@@ -70,6 +72,6 @@
       for rec in records:
         action = rec.createcall()
             </field>
-        </record>
+        </record> -->
 
 </odoo>
