@@ -51,29 +51,33 @@ class CrmLeads(models.Model):
     
     
     
-    
-
-
-
-    def createcall(self,calldate):
-        if calldate == False:
-            calldate=datetime.now() 
+    @api.onchange('user_id')
+    def _onchange_user_id(self):
         for record in self:
-            record.message_subscribe([record.tmk_user_id.id or self.user_id.id],None)
-            activity_data = {
-                'activity_type_id' : 2,            
-                'res_model' : 'crm.lead',
-                'res_model_id': self.env['ir.model'].search([('model', '=', 'crm.lead')]).id,
-                'res_id' :record.id,
-                'user_id' : record.tmk_user_id.id or self.user_id.id or self.env.user.id,
-                'date_deadline' : calldate,
-                'summary': 'Chiamare',
-                'activity_category':'default',
-                'previous_activity_type_id': False,
-                'recommended_activity_type_id': False,
-                'user_id': self.user_id.id
-                }
+            if record.user_id.tmk_user_id != False :
+                record.tmk_user_id = record.user_id.tmk_user_id.id
+ 
+
+
+    # def createcall(self,calldate):
+    #     if calldate == False:
+    #         calldate=datetime.now() 
+    #     for record in self:
+    #         record.message_subscribe([record.tmk_user_id.id or self.user_id.id],None)
+    #         activity_data = {
+    #             'activity_type_id' : 2,            
+    #             'res_model' : 'crm.lead',
+    #             'res_model_id': self.env['ir.model'].search([('model', '=', 'crm.lead')]).id,
+    #             'res_id' :record.id,
+    #             'user_id' : record.tmk_user_id.id or self.user_id.id or self.env.user.id,
+    #             'date_deadline' : calldate,
+    #             'summary': 'Chiamare',
+    #             'activity_category':'default',
+    #             'previous_activity_type_id': False,
+    #             'recommended_activity_type_id': False,
+    #             'user_id': self.user_id.id
+    #             }
             
-            self.env['mail.activity'].create(activity_data)
+    #         self.env['mail.activity'].create(activity_data)
             
    
