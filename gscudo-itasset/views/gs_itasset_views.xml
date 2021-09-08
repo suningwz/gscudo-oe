@@ -106,6 +106,7 @@
       <field name="name">IT Assets</field>
       <field name="res_model">gs_itasset</field>
       <field name="view_mode">tree,form,activity</field>
+      <field name="groups" eval="[(4, ref('gscudo-itasset.group_it_manager'))]"/>
     </record>
 
     <!-- server action to the one above -->
