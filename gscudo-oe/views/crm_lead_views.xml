@@ -1,77 +1,74 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
 
-        <!-- crm.lead inherit form view -->
-        <record id="crm_lead_view_form_inherited" model="ir.ui.view">
-            <field name="name">crm.lead.inherit.view.form</field>
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.crm_lead_view_form" />
-            <field name="priority">33</field>
-            <field name="arch" type="xml">
-                <!-- Add your xpath here -->
-                <field name="partner_id" position="after">
-                    <field name="fiscalcode" />
-                    <field name="cciaa" />
-                    <field name="nrea" />
-                </field>
-                <field name="user_id" position="after">
-                    <field name="tmk_user_id" />
-                    <field name="gs_partner_division_id" />
-                    <field name="sg_branches_id" />
-                    <field name="sg_url" widget="url" readonly="1" text="link" />
-                </field>
-                <notebook position="inside">
-                    <page name="analysis" string="Business Analysis">
-                        <group>
-                            <group string="Business Analysis">
-                                <field name="revenue" />
-                                <field name="balance_year" />
-                                <field name="ateco_id" />
-                            </group>
-                            <group string="Employee" name="employee">
-                                <field name="employee_qty" />
-                                <field name="rating"/>
-                                <field name="share_capital" />
-                                <field name="credit_limit" />
-                                <field name="prejudicials" />
-                            </group>
+    <!-- crm.lead inherit form view -->
+    <record id="crm_lead_view_form_inherited" model="ir.ui.view">
+        <field name="name">crm.lead.inherit.view.form</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_lead_view_form" />
+        <field name="priority">33</field>
+        <field name="arch" type="xml">
+            <!-- Add your xpath here -->
+            <field name="partner_id" position="after">
+                <field name="fiscalcode" />
+                <field name="cciaa" />
+                <field name="nrea" />
+            </field>
+            <field name="user_id" position="after">
+                <field name="tmk_user_id" />
+                <field name="gs_partner_division_id" />
+                <field name="sg_branches_id" />
+                <field name="sg_url" widget="url" readonly="1" text="link" />
+            </field>
+            <notebook position="inside">
+                <page name="analysis" string="Business Analysis">
+                    <group>
+                        <group string="Business Analysis">
+                            <field name="revenue" />
+                            <field name="balance_year" />
+                            <field name="ateco_id" />
                         </group>
-                    </page>
-                </notebook>
-            </field>
-        </record>
+                        <group string="Employee" name="employee">
+                            <field name="employee_qty" />
+                            <field name="rating" />
+                            <field name="share_capital" />
+                            <field name="credit_limit" />
+                            <field name="prejudicials" />
+                        </group>
+                    </group>
+                </page>
+            </notebook>
+        </field>
+    </record>
 
-        <record id="view_crm_case_leads_filter_inhetited" model="ir.ui.view">
-            <field name="name">crm.lead.search.inherited</field>
-            <field name="model">crm.lead</field>
-            <field name="inherit_id" ref="crm.view_crm_case_leads_filter" />
-            <field name="arch" type="xml">
-                
-                <field name="user_id" position="before">
-                    <field name="vat" />
-                    <field name="tmk_user_id" />
-                </field>
-                <field name="city" position="after">
-                    <field name="state_id" />
-                </field>
-                <xpath expr="//group" position="inside">
-                    <filter string="Telemarketer" name="tmk_user" context="{'group_by':'tmk_user_id'}"/>
-                </xpath>
-            </field>
-        </record>
+    <record id="view_crm_case_leads_filter_inhetited" model="ir.ui.view">
+        <field name="name">crm.lead.search.inherited</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.view_crm_case_leads_filter" />
+        <field name="arch" type="xml">
 
-
-        <!-- <record model="ir.actions.server" id="crm_lead_create_call">
-            <field name="name">Create Call</field>
-            <field name="model_id" ref="model_crm_lead" />
-            <field name="binding_model_id" ref="model_crm_lead" />
-            <field name="binding_type">action</field>
-            <field name="state">code</field>
-            <field name="code">
-    if records:
-      for rec in records:
-        action = rec.createcall()
+            <field name="user_id" position="before">
+                <field name="vat" />
+                <field name="tmk_user_id" />
             </field>
-        </record> -->
+            <field name="city" position="after">
+                <field name="state_id" />
+            </field>
+            <xpath expr="//group" position="inside">
+                <filter string="Telemarketer" name="tmk_user" context="{'group_by':'tmk_user_id'}" />
+            </xpath>
+        </field>
+    </record>
+
+    <record id="crm_case_tree_view_leads_inherited" model="ir.ui.view">
+        <field name="name">crm.lead.tree.lead_inherited</field>
+        <field name="model">crm.lead</field>
+        <field name="inherit_id" ref="crm.crm_case_tree_view_leads" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="after">
+                <field name="tmk_user_id" widget="many2one_avatar_user" />
+            </field>
+        </field>
+    </record>
 
 </odoo>
