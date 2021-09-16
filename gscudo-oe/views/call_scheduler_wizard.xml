@@ -17,7 +17,7 @@
 
                         <field name="activity_type_id" required="1" options="{'no_create': True, 'no_open': True}"
                          domain="['|' , ('res_model_id','=', False),('res_model_id','=', res_model_id)]"/>
-                         <field name="summary" />
+                         <field name="summary" string="Oggetto"/>
                     </group>
                 </sheet>
                 <footer>
