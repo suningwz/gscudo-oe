@@ -27,18 +27,48 @@ class ResPartner (models.Model):
     gs_partner_division_id =fields.Many2one(comodel_name='gs_partner_division', string='Division')
 
 
-    position_inail = fields.Char(string='Posizione Inail')
-    position_inps = fields.Char(string='Posizione INPS')
-    position_cema = fields.Char(string='Posizione CEMA')
-    cciaa = fields.Char(string='CCIAA')
-    nrea = fields.Char(string='N REA')
-    
     revenue = fields.Integer('Fatturato')
     balance_year = fields.Integer(string="Anno bilancio", default='')
     employee_qty = fields.Integer('Adetti')
-    #ateco_id = fields.Many2one("ateco.category", string="Descrizione ATECO 2007")
+    main_ateco_id = fields.Many2one("ateco.category", string="Descrizione ATECO 2007")
     rating = fields.Integer(string='Rating')
     share_capital = fields.Float(string='Capitale Sociale')
     #credit_limit = fields.Float(string='Fido')
     prejudicials = fields.Boolean(string='Pregiudizievoli')
     
+    #### From SAWGest
+    
+    position_inail = fields.Char(string='Posizione Inail')
+    position_inps = fields.Char(string='Posizione INPS')
+    position_cema = fields.Char(string='Posizione CEMA')
+    cciaa = fields.Char(string='CCIAA')
+    nrea = fields.Char(string='N REA')
+    cdc_notes=fields.Text(string = 'Note cdc', help = 'cdc_notes', )
+    required_cig=fields.Boolean(string = 'Richiesto CIG', help = 'required_cig', )
+    cig=fields.Char(string = 'CIG', help = 'cig', )
+   
+    technical_contact=fields.Char(string = 'Ref. Tecnico', help = 'Ref. Tecnico', )
+    technical_contact_notes=fields.Text(string = 'Ref. Tecnico Note', help = 'Note', )
+    technical_contact_email=fields.Char(string = 'technical_contact_email', help = 'technical_contact_email', )
+    technical_contact_phone=fields.Char(string = 'technical_contact_phone', help = 'technical_contact_phone', )
+
+    administrative_contact=fields.Char(string = 'Contatto Amministrativo', help = 'Contatto Amministrativo', )
+    administrative_contact_notes=fields.Text(string = 'Contatto Amministrativo Note', help = 'Note', )
+    administrative_contact_email=fields.Char(string = 'administrative_contact_email', help = 'administrative_contact_email', )
+    administrative_contact_phone=fields.Char(string = 'administrative_contact_phone', help = 'administrative_contact_phone', )
+
+    employee_number=fields.Integer(string = 'N. Impiegati', help = 'numero impiegati', )
+
+    rspp=fields.Char(string = 'RSPP', help = 'Nominativo RSPP', )
+    rspp_notes=fields.Text(string = 'RSPP Note', help = 'Note RSPP', )
+    rls=fields.Char(string = 'RLS', help = 'Nominativo RLS', )
+    fire_officer=fields.Char(string = 'Resp. Antincedio', help = 'fire_officer', )
+    prevention_managers_number=fields.Integer(string = 'Numero Addetti ', help = 'prevention_managers_number', )
+    managers_number=fields.Integer(string = 'Nr Dirigenti', help = 'managers_number', )
+    fire_officers_number=fields.Integer(string = 'Nr Addetti Antincendio', help = 'fire_officers_number', )
+    first_aid_attendants_number=fields.Integer(string = 'Nr Addetti Primo Soccorso', help = 'first_aid_attendants_number', )
+    evacuation_coordinators_number=fields.Integer(string = 'Nr Addetti Evaquazione', help = 'evacuation_coordinators_number', )
+    doctor=fields.Char(string = 'Medico', help = 'doctor', )
+    doctor_notes=fields.Text(string = 'Medico Note', help = 'doctor_notes', )
+    spring_code=fields.Char(string = 'spring_code', help = 'spring_code', )
+   

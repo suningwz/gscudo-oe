@@ -4,6 +4,7 @@
         <field name="name">res.partner.inherit.view.form</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority">99</field>
         <field name="arch" type="xml">
 
             <xpath expr="//page" position="after">
@@ -12,13 +13,71 @@
                         <field name="sg_esolver_id" />
                         <field name="sg_branches_id" />
                         <field name="sg_url" widget="url" readonly="1" text="link" />
-                        <field name="tmk_user_id" />
-                        <field name="gs_partner_division_id" />
+
                     </group>
                 </page>
-                
+                <page name="gs_analytics" string="Dati Classificazione">
+
+                    <group>
+                        <field name="revenue" />
+                        <field name="balance_year" />
+                        <field name="employee_qty" />
+                        <field name="main_ateco_id" />
+                        <field name="rating" />
+                        <field name="share_capital" />
+                        <field name="credit_limit" />
+                        <field name="prejudicials" />
+                    </group>
+                </page>
+                <page name="gs_safety_ref" string="Contatti e sicurezza">
+
+                    <group>
+                        <field name="position_inail" />
+                        <field name="position_inps" />
+                        <field name="position_cema" />
+                        <field name="cciaa" />
+                        <field name="nrea" />
+                        <field name="cdc_notes" />
+                        <field name="required_cig" />
+                        <field name="cig" />
+                    </group>
+                    <group>
+                        <field name="technical_contact" />
+                        <field name="technical_contact_notes" />
+                        <field name="technical_contact_email" />
+                        <field name="technical_contact_phone" />
+
+                        <field name="administrative_contact" />
+                        <field name="administrative_contact_notes" />
+                        <field name="administrative_contact_email" />
+                        <field name="administrative_contact_phone" />
+                    </group>
+                    <group>
+                        <field name="employee_number" />
+
+                        <field name="rspp" />
+                        <field name="rspp_notes" />
+                        <field name="rls" />
+                        <field name="fire_officer" />
+                        <field name="doctor" />
+                        <field name="doctor_notes" />
+                        <field name="prevention_managers_number" />
+                        <field name="managers_number" />
+                        <field name="fire_officers_number" />
+                        <field name="first_aid_attendants_number" />
+                        <field name="evacuation_coordinators_number" />
+                        
+                        <field name="spring_code" />
+
+                    </group>
+                </page>
+
             </xpath>
-            
+            <xpath expr="//field[@name='user_id']" position="after">
+                <field name="tmk_user_id" options='{"no_open":true}' />
+                <field name="gs_partner_division_id" />
+            </xpath>
+
         </field>
     </record>
 
