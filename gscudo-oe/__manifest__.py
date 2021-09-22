@@ -25,7 +25,7 @@
                 #'contacts',
                 'project',
                 'hr_timesheet', 
-                'helpdesk', 
+                #'helpdesk', 
                 'crm',
                 'crm_lead_vat',	
                 'l10n_it_ateco'],
