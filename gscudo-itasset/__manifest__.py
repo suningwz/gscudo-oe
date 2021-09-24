@@ -28,9 +28,12 @@
         'security/ir.model.access.csv',
         'views/views.xml',
         'views/gs_itasset_views.xml',
+        'views/gs_credential_views.xml',
         'views/hr_employee_views.xml',
         'reports/emp_itasset_template.xml',
         'reports/emp_itasset_report.xml',
+        'reports/emp_credential_template.xml',
+        'reports/emp_credential_report.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode
