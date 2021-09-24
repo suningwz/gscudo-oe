@@ -4,43 +4,69 @@ from odoo import _, api, fields, models
 class Planner(models.Model):
     _name = 'gstraining_planner'
     _description = 'Pianificatore'
+    _inherit = ['mail.thread', 
+                'mail.activity.mixin']
 
-    name = fields.Char(string='Corso')
-    course_date = fields.Date(string='Data')
-    lesson_dates= fields.Char(string='Date corso')
-    lesson_times = fields.Char(string='Orario')
-    course_type = fields.Selection(string='', selection=[('M', 'Multiaziendale'), ('X', 'X')])
+
+    # field connected to Sawgest data
+    gs_client_id= fields.Many2one(comodel_name='gs_clients', string='Cliente',  tracking=True,)
+    gs_offer_id  = fields.Many2one(comodel_name='gs_offers', string='Offerta', domain="[('client_id','=', gs_client_id)]" ,tracking=True,)
+    gs_offer_items_id  = fields.Many2one(comodel_name='gs_offer_items', string='Riga Offerta', domain="[('offer_id','=', gs_offer_id)]" ,tracking=True,)
+    gs_article_id = fields.Many2one(comodel_name='gs_articles', string='Articolo', tracking=True,)
+    gs_training_class_course_id = fields.Many2one(comodel_name='gs_training_class_courses', string='Corso', tracking=True,)
+
+    gs_offer_issue_date = fields.Date(related="gs_offer_id.issue_date",string='Data Offerta')
     
-    partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente')
-    place = fields.Char(string='Luogo')
-    offer_id = fields.Char(string='N. Offerta')
-    offer_date = fields.Date(string='Data offerta')
-    unit_price = fields.Float(string='Imponibile',help="Imponibile a persona o a corso" )
-    total_price = fields.Float(string='Totale',help="Imponibile totale" )
-    customer_order = fields.Char(string='Ordine Cliente')
-    customer_payment = fields.Char(string='Metodo Pagamento')
+    
+    # fields for administrations teams
+    invoice_ref = fields.Char(string='Fatture', tracking=True, )
+    
+    # fields for training staff teams
+    place = fields.Char(string='Luogo', tracking=True, )
+
+    #tutor  = fields.Char(string='Fornitore', tracking=True, )
+    tutor_price = fields.Float(string='Docenza prezzo', tracking=True, )
+    tutor_order_ref = fields.Char(string='Rif. ordine docente', tracking=True, )
+    
+
+
+    
+    name = fields.Char(string='Corso', tracking=True, )
+    course_date = fields.Date(string='Data', tracking=True, )
+    lesson_dates= fields.Char(string='Date corso', tracking=True, )
+    lesson_times = fields.Char(string='Orario', tracking=True, )
+    
+    place_supplier = fields.Char(string='Fornitore Sala', tracking=True, )
+    place_price = fields.Float(string='Prezzo Sala', tracking=True, )
+    place_order_ref = fields.Char(string='Rif. ordine sala', tracking=True, )
+    material_supplier = fields.Char(string='Fornitore Materali', tracking=True, )
+    material_price = fields.Float(string='Prezzo Materiali', tracking=True, )
+    material_order_ref = fields.Char(string='Rif. ordine materiali', tracking=True, )
+    
+    note = fields.Text(string='Note',   )
+    
+    course_attendants = fields.Integer(string='Partecipanti', tracking=True, )
+    tot_qty = fields.Integer(string='Q.tà', tracking=True, )
     
     
 
-    course_family = fields.Char(string='Famiglia')
+    tot_hours = fields.Float(string='Nr. Ore', tracking=True, )
 
-    tot_hours = fields.Float(string='Nr. Ore', )
-    tot_qty = fields.Integer(string='Q.tà')
-    tutor  = fields.Char(string='Fornitore')
-    tutor_price = fields.Float(string='Prezzo fornitore')
-    tutor_order_GS = fields.Char(string='Ordine GS')
     
-    place_supplier = fields.Char(string='Fornitore Sala')
-    place_price = fields.Float(string='Prezzo Sala')
-    material_supplier = fields.Char(string='Fornitore Materali')
-    material_price = fields.Float(string='Prezzo Materiali')
-    note = fields.Text(string='Note')
-    
-    
-    
-    
-    
-    
-    ####Dati mancanti
-    # DATA COMPLETA 
-    # FATTURADATA OFFERTA	 IMPONIBILE a persona o a corso[EURO] 	 IMPONIBILE TOTALE 	FAMIGLIA	NR. ORE	QUANTITA'	ORARIO	PARTECIPANTI	TIPO CORSO CLIENTE O MULTIAZIENDALE	FORNITORE	 COSTO FORNITORE 	FORNITORE SALA	 COSTO FORNITORE SALA 	FORNITORE MATERIALE	COSTO FORNITORE MATERIALE	NR. ORDINE GS MATERIALE	CORSISTA PER RECUPERO	NR. ORDINE CLIENTE	NR. ORDINE GS	DATA ORDINE GS	METODO DI PAGAMENTO	NOTE
+    @api.onchange('gs_client_id')
+    def onchange_client_id(self):
+        for rec in self:
+            if rec.gs_client_id.id != False:
+                if rec.gs_offer_id.client_id.id != rec.gs_client_id.id:
+                    rec.gs_offer_id = False
+                return {'domain': {'gs_offer_id': [('offer_state_id','in', [2,10]),('deleted_at','=',False),('client_id', '=', rec.gs_client_id.id)]}}
+
+    @api.onchange('gs_offer_id')
+    def onchange_gs_offer_id(self):
+        for rec in self:
+            if rec.gs_offer_id.id != False:
+                if rec.gs_offer_id.client_id != rec.gs_client_id.id:
+                    rec.gs_client_id= rec.gs_offer_id.client_id
+                rec.gs_article_id = False
+                return {'domain': {'gs_article_id': [('id', 'in', list(x.id for x in rec.gs_offer_id.article_ids))]}}
+        

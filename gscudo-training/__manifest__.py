@@ -24,17 +24,24 @@
     'depends': ['base',
                 'contacts',
                 'project',
+                'gscudo-sg'
                 ],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
-        'security/securit_groups.xml',
+        'security/ir.model.access.csv',
+        'security/security_groups.xml',
+        'views/menus.xml',
         'views/views.xml',
         'views/templates.xml',
+        'views/planner_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
     ],
 }
+
+# 13.08
+# 16 
+# marche
