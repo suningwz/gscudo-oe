@@ -44,6 +44,7 @@
         'views/crm_lead_views.xml',
         'views/crm_activity_report_views.xml',
         'views/call_scheduler_wizard.xml',
+        'views/res_users_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

@@ -71,4 +71,7 @@ class ResPartner (models.Model):
     doctor=fields.Char(string = 'Medico', help = 'doctor', )
     doctor_notes=fields.Text(string = 'Medico Note', help = 'doctor_notes', )
     spring_code=fields.Char(string = 'spring_code', help = 'spring_code', )
-   
+
+    is_saleagent = fields.Boolean(string='Agente', default=False)
+    is_telemarketer = fields.Boolean(string='Telemarketer', default=False)
+    
