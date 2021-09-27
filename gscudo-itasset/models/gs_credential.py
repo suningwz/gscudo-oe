@@ -11,14 +11,9 @@ class Credential(models.Model):
 
     name = fields.Char(string="Username",  tracking=True)
     temp_pwd = fields.Char(string="Password", tracking=True)
-    environment = fields.Selection(string='Ambiente',
-                                   selection=[('Dominio', 'Dominio'),
-                                              ('Email', 'Email'),
-                                              ('SawGest', 'SawGest'),
-                                              ('Esolver', 'Esolver'), 
-                                              ('Odoo', 'Odoo'),])
+    credential_env = fields.Selection(string='Ambiente',
+                                      selection=['Dominio', 'Email', 'SawGest',
+                                                 'Esolver',  'Odoo', ])
 
     employee_id = fields.Many2one(
         comodel_name='hr.employee', string='Assegnatario',  tracking=True)
-
-    

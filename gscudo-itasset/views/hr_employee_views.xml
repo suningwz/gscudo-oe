@@ -6,7 +6,7 @@
             <field name="name">Employee + IT Asset</field>
             <field name="model">hr.employee</field>
             <field name="inherit_id" ref="hr.view_employee_form" />
-            
+
             <field name="arch" type="xml">
                 <!-- Add your xpath here -->
                 <page name="hr_settings" position="after">
@@ -22,9 +22,9 @@
                             <field name="credential_ids">
 
                                 <tree string="">
-                                    <field name="environment"/>
-                                    <field name="name"/>
-                                    <field name="temp_pwd"/>
+                                    <field name="credential_env" />
+                                    <field name="name" />
+                                    <field name="temp_pwd" />
                                 </tree>
                             </field>
 
