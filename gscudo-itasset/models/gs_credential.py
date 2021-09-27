@@ -12,11 +12,11 @@ class Credential(models.Model):
     name = fields.Char(string="Username",  tracking=True)
     temp_pwd = fields.Char(string="Password", tracking=True)
     environment = fields.Selection(string='Ambiente',
-                                   selection=[('1', 'Computer'),
-                                              ('2', 'Email'),
-                                              ('3', 'SawGest'),
-                                              ('4', 'Esolver'), 
-                                              ('5', 'Odoo'),])
+                                   selection=[('Dominio', 'Dominio'),
+                                              ('Email', 'Email'),
+                                              ('SawGest', 'SawGest'),
+                                              ('Esolver', 'Esolver'), 
+                                              ('Odoo', 'Odoo'),])
 
     employee_id = fields.Many2one(
         comodel_name='hr.employee', string='Assegnatario',  tracking=True)
