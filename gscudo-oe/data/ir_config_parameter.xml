@@ -19,6 +19,9 @@
             <field name="value">https://gestionale.grupposcudo.it/#/app/</field>
         </record>
 
-        
+        <record id="sawgest_document_url" model="ir.config_parameter">
+            <field name="key">sawgest_document_url</field>
+            <field name="value">https://gestionale.grupposcudo.it/documents/</field>
+        </record>
     </data>
 </odoo>
