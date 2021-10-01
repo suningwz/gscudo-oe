@@ -74,4 +74,58 @@ class ResPartner (models.Model):
 
     is_saleagent = fields.Boolean(string='Agente', default=False)
     is_telemarketer = fields.Boolean(string='Telemarketer', default=False)
+    is_competitor = fields.Boolean(string="E' un competitor", default=False)
+
+    #competitors
+    def get_competitor_type(self):
+        return [
+                ('','n/d'),
+                ('interna','interna'),
+                ('esterna','esterna')
+                ]
+        
+
+    # safety_competitor_type  = fields.Selection(get_competitor_type,string='Sicurezza gestione', 
+    #                                             default='')
+    # safety_partner_id = fields.Many2one(string='Sicurezza Competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
+
+    # training_competitor_type  = fields.Selection(get_competitor_type,string='Sicurezza gestione', 
+    #                                             default='')
+    # training_partner_id = fields.Many2one(string='Formazione competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
     
+    # food_competitor_type  = fields.Selection(get_competitor_type,string='Sicurezza gestione', 
+    #                                             default='')
+    # food_partner_id = fields.Many2one(string='Alimentare competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
+
+    # machdir_competitor_type  = fields.Selection(get_competitor_type,string='Sicurezza gestione', 
+    #                                             default='')
+    # machdir_partner_id = fields.Many2one(string='Dirett. Macchine competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
+
+    # healthsurv_competitor_type  = fields.Selection(string='Sorv. Sanit. gestione', 
+    #                                            selection= get_competitor_type(), default='')
+    # healthsurv_partner_id = fields.Many2one(string='Sorv. Sanit. competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
+    # environment_competitor_type  = fields.Selection(string='Ambientale gestione', 
+    #                                            selection= get_competitor_type(), default='')
+    
+    # environment_partner_id = fields.Many2one(string='Ambientale competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
+    # management_competitor_type  = fields.Selection(string='Sistemi Gest. gestione', 
+    #                                            selection= get_competitor_type(), default='')
+    # management_partner_id = fields.Many2one(string='Sistemi Gest. competitor', comodel_name='res.partner',
+    #                                     domain="[('is competitor','=',True)]")
+
+
+
+    
+    
+    @api.onchange('user_id')
+    def _onchange_user_id(self):
+        for record in self:
+            if record.user_id.tmk_user_id != False :
+                record.tmk_user_id = record.user_id.tmk_user_id.id
+ 

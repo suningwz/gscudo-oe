@@ -50,15 +50,68 @@ class CrmLeads(models.Model):
     credit_limit = fields.Float(string='Fido')
     prejudicials = fields.Boolean(string='Pregiudizievoli')
     
+    ##### Competitors
+    def get_competitor_type(self):
+        return [('','non definito '),
+                ('int','interno '),
+                ('est','esterno ')
+                ]
+        
+
+    safety_competitor_type  = fields.Selection(get_competitor_type, string='Sicurezza gestione',  default='')
+    safety_partner_id = fields.Many2one(string='Conc. Sicurezza', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+
+    training_competitor_type  = fields.Selection(get_competitor_type, string='Formazione gestione', default='')
+    training_partner_id = fields.Many2one(string='Conc. Formazione', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+    
+    food_competitor_type  = fields.Selection(get_competitor_type, string='Alimentare gestione', default='')
+    food_partner_id = fields.Many2one(string='Conc. Alimentare', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+
+    machdir_competitor_type  = fields.Selection(get_competitor_type, string='Dirett. Macchine gestione', default='')
+    machdir_partner_id = fields.Many2one(string='Conc. Dirett. Macchine', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+
+    healthsurv_competitor_type  = fields.Selection(get_competitor_type, string='Sorv. Sanit. gestione', default='')
+    healthsurv_partner_id = fields.Many2one(string='Conc. Sorv. Sanit.', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+    
+    environment_competitor_type  = fields.Selection(get_competitor_type, string='Ambientale gestione', default='')
+    environment_partner_id = fields.Many2one(string='Conc. Ambientale', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+
+    management_competitor_type  = fields.Selection(get_competitor_type, string='Sistemi Gest. gestione', default='')
+    management_partner_id = fields.Many2one(string='Conc. Sistemi Gest.', comodel_name='res.partner',
+                                        domain="[('is_competitor','=',True)]")
+
+    has_competitors  = fields.Boolean(string='Ci sono concorrenti', compute='_compute_has_competitor', store=True)
+
+    @api.depends('safety_competitor_type', 'training_competitor_type', 'food_competitor_type', 'machdir_competitor_type', 'healthsurv_competitor_type', 'environment_competitor_type')                                  
+    def _compute_has_competitor(self):
+        for record in self:
+            record.has_competitors = False
+                
+            if  (record.safety_competitor_type == "est" or 
+                        record.training_competitor_type == "est" or 
+                        record.food_competitor_type == "est" or 
+                        record.machdir_competitor_type == "est" or 
+                        record.healthsurv_competitor_type == "est" or 
+                        record.environment_competitor_type == "est") :
+                record.has_competitors = True
+                
+
+
     
     
-    
-    @api.onchange('user_id')
+    @api.depends('user_id')
     def _onchange_user_id(self):
         for record in self:
-            if record.user_id.tmk_user_id != False :
-                record.tmk_user_id = record.user_id.tmk_user_id.id
- 
+            if record.user_id != False:
+                if record.user_id.tmk_user_id != False :
+                    record.tmk_user_id = record.user_id.tmk_user_id.id
+
 
 
     # def createcall(self,calldate):
