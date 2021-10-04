@@ -48,14 +48,14 @@
                             <label for="safety_partner_id" />
                             <div>
                                 <field name="safety_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('safety_partner_id', '!=', False)]}" />
-                                <field name="safety_partner_id" class="oe_inline" attrs="{'invisible':[('safety_competitor_type', '!=', 'est')]}" />
+                                <field name="safety_partner_id" class="oe_inline" attrs="{'invisible':[('safety_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
                         <group>
                             <label for="training_partner_id" />
                             <div>
                                 <field name="training_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('training_partner_id', '!=', False)]}" />
-                                <field name="training_partner_id" class="oe_inline" attrs="{'invisible':[('training_competitor_type', '!=', 'est')]}" />
+                                <field name="training_partner_id" class="oe_inline" attrs="{'invisible':[('training_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
 
@@ -63,35 +63,35 @@
                             <label for="food_partner_id" />
                             <div>
                                 <field name="food_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('food_partner_id', '!=', False)]}" />
-                                <field name="food_partner_id" class="oe_inline" attrs="{'invisible':[('food_competitor_type', '!=', 'est')]}" />
+                                <field name="food_partner_id" class="oe_inline" attrs="{'invisible':[('food_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
                         <group>
                             <label for="machdir_partner_id" />
                             <div>
                                 <field name="machdir_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('machdir_partner_id', '!=', False)]}" />
-                                <field name="machdir_partner_id" class="oe_inline" attrs="{'invisible':[('machdir_competitor_type', '!=', 'est')]}" />
+                                <field name="machdir_partner_id" class="oe_inline" attrs="{'invisible':[('machdir_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
                         <group>
                             <label for="healthsurv_partner_id" />
                             <div>
                                 <field name="healthsurv_competitor_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('healthsurv_partner_id', '!=', False)]}" />
-                                <field name="healthsurv_partner_id" attrs="{'invisible':[('healthsurv_competitor_type', '!=', 'est')]}" />
+                                <field name="healthsurv_partner_id" attrs="{'invisible':[('healthsurv_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
                         <group>
                             <label for="environment_partner_id" />
                             <div>
                                 <field name="environment_competitor_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('environment_partner_id', '!=', False)]}" />
-                                <field name="environment_partner_id" attrs="{'invisible':[('environment_competitor_type', '!=', 'est')]}" />
+                                <field name="environment_partner_id" attrs="{'invisible':[('environment_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
                         <group>
                             <label for="management_partner_id" />
                             <div>
                                 <field name="management_competitor_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('management_partner_id', '!=', False)]}" />
-                                <field name="management_partner_id" attrs="{'invisible':[('management_competitor_type', '!=', 'est')]}" />
+                                <field name="management_partner_id" attrs="{'invisible':[('management_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
                        
