@@ -15,6 +15,7 @@ class Planner(models.Model):
     gs_article_id = fields.Many2one(comodel_name='gs_articles', string='Articolo', tracking=True,)
     gs_training_class_course_id = fields.Many2one(comodel_name='gs_training_class_courses', string='Corso', tracking=True,)
 
+    gs_training_class_id = fields.Many2one(related="gs_training_class_course_id.training_class_id", comodel_name='gs_training_classes', string='Classe')
     gs_offer_issue_date = fields.Date(related="gs_offer_id.issue_date",string='Data Offerta')
     
     
@@ -47,11 +48,9 @@ class Planner(models.Model):
     
     course_attendants = fields.Integer(string='Partecipanti', tracking=True, )
     tot_qty = fields.Integer(string='Q.tà', tracking=True, )
-    
-    
-
     tot_hours = fields.Float(string='Nr. Ore', tracking=True, )
-
+    course_price = fields.Float(string='Prezzo unitario')
+    
     
     @api.onchange('gs_client_id')
     def onchange_client_id(self):

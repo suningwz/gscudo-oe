@@ -1,22 +1,6 @@
 <odoo>
   <data>
 
-    <record id="straining_planner_view_tree" model="ir.ui.view">
-      <field name="name">Pianificatore Corsi</field>
-      <field name="model">gstraining_planner</field>
-      <field name="arch" type="xml">
-        <tree string="">
-          <field name="name" />
-          <field name="gs_client_id" />
-          <field name="gs_offer_id" />
-          <field name="gs_article_id" />
-          <field name="gs_training_class_course_id" />
-          <field name="place" />
-          <field name="invoice_ref" />
-
-        </tree>
-      </field>
-    </record>
 
     <!-- gstrainig_planner form view -->
     <record id="gstraining_planner_view_form" model="ir.ui.view">
@@ -37,12 +21,13 @@
               </group>
               <group>
                 <field name="gs_offer_issue_date" />
+                <field name="course_attendants" />
               </group>
             </group>
             <group>
               <group>
                 <field name="tutor_price" />
-                <field name="tutor_order_ref" optional="hide" />
+                <field name="tutor_order_ref" />
 
               </group>
               <group>
@@ -67,12 +52,73 @@
       </field>
     </record>
 
+    <record id="gstraining_planner_view_search" model="ir.ui.view">
+      <field name="name">gstraining_planner.view.search</field>
+      <field name="model">gstraining_planner</field>
+      <field name="arch" type="xml">
+        <search>
+          <field name="gs_training_class_course_id" />
+          <field name="gs_client_id" />
+          <field name="gs_offer_id" />
+          <field name="gs_article_id" />
+          <field name="course_date" />
+          <separator />
+
+          <filter string="Senza Fatture" name="no_invoice" domain="[('invoice_ref', '=', False)]" />
+
+          <filter string="Last Month" name="last_month" domain="['&amp;', ('course_date', '&gt;=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')), ('course_date', '&lt;', context_today().strftime('%%Y-%%m-01'))]" />
+
+          <separator />
+          <group expand="1" string="Group By">
+            <filter name="group_course_date" string="Data" context="{'group_by': 'course_date'}" />
+            <filter name="group_gs_client_id" string="Cliente" context="{'group_by': 'gs_client_id'}" />
+            <filter name="group_gs_offer_id" string="Offerta" context="{'group_by': 'gs_offer_id'}" />
+            <filter name="group_gs_article_id" string="Articolo" context="{'group_by': 'gs_article_id'}" />
+            <filter name="group_gs_training_class_course_id" string="Corso" context="{'group_by': 'gs_training_class_course_id'}" />
+            <filter name="group_place" string="Luogo" context="{'group_by': 'place'}" />
+          </group>
+        </search>
+      </field>
+    </record>
+
+
+
+
+    <record id="gstraining_planner_view_tree" model="ir.ui.view">
+      <field name="name">Pianificatore Corsi</field>
+      <field name="model">gstraining_planner</field>
+      <field name="arch" type="xml">
+        <tree string="Pianificatore" default_order="course_date desc">
+          <field name="course_date" />
+          <field name="gs_training_class_course_id" />
+          <field name="gs_client_id" optional="show" />
+          <field name="gs_offer_id" optional="show" />
+          <field name="gs_article_id" optional="show" />
+          <field name="place" optional="hide" />
+          <field name="lesson_dates" optional="hide" />
+          <field name="lesson_times" optional="hide" />
+          <field name="invoice_ref" optional="hide" />
+          <field name="tutor_price" optional="hide" />
+          <field name="tutor_order_ref" optional="hide" />
+          <field name="place_supplier" optional="hide" />
+          <field name="place_price" optional="hide" />
+          <field name="place_order_ref" optional="hide" />
+          <field name="material_supplier" optional="hide" />
+          <field name="material_price" optional="hide" />
+          <field name="material_order_ref" optional="hide" />
+          <field name="note" optional="hide" />
+
+        </tree>
+      </field>
+    </record>
+
     <record id="gstraining_planner_view_calendar" model="ir.ui.view">
       <field name="name">Calendario Pianif</field>
       <field name="model">gstraining_planner</field>
       <field name="arch" type="xml">
         <calendar date_start="course_date" color="place">
           <field name="gs_article_id" />
+          <field name="place" />
         </calendar>
       </field>
     </record>
