@@ -9,23 +9,34 @@
       <field name="arch" type="xml">
         <form string="">
           <sheet>
-            <group>
+            <group col="2">
               <group>
                 <field name="name" />
+                <field name="gs_training_class_course_id" />
+                <field name="gs_training_article_id" />
+                <field name="place" />
+                <field name="course_attendants" />
+                <field name="is_multicompany" />
+                <field name="is_online" />
+                <field name="sawgest_url" widget="url" />
+              </group>
+              <group>
                 <field name="gs_client_id" />
                 <field name="gs_offer_id" domain="[('offer_state_id','in', [2,10]),('deleted_at','=',False)]" />
-                <field name="gs_article_id" />
-                <field name="gs_training_class_course_id" />
-                <field name="place" />
-                <field name="invoice_ref" />
-              </group>
-              <group>
                 <field name="gs_offer_issue_date" />
-                <field name="course_attendants" />
+                <field name="gs_offer_confirm_date" />
+                <field name="gs_article_id" />
+                <field name="gs_offer_article_price" />
+                <field name="gs_offer_article_quantity" />
               </group>
             </group>
-            <group>
+            <group string="Dati economici">
+              <group col="2">
+              <field name="invoice_ref" />
+              <field name="creditnote_ref" />
+            </group>
               <group>
+                <field name="tutor" />
                 <field name="tutor_price" />
                 <field name="tutor_order_ref" />
 
@@ -34,6 +45,8 @@
                 <field name="place_supplier" />
                 <field name="place_price" />
                 <field name="place_order_ref" />
+              </group>
+              <group>
                 <field name="material_supplier" />
                 <field name="material_price" />
                 <field name="material_order_ref" />
