@@ -31,14 +31,14 @@ class Planner(models.Model):
                 self.env.cr.execute("select article_price,article_quantity from gs_offer_article_associations where offer_id = {} and article_id={}".format(record.gs_offer_id.id,record.gs_article_id.id))
                 oa_list= self.env.cr.fetchall()
                 record.gs_offer_article_price = oa_list[0][0]
-                record.gs_offer_article_qty = oa_list[0][1]
+                record.gs_offer_article_quantity = oa_list[0][1]
             else:
                 record.gs_offer_article_price = 0
-                record.gs_offer_article_qty = 0
+                record.gs_offer_article_quantity = 0
     
     # fields for administrations teams
     invoice_ref = fields.Char(string='Fatture', tracking=True, )
-    creditnote_ref = fields.Char(string='Fatture', tracking=True, )
+    creditnote_ref = fields.Char(string='Note Accredito', tracking=True, )
     # fields for training staff teams
     place = fields.Char(string='Luogo', tracking=True, )
     is_multicompany = fields.Boolean(string='Multiaziendale',tracking=True, default=False)
@@ -79,7 +79,7 @@ class Planner(models.Model):
         base_url = irconfigparam.sudo().get_param('sawgest_base_url')
         for record in self:
             if record.id:
-                record.sawgest_url = base_url + "training_classes/" + str(record.gs_training_class_id)    
+                record.sawgest_url = base_url + "training_classes/" + str(record.gs_training_class_id.id)    
 
 
     
