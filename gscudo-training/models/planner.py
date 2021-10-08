@@ -8,6 +8,10 @@ class Planner(models.Model):
                 'mail.activity.mixin']
 
 
+    name = fields.Char(string='Nome', compute="_compute_name", readonly=True, store=True)
+       
+                
+    
     # field connected to Sawgest data
     gs_client_id= fields.Many2one(comodel_name='gs_clients', string='Cliente',  tracking=True,)
     gs_offer_id  = fields.Many2one(comodel_name='gs_offers', string='Offerta', domain="[('client_id','=', gs_client_id)]" ,tracking=True,)
@@ -26,9 +30,9 @@ class Planner(models.Model):
     @api.depends('gs_offer_id','gs_article_id','gs_training_class_course_id')
     def _compute_article_price (self):
         for record in self:
-            article_id = record.gs_article_id or record.gs_training_article_id
-            if record.gs_offer_id != False and article_id != False:
-                self.env.cr.execute("select article_price,article_quantity from gs_offer_article_associations where offer_id = {} and article_id={}".format(record.gs_offer_id.id,record.gs_article_id.id))
+            article_id = record.gs_article_id.id or record.gs_training_article_id.id
+            if record.gs_offer_id.id != False and article_id != False:
+                self.env.cr.execute("select article_price,article_quantity from gs_offer_article_associations where offer_id = {} and article_id={}".format(record.gs_offer_id.id,article_id))
                 oa_list= self.env.cr.fetchall()
                 record.gs_offer_article_price = oa_list[0][0]
                 record.gs_offer_article_quantity = oa_list[0][1]
@@ -52,7 +56,7 @@ class Planner(models.Model):
 
 
     
-    name = fields.Char(string='Corso', tracking=True, )
+    
     course_date = fields.Date(string='Data', tracking=True, )
     lesson_dates= fields.Char(string='Date corso', tracking=True, )
     lesson_times = fields.Char(string='Orario', tracking=True, )
@@ -72,17 +76,35 @@ class Planner(models.Model):
     course_price = fields.Float(string='Prezzo unitario')
 
 
-    sawgest_url = fields.Char(string='SaWGest url', compute='_compute_sawgest_url')
-    
+    sawgest_url = fields.Char(string='SaWGest url', compute='_compute_sawgest_url',default="")
+
+    @api.onchange('gs_training_class_id')
     def _compute_sawgest_url(self):
         irconfigparam = self.env['ir.config_parameter']
         base_url = irconfigparam.sudo().get_param('sawgest_base_url')
         for record in self:
-            if record.id:
+            if record.gs_training_class_id.id:
                 record.sawgest_url = base_url + "training_classes/" + str(record.gs_training_class_id.id)    
 
-
+    sawgest_offer_url = fields.Char(string='SaWGest url', compute='_compute_sawgest_offer_url', default="")
     
+    @api.onchange('gs_offer_id')
+    def _compute_sawgest_offer_url(self):
+        irconfigparam = self.env['ir.config_parameter']
+        base_url = irconfigparam.sudo().get_param('sawgest_base_url')
+        for record in self:
+            if record.gs_offer_id.id:
+                record.sawgest_offer_url = base_url + "offers/" + str(record.gs_offer_id.id)    
+
+
+    @api.depends('gs_article_id','course_date','gs_client_id')
+    def _compute_name(self):
+        for record in self:
+            record.name = "{} {} {}".format(
+                record.gs_article_id.name or "",
+                record.course_date or "",
+                record.gs_client_id.business_name or "").strip()
+         
     
     @api.onchange('gs_client_id')
     def onchange_client_id(self):
@@ -96,8 +118,70 @@ class Planner(models.Model):
     def onchange_gs_offer_id(self):
         for rec in self:
             if rec.gs_offer_id.id != False:
-                if rec.gs_offer_id.client_id != rec.gs_client_id.id:
+                if rec.gs_offer_id.client_id.id != rec.gs_client_id.id:
                     rec.gs_client_id= rec.gs_offer_id.client_id
                 rec.gs_article_id = False
                 return {'domain': {'gs_article_id': [('id', 'in', list(x.id for x in rec.gs_offer_id.article_ids))]}}
-        
+
+    @api.onchange('gs_training_class_course_id')
+    def onchange_gs_training_class_course_id(self):
+        for record in self:
+            if record.gs_training_class_course_id.id == False:
+                continue
+            sql = """
+select  
+	gtt.client_id,
+	gtt.offer_id,
+	gtt.article_id ,
+	tc.id,
+	tc.protocol,
+	min(gtcm2.module_date) course_date,
+	count(gtcm2.module_date),
+	string_agg(
+		distinct 
+			to_char(gtcm2.module_date at time zone 'UTC','DD/MM/YY'),' - ' order by 
+			to_char(gtcm2.module_date at time zone 'UTC','DD/MM/YY')
+			) course_dates,
+	string_agg(
+		distinct concat(
+			to_char(gtcm2.module_date at time zone 'UTC','DD/MM/YY'), ' '),'  ' order by concat(
+			to_char(gtcm2.module_date at time zone 'UTC','DD/MM/YY'), ' '
+			)) lesson_dates,
+	string_agg(
+		distinct concat(
+			trim(to_char(gtcm2.start_hour,'00')),':', trim(to_char(gtcm2.start_minute,'00')), '-',
+			trim(to_char(gtcm2.end_hour,'00')),':', trim(to_char(gtcm2.end_minute,'00'))
+			),' / ' order by concat(
+			trim(to_char(gtcm2.start_hour,'00')),':', trim(to_char(gtcm2.start_minute,'00')), '-',
+			trim(to_char(gtcm2.end_hour,'00')),':', trim(to_char(gtcm2.end_minute,'00'))
+			)) lesson_times
+	,gc.business_name 
+--t.offer_id, gtt.client_id , gc.id, gtt.client_business_name , gc.business_name ,tc.protocol ,  ga.id ,ga."name" 
+--gtcm2.code ,gtcm2."name" ,gtcm2.module_date, gtcm2.start_hour 
+from gs_training_class_courses tc inner join gs_training_timetables gtt on gtt.training_class_course_id = tc.id
+	inner join gs_training_courses_modules gtcm on gtcm.training_class_course_id =tc.id
+	inner join gs_training_class_modules gtcm2 on gtcm.training_class_module_id = gtcm2.id 
+	inner join gs_articles ga on tc.article_id =ga.id
+	left outer join gs_offers gof on gof.id = gtt.offer_id 
+	inner join gs_clients gc on gc.id = gtt.client_id 
+where 
+    tc.id = {}
+group by gtt.client_id,
+	gtt.offer_id,
+	gtt.article_id ,
+	tc.id,
+	tc.protocol,
+	gc.business_name 
+            """.format(record.gs_training_class_course_id.id)
+            print(sql)
+            self.env.cr.execute(sql)
+            courses = self.env.cr.fetchall()
+            if len(courses)==0:
+                record.course_date=False
+                record.lesson_dates= False
+                record.lesson_times= False
+            else:
+                record.course_date=courses[0][5]
+                record.lesson_dates= courses[0][7]
+                record.lesson_times= courses[0][9]
+                
