@@ -1,2 +1,0 @@
-id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_gstraining_planner,access_gstraining_planner,model_gstraining_planner,base.group_user,1,1,1,1
