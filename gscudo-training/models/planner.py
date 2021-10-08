@@ -22,6 +22,7 @@ class Planner(models.Model):
     gs_training_class_id = fields.Many2one(related="gs_training_class_course_id.training_class_id", comodel_name='gs_training_classes', string='Classe')
     gs_training_article_id = fields.Many2one(related="gs_training_class_course_id.article_id", comodel_name='gs_articles', string='Classe')
     
+    
     gs_offer_issue_date = fields.Date(related="gs_offer_id.issue_date",string='Data Offerta')
     gs_offer_confirm_date = fields.Datetime(related="gs_offer_id.confirm_date",string='Data Conferma')
     gs_offer_article_price  = fields.Float(string='Prezzo unitario', compute="_compute_article_price", store=False)
@@ -34,6 +35,8 @@ class Planner(models.Model):
             if record.gs_offer_id.id != False and article_id != False:
                 self.env.cr.execute("select article_price,article_quantity from gs_offer_article_associations where offer_id = {} and article_id={}".format(record.gs_offer_id.id,article_id))
                 oa_list= self.env.cr.fetchall()
+                if len(oa_list)== 0 :
+                    continue
                 record.gs_offer_article_price = oa_list[0][0]
                 record.gs_offer_article_quantity = oa_list[0][1]
             else:
@@ -59,7 +62,7 @@ class Planner(models.Model):
     
     course_date = fields.Date(string='Data', tracking=True, )
     lesson_dates= fields.Char(string='Date corso', tracking=True, )
-    lesson_times = fields.Char(string='Orario', tracking=True, )
+    lesson_times = fields.Char(string='Orari corso', tracking=True, )
     
     place_supplier = fields.Char(string='Fornitore Sala', tracking=True, )
     place_price = fields.Float(string='Prezzo Sala', tracking=True, )
@@ -76,23 +79,25 @@ class Planner(models.Model):
     course_price = fields.Float(string='Prezzo unitario')
 
 
-    sawgest_url = fields.Char(string='SaWGest url', compute='_compute_sawgest_url',default="")
+    sawgest_url = fields.Char(string='SaWGest Corso', compute='_compute_sawgest_url',store=False)
 
-    @api.onchange('gs_training_class_id')
+    #@api.onchange('gs_training_class_id')
     def _compute_sawgest_url(self):
         irconfigparam = self.env['ir.config_parameter']
         base_url = irconfigparam.sudo().get_param('sawgest_base_url')
         for record in self:
+            record.sawgest_url=""
             if record.gs_training_class_id.id:
                 record.sawgest_url = base_url + "training_classes/" + str(record.gs_training_class_id.id)    
 
-    sawgest_offer_url = fields.Char(string='SaWGest url', compute='_compute_sawgest_offer_url', default="")
+    sawgest_offer_url = fields.Char(string='SaWGest Offerta', compute='_compute_sawgest_offer_url',store=False )
     
-    @api.onchange('gs_offer_id')
+    #@api.onchange('gs_offer_id')
     def _compute_sawgest_offer_url(self):
         irconfigparam = self.env['ir.config_parameter']
         base_url = irconfigparam.sudo().get_param('sawgest_base_url')
         for record in self:
+            record.sawgest_offer_url=""
             if record.gs_offer_id.id:
                 record.sawgest_offer_url = base_url + "offers/" + str(record.gs_offer_id.id)    
 
@@ -155,7 +160,7 @@ select
 			trim(to_char(gtcm2.start_hour,'00')),':', trim(to_char(gtcm2.start_minute,'00')), '-',
 			trim(to_char(gtcm2.end_hour,'00')),':', trim(to_char(gtcm2.end_minute,'00'))
 			)) lesson_times
-	,gc.business_name 
+	,avg(gtcm2.duration_hour + gtcm2.duration_minute /60) duration
 --t.offer_id, gtt.client_id , gc.id, gtt.client_business_name , gc.business_name ,tc.protocol ,  ga.id ,ga."name" 
 --gtcm2.code ,gtcm2."name" ,gtcm2.module_date, gtcm2.start_hour 
 from gs_training_class_courses tc inner join gs_training_timetables gtt on gtt.training_class_course_id = tc.id
@@ -180,8 +185,10 @@ group by gtt.client_id,
                 record.course_date=False
                 record.lesson_dates= False
                 record.lesson_times= False
+                record.tot_hours=False
             else:
                 record.course_date=courses[0][5]
                 record.lesson_dates= courses[0][7]
                 record.lesson_times= courses[0][9]
+                record.tot_hours=courses[0][10]
                 

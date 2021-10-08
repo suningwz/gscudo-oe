@@ -12,26 +12,27 @@
             <group col="2">
               <group>
                 <field name="name" readonly="1"/>
-                <field name="course_date" readonly="1"/>
-                <field name="gs_training_class_course_id" options="{'no_create': True, 'no_create_edit':True}"/>
-                <field name="gs_training_article_id" />
-                <field name="place" />
-                <field name="course_attendants" />
-                <field name="lesson_dates" />
-                <field name="lesson_times" />
-                <field name="is_multicompany" />
-                <field name="is_online" />
-                <field name="sawgest_url" widget="url" attrs="{'invisible':[('gs_training_class_course_id', '=', False)]}"/>
-              </group>
-              <group>
-                <field name="gs_client_id" />
+                <field name="gs_client_id" options="{'no_create': True, 'no_create_edit':True}" />
                 <field name="gs_offer_id" domain="[('offer_state_id','in', [2,10]),('deleted_at','=',False)]" options="{'no_create': True, 'no_create_edit':True}"/>
-                <field name="sawgest_offer_url" widget="url" attrs="{'invisible':[('gs_offer_id', '=', False)]}"/>
+                <field name="sawgest_offer_url" widget="url" attrs="{'invisible':[('sawgest_offer_url', '=', False)]}"/>
                 <field name="gs_offer_issue_date" />
                 <field name="gs_offer_confirm_date" />
                 <field name="gs_article_id" options="{'no_create': True, 'no_create_edit':True}"/>
                 <field name="gs_offer_article_price" />
                 <field name="gs_offer_article_quantity" />
+                <field name="place" />
+              </group>
+              <group>
+                <field name="course_date" readonly="1"/>
+                <field name="gs_training_class_course_id" options="{'no_create': True, 'no_create_edit':True}"/>
+                <field name="gs_training_article_id" />
+                <field name="course_attendants" readonly="1"/>
+                <field name="lesson_dates" readonly="1"/>
+                <field name="lesson_times" readonly="1"/>
+                <field name="tot_hours" readonly="1"/>
+                <field name="is_multicompany" />
+                <field name="is_online" />
+                <field name="sawgest_url" widget="url" attrs="{'invisible':[('sawgest_url', '=', False)]}"/>
               </group>
             </group>
             <group string="Dati economici">
@@ -115,6 +116,7 @@
           <field name="lesson_dates" optional="hide" />
           <field name="lesson_times" optional="hide" />
           <field name="invoice_ref" optional="hide" />
+          <field name="tutor" optional="hide" />
           <field name="tutor_price" optional="hide" />
           <field name="tutor_order_ref" optional="hide" />
           <field name="place_supplier" optional="hide" />
@@ -151,7 +153,7 @@
 
     <!-- actions -->
 
-    <menuitem name="List" id="gscudo-training.menu_1_list" parent="gscudo-training.gstraining_menu_root" action="gstraining_planner_action_window" />
+    <menuitem name="Pianificatore" id="gscudo-training.menu_1_list" parent="gscudo-training.gstraining_menu_root" action="gstraining_planner_action_window" />
 
   </data>
 </odoo>
