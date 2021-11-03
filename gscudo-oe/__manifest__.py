@@ -18,7 +18,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.5',
+    'version': '0.6',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 
@@ -37,15 +37,16 @@
         'security/custom_rules.xml',
         'data/ir_config_parameter.xml',
         'data/gs_partner_division.xml',
-
+        'data/gs_product_family.xml',
+        'views/views.xml',
         'views/res_partner_views.xml',
         'views/hr_department_views.xml',
+        'views/gs_product_family_views.xml',
         'views/project_project_views.xml',
         'views/crm_lead_views.xml',
         'views/crm_activity_report_views.xml',
         'views/call_scheduler_wizard.xml',
         'views/res_users_views.xml',
-        'views/views.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode

@@ -56,5 +56,7 @@
     <menuitem name="Server to list" id="gscudo-oe" parent="gscudo-oe.menu_2"
               action="gscudo-oe.action_server"/>
 -->
+<menuitem name="GruppoScudo" id="gscudo-oe.settings" parent="base.menu_custom" />
+
   </data>
 </odoo>

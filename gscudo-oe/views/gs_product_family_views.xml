@@ -1,0 +1,56 @@
+<odoo>
+    <!-- gs_product_family views -->
+    <record id="gs_product_family_view_form" model="ir.ui.view">
+        <field name="name">gs_product_family Form</field>
+        <field name="model">gs_product_family</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+
+                    </group>
+                </sheet>
+            </form>
+
+        </field>
+    </record>
+
+    <record id="gs_product_family_view_tree" model="ir.ui.view">
+        <field name="name">gs_product_family Tree</field>
+        <field name="model">gs_product_family</field>
+        <field name="arch" type="xml">
+            <tree create="0" delete="0" default_order="name desc">
+                <field name="name"  />
+                <field name="code" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_product_family_view_search" model="ir.ui.view">
+        <field name="name">gs_product_family Search</field>
+        <field name="model">gs_product_family</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+            </search>
+        </field>
+    </record>
+
+
+    <!-- gs_product_family action -->
+    <record id="view_gs_product_family_action" model="ir.actions.act_window">
+        <field name="name">gs_product_family</field>
+        <field name="res_model">gs_product_family</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_product_family_view_tree" />
+    </record>
+
+    <!-- gs_product_family menu -->
+    <menuitem id="view_gs_product_family_menu" name="gs_product_family" parent="gscudo-oe.settings" sequence="40" action="view_gs_product_family_action" groups="base.group_user" />
+
+</odoo>
