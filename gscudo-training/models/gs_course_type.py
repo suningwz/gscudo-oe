@@ -9,3 +9,7 @@ class GSCourseType(models.Model):
     _description = 'GS Tipo di corso'
 
     name = fields.Char(string='')
+    product_id  = fields.Many2one(comodel_name='product_product', string='Prodotto')
+    elearning  = fields.Boolean(string='Modalità elearning')
+    
+    
