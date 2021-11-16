@@ -8,11 +8,15 @@ class GSCourseTypeModule(models.Model):
     _description = 'GS Modulo'
 
     name = fields.Char(string='Modulo')
+    content = fields.Text(string='Contenuto')
+    
     gs_course_type_id = fields.Many2one(comodel_name='gs_course_type', string='Corso')
- 
+    sequence = fields.Integer(string='Sequenza', default = 0 )
+    duration = fields.Float(string='Durata in ore')
+    
     
 class GSCourseType(models.Model):
 
     _inherit = 'gs_course_type'
-    gs_module_ids = fields.One2many(comodel_name='gs_course_type_module', inverse_name='gs_course_type_id', string='Moduli')
+    gs_course_type_module_ids = fields.One2many(comodel_name='gs_course_type_module', inverse_name='gs_course_type_id', string='Moduli')
     

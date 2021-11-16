@@ -3,11 +3,11 @@
     'name': "Gruppo Scudo Formazione ",
 
     'summary': """
-      Gruppo Scudo Trainig Corse Management
+      Gruppo Scudo Training Corse Management
         """,
 
     'description': """
-      This module adds customizations to manage Trainig Courses
+      This module adds customizations to manage Training Courses
         
     """,
 
@@ -21,11 +21,15 @@
     'version': '0.1',
 
     # any module necessary for this one to work correctly
-    'depends': ['base'],
+    'depends': ['base','gscudo-oe'],
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/security_groups.xml',
+        'security/ir.model.access.csv',
+        'views/menus.xml',
+        'views/gs_course_type_views.xml',
+        'views/gs_course_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

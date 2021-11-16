@@ -1,0 +1,99 @@
+<!-- gs_course views -->
+<odoo>
+    <record id="gs_course_view_form" model="ir.ui.view">
+        <field name="name">gs_course Form</field>
+        <field name="model">gs_course</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="gs_course_type_id" />
+                        <field name="protocol" />
+                        <field name="start_date" />
+                        <field name="end_date" />
+                        <field name="partner_id" />
+                        <field name="location_partner_id" />
+                        <field name="elearning" />
+                        <field name="state" />
+                        <field name="is_multicompany" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+
+
+    <record id="gs_course_view_tree" model="ir.ui.view">
+        <field name="name">gs_course Tree</field>
+        <field name="model">gs_course</field>
+        <field name="arch" type="xml">
+            <tree default_order="name desc">
+                <field name="name" />
+                <field name="gs_course_type_id" />
+                <field name="protocol" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="partner_id" />
+                <field name="location_partner_id" />
+                <field name="elearning" />
+                <field name="is_multicompany" />
+                <field name="state" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_course_view_search" model="ir.ui.view">
+        <field name="name">gs_course Search</field>
+        <field name="model">gs_course</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <field name="protocol" />
+                <field name="start_date" />
+                <field name="partner_id" />
+                <field name="location_partner_id" />
+                <separator />
+                <filter name="filter_elearning" domain="[('elearning','=',1)]" string="ELearning" />
+                <filter name="filter_onpremise" domain="[('elearning','=',0)]" string="In presenza" />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Stato" name="state" context="{'group_by':'state'}" />
+                    <filter string="Inizio" name="start_date" context="{'group_by':'start_date'}" />
+                    <filter string="Sede" name="location_partner_id" context="{'group_by':'location_partner_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+<!-- gs_course kanban view -->
+<record id="gs_course_view_kanban" model="ir.ui.view">
+    <field name="name">gs_course.view.kanban</field>
+    <field name="model">gs_course</field>
+    <field name="arch" type="xml">
+        <kanban string="Gestione Corsi">
+            <!-- Add your fields here -->
+                <field name="name" />
+                 <field name="start_date" />
+                     <field name="location_partner_id" />
+                     <field name="elearning" />
+                     <field name="is_multicompany" />
+        </kanban>
+    </field>
+</record>
+
+    <!-- gs_course action -->
+    <record id="view_gs_course_action" model="ir.actions.act_window">
+        <field name="name">Corsi</field>
+        <field name="res_model">gs_course</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_id" ref="gs_course_view_tree" />
+    </record>
+
+    <!-- gs_course menu -->
+    <menuitem id="gs_course_menu" name="Corsi" parent="gscudo-training.menu_backoffice" sequence="40" action="view_gs_course_action" groups="group_training_backoffice" />
+
+</odoo>

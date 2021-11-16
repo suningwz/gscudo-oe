@@ -2,13 +2,15 @@ from odoo import api, fields, models
 
 
 class GSPartnerEmployee(models.Model):
-    _name = 'gs_employee'
+    _name = 'gs_worker'
     _description = 'Dipendente'
 
     name = fields.Char(string='Nominativo')
     birth_date = fields.Date(string='Data di nascita')
+    birth_place = fields.Char(string='Luogo di nascita')
+    birth_country = fields.Char(string='Stato di nascita')
     fiscalcode = fields.Char(string='Codice Fiscale')
-    sex = fields.Selection(string='Sesso', selection=[('X', 'X'), ('F', 'Femmina'),('M','Maschio')])
+    sex = fields.Selection(string='Sesso', selection=[('X', 'X'), ('F', 'Femmina'),('M','Maschio')] , default='X')
     name=fields.Char(string = 'name', help = 'name', )
     surname=fields.Char(string = 'surname', help = 'surname', )
     working_hours=fields.Char(string = 'working_hours', help = 'working_hours', )

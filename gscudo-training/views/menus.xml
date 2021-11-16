@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data >
+        <menuitem id="menu_root" name="Formazione" web_icon="gscudo-training,static/description/elearning.jpg" groups="group_training_user,group_training_manager" />
+        <!-- menu categories -->
+
+        <menuitem name="Backoffice" id="gscudo-training.menu_backoffice" parent="gscudo-training.menu_root" groups="group_training_backoffice" sequence="40"/>
+        <menuitem name="Configurazione" id="gscudo-training.menu_settings" parent="gscudo-training.menu_root" groups="group_training_manager" sequence="90"/>
+    </data>
+</odoo>
+
+     

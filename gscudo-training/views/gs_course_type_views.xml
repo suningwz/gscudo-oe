@@ -1,0 +1,72 @@
+<!-- gs_course_type views -->
+<odoo>
+    <record id="gs_course_type_view_form" model="ir.ui.view">
+        <field name="name">gs_course_type Form</field>
+        <field name="model">gs_course_type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="product_id" />
+                        <field name="elearning" />
+                        <field name="duration" />
+                        <field name="gs_course_type_module_ids">
+                            <tree>
+                                <field name="sequence" widget="handle" />
+                                <field name="name" />
+                                <field name="duration" />
+                                <field name="content" />
+                            </tree>
+                        </field>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_course_type_view_tree" model="ir.ui.view">
+        <field name="name">gs_course_type Tree</field>
+        <field name="model">gs_course_type</field>
+        <field name="arch" type="xml">
+            <tree default_order="name desc">
+                <field name="name" />
+                <field name="product_id" />
+                <field name="duration" />
+                <field name="elearning" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_course_type_view_search" model="ir.ui.view">
+        <field name="name">gs_course_type Search</field>
+        <field name="model">gs_course_type</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <field name="product_id" />
+                <separator />
+                <filter name="filter_elearning" domain="[('elearning','=',1)]" string="ELearning" />
+                <filter name="filter_onpremise" domain="[('elearning','=',0)]" string="In presenza" />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Prodotto" name="product_id" context="{'group_by':'product_id'}" />
+
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_course_type action -->
+    <record id="view_gs_course_type_action" model="ir.actions.act_window">
+        <field name="name">Tipi di corso</field>
+        <field name="res_model">gs_course_type</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_course_type_view_tree" />
+    </record>
+
+    <!-- gs_course_type menu -->
+    <menuitem id="gs_course_type_menu" name="Tipi di corso" parent="gscudo-training.menu_settings" sequence="40" action="view_gs_course_type_action" groups="gscudo-training.group_training_manager" />
+
+</odoo>

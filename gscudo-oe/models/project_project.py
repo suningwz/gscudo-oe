@@ -5,7 +5,7 @@ class ProjectProject(models.Model):
     _inherit = 'project.project'
 
     department_id  = fields.Many2one(comodel_name='hr.department', string='Dipartimento')
-    product_family_id = fields.Many2one(comodel_name='project_family', string='Famiglia')
+    product_family_id = fields.Many2one(comodel_name='gs_product_family', string='Famiglia')
     
     
     sg_offer = fields.Char(string='Rif Offerta')
