@@ -29,7 +29,7 @@
                         <field name="revenue" />
                         <field name="balance_year" />
                         <field name="employee_qty" />
-                        <field name="main_ateco_id" />
+                        <field name="main_ateco_id" options="{'no_create':1, 'no_edit':1, 'no_open':1}" />
                         <field name="rating" />
                         <field name="share_capital" />
                         <field name="credit_limit" />

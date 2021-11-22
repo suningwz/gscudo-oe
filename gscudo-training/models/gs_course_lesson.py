@@ -7,9 +7,9 @@ class GSLesson(models.Model):
 
     name = fields.Char(string='Name')
     gs_course_id = fields.Many2one(comodel_name='gs_course', string='Corso')
-    #gs_course_type_id  = fields.Many2many(related="gs_course_id.gs_course_type_id", comodel_name='gs_course_type', string='Tipo Corso')
+    gs_course_type_id  = fields.Many2one(related="gs_course_id.gs_course_type_id", comodel_name='gs_course_type', string='Tipo Corso')
     
-    #gs_course_type_module_id = fields.Many2one(comodel_name='gs_course_type_module', string='Modulo', domain="[('gs_course_type_id','=',gs_course_type_id)]")
+    gs_course_type_module_id = fields.Many2one(comodel_name='gs_course_type_module', string='Modulo', domain="[('gs_course_type_id','=',gs_course_type_id)]")
     start_time = fields.Datetime(string='Inizio')
     duration =  fields.Float(string='Durata in ore')
     end_time = fields.Datetime(string='Termine')

@@ -12,6 +12,7 @@
                         <field name="elearning" />
                         <field name="duration" />
                         <field name="gs_course_type_module_ids">
+                        <field name="active" widget="boolean_toggle"/>
                             <tree>
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />

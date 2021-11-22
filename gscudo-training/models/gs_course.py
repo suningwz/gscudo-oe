@@ -11,13 +11,14 @@ class GSCourse(models.Model):
     
     note=fields.Char(string = 'note', help = 'note', )
     active = fields.Boolean(string='Attivo', default = True)
-    state = fields.Selection(string='Stato', 
-                selection=[('PIAN', 'Pianificato'), 
-                    ('ATT', 'Attivo'),
-                    ('ANN','Annullato'),
-                    ('CON','Concluso')])
+    state = fields.Selection([
+            ('1-nuovo', 'Da gestire'),
+            ('2-proposto', 'Proposto'),
+            ('3-accettato', 'Accettato'),
+            ('4-in corso', 'In corso'),
+             ('5-concluso', 'Concluso')],string='Stato', default='1-nuovo')
     max_workers=fields.Integer(string = 'Massimo Iscritti', help = 'max_workers', )
-    location_partner_id = fields.Many2one(comodel_name='Sede', string='Sede')
+    location_partner_id = fields.Many2one(comodel_name='res.partner', string='Sede')
     start_date = fields.Date(string='Data inizio')
     end_date  = fields.Date(string='Data termine')
     gs_course_type_id = fields.Many2one(comodel_name='gs_course_type', string='Tipo Corso')
