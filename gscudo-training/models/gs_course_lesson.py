@@ -13,7 +13,7 @@ class GSLesson(models.Model):
     start_time = fields.Datetime(string='Inizio')
     duration =  fields.Float(string='Durata in ore')
     end_time = fields.Datetime(string='Termine')
-    location_partner_id = fields.Many2one(comodel_name='Sede', string='Sede')
+    location_partner_id = fields.Many2one(comodel_name='res.partner', string='Sede')
     teacher_partner_id = fields.Many2one(comodel_name='res.partner', string='Docente')
     coteacher_partner_id    = fields.Many2one(comodel_name='res.partner', string='Co docente')
   
