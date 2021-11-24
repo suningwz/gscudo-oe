@@ -1,0 +1,110 @@
+<!-- gs_worker views -->
+<odoo>
+    <record id="gs_worker_view_form" model="ir.ui.view">
+        <field name="name">gs_worker Form</field>
+        <field name="model">gs_worker</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                    <group col="3">
+                        <group>
+                            <field name="fiscalcode" />
+                            <field name="sex" />
+                            <field name="birth_date" />
+                            <field name="birth_place" />
+                            <field name="birth_country" />
+                            <field name="email" />
+                            <field name="phone_number" />
+
+                        </group>
+                        <group>
+
+                            <field name="use_videoterminals" />
+                            <field name="use_company_vehicles" />
+                            <field name="dipendent" />
+                            <field name="night_job" />
+                            <field name="work_at_height" />
+                        </group>
+                        <group>
+
+                            <field name="contract_partner_id" />
+                            <field name="contract_employee_serial" />
+
+                            <field name="contract_start_date" />
+                            <field name="contract_end_date" />
+                            <field name="contract_job_description" />
+                            <field name="contract_department" />
+                        </group>
+
+
+                    </group>
+                    <group>
+                        <field name="gs_worker_contract_ids">
+
+                            <tree>
+                                <field name="partner_id" />
+                                <field name="employee_serial" />
+                                <field name="start_date" />
+                                <field name="end_date" />
+                                <field name="job_description" />
+                                <field name="department" />
+
+                            </tree>
+                        </field>
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_worker_view_tree" model="ir.ui.view">
+        <field name="name">gs_worker Tree</field>
+        <field name="model">gs_worker</field>
+        <field name="arch" type="xml">
+            <tree default_order="name desc">
+
+                <field name="name" />
+                <field name="fiscalcode" />
+                <field name="contract_partner_id" />
+                <field name="contract_job_description" />
+                <field name="contract_department"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_worker_view_search" model="ir.ui.view">
+        <field name="name">gs_worker Search</field>
+        <field name="model">gs_worker</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <field name="fiscalcode" />
+                <field name="contract_partner_id" />
+                <field name="contract_job_description" />
+                <field name="contract_department"/>
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_worker action -->
+    <record id="view_gs_worker_action" model="ir.actions.act_window">
+        <field name="name">gs_worker</field>
+        <field name="res_model">gs_worker</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_worker_view_tree" />
+    </record>
+
+    <!-- gs_worker menu -->
+    <menuitem id="gs_worker_menu" name="gs_worker" parent="gscudo-training.menu_backoffice" sequence="40" action="view_gs_worker_action" groups="group_training_backoffice" />
+
+</odoo>

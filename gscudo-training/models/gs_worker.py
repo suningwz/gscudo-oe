@@ -11,7 +11,7 @@ class GSPartnerEmployee(models.Model):
     birth_country = fields.Char(string='Stato di nascita')
     fiscalcode = fields.Char(string='Codice Fiscale')
     sex = fields.Selection(string='Sesso', selection=[('X', 'X'), ('F', 'Femmina'),('M','Maschio')] , default='X')
-    name=fields.Char(string = 'name', help = 'name', )
+    firstname=fields.Char(string = 'name', help = 'name', )
     surname=fields.Char(string = 'surname', help = 'surname', )
     working_hours=fields.Char(string = 'working_hours', help = 'working_hours', )
     use_videoterminals=fields.Boolean(string = 'use_videoterminals', help = 'use_videoterminals', )
@@ -22,6 +22,10 @@ class GSPartnerEmployee(models.Model):
     assumption_date=fields.Date(string = 'assumption_date', help = 'assumption_date', )
     phone_number=fields.Char(string = 'phone_number', help = 'phone_number', )
     email=fields.Char(string = 'email', help = 'email', )
+
+    active = fields.Boolean(string='Attivo')
+     
+    
     
     
     
