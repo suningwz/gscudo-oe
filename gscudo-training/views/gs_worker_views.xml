@@ -21,15 +21,8 @@
 
                         </group>
                         <group>
-
-                            <field name="use_videoterminals" />
-                            <field name="use_company_vehicles" />
-                            <field name="dipendent" />
-                            <field name="night_job" />
-                            <field name="work_at_height" />
-                        </group>
-                        <group>
-
+                            <field name="gs_worker_contract_id" domain="[('gs_worker_id', '=', id)]"
+                                context="{'default_gs_worker_id':  id}" />
                             <field name="contract_partner_id" />
                             <field name="contract_employee_serial" />
 
@@ -38,7 +31,15 @@
                             <field name="contract_job_description" />
                             <field name="contract_department" />
                         </group>
+                        <group>
+                            <field name="active" />
 
+                            <field name="use_videoterminals" />
+                            <field name="use_company_vehicles" />
+                            <field name="dipendent" />
+                            <field name="night_job" />
+                            <field name="work_at_height" />
+                        </group>
 
                     </group>
                     <group>
@@ -71,7 +72,7 @@
                 <field name="fiscalcode" />
                 <field name="contract_partner_id" />
                 <field name="contract_job_description" />
-                <field name="contract_department"/>
+                <field name="contract_department" />
             </tree>
         </field>
     </record>
@@ -85,11 +86,12 @@
                 <field name="fiscalcode" />
                 <field name="contract_partner_id" />
                 <field name="contract_job_description" />
-                <field name="contract_department"/>
+                <field name="contract_department" />
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
                 <group expand="1" string="Group By">
-                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                    <filter string="Datore di lavoro" name="contract_partner_id" context="{'group_by':'contract_partner_id'}" />
+                    <filter string="Mansione" name="contract_job_description" context="{'group_by':'contract_job_description'}" />
                 </group>
             </search>
         </field>
@@ -97,7 +99,7 @@
 
     <!-- gs_worker action -->
     <record id="view_gs_worker_action" model="ir.actions.act_window">
-        <field name="name">gs_worker</field>
+        <field name="name">Lavoratori</field>
         <field name="res_model">gs_worker</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
@@ -105,6 +107,6 @@
     </record>
 
     <!-- gs_worker menu -->
-    <menuitem id="gs_worker_menu" name="gs_worker" parent="gscudo-training.menu_backoffice" sequence="40" action="view_gs_worker_action" groups="group_training_backoffice" />
+    <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-training.menu_backoffice" sequence="45" action="view_gs_worker_action" groups="group_training_backoffice" />
 
 </odoo>
