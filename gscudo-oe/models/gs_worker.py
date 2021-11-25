@@ -5,14 +5,14 @@ class GSPartnerEmployee(models.Model):
     _name = 'gs_worker'
     _description = 'Dipendente'
 
-    name = fields.Char(string='Nominativo')
+    name = fields.Char(string='Nominativo', compute="_compute_name" ,inverse ="_split_name", store=True)
     birth_date = fields.Date(string='Data di nascita')
     birth_place = fields.Char(string='Luogo di nascita')
     birth_country = fields.Char(string='Stato di nascita')
     fiscalcode = fields.Char(string='Codice Fiscale')
     sex = fields.Selection(string='Sesso', selection=[ ('M','Maschio'), ('F', 'Femmina'),('X', 'X'),] )
-    firstname=fields.Char(string = 'name', help = 'name', )
-    surname=fields.Char(string = 'surname', help = 'surname', )
+    firstname=fields.Char(string = 'Nome', help = 'name', )
+    surname=fields.Char(string = 'Cognome', help = 'surname', )
     working_hours=fields.Char(string = 'working_hours', help = 'working_hours', )
     use_videoterminals=fields.Boolean(string = 'use_videoterminals', help = 'use_videoterminals', )
     use_company_vehicles=fields.Boolean(string = 'use_company_vehicles', help = 'use_company_vehicles', )
@@ -22,6 +22,33 @@ class GSPartnerEmployee(models.Model):
     assumption_date=fields.Date(string = 'assumption_date', help = 'assumption_date', )
     phone_number=fields.Char(string = 'phone_number', help = 'phone_number', )
     email=fields.Char(string = 'email', help = 'email', )
+
+    @api.depends('firstname','surname')
+    def _compute_name(self):
+        for record in self:
+            record.name=(record.surname or '') + ' ' +( record.firstname or '')
+
+    @api.depends('name')
+    def _split_name(self):
+        for record in self:
+            splitted= str(record.name).split()
+            if len(splitted) >2:
+                surname=splitted[0]
+                splitted.pop(0)
+                if len(surname) < 4:
+                    surname = surname + ' ' +splitted[0]
+                    splitted.pop(0)
+
+                firstname=' '.join(splitted)
+            else:
+                surname=splitted[0]
+                firstname=splitted[1]
+
+
+            record.surname=surname
+            record.firstname=firstname
+            
+
 
     active = fields.Boolean(string='Attivo', default=True)
      
