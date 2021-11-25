@@ -1,0 +1,66 @@
+<!-- gs_course_type_module views -->
+<odoo>
+    <record id="gs_course_type_module_view_form" model="ir.ui.view">
+        <field name="name">gs_course_type_module Form</field>
+        <field name="model">gs_course_type_module</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="gs_course_type_id" />
+                        <field name="name" />
+                        <field name="content" />
+                        <field name="duration" />
+                        <field name="generate_certificate" />
+                        <field name="elearning" />
+                        <field name="module_required_ids" />
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_course_type_module_view_tree" model="ir.ui.view">
+        <field name="name">gs_course_type_module Tree</field>
+        <field name="model">gs_course_type_module</field>
+        <field name="arch" type="xml">
+            <tree default_order="gs_course_type_id,sequence,name">
+                <field name="gs_course_type_id" />
+                <field name="name" />
+                <field name="duration" />
+                <field name="generate_certificate" />
+                <field name="elearning" />
+                <field name="module_required_ids"/>
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_course_type_module_view_search" model="ir.ui.view">
+        <field name="name">gs_course_type_module Search</field>
+        <field name="model">gs_course_type_module</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Tipo corso" name="gs_course_type_id" context="{'group_by':'gs_course_type_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_course_type_module action -->
+    <record id="view_gs_course_type_module_action" model="ir.actions.act_window">
+        <field name="name">gs_course_type_module</field>
+        <field name="res_model">gs_course_type_module</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_course_type_module_view_tree" />
+    </record>
+
+    <!-- gs_course_type_module menu -->
+    <menuitem id="gs_course_type_module_menu" name="Moduli Corsi" parent="gscudo-training.menu_settings" sequence="50" action="view_gs_course_type_module_action" groups="gscudo-training.group_training_manager" />
+
+</odoo>

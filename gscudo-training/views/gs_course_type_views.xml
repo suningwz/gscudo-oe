@@ -7,18 +7,25 @@
             <form string="">
                 <sheet>
                     <group>
+                        <field name="gs_training_certificate_type_id" />
                         <field name="name" />
-                         <field name="code" />
+                        <field name="code" />
                         <field name="product_id" />
-                        <field name="elearning" />
                         <field name="duration" />
+                        <field name="active"  widget="boolean_toggle"/>
+                        <field name="elearning" widget="boolean_toggle" />
+                        <field name="is_update" widget="boolean_toggle" />
+                        <field name="is_multicompany"  widget="boolean_toggle"/>
+                        
                         <field name="gs_course_type_module_ids">
-                        <field name="active" widget="boolean_toggle"/>
                             <tree>
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
                                 <field name="duration" />
                                 <field name="content" />
+                                <field name="elearning"/>
+                                <field name="generate_certificate"/>
+
                             </tree>
                         </field>
                     </group>
@@ -32,11 +39,15 @@
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
             <tree default_order="code, name">
-                 <field name="code" />
+<field name="gs_training_certificate_type_id" />
+                <field name="code" />
                 <field name="name" />
-                <field name="product_id" />
+                <field name="product_id" optional="hide" />
                 <field name="duration" />
+                <field name="is_update" />
                 <field name="elearning" />
+                <field name="is_multicompany"  widget="boolean_toggle"/>
+                        
             </tree>
         </field>
     </record>
@@ -47,13 +58,19 @@
         <field name="arch" type="xml">
             <search string="">
                 <field name="name" />
-                 <field name="code" />
+                <field name="code" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="product_id" />
                 <separator />
                 <filter name="filter_elearning" domain="[('elearning','=',1)]" string="ELearning" />
                 <filter name="filter_onpremise" domain="[('elearning','=',0)]" string="In presenza" />
+                <separator>
+                 <filter name="filter_multicompany" domain="[('is_multicompany','=',1)]" string="MultiAziendale" />
+                 <filter name="filter_monocompany" domain="[('is_multicompany','=',0)]" string="Mono Aziendale" />
+                </separator>
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
                 <group expand="1" string="Group By">
+                    <filter string="Certificato Formativo" name="gs_training_certificate_type_id" context="{'group_by':'gs_training_certificate_type_id'}" />
                     <filter string="Prodotto" name="product_id" context="{'group_by':'product_id'}" />
 
                 </group>
