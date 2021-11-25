@@ -21,8 +21,7 @@
 
                         </group>
                         <group>
-                            <field name="gs_worker_contract_id" domain="[('gs_worker_id', '=', id)]"
-                                context="{'default_gs_worker_id':  id}" />
+                            <field name="gs_worker_contract_id" domain="[('gs_worker_id', '=', id)]" context="{'default_gs_worker_id':  id}" />
                             <field name="contract_partner_id" />
                             <field name="contract_employee_serial" />
 
@@ -107,6 +106,8 @@
     </record>
 
     <!-- gs_worker menu -->
-    <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-training.menu_backoffice" sequence="45" action="view_gs_worker_action" groups="group_training_backoffice" />
-
+    <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="contacts.menu_contacts" sequence="45" 
+     groups="gscudo-oe.group_manager" />
+    <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="45" 
+    action="view_gs_worker_action" groups="gscudo-oe.group_manager" />
 </odoo>

@@ -70,7 +70,8 @@
     </record>
 
     <!-- gs_worker_contract menu -->
-    <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-training.menu_backoffice" sequence="50" action="view_gs_worker_contract_action" groups="group_training_backoffice" />
+    <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-oe.gs_worker_main_menu" sequence="50" action="view_gs_worker_contract_action" 
+    groups="gscudo-oe.group_manager" />
 />
 
 </odoo>

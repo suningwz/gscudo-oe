@@ -21,13 +21,13 @@
     'version': '0.6',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 
-                #'contacts',
+    'depends': ['base',
+                # 'contacts',
                 'project',
-                'hr_timesheet', 
-                #'helpdesk', 
+                'hr_timesheet',
+                # 'helpdesk',
                 'crm',
-                'crm_lead_vat',	
+                'crm_lead_vat',
                 'l10n_it_ateco'],
 
     # always loaded
@@ -47,6 +47,9 @@
         'views/crm_activity_report_views.xml',
         'views/call_scheduler_wizard.xml',
         'views/res_users_views.xml',
+        'views/gs_worker_views.xml',
+        'views/gs_worker_contract_views.xml',
+
         'views/templates.xml',
     ],
     # only loaded in demonstration mode
