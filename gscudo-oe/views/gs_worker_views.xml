@@ -20,6 +20,8 @@
                             <field name="birth_country" />
                             <field name="email" />
                             <field name="phone_number" />
+                            <field name="sg_worker_id" />
+                            <field name="sg_url"  widget="url" readonly="1" text="link" />
 
                         </group>
                         <group>
