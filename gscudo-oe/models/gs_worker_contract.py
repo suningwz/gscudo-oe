@@ -14,11 +14,14 @@ class WorkerContract(models.Model):
     
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Azienda/Sede', required=True)
+    is_owner = fields.Boolean(string='E\' Titolare')
+    
     employee_serial = fields.Char(string='Matricola dip.')
     start_date = fields.Date(string='Data inizio', required=True)
     end_date = fields.Date(string='Data fine')
     job_description = fields.Char(string='Mansione')
     department = fields.Char(string='Reparto/ufficio')
+    sg_job_careers_id  = fields.Integer(string='ID Sawgest')
     
     
     @api.constrains('start_date', 'end_date')
@@ -49,12 +52,13 @@ class ModuleName(models.Model):
                                             )
     contract_partner_id = fields.Many2one(related="gs_worker_contract_id.partner_id", comodel_name='res.partner', string='Azienda/Sede', store=True)
     contract_employee_serial = fields.Char(related="gs_worker_contract_id.employee_serial", string='Matricola dip.', store=True)
+    contract_is_owner = fields.Boolean(related="gs_worker_contract_id.is_owner", string='E\' Titolare', store=True)
     contract_start_date = fields.Date(related="gs_worker_contract_id.start_date", string='Data inizio' ,store=True)
     contract_end_date = fields.Date(related="gs_worker_contract_id.end_date", string='Data fine', store=True)
     contract_job_description = fields.Char(related="gs_worker_contract_id.job_description", string='Mansione' , store=True)
     contract_department = fields.Char(related="gs_worker_contract_id.department", string='Reparto/ufficio', store=True)
 
 
-    gs_worker_contract_ids = fields.One2many(comodel_name='gs_worker_contract', inverse_name='gs_worker_id', string='')
+    gs_worker_contract_ids = fields.One2many(comodel_name='gs_worker_contract', inverse_name='gs_worker_id', string='Contratti/Posizioni')
     
     

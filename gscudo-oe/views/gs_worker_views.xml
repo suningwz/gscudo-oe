@@ -26,7 +26,7 @@
                             <field name="gs_worker_contract_id" domain="[('gs_worker_id', '=', id)]" context="{'default_gs_worker_id':  id}" />
                             <field name="contract_partner_id" />
                             <field name="contract_employee_serial" />
-
+                            <field name="contract_is_owner" />
                             <field name="contract_start_date" />
                             <field name="contract_end_date" />
                             <field name="contract_job_description" />
@@ -49,6 +49,7 @@
                             <tree>
                                 <field name="partner_id" />
                                 <field name="employee_serial" />
+                                <field name="is_owner" />
                                 <field name="start_date" />
                                 <field name="end_date" />
                                 <field name="job_description" />
@@ -108,8 +109,6 @@
     </record>
 
     <!-- gs_worker menu -->
-    <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="contacts.menu_contacts" sequence="45" 
-     groups="gscudo-oe.group_manager" />
-    <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="45" 
-    action="view_gs_worker_action" groups="gscudo-oe.group_manager" />
+    <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="contacts.menu_contacts" sequence="45" groups="gscudo-oe.group_manager" />
+    <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="45" action="view_gs_worker_action" groups="gscudo-oe.group_manager" />
 </odoo>

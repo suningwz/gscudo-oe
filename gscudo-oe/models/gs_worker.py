@@ -23,6 +23,24 @@ class GSPartnerEmployee(models.Model):
     phone_number=fields.Char(string = 'phone_number', help = 'phone_number', )
     email=fields.Char(string = 'email', help = 'email', )
 
+    cartsan_id = fields.Char(string='ID CartSan')
+    
+    sg_worker_id = fields.Integer(string='ID SawGest')
+    sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
+
+    
+
+    def _compute_sg_url(self):
+        irconfigparam = self.env['ir.config_parameter']
+        base_url = irconfigparam.sudo().get_param('sawgest_base_url')
+        if base_url:
+            for record in self:
+                if record.sg_offer_id and record.sg_offer_id > 0:
+                    record.sg_url = base_url+'workers/'.format(record.sg_worker_id)    
+                else:
+                    record.sg_url = False
+
+
     @api.depends('firstname','surname')
     def _compute_name(self):
         for record in self:
