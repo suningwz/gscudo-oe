@@ -20,6 +20,7 @@
                         <field name="sg_branches_id" />
                         <field name="sg_url" widget="url" readonly="1" text="link" />
                         <field name="is_competitor" />
+                        <field name="is_frontoffice" />
 
                     </group>
                 </page>

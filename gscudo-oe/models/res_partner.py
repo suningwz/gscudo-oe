@@ -75,6 +75,8 @@ class ResPartner (models.Model):
     is_saleagent = fields.Boolean(string='Agente', default=False)
     is_telemarketer = fields.Boolean(string='Telemarketer', default=False)
     is_competitor = fields.Boolean(string="E' un competitor", default=False)
+    if_frontoffice = fields.Boolean(string="E' Frontoffice", default=False)
+    
 
    ##### Competitors
     def get_competitor_type(self):
