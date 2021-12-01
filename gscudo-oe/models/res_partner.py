@@ -8,7 +8,8 @@ class ResPartner (models.Model):
     sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ")
     sg_employee_id = fields.Integer(string="ID Impiegato SaWGest")
     sg_esolver_id = fields.Integer(string="ID ESolver")
-    
+    cartsan_uo_id = fields.Integer(string='ID Cartsan Un. Operativa')
+    cartsan_doc_id = fields.Integer(string='ID Cartsan Medico')
 
     sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
 
@@ -75,7 +76,7 @@ class ResPartner (models.Model):
     is_saleagent = fields.Boolean(string='Agente', default=False)
     is_telemarketer = fields.Boolean(string='Telemarketer', default=False)
     is_competitor = fields.Boolean(string="E' un competitor", default=False)
-    if_frontoffice = fields.Boolean(string="E' Frontoffice", default=False)
+    is_frontoffice = fields.Boolean(string="E' Frontoffice", default=False)
     
 
    ##### Competitors
