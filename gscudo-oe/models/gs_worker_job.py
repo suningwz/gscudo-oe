@@ -24,6 +24,7 @@ class WorkerJob(models.Model):
     end_date = fields.Date(string='Data fine')
     job_description = fields.Char(string='Mansione')
     department = fields.Char(string='Reparto/ufficio')
+    note  = fields.Char(string='Note')
     sg_job_careers_id  = fields.Integer(string='ID Sawgest')
     cartsan_id  = fields.Integer(string='ID CartSan')
 

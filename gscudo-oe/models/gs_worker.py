@@ -7,6 +7,7 @@ class GSPartnerEmployee(models.Model):
 
     name = fields.Char(string='Nominativo', compute="_compute_name",
                        inverse="_split_name", store=True)
+    active = fields.Boolean(string='Attivo', default=True)
     birth_date = fields.Date(string='Data di nascita')
     birth_place = fields.Char(string='Luogo di nascita')
     birth_country = fields.Char(string='Stato di nascita')
@@ -28,7 +29,7 @@ class GSPartnerEmployee(models.Model):
         string='assumption_date', help='assumption_date', )
     phone_number = fields.Char(string='phone_number', help='phone_number', )
     email = fields.Char(string='email', help='email', )
-
+    note  = fields.Char(string='Note')
     cartsan_id = fields.Char(string='ID CartSan')
 
     sg_worker_id = fields.Integer(string='ID SawGest')
@@ -71,4 +72,4 @@ class GSPartnerEmployee(models.Model):
             record.surname = surname
             record.firstname = firstname
 
-    active = fields.Boolean(string='Attivo', default=True)
+  

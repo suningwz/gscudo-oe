@@ -9,8 +9,8 @@ class GSEnrollment(models.Model):
     gs_course_id = fields.Many2one(comodel_name='gs_course', string='Corso')
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     state = fields.Selection(string='Stato', selection=[('I','identificato'),('P', 'proposto'), ('A', 'accettato'),('C','confermato')])
-
-
+    note=fields.Char(string = 'note', help = 'note', )
+    active = fields.Boolean(string='Attivo', default = True)
 class GSCourse(models.Model):
     _inherit = 'gs_course'
 

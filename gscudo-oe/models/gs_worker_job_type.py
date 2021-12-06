@@ -8,6 +8,7 @@ class WorkerJob(models.Model):
 
     name = fields.Char(string='Name')
     active = fields.Boolean(string='Attivo', default=True)
+    note  = fields.Char(string='Note')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Cliente/sede di riferimento')
     gs_worker_job_type = fields.Many2one(comodel_name='gs_worker_job_type', string='Mansione Standard')
 

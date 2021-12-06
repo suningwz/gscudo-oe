@@ -13,6 +13,7 @@
                         <group>
                             <field name="partner_id" />
                             <field name="gs_worker_job_type" />
+                            <field name="note" />
                             <field name="cartsan_id" />
                         </group>
                         <group>

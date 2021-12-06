@@ -11,7 +11,7 @@ class WorkerContract(models.Model):
 
     name = fields.Char(string='Nome', compute="_compute_name", store=True)
     active = fields.Boolean(string='Attivo', default=True)
-    
+    note  = fields.Char(string='Note')
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Azienda/Sede', required=True)
     is_owner = fields.Boolean(string='E\' Titolare')

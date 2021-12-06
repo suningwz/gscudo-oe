@@ -15,6 +15,7 @@ class GSCourseType(models.Model):
     elearning  = fields.Boolean(string='Modalità elearning')
     active = fields.Boolean(string='Attivo', default=True)
     duration = fields.Float(string='Durata in ore', default=2 , required=True)
+    note=fields.Char(string = 'note', help = 'note', )
     gs_training_certificate_type_id  = fields.Many2one(comodel_name='gs_training_certificate_type', string='Certificato formativo')
     is_update = fields.Boolean(string='E\' un aggiornamento',default=False)
     is_multicompany = fields.Boolean(string='Multiazendale', default=False)

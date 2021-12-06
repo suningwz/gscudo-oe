@@ -18,6 +18,7 @@
                             <field name="end_date" />
                             <field name="job_description" />
                             <field name="department" />
+                            <field name="note" />
                             <field name="sg_job_careers_id" />
                             <field name="cartsan_id" />
                         </group>

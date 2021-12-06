@@ -13,6 +13,7 @@
                         <field name="duration" />
                         <field name="generate_certificate" />
                         <field name="elearning" />
+                        <field name="note" />
                         <field name="module_required_ids" />
 
                     </group>
