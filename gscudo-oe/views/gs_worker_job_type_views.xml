@@ -61,7 +61,7 @@
 
     <!-- gs_worker_job_type action -->
     <record id="view_gs_worker_job_type_action" model="ir.actions.act_window">
-        <field name="name">gs_worker_job_type</field>
+        <field name="name">Tipi mansione</field>
         <field name="res_model">gs_worker_job_type</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
