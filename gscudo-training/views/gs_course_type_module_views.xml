@@ -54,7 +54,7 @@
 
     <!-- gs_course_type_module action -->
     <record id="view_gs_course_type_module_action" model="ir.actions.act_window">
-        <field name="name">gs_course_type_module</field>
+        <field name="name">Tipologie di corso</field>
         <field name="res_model">gs_course_type_module</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
