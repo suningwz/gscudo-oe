@@ -42,7 +42,7 @@ class GSPartnerEmployee(models.Model):
             for record in self:
                 if record.sg_worker_id and record.sg_worker_id > 0:
                     record.sg_url = base_url + \
-                        'workers/'.format(record.sg_worker_id)
+                        'workers/{}'.format(record.sg_worker_id)
                 else:
                     record.sg_url = False
 

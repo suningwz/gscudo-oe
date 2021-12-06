@@ -9,13 +9,13 @@ class WorkerContract(models.Model):
     _name = 'gs_worker_contract'
     _description = 'Relazione Worker Partner'
 
-    name = fields.Char(string='Nome')
+    name = fields.Char(string='Nome', compute="_compute_name", store=True)
     active = fields.Boolean(string='Attivo', default=True)
     
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Azienda/Sede', required=True)
     is_owner = fields.Boolean(string='E\' Titolare')
-    
+    is_dipendent = fields.Boolean(string='E\' dipendente', help='dipendent', )
     employee_serial = fields.Char(string='Matricola dip.')
     start_date = fields.Date(string='Data inizio', required=True)
     end_date = fields.Date(string='Data fine')
@@ -23,7 +23,17 @@ class WorkerContract(models.Model):
     department = fields.Char(string='Reparto/ufficio')
     sg_job_careers_id  = fields.Integer(string='ID Sawgest')
     
+    @api.depends('start_date','end_date','job_description','partner_id')
+    def _compute_name(self):
+        for record in self:
+            record.name= "{} {}".format(
+                record.job_description or "",
+                #record.partner_id.name or "",
+                record.start_date.strftime('%d/%m/%Y')
+            )
+        pass
     
+
     @api.constrains('start_date', 'end_date')
     def _check_date(self):
         if self.start_date != False:
@@ -44,7 +54,7 @@ class WorkerContract(models.Model):
 
 
    
-class ModuleName(models.Model):
+class GSWorker(models.Model):
     _inherit = 'gs_worker'
 
     gs_worker_contract_id = fields.Many2one(comodel_name='gs_worker_contract', string='Impiego attuale', 
