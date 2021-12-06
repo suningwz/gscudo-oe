@@ -12,7 +12,7 @@ class GSCourseTypeModule(models.Model):
     active = fields.Boolean(string='Attivo', default = True)
     content = fields.Text(string='Contenuto')
     alternate_id  = fields.Integer(string='alternate_id', compute="_compute_alternate_id", store=True, index=True)
-    
+    note=fields.Char(string = 'note', help = 'note', )
     
     def _compute_alternate_id(self):
         for record in self:

@@ -49,7 +49,8 @@
         'views/res_users_views.xml',
         'views/gs_worker_views.xml',
         'views/gs_worker_contract_views.xml',
-
+        'views/gs_worker_job_type_views.xml',
+        'views/gs_worker_job_views.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode

@@ -12,3 +12,6 @@ backoffice_gs_worker_contract,backoffice_gs_worker_contract,model_gs_worker_cont
 access_gs_worker_job,access_gs_worker_job,model_gs_worker_job,base.group_user,1,0,0,0
 manage_gs_worker_job,manage_gs_worker_job,model_gs_worker_job,gscudo-oe.group_manager,1,1,1,1
 backoffice_gs_worker_job,backoffice_gs_worker_job,model_gs_worker_job,gscudo-oe.group_manager,1,1,1,1
+access_gs_worker_job_type,access_gs_worker_job_type,model_gs_worker_job_type,base.group_user,1,0,0,0
+manage_gs_worker_job_type,manage_gs_worker_job_type,model_gs_worker_job_type,gscudo-oe.group_manager,1,1,1,1
+backoffice_gs_worker_job_type,backoffice_gs_worker_job_type,model_gs_worker_job_type,gscudo-oe.group_manager,1,1,1,1

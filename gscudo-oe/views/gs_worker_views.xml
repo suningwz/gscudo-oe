@@ -20,8 +20,6 @@
                             <field name="birth_country" />
                             <field name="email" />
                             <field name="phone_number" />
-                            <field name="sg_worker_id" />
-                            <field name="sg_url"  widget="url" readonly="1" text="link" />
 
                         </group>
                         <group>
@@ -37,30 +35,58 @@
                         <group>
                             <field name="active" />
 
-                            <field name="use_videoterminals" />
-                            <field name="use_company_vehicles" />
                             <field name="dipendent" />
-                            <field name="night_job" />
-                            <field name="work_at_height" />
+                            <field name="note" />
                         </group>
 
                     </group>
-                    <group>
-                        <field name="gs_worker_contract_ids">
+                    <notebook>
+                        <page name="worker_jobs" string="Mansioni">
+                            <group>
+                                <field name="gs_worker_job_ids">
+                                    <tree default_order="end_date desc,start_date">
+                                        <field name="job_description" />
+                                        <field name="gs_worker_job_type" />
+                                        <field name="department" />
+                                        <field name="start_date" />
+                                        <field name="end_date" />
 
-                            <tree>
-                                <field name="partner_id" />
-                                <field name="employee_serial" />
-                                <field name="is_owner" />
-                                <field name="start_date" />
-                                <field name="end_date" />
-                                <field name="job_description" />
-                                <field name="department" />
+                                    </tree>
+                                </field>
 
-                            </tree>
-                        </field>
+                            </group>
+                        </page>
+                        <page name="worker_contracts" string="Contratti/Posizioni">
 
-                    </group>
+                            <group>
+                                <field name="gs_worker_contract_ids">
+
+                                    <tree>
+                                        <field name="partner_id" />
+                                        <field name="employee_serial" />
+                                        <field name="is_owner" />
+                                        <field name="start_date" />
+                                        <field name="end_date" />
+                                        <field name="job_description" />
+                                        <field name="department" />
+
+                                    </tree>
+                                </field>
+
+                            </group>
+                        </page>
+                        <page name="sawgest_data" string="Dati SawGest">
+                            <group>
+                                <field name="use_videoterminals" />
+                                <field name="use_company_vehicles" />
+                                <field name="night_job" />
+                                <field name="work_at_height" />
+                                <field name="sg_worker_id" />
+                                <field name="sg_url" widget="url" readonly="1" text="link" />
+                            </group>
+
+                        </page>
+                    </notebook>
                 </sheet>
             </form>
         </field>
@@ -70,7 +96,7 @@
         <field name="name">gs_worker Tree</field>
         <field name="model">gs_worker</field>
         <field name="arch" type="xml">
-            <tree default_order="name desc">
+            <tree default_order="name">
 
                 <field name="name" />
                 <field name="fiscalcode" />
