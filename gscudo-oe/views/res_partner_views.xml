@@ -1,0 +1,147 @@
+<odoo>
+    <!-- res.partner inherit form view -->
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">res.partner.inherit.view.form</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+
+      
+            <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="replace">
+                <field name="user_id" domain="[('is_saleagent','=',True)]" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
+                <field name="tmk_user_id" domain="[('is_telemarketer','=',True)]" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
+                <field name="gs_partner_division_id" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
+            </xpath>
+            <xpath expr="//page" position="after">
+                <page string="GruppoScudo" groups="gscudo-oe.group_user,gscudo-oe.group_manager">
+                    <group>
+                        <field name="sg_esolver_id" />
+                        <field name="sg_branches_id" />
+                        <field name="sg_url" widget="url" readonly="1" text="link" />
+                        <field name="is_competitor" />
+                        <field name="is_frontoffice" />
+
+                    </group>
+                </page>
+                <page name="gs_analytics" string="Dati Classificazione">
+
+                    <group>
+                        <field name="revenue" />
+                        <field name="balance_year" />
+                        <field name="employee_qty" />
+                        <field name="main_ateco_id" options="{'no_create':1, 'no_edit':1, 'no_open':1}" />
+                        <field name="rating" />
+                        <field name="share_capital" />
+                        <field name="credit_limit" />
+                        <field name="prejudicials" />
+                    </group>
+                </page>
+                <page name="gs_safety_ref" string="Contatti e sicurezza">
+                    <group col="3">
+                        <group>
+                            <field name="position_inail" />
+                            <field name="position_inps" />
+                            <field name="position_cema" />
+                            <field name="cciaa" />
+                            <field name="nrea" />
+                            <field name="cdc_notes" />
+                            <field name="required_cig" />
+                            <field name="cig" />
+                        </group>
+                        <group>
+                            <field name="technical_contact" />
+                            <field name="technical_contact_notes" />
+                            <field name="technical_contact_email" />
+                            <field name="technical_contact_phone" />
+
+                            <field name="administrative_contact" />
+                            <field name="administrative_contact_notes" />
+                            <field name="administrative_contact_email" />
+                            <field name="administrative_contact_phone" />
+                        </group>
+                        <group>
+                            <field name="employee_number" />
+
+                            <field name="rspp" />
+                            <field name="rspp_notes" />
+                            <field name="rls" />
+                            <field name="fire_officer" />
+                            <field name="doctor" />
+                            <field name="doctor_notes" />
+                            <field name="prevention_managers_number" />
+                            <field name="managers_number" />
+                            <field name="fire_officers_number" />
+                            <field name="first_aid_attendants_number" />
+                            <field name="evacuation_coordinators_number" />
+
+                            <field name="spring_code" />
+
+                        </group>
+                    </group>
+                </page>
+                <page name="competitor" string="Concorrenza">
+                    <group col="2">
+
+                        <group>
+                            <label for="safety_partner_id" />
+                            <div>
+                                <field name="safety_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('safety_partner_id', '!=', False)]}" />
+                                <field name="safety_partner_id" class="oe_inline" attrs="{'invisible':[('safety_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+                        <group>
+                            <label for="training_partner_id" />
+                            <div>
+                                <field name="training_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('training_partner_id', '!=', False)]}" />
+                                <field name="training_partner_id" class="oe_inline" attrs="{'invisible':[('training_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+
+                        <group>
+                            <label for="food_partner_id" />
+                            <div>
+                                <field name="food_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('food_partner_id', '!=', False)]}" />
+                                <field name="food_partner_id" class="oe_inline" attrs="{'invisible':[('food_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+                        <group>
+                            <label for="machdir_partner_id" />
+                            <div>
+                                <field name="machdir_competitor_type" class="oe_inline" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('machdir_partner_id', '!=', False)]}" />
+                                <field name="machdir_partner_id" class="oe_inline" attrs="{'invisible':[('machdir_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+                        <group>
+                            <label for="healthsurv_partner_id" />
+                            <div>
+                                <field name="healthsurv_competitor_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('healthsurv_partner_id', '!=', False)]}" />
+                                <field name="healthsurv_partner_id" attrs="{'invisible':[('healthsurv_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+                        <group>
+                            <label for="environment_partner_id" />
+                            <div>
+                                <field name="environment_competitor_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('environment_partner_id', '!=', False)]}" />
+                                <field name="environment_partner_id" attrs="{'invisible':[('environment_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+                        <group>
+                            <label for="management_partner_id" />
+                            <div>
+                                <field name="management_competitor_type" widget="radio" options="{'horizontal': true}" attrs="{'invisible':[('management_partner_id', '!=', False)]}" />
+                                <field name="management_partner_id" attrs="{'invisible':[('management_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
+                            </div>
+                        </group>
+                       
+                        
+                    </group>
+
+                </page>
+            </xpath>
+
+        </field>
+    </record>
+
+
+</odoo>

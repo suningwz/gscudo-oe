@@ -1,0 +1,78 @@
+<!-- gs_worker_contract views -->
+<odoo>
+    <record id="gs_worker_contract_view_form" model="ir.ui.view">
+        <field name="name">Contratto Lavoratore</field>
+        <field name="model">gs_worker_contract</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="gs_worker_id" />
+                        <field name="partner_id" />
+                        <field name="employee_serial" />
+                        <field name="start_date" />
+                        <field name="end_date" />
+                        <field name="job_description" />
+                        <field name="department" />
+                        <field name="note" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_worker_contract_view_tree" model="ir.ui.view">
+        <field name="name">Contratti Lavoratore</field>
+        <field name="model">gs_worker_contract</field>
+        <field name="arch" type="xml">
+            <tree default_order="gs_worker_id,start_date">
+                <field name="name" />
+                <field name="gs_worker_id" />
+                <field name="partner_id" />
+                <field name="name" />
+                <field name="employee_serial" />
+                <field name="start_date" />
+                <field name="end_date" />
+                <field name="job_description" />
+                <field name="department" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_worker_contract_view_search" model="ir.ui.view">
+        <field name="name">gs_worker_contract Search</field>
+        <field name="model">gs_worker_contract</field>
+        <field name="arch" type="xml">
+            <search string="">
+
+                <field name="partner_id" />
+                <field name="gs_worker_id" />
+                <field name="name" />
+                <separator />
+                <filter name="no_end_date" domain="[('end_date','=',False)]" string="Senza data fine" />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Datore Lavoro" name="partner_id" context="{'group_by':'partner_id'}" />
+                    <filter string="Mansione" name="job_description" context="{'group_by':'job_description'}" />
+                    <filter string="Reparto" name="department" context="{'group_by':'department'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_worker_contract action -->
+    <record id="view_gs_worker_contract_action" model="ir.actions.act_window">
+        <field name="name">Contratti Lavoratori</field>
+        <field name="res_model">gs_worker_contract</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_worker_contract_view_tree" />
+    </record>
+
+    <!-- gs_worker_contract menu -->
+    <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-oe.gs_worker_main_menu" sequence="50" action="view_gs_worker_contract_action" 
+    groups="gscudo-oe.group_manager" />
+/>
+
+</odoo>

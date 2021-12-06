@@ -1,0 +1,33 @@
+<!-- hr_department inherit form view -->
+<odoo>
+    <record id="hr_view_department_form_gscudo" model="ir.ui.view">
+        <field name="name">Department Form GScudo</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.view_department_form" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='parent_id']" position="after">
+                    <field name="department_code" string="Code" />
+                </xpath>
+            </data>
+
+        </field>
+    </record>
+    <!-- model.name inherit form view -->
+    <record id="hr_department_view_kanban_gscudo" model="ir.ui.view">
+        <field name="name">Department Kanban GScudo</field>
+        <field name="model">hr.department</field>
+        <field name="inherit_id" ref="hr.hr_department_view_kanban" />
+        <field name="priority">99</field>
+
+        <field name="arch" type="xml">
+           
+                <xpath expr="//div[hasclass('o_secondary')]" position="inside">
+                    <field name="department_code" />
+                </xpath>
+                <!-- Add your xpath here -->
+            
+        </field>
+    </record>
+
+</odoo>

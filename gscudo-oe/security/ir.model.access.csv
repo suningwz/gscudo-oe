@@ -1,0 +1,17 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gs_partner_division,access_gs_partner_division,model_gs_partner_division,base.group_user,1,0,0,0
+manage_gs_partner_division,manage_gs_partner_division,model_gs_partner_division,base.group_user,1,1,1,1
+access_call_scheduler,access_call_scheduler,model_call_scheduler,base.group_user,1,1,1,1
+access_gs_product_family,access_gs_product_family,model_gs_product_family,base.group_user,1,0,0,0 
+access_gs_worker,access_gs_worker,model_gs_worker,base.group_user,1,0,0,0
+manage_gs_worker,manage_gs_worker,model_gs_worker,gscudo-oe.group_manager,1,1,1,1
+backoffice_gs_worker,backoffice_gs_worker,model_gs_worker,gscudo-oe.group_manager,1,1,1,1
+access_gs_worker_contract,access_gs_worker_contract,model_gs_worker_contract,base.group_user,1,0,0,0
+manage_gs_worker_contract,manage_gs_worker_contract,model_gs_worker_contract,gscudo-oe.group_manager,1,1,1,1
+backoffice_gs_worker_contract,backoffice_gs_worker_contract,model_gs_worker_contract,gscudo-oe.group_manager,1,1,1,1
+access_gs_worker_job,access_gs_worker_job,model_gs_worker_job,base.group_user,1,0,0,0
+manage_gs_worker_job,manage_gs_worker_job,model_gs_worker_job,gscudo-oe.group_manager,1,1,1,1
+backoffice_gs_worker_job,backoffice_gs_worker_job,model_gs_worker_job,gscudo-oe.group_manager,1,1,1,1
+access_gs_worker_job_type,access_gs_worker_job_type,model_gs_worker_job_type,base.group_user,1,0,0,0
+manage_gs_worker_job_type,manage_gs_worker_job_type,model_gs_worker_job_type,gscudo-oe.group_manager,1,1,1,1
+backoffice_gs_worker_job_type,backoffice_gs_worker_job_type,model_gs_worker_job_type,gscudo-oe.group_manager,1,1,1,1

@@ -1,0 +1,73 @@
+<!-- gs_worker_job_type views -->
+<odoo>
+    <record id="gs_worker_job_type_view_form" model="ir.ui.view">
+        <field name="name">gs_worker_job_type Form</field>
+        <field name="model">gs_worker_job_type</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                          </group>
+                    <group col="2">
+                        <group>
+                            <field name="partner_id" />
+                            <field name="gs_worker_job_type" />
+                            <field name="note" />
+                            <field name="cartsan_id" />
+                        </group>
+                        <group>
+                            <field name="use_videoterminals" />
+                            <field name="use_company_vehicles" />
+                            <field name="use_forklift" />
+                            <field name="night_job" />
+                            <field name="work_at_height" />
+                            <field name="work_small_space" />
+                            <field name="move_loads" />
+                        </group>
+                    </group>
+               </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_worker_job_type_view_tree" model="ir.ui.view">
+        <field name="name">gs_worker_job_type Tree</field>
+        <field name="model">gs_worker_job_type</field>
+        <field name="arch" type="xml">
+            <tree default_order="name">
+                <field name="name" />
+                <field name="gs_worker_job_type" />
+                <field name="partner_id" />
+         
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_worker_job_type_view_search" model="ir.ui.view">
+        <field name="name">gs_worker_job_type Search</field>
+        <field name="model">gs_worker_job_type</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_worker_job_type action -->
+    <record id="view_gs_worker_job_type_action" model="ir.actions.act_window">
+        <field name="name">gs_worker_job_type</field>
+        <field name="res_model">gs_worker_job_type</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_worker_job_type_view_tree" />
+    </record>
+
+    <!-- gs_worker_job_type menu -->
+    <menuitem id="gs_worker_job_type_menu" name="Tipi Mansioni" parent="gscudo-oe.gs_worker_main_menu" sequence="55" action="view_gs_worker_job_type_action" groups="gscudo-oe.group_manager" />
+</odoo>

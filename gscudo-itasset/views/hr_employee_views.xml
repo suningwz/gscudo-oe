@@ -1,0 +1,38 @@
+<odoo>
+    <data>
+
+        <!-- model.name inherit form view -->
+        <record id="view_employee_form_itasset" model="ir.ui.view">
+            <field name="name">Employee + IT Asset</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form" />
+
+            <field name="arch" type="xml">
+                <!-- Add your xpath here -->
+                <page name="hr_settings" position="after">
+                    <page name="gs-itasset" string="Dati IT">
+                        <group>
+                            <field name="itasset_ids">
+                                <tree>
+                                    <field name="itasset_type_id" />
+                                    <field name="name" />
+                                    <field name="description" />
+                                </tree>
+                            </field>
+                            <field name="credential_ids">
+
+                                <tree string="">
+                                    <field name="credential_env" />
+                                    <field name="name" />
+                                    <field name="temp_pwd" />
+                                </tree>
+                            </field>
+
+                        </group>
+                    </page>
+                </page>
+            </field>
+        </record>
+    </data>
+
+</odoo>

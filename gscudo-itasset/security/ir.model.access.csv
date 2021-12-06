@@ -1,0 +1,6 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+base_gs_itasset_type,access_gs_itasset_type,model_gs_itasset_type,base.group_user,1,0,0,0 
+base_gs_itasset,base_gs_itasset,model_gs_itasset,base.group_user,1,0,0,0 
+access_gs_itasset_type,access_gs_itasset_type,model_gs_itasset_type,gscudo-itasset.group_it_manager,1,1,1,1 
+access_gs_itasset,access_gs_itasset,model_gs_itasset,gscudo-itasset.group_it_manager,1,1,1,1
+access_gs_credential,access_gs_credential,model_gs_credential,gscudo-itasset.group_it_manager,1,1,1,1

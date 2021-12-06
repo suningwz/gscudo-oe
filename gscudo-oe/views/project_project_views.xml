@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_edit_project_gscudo" model="ir.ui.view">
+        <field name="name">GScudo project extension</field>
+        <field name="model">project.project</field>
+        <field name="inherit_id" ref="project.edit_project" />
+        <field name="arch" type="xml">
+            <field name="user_id" position="before">
+                <field name="department_id" />
+            </field>
+            <page name="settings" position="inside">
+                <group>
+                    <field name="date_start" />
+                    <field name="date" />
+                </group>
+
+            </page>
+            <page name="settings" position="after">
+                <page name="SAWGest" string="SawGest">
+                    <group>
+                        <field name="product_family_id" options="{'no_create':1, 'no_edit':1, 'no_open':1}"/>
+                        <field name="sg_offer" />
+                        <field name="sg_offer_id" />
+                        <field name="sg_url" widget="url" readonly="1" text="vedi in SAWGest" />
+                    </group>
+
+                </page>
+            </page>
+        </field>
+    </record>
+
+</odoo>
