@@ -32,6 +32,8 @@
         'views/gs_course_type_views.xml',
         'views/gs_course_type_module_views.xml',
         'views/gs_course_views.xml',
+        'views/gs_worker_job_type_views.xml',
+        'views/gs_worker_job_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

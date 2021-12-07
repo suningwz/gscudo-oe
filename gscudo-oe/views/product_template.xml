@@ -9,11 +9,15 @@
             <!-- Add your xpath here -->
             <xpath expr="//page" position="after">
                 <page string="GruppoScudo" groups="gscudo-oe.group_user,gscudo-oe.group_manager">
+                    <group string="SawGest">
+                        <field name="sg_product_id" />
+                        <field name="sg_product_url" widget="url" readonly="1" text="link" />
+                        <field name="sg_article_id" />
+                        <field name="sg_article_url" widget="url" readonly="1" text="link" />
+                        
+                    </group>
                     <group>
                         <field name="product_family_id" options="{'no_create':1, 'no_edit':1, 'no_open':1}" />
-                        <field name="sg_product_id" />
-                        <field name="sg_url" widget="url" readonly="1" text="link" />
-                        
                     </group>
                 </page>
             </xpath>

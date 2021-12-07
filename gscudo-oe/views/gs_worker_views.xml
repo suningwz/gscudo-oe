@@ -46,7 +46,7 @@
                                 <field name="gs_worker_job_ids">
                                     <tree default_order="end_date desc,start_date">
                                         <field name="job_description" />
-                                        <field name="gs_worker_job_type" />
+                                        <field name="gs_worker_job_type_id" />
                                         <field name="department" />
                                         <field name="start_date" />
                                         <field name="end_date" />

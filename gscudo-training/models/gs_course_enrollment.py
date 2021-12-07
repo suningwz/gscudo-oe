@@ -11,6 +11,7 @@ class GSEnrollment(models.Model):
     state = fields.Selection(string='Stato', selection=[('I','identificato'),('P', 'proposto'), ('A', 'accettato'),('C','confermato')])
     note=fields.Char(string = 'note', help = 'note', )
     active = fields.Boolean(string='Attivo', default = True)
+    
 class GSCourse(models.Model):
     _inherit = 'gs_course'
 

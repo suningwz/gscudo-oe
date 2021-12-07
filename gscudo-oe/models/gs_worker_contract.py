@@ -3,7 +3,7 @@ from odoo.exceptions import ValidationError
 from odoo.exceptions import UserError
 
 import datetime
-from datetime import timezone, datetime, timedelta
+from datetime import timezone, datetime, timedelta, date
 
 class WorkerContract(models.Model):
     _name = 'gs_worker_contract'
@@ -29,7 +29,7 @@ class WorkerContract(models.Model):
             record.name= "{} {}".format(
                 record.job_description or "",
                 #record.partner_id.name or "",
-                record.start_date.strftime('%d/%m/%Y')
+                (record.start_date or date.today()).strftime('%d/%m/%Y')
             )
         pass
     

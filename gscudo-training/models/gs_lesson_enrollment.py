@@ -10,10 +10,12 @@ class GSLessonEnrollment(models.Model):
 
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     state = fields.Selection(string='Stato', selection=[('I','identificato'),('P', 'proposto'), ('A', 'accettato'),('C','confermato')])
-    implicit  = fields.Boolean(string='Iscrizione implicta', defualt= True)
+    is_attendant = fields.Boolean(string='E\' presente', default=False)
+    
+    implicit  = fields.Boolean(string='Iscrizione implicta', default= True)
     
 
 class GSCourse(models.Model):
     _inherit = 'gs_course_lesson'
 
-    gs_worker_ids = fields.One2many(comodel_name='gs_lessone_enrollment', inverse_name='gs_course_id', string='Iscritti')
+    gs_worker_ids = fields.One2many(comodel_name='gs_lesson_enrollment', inverse_name='gs_course_lesson_id', string='Iscritti')

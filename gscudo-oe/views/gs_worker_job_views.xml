@@ -10,7 +10,7 @@
                         <field name="name" />
                         <field name="gs_worker_contract_id" />
                         <field name="gs_worker_id" />
-                        <field name="gs_worker_job_type" />
+                        <field name="gs_worker_job_type_id" />
                     </group>
                     <group col="2">
                         <group>
@@ -45,7 +45,7 @@
                 <field name="name" />
                 <field name="gs_worker_contract_id" />
                 <field name="gs_worker_id" />
-                <field name="gs_worker_job_type" />
+                <field name="gs_worker_job_type_id" />
                 <field name="job_description" />
                 <field name="department" />
                 <field name="start_date" />
