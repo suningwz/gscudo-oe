@@ -1,0 +1,77 @@
+<!-- gs_course_enrollment views -->
+<odoo>
+    <record id="gs_course_enrollment_view_form" model="ir.ui.view">
+        <field name="name">gs_course_enrollment Form</field>
+        <field name="model">gs_course_enrollment</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="gs_course_id" />
+                        <field name="gs_worker_id" />
+                        <field name="state" />
+                        <field name="note" />
+                        <field name="active" />
+                        <field name="gs_lesson_enrollment_ids" />
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_course_enrollment_view_tree" model="ir.ui.view">
+        <field name="name">gs_course_enrollment Tree</field>
+        <field name="model">gs_course_enrollment</field>
+        <field name="arch" type="xml">
+            <tree  default_order="name">
+                <field name="name" />
+
+                <field name="gs_course_id" />
+                <field name="gs_worker_id" />
+                <field name="state" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_course_enrollment_view_search" model="ir.ui.view">
+        <field name="name">gs_course_enrollment Search</field>
+        <field name="model">gs_course_enrollment</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <field name="gs_course_id" />
+                <field name="gs_worker_id" />
+                <field name="state" />
+                <separator />
+                <filter name="filter_state_i" domain="[('state','=','I')]" string="Identificato" />
+                <filter name="filter_state_p" domain="[('state','=','P')]" string="Proposto" />
+                <filter name="filter_state_c" domain="[('state','=','C')]" string="Confermato" />
+                <filter name="filter_state_a" domain="[('state','=','A')]" string="Accettato" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
+                    <filter string="Corso" name="gs_course_id" context="{'group_by':'gs_course_id'}" />
+                    <filter string="Stato" name="state" context="{'group_by':'state'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_course_enrollment action -->
+    <record id="view_gs_course_enrollment_action" model="ir.actions.act_window">
+        <field name="name">Iscrizione Corsi</field>
+        <field name="res_model">gs_course_enrollment</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_course_enrollment_view_tree" />
+    </record>
+
+    <!-- gs_course_enrollment menu -->
+    <menuitem id="gs_course_enrollment_menu" name="Iscrizioni" parent="gscudo-training.menu_backoffice" sequence="50" 
+    action="view_gs_course_enrollment_action" groups="group_training_backoffice" />
+
+
+</odoo>
