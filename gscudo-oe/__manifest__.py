@@ -18,7 +18,8 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'Uncategorized',
-    'version': '0.6',
+    'version': '0.7', # 2021-12-06#
+
 
     # any module necessary for this one to work correctly
     'depends': ['base',
@@ -49,7 +50,8 @@
         'views/res_users_views.xml',
         'views/gs_worker_views.xml',
         'views/gs_worker_contract_views.xml',
-
+        'views/gs_worker_job_type_views.xml',
+        'views/gs_worker_job_views.xml',
         'views/templates.xml',
     ],
     # only loaded in demonstration mode
