@@ -77,6 +77,7 @@ class ResPartner (models.Model):
     is_telemarketer = fields.Boolean(string='Telemarketer', default=False)
     is_competitor = fields.Boolean(string="E' un competitor", default=False)
     is_frontoffice = fields.Boolean(string="E' Frontoffice", default=False)
+    is_backoffice = fields.Boolean(string="E' Backoffice", default=False)
     
 
    ##### Competitors
