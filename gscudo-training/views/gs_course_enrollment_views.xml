@@ -70,7 +70,7 @@
     </record>
 
     <!-- gs_course_enrollment menu -->
-    <menuitem id="gs_course_enrollment_menu" name="Iscrizioni" parent="gscudo-training.menu_backoffice" sequence="50" 
+    <menuitem id="gs_course_enrollment_menu" name="Iscrizioni Corsi" parent="gscudo-training.menu_backoffice" sequence="50" 
     action="view_gs_course_enrollment_action" groups="group_training_backoffice" />
 
 

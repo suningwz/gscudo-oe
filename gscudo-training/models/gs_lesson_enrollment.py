@@ -6,7 +6,7 @@ class GSLessonEnrollment(models.Model):
     _description = 'Registrazione corso'
 
     name = fields.Char(string='Name')
-    gs_course_lesson_id = fields.Many2one(comodel_name='gs_course_lesson', string='Corso')
+    gs_course_lesson_id = fields.Many2one(comodel_name='gs_course_lesson', string='Lezione')
     gs_course_id = fields.Many2one(comodel_name='gs_course', string='Corso', related="gs_course_lesson_id.gs_course_id", store=True)
    
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')

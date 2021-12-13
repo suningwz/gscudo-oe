@@ -62,6 +62,6 @@
     </record>
 
     <!-- gs_lesson_enrollment menu -->
-    <menuitem id="gs_lesson_enrollment_menu" name="gs_lesson_enrollment" parent="gscudo-training.menu_backoffice" sequence="70" action="view_gs_lesson_enrollment_action" groups="group_training_backoffice" />
+    <menuitem id="gs_lesson_enrollment_menu" name="Iscrizioni Lezioni" parent="gscudo-training.menu_backoffice" sequence="70" action="view_gs_lesson_enrollment_action" groups="group_training_backoffice" />
 
 </odoo>
