@@ -15,7 +15,7 @@ class WorkerContract(models.Model):
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     partner_id = fields.Many2one(comodel_name='res.partner', string='Azienda/Sede', required=True)
     is_owner = fields.Boolean(string='E\' Titolare')
-    is_dipendent = fields.Boolean(string='E\' dipendente', help='dipendent', )
+    is_dependent = fields.Boolean(string='E\' dipendente', help='dipendent', )
     employee_serial = fields.Char(string='Matricola dip.')
     start_date = fields.Date(string='Data inizio', required=True)
     end_date = fields.Date(string='Data fine')
@@ -27,7 +27,7 @@ class WorkerContract(models.Model):
     def _compute_name(self):
         for record in self:
             record.name= "{} {}".format(
-                record.job_description or "",
+                record.job_description or "**Impiegato**",
                 #record.partner_id.name or "",
                 (record.start_date or date.today()).strftime('%d/%m/%Y')
             )
@@ -63,6 +63,7 @@ class GSWorker(models.Model):
     contract_partner_id = fields.Many2one(related="gs_worker_contract_id.partner_id", comodel_name='res.partner', string='Azienda/Sede', store=True)
     contract_employee_serial = fields.Char(related="gs_worker_contract_id.employee_serial", string='Matricola dip.', store=True)
     contract_is_owner = fields.Boolean(related="gs_worker_contract_id.is_owner", string='E\' Titolare', store=True)
+    contract_is_dependent = fields.Boolean(related="gs_worker_contract_id.is_dependent", string='E\' Dipendente', store=True)
     contract_start_date = fields.Date(related="gs_worker_contract_id.start_date", string='Data inizio' ,store=True)
     contract_end_date = fields.Date(related="gs_worker_contract_id.end_date", string='Data fine', store=True)
     contract_job_description = fields.Char(related="gs_worker_contract_id.job_description", string='Mansione' , store=True)

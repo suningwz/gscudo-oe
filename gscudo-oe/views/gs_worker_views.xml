@@ -27,6 +27,7 @@
                             <field name="contract_partner_id" />
                             <field name="contract_employee_serial" />
                             <field name="contract_is_owner" />
+                            <field name="contract_is_dependent" />
                             <field name="contract_start_date" />
                             <field name="contract_end_date" />
                             <field name="contract_job_description" />
@@ -34,8 +35,6 @@
                         </group>
                         <group>
                             <field name="active" />
-
-                            <field name="dipendent" />
                             <field name="note" />
                         </group>
 
@@ -43,14 +42,14 @@
                     <notebook>
                         <page name="worker_jobs" string="Mansioni">
                             <group>
-                                <field name="gs_worker_job_ids">
-                                    <tree default_order="end_date desc,start_date">
+                                <field name="gs_worker_job_ids" context="{'default_gs_worker_contract_id':gs_worker_contract_id,}">
+                                    <tree default_order="end_date desc,start_date" >
+                                        <field name="gs_worker_contract_id" />
                                         <field name="job_description" />
                                         <field name="gs_worker_job_type_id" />
                                         <field name="department" />
                                         <field name="start_date" />
                                         <field name="end_date" />
-
                                     </tree>
                                 </field>
 
@@ -60,16 +59,15 @@
 
                             <group>
                                 <field name="gs_worker_contract_ids">
-
-                                    <tree>
+                                    <tree  default_order="start_date desc">
                                         <field name="partner_id" />
                                         <field name="employee_serial" />
                                         <field name="is_owner" />
+                                        <field name="is_dependent" />
                                         <field name="start_date" />
                                         <field name="end_date" />
                                         <field name="job_description" />
                                         <field name="department" />
-
                                     </tree>
                                 </field>
 

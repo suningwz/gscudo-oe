@@ -9,7 +9,7 @@ class WorkerJobType(models.Model):
     @api.onchange('gs_worker_job_type_id')
     def _onchange_gs_worker_job_type_id(self):
         for record in self:
-            if len(record.gs_worker_job_type_id.gs_training_certificate_type_ids) > 0 :
-                record.gs_training_certificate_type_ids=[(4,record.gs_worker_job_type_id.gs_training_certificate_type_ids)]    
+            for tc in record.gs_worker_job_type_id.gs_training_certificate_type_ids:
+                record.gs_training_certificate_type_ids=[(4,tc.id)]    
 
             
