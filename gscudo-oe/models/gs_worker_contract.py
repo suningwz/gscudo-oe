@@ -22,6 +22,8 @@ class WorkerContract(models.Model):
     job_description = fields.Char(string='Mansione')
     department = fields.Char(string='Reparto/ufficio')
     sg_job_careers_id  = fields.Integer(string='ID Sawgest')
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
     
     @api.depends('start_date','end_date','job_description','partner_id')
     def _compute_name(self):

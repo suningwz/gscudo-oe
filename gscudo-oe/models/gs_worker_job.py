@@ -27,6 +27,9 @@ class WorkerJob(models.Model):
     department = fields.Char(string='Reparto/ufficio')
     note  = fields.Char(string='Note')
     sg_job_careers_id  = fields.Integer(string='ID Sawgest')
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
+    
     cartsan_id  = fields.Integer(string='ID CartSan')
 
     use_videoterminals = fields.Boolean(

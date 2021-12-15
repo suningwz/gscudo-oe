@@ -10,7 +10,8 @@ class ResPartner (models.Model):
     sg_esolver_id = fields.Integer(string="ID ESolver")
     cartsan_uo_id = fields.Integer(string='ID Cartsan Un. Operativa')
     cartsan_doc_id = fields.Integer(string='ID Cartsan Medico')
-
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
     sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
 
     

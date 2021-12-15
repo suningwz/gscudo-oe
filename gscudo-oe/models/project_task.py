@@ -8,8 +8,9 @@ class ProjectProject(models.Model):
     sg_offer_id = fields.Integer(string='ID Offerta SawGest')
     sg_offer_items_id = fields.Integer(string='ID Riga Offerta SawGest')
     sg_task_id = fields.Integer(string='ID Attività SawGest')
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
     sg_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_url", store=False )
-
     def _compute_sg_url(self):
         irconfigparam = self.env['ir.config_parameter']
         base_url = irconfigparam.sudo().get_param('sawgest_base_url')

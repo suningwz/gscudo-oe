@@ -10,6 +10,8 @@ class ProductTemplate(models.Model):
 
     sg_product_id = fields.Integer(string='ID prodotto SawGest')
     sg_product_url = fields.Char(string='Vedi prodottoin sawgest' ,compute="_compute_sg_product_url", store=False )
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
 
     def _compute_sg_product_url(self):
         irconfigparam = self.env['ir.config_parameter']
