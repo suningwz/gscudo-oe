@@ -43,7 +43,7 @@
                         <page name="worker_jobs" string="Mansioni">
                             <group>
                                 <field name="gs_worker_job_ids" context="{'default_gs_worker_contract_id':gs_worker_contract_id,}">
-                                    <tree default_order="end_date desc,start_date" >
+                                    <tree default_order="end_date desc,start_date">
                                         <field name="gs_worker_contract_id" />
                                         <field name="job_description" />
                                         <field name="gs_worker_job_type_id" />
@@ -59,7 +59,7 @@
 
                             <group>
                                 <field name="gs_worker_contract_ids">
-                                    <tree  default_order="start_date desc">
+                                    <tree default_order="start_date desc">
                                         <field name="partner_id" />
                                         <field name="employee_serial" />
                                         <field name="is_owner" />
@@ -80,6 +80,8 @@
                                 <field name="night_job" />
                                 <field name="work_at_height" />
                                 <field name="sg_worker_id" />
+                                <field name="sg_updated_at" readonly="1" />
+                                <field name="sg_synched_at" readonly="1" />
                                 <field name="sg_url" widget="url" readonly="1" text="link" />
                             </group>
 
