@@ -29,7 +29,14 @@
 
     # always loaded
     'data': [
+        'data/gs_medical_check_frequency.csv',
+        'security/security_groups.xml',
         'security/ir.model.access.csv',
+        'views/menus.xml',
+        'views/gs_medical_check_frequency_views.xml',
+        'views/gs_medical_check_type_views.xml',
+        'views/gs_worker_medical_check_views.xml',
+        'views/gs_worker_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],
