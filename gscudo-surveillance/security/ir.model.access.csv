@@ -1,0 +1,2 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_gscudo-surveillance_gscudo-surveillance,gscudo-surveillance.gscudo-surveillance,model_gscudo-surveillance_gscudo-surveillance,base.group_user,1,1,1,1
