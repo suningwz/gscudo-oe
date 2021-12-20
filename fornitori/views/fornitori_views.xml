@@ -1,0 +1,60 @@
+<!-- fornitori_fornitori views -->
+<odoo>
+    <record id="fornitori_fornitori_view_form" model="ir.ui.view">
+        <field name="name">fornitori_fornitori Form</field>
+        <field name="model">fornitori_fornitori</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+    <field name="name" />
+    <field name="phone" />
+                        <field name="zona" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="fornitori_fornitori_view_tree" model="ir.ui.view">
+        <field name="name">fornitori_fornitori Tree</field>
+        <field name="model">fornitori_fornitori</field>
+        <field name="arch" type="xml">
+            <tree >
+  <field name="name" />
+  <field name="email" />
+                <field name="zona" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="fornitori_fornitori_view_search" model="ir.ui.view">
+        <field name="name">fornitori_fornitori Search</field>
+        <field name="model">fornitori_fornitori</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- fornitori_fornitori action -->
+    <record id="view_fornitori_fornitori_action" model="ir.actions.act_window">
+        <field name="name">fornitori_fornitori</field>
+        <field name="res_model">fornitori_fornitori</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="fornitori_fornitori_view_tree" />
+    </record>
+
+    <!-- fornitori_fornitori menu -->
+    <menuitem id="fornitori_fornitori_menu" name="fornitori_fornitori" parent="contacts.menu_contacts" sequence="40" action="view_fornitori_fornitori_action"  />
+
+</odoo>
+
