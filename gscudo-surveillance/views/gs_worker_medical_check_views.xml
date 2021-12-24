@@ -1,0 +1,78 @@
+<!-- gs_worker_medical_check views -->
+<odoo>
+    <record id="gs_worker_medical_check_view_form" model="ir.ui.view">
+        <field name="name">gs_worker_medical_check Form</field>
+        <field name="model">gs_worker_medical_check</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+
+                        <field name="name" />
+                        <field name="gs_worker_id" />
+                        <field name="execution_date" />
+                        <field name="gs_medical_check_type_id" />
+                        <field name="gs_medical_check_frequency_id" />
+                        <field name="expiry_date" />
+                        <field name="schedule_time" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_worker_medical_check_view_tree" model="ir.ui.view">
+        <field name="name">gs_worker_medical_check Tree</field>
+        <field name="model">gs_worker_medical_check</field>
+        <field name="arch" type="xml">
+            <tree default_order="name,execution_date">
+                <field name="name" />
+                <field name="gs_worker_id" />
+                <field name="execution_date" />
+                <field name="gs_medical_check_type_id" />
+                <field name="gs_medical_check_frequency_id" />
+                <field name="expiry_date" />
+                <field name="schedule_time" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_worker_medical_check_view_search" model="ir.ui.view">
+        <field name="name">gs_worker_medical_check Search</field>
+        <field name="model">gs_worker_medical_check</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <field name="gs_worker_id" />
+                <field name="gs_medical_check_type_id" />
+                <field name="expiry_date" />
+                <field name="schedule_time" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <filter name="filter_expired" domain="[('expiry_date', '&lt;=', (context_today() + relativedelta(months=2)).strftime('%%Y-%%m-01'))]" string="In scadenza nei prossimi 2 mesi"/>
+         
+                <filter name="filter_scheduled" domain="[('schedule_time','!=',False)]" string="Pianificate" />
+                <group expand="1" string="Group By">
+                    <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
+               <filter string="Data Esame" name="gs_medical_check_type_id" context="{'group_by':'gs_medical_check_type_id'}" />
+               <filter string="Data Scadenza" name="expiry_date" context="{'group_by':'expiry_date'}" />
+               <filter string="Data Programmata" name="schedule_time" context="{'group_by':'schedule_time'}" />
+               
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_worker_medical_check action -->
+    <record id="view_gs_worker_medical_check_action" model="ir.actions.act_window">
+        <field name="name">Visite / Controlli</field>
+        <field name="res_model">gs_worker_medical_check</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_worker_medical_check_view_tree" />
+    </record>
+
+    <!-- gs_worker_medical_check menu -->
+    <menuitem id="gs_worker_medical_check_menu" name="Visite / Controlli" parent="gssurveillance_menu_root" sequence="40" action="view_gs_worker_medical_check_action" groups="base.group_user" />
+
+</odoo>

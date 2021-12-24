@@ -1,0 +1,12 @@
+id,name,no_repeat,day_interval,month_interval,year_interval
+no_repeat,Nessuna (0),1,0,0,0
+on_demand,Su richiesta (0),1,0,0,0
+first_visit,In prima visita (0),1,0,0,0
+month_1,Mensile (1 mese),0,30,1,0
+month_3,Trimestrale (3 mesi),0,91,3,0
+month_6,Semestrale (6 mesi),0,182,6,0
+year_1,Annuale (12 mesi),0,365,0,1
+year_2,Biennale (24 mesi),0,730,0,2
+year_3,Triennale (36 mesi),0,1096,0,3
+year_5,Quinquennale (60 mesi),0,1826,0,5
+year_4,Quadriennale (48 mesi),0,1461,0,4

@@ -18,7 +18,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'GruppoScudo',
-    'version': '0.2',
+    'version': '1.1',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'gscudo-oe'],
@@ -32,6 +32,11 @@
         'views/gs_course_type_views.xml',
         'views/gs_course_type_module_views.xml',
         'views/gs_course_views.xml',
+        'views/gs_worker_job_type_views.xml',
+        'views/gs_worker_job_views.xml',
+        'views/gs_worker_views.xml',
+        'views/gs_course_enrollment_views.xml',
+        'views/gs_lesson_enrollment_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

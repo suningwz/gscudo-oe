@@ -8,15 +8,15 @@
                 <sheet>
                     <group>
                         <field name="name" />
-                        <field name="gs_worker_contract_id" />
+                        <field name="gs_worker_contract_id" domain="[('gs_worker_id', '=', gs_worker_id)]" context="{'default_gs_worker_id':  gs_worker_id}" />
                         <field name="gs_worker_id" />
-                        <field name="gs_worker_job_type" />
+                        <field name="gs_worker_job_type_id" />
+                        <field name="job_description" />
                     </group>
                     <group col="2">
                         <group>
                             <field name="start_date" />
                             <field name="end_date" />
-                            <field name="job_description" />
                             <field name="department" />
                             <field name="note" />
                             <field name="sg_job_careers_id" />
@@ -32,7 +32,7 @@
                             <field name="move_loads" />
                         </group>
                     </group>
-               </sheet>
+                </sheet>
             </form>
         </field>
     </record>
@@ -45,7 +45,7 @@
                 <field name="name" />
                 <field name="gs_worker_contract_id" />
                 <field name="gs_worker_id" />
-                <field name="gs_worker_job_type" />
+                <field name="gs_worker_job_type_id" />
                 <field name="job_description" />
                 <field name="department" />
                 <field name="start_date" />

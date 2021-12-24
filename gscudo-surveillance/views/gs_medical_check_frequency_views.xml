@@ -1,0 +1,64 @@
+<!-- gs_medical_check_frequency views -->
+<odoo>
+    <record id="gs_medical_check_frequency_view_form" model="ir.ui.view">
+        <field name="name">gs_medical_check_frequency Form</field>
+        <field name="model">gs_medical_check_frequency</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="no_repeat" />
+                        <field name="day_interval" />
+                        <field name="month_interval" />
+                        <field name="year_interval" />
+                        <field name="active" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_medical_check_frequency_view_tree" model="ir.ui.view">
+        <field name="name">gs_medical_check_frequency Tree</field>
+        <field name="model">gs_medical_check_frequency</field>
+        <field name="arch" type="xml">
+            <tree default_order="day_interval,month_interval,year_interval,name">
+                <field name="name" />
+                <field name="no_repeat" />
+                <field name="day_interval" />
+                <field name="month_interval" />
+                <field name="year_interval" />
+                <field name="active" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_medical_check_frequency_view_search" model="ir.ui.view">
+        <field name="name">gs_medical_check_frequency Search</field>
+        <field name="model">gs_medical_check_frequency</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_medical_check_frequency action -->
+    <record id="view_gs_medical_check_frequency_action" model="ir.actions.act_window">
+        <field name="name">Frequenza Visite/Controlli</field>
+        <field name="res_model">gs_medical_check_frequency</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_medical_check_frequency_view_tree" />
+    </record>
+
+    <!-- gs_medical_check_frequency menu -->
+    <menuitem id="gs_medical_check_frequency_menu" name="Frequenze" parent="gssurveillance_menu_settings" sequence="40" action="view_gs_medical_check_frequency_action" groups="group_surveillance_manager" />
+
+</odoo>

@@ -1,0 +1,67 @@
+<!-- gs_lesson_enrollment views -->
+<odoo>
+    <record id="gs_lesson_enrollment_view_form" model="ir.ui.view">
+        <field name="name">gs_lesson_enrollment Form</field>
+        <field name="model">gs_lesson_enrollment</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="gs_course_id" />
+                        <field name="gs_worker_id" />
+                        <field name="state" />
+                        <field name="gs_course_lesson_id" />
+                        <field name="is_attendant" />
+                        <field name="implicit" />
+
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_lesson_enrollment_view_tree" model="ir.ui.view">
+        <field name="name">gs_lesson_enrollment Tree</field>
+        <field name="model">gs_lesson_enrollment</field>
+        <field name="arch" type="xml">
+            <tree default_order="name">
+                <field name="name" />
+                <field name="gs_course_id" />
+                <field name="gs_worker_id" />
+                <field name="state" />
+                <field name="gs_course_lesson_id" />
+                <field name="is_attendant" />
+                <field name="implicit" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_lesson_enrollment_view_search" model="ir.ui.view">
+        <field name="name">gs_lesson_enrollment Search</field>
+        <field name="model">gs_lesson_enrollment</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_lesson_enrollment action -->
+    <record id="view_gs_lesson_enrollment_action" model="ir.actions.act_window">
+        <field name="name">Iscrizione Lezioni</field>
+        <field name="res_model">gs_lesson_enrollment</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_lesson_enrollment_view_tree" />
+    </record>
+
+    <!-- gs_lesson_enrollment menu -->
+    <menuitem id="gs_lesson_enrollment_menu" name="Iscrizioni Lezioni" parent="gscudo-training.menu_backoffice" sequence="70" action="view_gs_lesson_enrollment_action" groups="group_training_backoffice" />
+
+</odoo>

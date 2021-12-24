@@ -10,7 +10,9 @@
         #Lavoratori
         <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="gscudo-training.menu_root" sequence="45" groups="group_training_backoffice" />
         <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-training.gs_worker_main_menu" sequence="45" action="gscudo-oe.view_gs_worker_action" groups="group_training_backoffice" />
-        <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-training.gs_worker_main_menu" sequence="50" action="gscudo-oe.view_gs_worker_contract_action" groups="gscudo-oe.group_manager" />
+        <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-training.gs_worker_main_menu" sequence="50" action="gscudo-oe.view_gs_worker_contract_action" groups="group_training_backoffice" />
+        <menuitem id="gs_worker_job_type_menu" name="Tipi Mansioni" parent="gscudo-training.gs_worker_main_menu" sequence="55" action="gscudo-oe.view_gs_worker_job_type_action" groups="group_training_backoffice" />
+        <menuitem id="gs_worker_type_menu" name="Mansioni" parent="gscudo-training.gs_worker_main_menu" sequence="60" action="gscudo-oe.view_gs_worker_job_action" groups="group_training_backoffice" />
 
     </data>
 </odoo>

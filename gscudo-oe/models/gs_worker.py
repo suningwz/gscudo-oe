@@ -21,7 +21,6 @@ class GSPartnerEmployee(models.Model):
         string='use_videoterminals', help='use_videoterminals', )
     use_company_vehicles = fields.Boolean(
         string='use_company_vehicles', help='use_company_vehicles', )
-    dipendent = fields.Boolean(string='dipendent', help='dipendent', )
     night_job = fields.Boolean(string='night_job', help='night_job', )
     work_at_height = fields.Boolean(
         string='work_at_height', help='work_at_height', )
@@ -33,6 +32,9 @@ class GSPartnerEmployee(models.Model):
     cartsan_id = fields.Char(string='ID CartSan')
 
     sg_worker_id = fields.Integer(string='ID SawGest')
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
+    
     sg_url = fields.Char(string='Vedi in sawgest',
                          compute="_compute_sg_url", store=False)
 

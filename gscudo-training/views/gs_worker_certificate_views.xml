@@ -1,0 +1,54 @@
+<!-- gs_worker_certificate views -->
+<odoo>
+    <record id="gs_worker_certificate_view_form" model="ir.ui.view">
+      <field name="name">gs_worker_certificate Form</field>
+        <field name="model">gs_worker_certificate</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_worker_certificate_view_tree" model="ir.ui.view">
+        <field name="name">gs_worker_certificate Tree</field>
+        <field name="model">gs_worker_certificate</field>
+        <field name="arch" type="xml">
+            <tree create="0" delete="0" default_order="name desc">
+                <field name="name"  />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_worker_certificate_view_search" model="ir.ui.view">
+        <field name="name">gs_worker_certificate Search</field>
+        <field name="model">gs_worker_certificate</field>
+        <field name="arch" type="xml">
+           <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                     <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_worker_certificate action -->
+    <record id="view_gs_worker_certificate_action" model="ir.actions.act_window">
+      <field name="name">gs_worker_certificate</field>
+      <field name="res_model">gs_worker_certificate</field>
+      <field name="domain"></field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="gs_worker_certificate_view_tree" />
+    </record>
+
+<!-- gs_worker_certificate menu -->
+<menuitem id="gs_worker_certificate_menu" name="Certificati/Attestati " parent="gscudo-training.menu_settings" sequence="40" action="view_gs_worker_certificate_action" groups="gscudo-training.group_training_manager"  />
+
+</odoo>
