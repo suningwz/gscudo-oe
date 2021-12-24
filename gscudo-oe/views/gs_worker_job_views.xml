@@ -72,7 +72,7 @@
 
     <!-- gs_worker_job action -->
     <record id="view_gs_worker_job_action" model="ir.actions.act_window">
-        <field name="name">gs_worker_job</field>
+        <field name="name">Mansioni</field>
         <field name="res_model">gs_worker_job</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
