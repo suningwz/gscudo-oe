@@ -60,8 +60,12 @@
         <field name="model">gs_worker_job</field>
         <field name="arch" type="xml">
             <search string="">
+                <field name="gs_worker_id" />
+
                 <field name="name" />
                 <separator />
+                <filter name="filter_runninf" domain="[('end_date','=',False)]" string="In Corso" />
+                <filter name="filter_expired" domain="[('end_date','!=',False)]" string="Terminati" />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
                 <group expand="1" string="Group By">
                     <filter string="Gruppo" name="name" context="{'group_by':'name'}" />

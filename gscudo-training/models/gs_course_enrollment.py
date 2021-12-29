@@ -46,3 +46,12 @@ class GSCourse(models.Model):
     _inherit = 'gs_course'
 
     gs_worker_ids = fields.One2many(comodel_name='gs_course_enrollment', inverse_name='gs_course_id', string='Iscritti')
+
+  
+class Worker(models.Model):
+    _inherit = 'gs_worker'
+
+    gs_course_enrollment_ids = fields.One2many(comodel_name='gs_course_enrollment', inverse_name='gs_worker_id', string='Corsi')
+
+    
+    

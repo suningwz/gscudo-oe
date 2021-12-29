@@ -13,10 +13,16 @@ class WorkerCertificate(models.Model):
     
     issue_date = fields.Date(string='Data attestato')
     issue_serial = fields.Char(string='Protocollo attestato')
-    
+  
     expiry_date = fields.Date(string='Data scadenza')
-    note  = fields.Char(string='Note')
-    
+    note = fields.Char(string='Note')
+
+        
+class Worker(models.Model):
+    _inherit = 'gs_worker'
+
+    gs_worker_certificate_ids = fields.One2many(comodel_name='gs_worker_certificate', inverse_name='gs_worker_id', string='Attestati')
+
     
     
     

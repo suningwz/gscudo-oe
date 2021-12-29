@@ -46,3 +46,10 @@ class GSCourse(models.Model):
                 
                 }
                 self.env['gs_course_lesson'].create(data)
+
+class Worker(models.Model):
+    _inherit = 'gs_worker'
+
+    gs_lesson_enrollment_ids = fields.One2many(comodel_name='gs_lesson_enrollment', inverse_name='gs_worker_id', string='Lezioni')
+
+   
