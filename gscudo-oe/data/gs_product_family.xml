@@ -20,7 +20,7 @@
             <field name="code">dirma</field>
         </record>
         <record id="gs_healthsurv" model="gs_product_family">
-            <field name="name">Sorveglianza Sanit.</field>
+            <field name="name">Sorveglianza Sanitaria</field>
             <field name="code">sanit</field>
         </record>
         <record id="gs_environment" model="gs_product_family">
@@ -29,7 +29,7 @@
 
         </record>
         <record id="gs_management" model="gs_product_family">
-            <field name="name">Sist. Gestione</field>
+            <field name="name">Sistemi di Gestione</field>
             <field name="code">gest</field>
         </record>
     </data>

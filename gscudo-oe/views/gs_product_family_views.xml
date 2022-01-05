@@ -51,6 +51,6 @@
     </record>
 
     <!-- gs_product_family menu -->
-    <menuitem id="view_gs_product_family_menu" name="gs_product_family" parent="gscudo-oe.settings" sequence="40" action="view_gs_product_family_action" groups="base.group_user" />
+    <menuitem id="view_gs_product_family_menu" name="Famiglia Prodotti" parent="gscudo-oe.settings" sequence="40" action="view_gs_product_family_action" groups="base.group_user" />
 
 </odoo>
