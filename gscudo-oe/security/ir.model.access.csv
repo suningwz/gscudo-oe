@@ -3,6 +3,7 @@ access_gs_partner_division,access_gs_partner_division,model_gs_partner_division,
 manage_gs_partner_division,manage_gs_partner_division,model_gs_partner_division,base.group_user,1,1,1,1
 access_call_scheduler,access_call_scheduler,model_call_scheduler,base.group_user,1,1,1,1
 access_gs_product_family,access_gs_product_family,model_gs_product_family,base.group_user,1,0,0,0 
+manage_gs_product_family,manage_gs_product_family,model_gs_product_family,gscudo-oe.group_manager,1,1,1,1
 access_gs_worker,access_gs_worker,model_gs_worker,base.group_user,1,0,0,0
 manage_gs_worker,manage_gs_worker,model_gs_worker,gscudo-oe.group_manager,1,1,1,1
 backoffice_gs_worker,backoffice_gs_worker,model_gs_worker,gscudo-oe.group_manager,1,1,1,1

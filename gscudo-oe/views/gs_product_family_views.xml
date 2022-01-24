@@ -46,7 +46,7 @@
 
     <!-- gs_product_family action -->
     <record id="view_gs_product_family_action" model="ir.actions.act_window">
-        <field name="name">gs_product_family</field>
+        <field name="name">Famiglia Prodotti</field>
         <field name="res_model">gs_product_family</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
