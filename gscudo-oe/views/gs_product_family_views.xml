@@ -9,7 +9,8 @@
                     <group>
                         <field name="name" />
                         <field name="code" />
-
+                        <field name="hr_department_id" />
+                        <field name="manager_id" />
                     </group>
                 </sheet>
             </form>
@@ -22,8 +23,10 @@
         <field name="model">gs_product_family</field>
         <field name="arch" type="xml">
             <tree create="0" delete="0" default_order="name desc">
-                <field name="name"  />
+                <field name="name" />
                 <field name="code" />
+                <field name="hr_department_id" />
+                <field name="manager_id" />
             </tree>
         </field>
     </record>
