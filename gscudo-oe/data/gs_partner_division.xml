@@ -21,7 +21,7 @@
         <record id="gs_eneco" model="gs_partner_division">
             <field name="name">Eneco Srl</field>
         </record>
-        <record id="gs_eneco" model="gs_partner_division">
+        <record id="gs_uf" model="gs_partner_division">
             <field name="name">UF Srl</field>
         </record>
     </data>
