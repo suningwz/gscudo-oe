@@ -26,16 +26,16 @@ class CrmLeads(models.Model):
                 else:
                     record.sg_url = False
 
-    sg_offers_url = fields.Char(string='Vedi in sawgest' ,compute="_compute_sg_offers_url", store=False )
+    sg_offers_url = fields.Char(string='Offerte in sawgest' ,compute="_compute_sg_offers_url", store=False )
 
     
     def _compute_sg_offers_url(self):
         irconfigparam = self.env['ir.config_parameter']
-        base_url = irconfigparam.sudo().get_param('sawgest_branches_url')
+        base_url = irconfigparam.sudo().get_param('sawgest_base_url')
         if base_url:
             for record in self:
-                if record.sg_branches_id and record.sg_branches_id > 0:
-                    record.sg_offers_url = base_url.format(record.sg_branches_id)    
+                if record.sg_clients_id and record.sg_clients_id > 0:
+                    record.sg_offers_url = base_url+"offers/0/list?cfr={}".format(record.sg_clients_id)    
                 else:
                     record.sg_offers_url = False
 
