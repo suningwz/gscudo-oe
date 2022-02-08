@@ -24,6 +24,8 @@
                         <field name="is_competitor" />
                         <field name="is_frontoffice" />
                         <field name="is_backoffice" />
+                        <field name="is_customer" />
+                        <field name="has_competitors" />
 
                     </group>
                 </page>

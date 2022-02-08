@@ -25,6 +25,7 @@
             </field>
             <field name="tag_ids" position="after">
                 <field name="has_competitors" />
+                <field name="is_customer" />
             </field>
             <notebook position="inside">
                 <page name="analysis" string="Dati Attività">
