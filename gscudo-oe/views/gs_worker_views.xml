@@ -92,15 +92,19 @@
         </field>
     </record>
 
-    <record id="gs_worker_view_tree" model="ir.ui.view">
+    <record id="gs_worker_view_tree" model="ir.ui.view" >
         <field name="name">gs_worker Tree</field>
         <field name="model">gs_worker</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
-
+            <tree default_order="name" multi_edit="1">
+                <field name="id_excel"/>
                 <field name="name" />
                 <field name="fiscalcode" />
+                <field name="sex"/>
                 <field name="contract_partner_id" />
+                <field name="temp_partner_name"/>
+                <field name="temp_sawgest_id"/>
+                
                 <field name="contract_job_description" />
                 <field name="contract_department" />
             </tree>
@@ -117,6 +121,7 @@
                 <field name="contract_partner_id" />
                 <field name="contract_job_description" />
                 <field name="contract_department" />
+                <field name="temp_partner_name"/>
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
                 <group expand="1" string="Group By">
@@ -135,7 +140,14 @@
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_worker_view_tree" />
     </record>
-
+    <record id="gs_training_worker_action" model="ir.actions.server">
+            <field name="name">Elabora</field>
+            <field name="model_id" ref="model_gs_worker" />
+            <field name="binding_model_id" ref="model_gs_worker" />
+            <field name="state">code</field>
+            
+            <field name="code">action=records.compute_worker_data()</field>
+        </record>
     <!-- gs_worker menu -->
     <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="contacts.menu_contacts" sequence="45" groups="gscudo-oe.group_manager" />
     <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="45" action="view_gs_worker_action" groups="gscudo-oe.group_manager" />

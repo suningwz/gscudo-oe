@@ -38,6 +38,22 @@ class GSPartnerEmployee(models.Model):
     sg_url = fields.Char(string='Vedi in sawgest',
                          compute="_compute_sg_url", store=False)
 
+    temp_partner_name = fields.Char(string='Azienda Temp')
+    temp_sawgest_id = fields.Many2one(comodel_name='gs_clients', string='ID_SawGest', domain=[('deleted_at','=',False)])
+    id_excel = fields.Char(string='ID Excel')
+    
+    def compute_worker_data(self):
+        for record in self:
+            
+            partner_ids = self.env['gs_clients'].search(
+                [('business_name', '=', record.temp_partner_name), ('deleted_at', '=', False)])
+            if len(partner_ids) != 1:
+                continue
+                
+            else:
+                record.temp_sawgest_id = partner_ids[0]
+                
+
     def _compute_sg_url(self):
         irconfigparam = self.env['ir.config_parameter']
         base_url = irconfigparam.sudo().get_param('sawgest_base_url')
