@@ -44,9 +44,9 @@ class GSPartnerEmployee(models.Model):
     
     def compute_worker_data(self):
         for record in self:
-            
+            partner_name = record.temp_partner_name[0:3]
             partner_ids = self.env['gs_clients'].search(
-                [('business_name', '=', record.temp_partner_name), ('deleted_at', '=', False)])
+                [('business_name', 'ilike', partner_name), ('deleted_at', '=', False)])
             if len(partner_ids) != 1:
                 continue
                 
