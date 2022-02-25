@@ -1,0 +1,69 @@
+<!-- pcl_checktype views -->
+<odoo>
+    <record id="pcl_checktype_view_form" model="ir.ui.view">
+      <field name="name">pcl_checktype Form</field>
+        <field name="model">pcl_checktype</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="department_id" />
+                        <field name="name" />
+                        <field name="description" />
+                        <field name="required" />
+                        <field name="periodicity" />
+                        <field name = "active" />
+                        <field name="sequence"/>
+                        <field name ="pcl_checktype_kpi_ids"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="pcl_checktype_view_tree" model="ir.ui.view">
+        <field name="name">pcl_checktype Tree</field>
+        <field name="model">pcl_checktype</field>
+        <field name="arch" type="xml">
+            <tree default_order="name ">
+                <field name="name" />
+                        <field name="sequence"/>
+                           <field name="department_id" />
+                        <field name="description" />
+                        <field name="required" />
+                        <field name="periodicity" />
+                        <field name = "active" />
+                        <field name ="pcl_checktype_kpi_ids" widget="many2many_tags" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="pcl_checktype_view_search" model="ir.ui.view">
+        <field name="name">pcl_checktype Search</field>
+        <field name="model">pcl_checktype</field>
+        <field name="arch" type="xml">
+           <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                     <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- pcl_checktype action -->
+    <record id="view_pcl_checktype_action" model="ir.actions.act_window">
+      <field name="name">Tipi Controlli</field>
+      <field name="res_model">pcl_checktype</field>
+      <field name="domain"></field>
+      <field name="view_mode">tree,form</field>
+      <field name="view_id" ref="pcl_checktype_view_tree" />
+    </record>
+
+<!-- pcl_checktype menu -->
+<menuitem id="pcl_checktype_menu" name="Tipi Controlli" parent="menu_root" sequence="40" action="view_pcl_checktype_action" groups="base.group_user" />
+
+</odoo>

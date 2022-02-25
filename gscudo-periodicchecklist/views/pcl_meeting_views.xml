@@ -1,0 +1,108 @@
+<!-- pcl_meeting views -->
+<odoo>
+    <record id="pcl_meeting_view_form" model="ir.ui.view">
+        <field name="name">pcl_meeting Form</field>
+        <field name="model">pcl_meeting</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <field name="state" widget="statusbar" />
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="meeting_date" />
+                        <field name="description" />
+                        <field name="department_id" />
+                        <field name="periodicity" />
+                        <field name="period_start_date" />
+                        <field name="period_end_date" />
+                    </group>
+                    <notebook>
+                        <page name="meeting_checks" string="Verifiche">
+
+                            <field name="pcl_meeting_ckeck_ids">
+                                <tree>
+                                    <field name="name" />
+                                    <field name="pcl_checktype_id" />
+                                    <field name="department_id" />
+                                    <field name="note" />
+                                </tree>
+                            </field>
+                        </page>
+                        <page name="guests" string="Partecipanti">
+
+                            <field name="guest_ids" widget="many2many_tags_avatar" />
+                        </page>
+                    </notebook>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                    <field name="activity_ids" widget="mail_activity" />
+                </div>
+
+            </form>
+        </field>
+    </record>
+
+    <record id="pcl_meeting_view_tree" model="ir.ui.view">
+        <field name="name">pcl_meeting Tree</field>
+        <field name="model">pcl_meeting</field>
+        <field name="arch" type="xml">
+            <tree default_order="name ">
+                <field name="name" />
+                <field name="meeting_date" />
+                <field name="state" />
+                <field name="department_id" />
+                <field name="periodicity" />
+                <field name="period_start_date" />
+                <field name="period_end_date" />
+                <field name="guest_ids" widget="many2many_tags" />
+            </tree>
+        </field>
+
+    </record>
+
+    <record id="pcl_meeting_view_search" model="ir.ui.view">
+        <field name="name">pcl_meeting Search</field>
+        <field name="model">pcl_meeting</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="pcl_meeting_view_calendar" model="ir.ui.view">
+        <field name="name">Riunioni periodiche</field>
+        <field name="model">pcl_meeting</field>
+        <field name="arch" type="xml">
+            <calendar date_start="meeting_date" color="department_id" quick_add="False" mode="month">
+                <field name="department_id" />
+                <field name="periodicity" />
+                <field name="state" />
+                <field name="guest_ids" />
+            </calendar>
+        </field>
+    </record>
+
+
+    <!-- pcl_meeting action -->
+    <record id="view_pcl_meeting_action" model="ir.actions.act_window">
+        <field name="name">Riunioni</field>
+        <field name="res_model">pcl_meeting</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form,calendar</field>
+        <field name="view_id" ref="pcl_meeting_view_tree" />
+    </record>
+
+    <!-- pcl_meeting menu -->
+    <menuitem id="pcl_meeting_menu" name="Riunioni" parent="menu_meeting" sequence="10" action="view_pcl_meeting_action" groups="base.group_user" />
+
+</odoo>

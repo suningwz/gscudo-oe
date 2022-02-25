@@ -1,0 +1,11 @@
+backoffice_pcl_checktype,backoffice_pcl_checktype,model_pcl_checktype,group_pcl_user,1,1,1,1
+backoffice_pcl_checktype_kpi,backoffice_pcl_checktype_kpi,model_pcl_checktype_kpi,group_pcl_user,1,1,1,1
+backoffice_pcl_meeting,backoffice_pcl_meeting,model_pcl_meeting,group_pcl_user,1,1,1,1
+backoffice_pcl_meeting_check,backoffice_pcl_meeting_check,model_pcl_meeting_check,group_pcl_user,1,1,1,1
+backoffice_pcl_meeting_checkkpi,backoffice_pcl_meeting_checkkpi,model_pcl_meeting_checkkpi,group_pcl_user,1,1,1,1
+
+manage_pcl_checktype,manage_pcl_checktype,model_pcl_checktype,group_pcl_manager,1,1,1,1
+manage_pcl_checktype_kpi,manage_pcl_checktype_kpi,model_pcl_checktype_kpi,group_pcl_manager,1,1,1,1
+manage_pcl_meeting,manage_pcl_meeting,model_pcl_meeting,group_pcl_manager,1,1,1,1
+manage_pcl_meeting_check,manage_pcl_meeting_check,model_pcl_meeting_check,group_pcl_manager,1,1,1,1
+manage_pcl_meeting_checkkpi,manage_pcl_meeting_checkkpi,model_pcl_meeting_checkkpi,group_pcl_manager,1,1,1,1

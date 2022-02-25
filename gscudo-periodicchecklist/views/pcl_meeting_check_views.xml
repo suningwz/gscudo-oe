@@ -1,0 +1,70 @@
+<!-- pcl_meeting_check views -->
+<odoo>
+    <record id="pcl_meeting_check_view_form" model="ir.ui.view">
+        <field name="name">pcl_meeting_check Form</field>
+        <field name="model">pcl_meeting_check</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="pcl_meeting_id" />
+                        <field name="meeting_date" />
+                        <field name="department_id" />
+                        <field name="pcl_checktype_id" />
+                        <field name="note" />
+                        <field name="pcl_meeting_ckeckkpi_ids"></field>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                    <field name="activity_ids" widget="mail_activity" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="pcl_meeting_check_view_tree" model="ir.ui.view">
+        <field name="name">pcl_meeting_check Tree</field>
+        <field name="model">pcl_meeting_check</field>
+        <field name="arch" type="xml">
+            <tree default_order="name ">
+                <field name="name" />
+                <field name="pcl_meeting_id" />
+                <field name="meeting_date" />
+                <field name="department_id" />
+                <field name="pcl_checktype_id" />
+                <field name="note" />
+
+            </tree>
+        </field>
+    </record>
+
+    <record id="pcl_meeting_check_view_search" model="ir.ui.view">
+        <field name="name">pcl_meeting_check Search</field>
+        <field name="model">pcl_meeting_check</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- pcl_meeting_check action -->
+    <record id="view_pcl_meeting_check_action" model="ir.actions.act_window">
+        <field name="name">Controlli</field>
+        <field name="res_model">pcl_meeting_check</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="pcl_meeting_check_view_tree" />
+    </record>
+
+    <!-- pcl_meeting_check menu -->
+    <menuitem id="pcl_meeting_check_menu" name="Controlli" parent="menu_meeting" sequence="40" action="view_pcl_meeting_check_action" groups="base.group_user" />
+
+</odoo>
