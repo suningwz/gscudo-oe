@@ -12,11 +12,11 @@
                         <field name="code" />
                         <field name="product_id" />
                         <field name="duration" />
-                        <field name="active" widget="boolean_toggle" />
-                        <field name="elearning" widget="boolean_toggle" />
                         <field name="is_update" widget="boolean_toggle" />
+                        <field name="mode"  />
                         <field name="is_multicompany" widget="boolean_toggle" />
                         <field name="note" />
+                        <field name="active" widget="boolean_toggle" />
                         <field name="gs_course_type_module_ids">
                             <tree>
                                 <field name="sequence" widget="handle" />
@@ -45,7 +45,7 @@
                 <field name="product_id" optional="hide" />
                 <field name="duration" />
                 <field name="is_update" />
-                <field name="elearning" />
+                <field name="mode" />
                 <field name="is_multicompany" widget="boolean_toggle" />
 
             </tree>
@@ -59,11 +59,12 @@
             <search string="">
                 <field name="name" />
                 <field name="code" />
-                <field name="gs_training_certificate_type_id" />
                 <field name="product_id" />
+                <field name="gs_training_certificate_type_id" />
                 <separator />
-                <filter name="filter_elearning" domain="[('elearning','=',1)]" string="ELearning" />
-                <filter name="filter_onpremise" domain="[('elearning','=',0)]" string="In presenza" />
+                <filter name="filter_elearning" domain="[('mode','=','E')]" string="ELearning" />
+                <filter name="filter_onpremise" domain="[('mode','=','P')]" string="In presenza" />
+                <filter name="filter_mixedmode" domain="[('mode','=','M')]" string="Misto " />
                 <separator>
                     <filter name="filter_multicompany" domain="[('is_multicompany','=',1)]" string="MultiAziendale" />
                     <filter name="filter_monocompany" domain="[('is_multicompany','=',0)]" string="Mono Aziendale" />

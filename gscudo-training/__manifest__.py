@@ -21,7 +21,7 @@
     'version': '1.5',
 
     # any module necessary for this one to work correctly
-    'depends': ['base', 'gscudo-oe'],
+    'depends': ['base', 'sale', 'gscudo-oe'],
 
     # always loaded
     'data': [
@@ -37,6 +37,7 @@
         'views/gs_worker_views.xml',
         'views/gs_course_enrollment_views.xml',
         'views/gs_lesson_enrollment_views.xml',
+        'views/product_template_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

@@ -8,3 +8,4 @@ from . import gs_lesson_enrollment
 from . import gs_worker_certificate
 from . import gs_worker_job_type
 from . import gs_worker_job
+from . import product_template

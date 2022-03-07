@@ -10,7 +10,7 @@
                         <field name="name" />
                         <field name="code" />
                         <field name="note" />
-
+                        <field name="law_ref" />
                         <field name="renewal_interval" />
                         <field name="update_interval" />
                         <field name="active" />
@@ -25,10 +25,10 @@
         <field name="model">gs_training_certificate_type</field>
         <field name="arch" type="xml">
             <tree default_order="name">
-                <field name="name" />
                 <field name="code" />
+                <field name="name" />
                 <field name="note" />
-
+                <field name="law_ref" />
                 <field name="renewal_interval" />
                 <field name="update_interval" />
 

@@ -24,7 +24,7 @@ class GSCourse(models.Model):
     start_date = fields.Date(string='Data inizio')
     end_date  = fields.Date(string='Data termine')
     gs_course_type_id = fields.Many2one(comodel_name='gs_course_type', string='Tipo Corso')
-    elearning  = fields.Boolean(related="gs_course_type_id.elearning", string='Modalità elearning')
+    mode = fields.Selection(related="gs_course_type_id.mode", string='Modalità')
     is_multicompany = fields.Boolean(string='Multiazendale')
     
     
