@@ -7,7 +7,7 @@
         <menuitem name="Backoffice" id="gscudo-training.menu_backoffice" parent="gscudo-training.menu_root" groups="group_training_backoffice" sequence="40" />
         <menuitem name="Configurazione" id="gscudo-training.menu_settings" parent="gscudo-training.menu_root" groups="group_training_manager" sequence="90" />
         
-        #Lavoratori
+     
         <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="gscudo-training.menu_root" sequence="45" groups="group_training_backoffice" />
         <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-training.gs_worker_main_menu" sequence="45" action="gscudo-oe.view_gs_worker_action" groups="group_training_backoffice" />
         <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-training.gs_worker_main_menu" sequence="50" action="gscudo-oe.view_gs_worker_contract_action" groups="group_training_backoffice" />
