@@ -48,6 +48,8 @@ class WorkerCertificate(models.Model):
     @api.depends('expiry_date')
     def _compute_expiration(self):
         for record in self:
+            record.expired=False
+            record.expiring = False
             if record.expiry_date != False:
                 if record.expiry_date < datetime.now().date():
                     record.expired=True
@@ -55,9 +57,7 @@ class WorkerCertificate(models.Model):
                 elif record.expiry_date < datetime.now().date()+ relativedelta(months=2):
                     record.expired=False
                     record.expiring = True
-                else :
-                    record.expired=False
-                    record.expiring = False
+                
 
 class Worker(models.Model):
     _inherit = 'gs_worker'
