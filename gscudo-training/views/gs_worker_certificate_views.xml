@@ -98,5 +98,6 @@
         <field name="view_id" ref="gs_worker_certificate_view_tree" />
     </record>
 
+  <menuitem id="gs_worker_certificate_menu" name="Certificati/Attestati" parent="gscudo-training.menu_backoffice" sequence="80" action="view_gs_worker_certificate_action" groups="gscudo-training.group_training_manager" />
 
 </odoo>
