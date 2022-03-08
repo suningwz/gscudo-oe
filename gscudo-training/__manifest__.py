@@ -37,6 +37,7 @@
         'views/gs_worker_views.xml',
         'views/gs_course_enrollment_views.xml',
         'views/gs_lesson_enrollment_views.xml',
+        'views/gs_worker_certificate_views.xml',
         'views/product_template_views.xml',
         'views/views.xml',
         'views/templates.xml',
