@@ -45,7 +45,7 @@
         <field name="name">gs_worker_certificate.view.pivot</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <pivot string="Certificati/Attestati" disable_linking="true">
+            <pivot string="Certificati/Attestati" >
                 <field name="contract_partner_id" type="row" />
                 <field name="gs_worker_id"  type="row" />
                 <field name="type" type="col" />
