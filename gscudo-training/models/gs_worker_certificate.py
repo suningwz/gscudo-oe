@@ -57,7 +57,24 @@ class WorkerCertificate(models.Model):
                 elif record.expiry_date < datetime.now().date()+ relativedelta(months=2):
                     record.expired=False
                     record.expiring = True
-                
+    sg_id = fields.Integer(string='ID SawGest')
+    sg_updated_at  = fields.Datetime(string='Data Aggiornamento Sawgest')
+    sg_synched_at = fields.Datetime(string='Data ultima Syncronizzazione sawgest')
+    
+    sg_url = fields.Char(string='Vedi in sawgest',
+                         compute="_compute_sg_url", store=False)
+
+    def _compute_sg_url(self):
+        irconfigparam = self.env['ir.config_parameter']
+        base_url = irconfigparam.sudo().get_param('sawgest_base_url')
+        if base_url:
+            for record in self:
+                if record.sg_id and record.sg_id > 0:
+                    record.sg_url = base_url + \
+                        'training_timetables/{}'.format(record.sg_id)
+                else:
+                    record.sg_url = False
+            
 
 class Worker(models.Model):
     _inherit = 'gs_worker'
