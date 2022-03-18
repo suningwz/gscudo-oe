@@ -17,7 +17,9 @@
                             <tree default_order="expiry_date desc">
                                 <field name="type" />
                                 <field name="gs_training_certificate_type_id" />
+                                <field name="name" />
                                 <field name="issue_date" />
+                                <field name="issue_serial" />
                                 <field name="expiry_date" />
                                
                                 <field name="note" />

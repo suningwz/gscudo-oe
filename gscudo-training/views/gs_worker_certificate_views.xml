@@ -34,6 +34,7 @@
                 <field name="gs_training_certificate_type_id" type="col" />
                 <field name="type" type="col" />
                 <field name="issue_date"  />
+                <field name="issue_serial" />
                 <field name="expiry_date" />
                 <field name="expiring" />
                 <field name="expired"  />
@@ -51,7 +52,8 @@
                 <field name="type" type="col" />
                 <field name="gs_training_certificate_type_id" type="col"/>
                 <field name="expiry_date" interval="month" type="col" />
-                
+             
+
 
             </pivot>
         </field>
