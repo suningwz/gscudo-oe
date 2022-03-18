@@ -34,6 +34,7 @@
                 <field name="gs_training_certificate_type_id" type="col" />
                 <field name="type" type="col" />
                 <field name="issue_date"  />
+                <field name="issue_serial" />
                 <field name="expiry_date" />
                 <field name="expiring" />
                 <field name="expired"  />
@@ -45,13 +46,14 @@
         <field name="name">gs_worker_certificate.view.pivot</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <pivot string="Certificati/Attestati" disable_linking="true">
+            <pivot string="Certificati/Attestati" >
                 <field name="contract_partner_id" type="row" />
                 <field name="gs_worker_id"  type="row" />
                 <field name="type" type="col" />
                 <field name="gs_training_certificate_type_id" type="col"/>
                 <field name="expiry_date" interval="month" type="col" />
-                
+             
+
 
             </pivot>
         </field>
