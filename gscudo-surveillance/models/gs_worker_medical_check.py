@@ -64,7 +64,8 @@ class WorkerMedicalCheck(models.Model):
 class GSWorker(models.Model):
     _inherit = 'gs_worker'
 
-    gs_worker_medical_check_ids = fields.One2many(comodel_name='gs_worker_medical_check', inverse_name='gs_worker_id', string='Visite/ Analisi')
+    gs_worker_medical_check_ids = fields.One2many(comodel_name='gs_worker_medical_check', inverse_name='gs_worker_id', string='Visite/ Analisi',
+         groups="gscudo-surveillance.group_surveillance_backoffice")
     
     
     

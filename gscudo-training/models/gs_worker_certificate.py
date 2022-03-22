@@ -79,7 +79,8 @@ class WorkerCertificate(models.Model):
 class Worker(models.Model):
     _inherit = 'gs_worker'
 
-    gs_worker_certificate_ids = fields.One2many(comodel_name='gs_worker_certificate', inverse_name='gs_worker_id', string='Attestati')
+    gs_worker_certificate_ids = fields.One2many(comodel_name='gs_worker_certificate', inverse_name='gs_worker_id', string='Attestati',
+        groups="gscudo-training.group_training_backoffice")
 
     
     

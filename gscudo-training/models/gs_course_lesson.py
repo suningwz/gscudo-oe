@@ -50,6 +50,7 @@ class GSCourse(models.Model):
 class Worker(models.Model):
     _inherit = 'gs_worker'
 
-    gs_lesson_enrollment_ids = fields.One2many(comodel_name='gs_lesson_enrollment', inverse_name='gs_worker_id', string='Lezioni')
+    gs_lesson_enrollment_ids = fields.One2many(comodel_name='gs_lesson_enrollment', inverse_name='gs_worker_id', string='Lezioni',
+        groups="gscudo-training.group_training_backoffice")
 
    
