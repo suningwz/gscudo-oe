@@ -42,7 +42,7 @@ class WorkerMedicalCheck(models.Model):
             record.name = "{} {} {} ".format(
                     record.gs_worker_id.name or "", 
                     record.gs_medical_check_type_id.name or "", 
-                    record.execution_date.strftime("%Y-%m-%d"))
+                    record.execution_date.strftime("%Y-%m-%d") if record.execution_date != False else "" )
 
     @api.depends('expiry_date')
     def _compute_expiration(self):

@@ -11,7 +11,7 @@ class WorkerCertificate(models.Model):
     _description = 'Certificazioni'
 
     name = fields.Char(string='Certificazione')
-    gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
+    gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore', index=True)
     contract_partner_id = fields.Many2one(related="gs_worker_id.contract_partner_id", comodel_name='res.partner', string='Azienda/Sede', store=True, index=True)
 
     gs_training_certificate_type_id = fields.Many2one(comodel_name='gs_training_certificate_type', string='Tipo certificazione', )
