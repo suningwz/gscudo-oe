@@ -17,6 +17,7 @@
                         <group string="Dati Azienda">
                             <field name="contract_partner_id"/>
                             <field name="company_doctor"/>
+                            <field name="medical_supplier"/>
                         </group>
                         <group string="Dati visita">
 
@@ -40,6 +41,8 @@
         <field name="arch" type="xml">
             <tree default_order="name,execution_date">
                 <field name="name" />
+                <field name="contract_partner_id"/>
+                <field name="company_doctor"/>
                 <field name="gs_worker_id" />
                 <field name="execution_date" />
                 <field name="gs_medical_check_type_id" />
@@ -57,6 +60,8 @@
             <search string="">
                 <field name="name" />
                 <field name="gs_worker_id" />
+                <field name="contract_partner_id"/>
+                <field name="company_doctor"/>
                 <field name="gs_medical_check_type_id" />
                 <field name="expiry_date" />
                 <field name="schedule_time" />
