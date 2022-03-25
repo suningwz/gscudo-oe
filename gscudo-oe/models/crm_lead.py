@@ -1,5 +1,7 @@
 from odoo import _, api, fields, models
+from odoo.exceptions import ValidationError
 from datetime import datetime
+import re
 
 class CrmLeads(models.Model):
     _inherit = 'crm.lead'
@@ -128,7 +130,13 @@ class CrmLeads(models.Model):
                         record.environment_competitor_type == "cli") :
                 record.is_customer = True
 
-
+    @api.constrains('vat','country_id')
+    def _check_vat_ita(self):
+        for record in self:
+            if record.country_id.code == False or record.country_id.code == "IT":
+                if record.vat != "" and record.vat != False:
+                    if re.fullmatch(r"(IT)[0-9]{11}",record.vat) == None:
+                        raise ValidationError("Partita Iva non valida")
 
     
     
