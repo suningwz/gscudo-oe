@@ -6,15 +6,28 @@
         <field name="arch" type="xml">
             <form string="">
                 <sheet>
-                    <group>
+                    <group col="2">
+                        <group string="Dati lavoratore">
+                            <field name="gs_worker_id" />
+                            <field name="fiscalcode"/>
+                            <field name="email"/>
+                            <field name="birth_place"/>
+                            <field name="birth_date"/>
+                        </group>
+                        <group string="Dati Azienda">
+                            <field name="contract_partner_id"/>
+                            <field name="doctor"/>
+                        </group>
+                        <group string="Dati visita">
 
-                        <field name="name" />
-                        <field name="gs_worker_id" />
-                        <field name="execution_date" />
-                        <field name="gs_medical_check_type_id" />
-                        <field name="gs_medical_check_frequency_id" />
-                        <field name="expiry_date" />
-                        <field name="schedule_time" />
+                            <field name="name" />
+                            <field name="medical_locum"/>
+                            <field name="execution_date" />
+                            <field name="gs_medical_check_type_id" />
+                            <field name="gs_medical_check_frequency_id" />
+                            <field name="expiry_date" />
+                            <field name="schedule_time" />
+                        </group>
                     </group>
                 </sheet>
             </form>
