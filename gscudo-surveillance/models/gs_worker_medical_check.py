@@ -9,7 +9,7 @@ class WorkerMedicalCheck(models.Model):
     active = fields.Boolean(string='Attivo', default = True)
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
     contract_partner_id = fields.Many2one(related='gs_worker_id.contract_partner_id', string='Azienda')
-    doctor = fields.Char(related='contract_partner_id.doctor', string='Medico competente')
+    company_doctor = fields.Char(related='contract_partner_id.doctor', string='Medico competente')
     medical_locum = fields.Char(string='Medico sostituto')
     
     fiscalcode = fields.Char(related='gs_worker_id.fiscalcode', string='Codice Fiscale')

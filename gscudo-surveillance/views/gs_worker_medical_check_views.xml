@@ -16,7 +16,7 @@
                         </group>
                         <group string="Dati Azienda">
                             <field name="contract_partner_id"/>
-                            <field name="doctor"/>
+                            <field name="company_doctor"/>
                         </group>
                         <group string="Dati visita">
 
