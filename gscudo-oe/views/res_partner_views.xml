@@ -79,7 +79,7 @@
                             <field name="fire_officers_number" />
                             <field name="first_aid_attendants_number" />
                             <field name="evacuation_coordinators_number" />
-
+                            <field name="medical_supplier"/>
                             <field name="spring_code" />
 
                         </group>
