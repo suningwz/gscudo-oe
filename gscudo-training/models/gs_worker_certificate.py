@@ -7,9 +7,10 @@ from datetime import timezone, datetime, timedelta, date
 from dateutil.relativedelta import relativedelta
 
 class WorkerCertificate(models.Model):
+
     _name = 'gs_worker_certificate'
     _description = 'Certificazioni'
-
+    _inherit = ['mail.thread','mail.activity.mixin']
     name = fields.Char(string='Certificazione')
     gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore', index=True)
     contract_partner_id = fields.Many2one(related="gs_worker_id.contract_partner_id", comodel_name='res.partner', string='Azienda/Sede', store=True, index=True)
@@ -17,10 +18,15 @@ class WorkerCertificate(models.Model):
     gs_training_certificate_type_id = fields.Many2one(comodel_name='gs_training_certificate_type', string='Tipo certificazione', )
     type = fields.Selection(string='Tipo', selection=[('C', 'Certificato'), ('E', 'Esigenza formativa'),], default='E')
     active = fields.Boolean(string='Attivo', default = True)
+    note=fields.Char(string = 'Note', help = 'Note', )
     
     issue_date = fields.Date(string='Data attestato')
     issue_serial = fields.Char(string='Protocollo attestato')
   
+    external_link = fields.Char(string='Link Esterno')
+    passed = fields.Boolean(string='Superato')
+    is_update = fields.Boolean(string="E' un aggiornamento")
+    
     expiry_date = fields.Date(string='Data scadenza', index=True)
 
     @api.constrains('issue_date', 'expiry_date')

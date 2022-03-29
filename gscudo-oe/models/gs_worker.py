@@ -4,7 +4,8 @@ from odoo import api, fields, models
 class GSPartnerEmployee(models.Model):
     _name = 'gs_worker'
     _description = 'Dipendente'
-
+    _inherit = ['mail.thread','mail.activity.mixin']
+    
     name = fields.Char(string='Nominativo', compute="_compute_name",
                        inverse="_split_name", store=True)
     active = fields.Boolean(string='Attivo', default=True)
