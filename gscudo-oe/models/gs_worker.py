@@ -19,16 +19,16 @@ class GSPartnerEmployee(models.Model):
     surname = fields.Char(string='Cognome', help='surname', )
     working_hours = fields.Char(string='working_hours', help='working_hours', )
     use_videoterminals = fields.Boolean(
-        string='use_videoterminals', help='use_videoterminals', )
+        string='Usa videoterminale', help='use_videoterminals', )
     use_company_vehicles = fields.Boolean(
-        string='use_company_vehicles', help='use_company_vehicles', )
-    night_job = fields.Boolean(string='night_job', help='night_job', )
+        string='Usa veicolo aziendale', help='use_company_vehicles', )
+    night_job = fields.Boolean(string='Lavoro notturno', help='night_job', )
     work_at_height = fields.Boolean(
-        string='work_at_height', help='work_at_height', )
+        string='Lavoro in quota', help='work_at_height', )
     assumption_date = fields.Date(
-        string='assumption_date', help='assumption_date', )
-    phone_number = fields.Char(string='phone_number', help='phone_number', )
-    email = fields.Char(string='email', help='email', )
+        string='Data assunzione', help='assumption_date', )
+    phone_number = fields.Char(string='Telefono', help='phone_number', )
+    email = fields.Char(string='Email', help='email', )
     note  = fields.Char(string='Note')
     cartsan_id = fields.Char(string='ID CartSan')
 
