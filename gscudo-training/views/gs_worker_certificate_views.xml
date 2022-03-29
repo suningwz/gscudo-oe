@@ -19,7 +19,7 @@
                         <field name="expired" />
                         <field name="passed" />
                         <field name="is_update"/>
-                        <field name="note" />>
+                        <field name="note" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
