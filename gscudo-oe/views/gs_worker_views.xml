@@ -104,7 +104,7 @@
                 <field name="contract_partner_id" />
                 <field name="temp_partner_name"/>
                 <field name="temp_sawgest_id"/>
-                
+                <field name="sawgest_client_id"/>
                 <field name="contract_job_description" />
                 <field name="contract_department" />
             </tree>
@@ -147,7 +147,15 @@
             <field name="state">code</field>
             
             <field name="code">action=records.compute_worker_data()</field>
-        </record>
+    </record>
+    <record id="gs_training_client_action" model="ir.actions.server">
+            <field name="name">Copia ID</field>
+            <field name="model_id" ref="model_gs_worker" />
+            <field name="binding_model_id" ref="model_gs_worker" />
+            <field name="state">code</field>
+            <field name="code">action=records.compute_sawgest_client_id()</field>
+    </record>
+
     <!-- gs_worker menu -->
     <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="contacts.menu_contacts" sequence="45" groups="gscudo-oe.group_manager" />
     <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="45" action="view_gs_worker_action" groups="gscudo-oe.group_manager" />

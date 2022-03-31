@@ -41,10 +41,20 @@ class GSPartnerEmployee(models.Model):
     temp_partner_name = fields.Char(string='Azienda Temp')
     temp_sawgest_id = fields.Many2one(comodel_name='gs_clients', string='ID_SawGest', domain=[('deleted_at','=',False)])
     id_excel = fields.Char(string='ID Excel')
+    sawgest_client_id = fields.Integer(string='ID Cliente SawGest')
+    
+
+    def compute_sawgest_client_id(self):
+        for record in self:
+            if record.temp_sawgest_id == False:
+                continue
+            else:
+                 record.sawgest_client_id = record.temp_sawgest_id.id
+    
     
     def compute_worker_data(self):
         for record in self:
-            partner_name = record.temp_partner_name[0:3]
+            partner_name = record.temp_partner_name[0:18]
             partner_ids = self.env['gs_clients'].search(
                 [('business_name', 'ilike', partner_name), ('deleted_at', '=', False)])
             if len(partner_ids) != 1:
