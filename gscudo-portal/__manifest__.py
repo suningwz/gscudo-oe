@@ -7,7 +7,7 @@
         """,
 
     'description': """
-      This module allow customer portal access to manage voarious operations
+      This module allow customer portal access to manage various operations
         
     """,
 
@@ -25,10 +25,12 @@
 
     # always loaded
     'data': [
-        # 'security/ir.model.access.csv',
+        'security/ir.model.access.csv',
+        'security/portal_security.xml',
         # 'views/menus.xml',
         'views/views.xml',
         'views/templates.xml',
+        'views/portal_worker_template.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

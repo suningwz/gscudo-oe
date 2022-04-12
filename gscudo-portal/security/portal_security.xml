@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+     <record id="gs_worker_rule_portal" model="ir.rule">
+        <field name="name">Lavoratori: portal users: portal and following</field>
+        <field name="model_id" ref="gscudo-oe.model_gs_worker"/>
+        <field name="domain_force">[
+            ('contract_partner_id', '=', user.partner_id.id),
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
+
+
+</odoo>

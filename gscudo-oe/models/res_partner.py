@@ -145,8 +145,6 @@ class ResPartner (models.Model):
                         record.environment_competitor_type == "cli") :
                 record.is_customer = True
    
-
-
     
     
     @api.depends('user_id')
