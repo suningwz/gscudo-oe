@@ -31,6 +31,7 @@
         'views/views.xml',
         'views/templates.xml',
         'views/portal_worker_template.xml',
+        'views/portal_gs_worker_views.xml',
     ],
     # only loaded in demonstration mode
     'demo': [

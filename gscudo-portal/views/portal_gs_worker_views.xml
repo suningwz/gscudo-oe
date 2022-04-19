@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+
+    <!-- model.name form view -->
+    <record id="gs_worker_portal_view_form" model="ir.ui.view">
+        <field name="name">gs_worker portal</field>
+        <field name="model">gs_worker</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_portal'), ])]" />
+        <field name="arch" type="xml">
+            <form string="">
+                <sheet>
+                    <group>
+                        <!-- Add your fields here -->
+                        <field name="surname" />
+                        <field name="name" />
+                        <field name="contract_partner_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <!-- model.name tree view -->
+    <record id="gs_worker_portal_view_tree" model="ir.ui.view">
+        <field name="name">gs_worker portal</field>
+        <field name="model">gs_worker</field>
+        <field name="groups_id" eval="[(6, 0, [ref('base.group_portal'), ])]" />
+        <field name="arch" type="xml">
+            <tree string="">
+
+                <!-- Add your fields here -->
+                <field name="surname" />
+                <field name="name" />
+                <field name="contract_partner_id" />
+
+            </tree>
+        </field>
+    </record>
+    <!-- gs_worker action -->
+    <record id="portal_view_gs_worker_action" model="ir.actions.act_window">
+        <field name="name">Lavoratori Portal</field>
+        <field name="res_model">gs_worker</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gscudo-portal.gs_worker_portal_view_tree" />
+    </record>
+    <menuitem id="portal_gs_worker_menu" name="Portal Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="99" action="portal_view_gs_worker_action" groups="gscudo-oe.group_manager" />
+
+</odoo>
