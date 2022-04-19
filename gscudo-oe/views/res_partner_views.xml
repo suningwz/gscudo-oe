@@ -15,17 +15,22 @@
             </xpath>
             <xpath expr="//page" position="after">
                 <page string="GruppoScudo" groups="gscudo-oe.group_user,gscudo-oe.group_manager">
+                    <group >
+                        <field name="is_competitor" />
+                        <field name="is_frontoffice" />
+                        <field name="is_backoffice" />
+                        <field name="has_competitors" />
+                        <field name="is_customer" />
+                        <field name="has_safety" />
+                        <field name="has_training_manager" />
+                        <field name="has_healthsurv" />
+                    </group>
                     <group>
                         <field name="sg_esolver_id" />
                         <field name="sg_branches_id" />
                         <field name="sg_updated_at" readonly="1" />
                         <field name="sg_synched_at" readonly="1" />
                         <field name="sg_url" widget="url" readonly="1" text="link" />
-                        <field name="is_competitor" />
-                        <field name="is_frontoffice" />
-                        <field name="is_backoffice" />
-                        <field name="is_customer" />
-                        <field name="has_competitors" />
 
                     </group>
                 </page>
@@ -79,7 +84,7 @@
                             <field name="fire_officers_number" />
                             <field name="first_aid_attendants_number" />
                             <field name="evacuation_coordinators_number" />
-                            <field name="medical_supplier"/>
+                            <field name="medical_supplier" />
                             <field name="spring_code" />
 
                         </group>

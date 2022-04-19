@@ -16,10 +16,10 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'GruppoScudo',
-    'version': '1.8',
+    'version': '1.9',
 
     # any module necessary for this one to work correctly
-    'depends': ['base',"web","hr"],
+    'depends': ['base', "web", "hr"],
 
     # always loaded
     'data': [

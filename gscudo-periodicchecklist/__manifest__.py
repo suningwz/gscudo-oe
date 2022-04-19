@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 {
-    
+
     'name': "Gruppo Scudo Periodic Checklist",
 
     'summary': """
@@ -19,7 +19,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'GruppoScudo',
-    'version': '1.7',
+    'version': '1.9',
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'hr'],
@@ -32,7 +32,7 @@
         'views/pcl_meeting_views.xml',
         'views/pcl_meeting_check_views.xml',
         'views/templates.xml',
-          ],
+    ],
     # only loaded in demonstration mode
     'demo': [
         'demo/demo.xml',
