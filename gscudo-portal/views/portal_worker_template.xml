@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <template id="portal_layout" name="Portal layout: project menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+        <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
+            <li t-if="page_name == 'worker' or worker" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not project else ''}">
+                <a t-if="worker" t-attf-href="/my/worker?{{ keep_query() }}">Lavoratore</a>
+                <t t-else="">Lavoratori</t>
+            </li>
+            <li t-if="worker" class="breadcrumb-item active text-truncate col-8 col-lg-10">
+                <t t-esc="worker.name" />
+            </li>
+        </xpath>
+    </template>
+
+    <template id="portal_my_home" name="Show Workers" customize_show="True" inherit_id="portal.portal_my_home" priority="10">
+        <xpath expr="//div[hasclass('o_portal_docs')]" position="inside">
+            <t t-call="portal.portal_docs_entry">
+                <t t-set="title">Lavoratori</t>
+                <t t-set="url" t-value="'/my/workers'" />
+                <t t-set="placeholder_count" t-value="'workers_count'" />
+            </t>
+        </xpath>
+    </template>
+
+    <template id="portal_my_workers" name="My Workers">
+        <t t-call="portal.portal_layout">
+            <t t-set="breadcrumbs_searchbar" t-value="True" />
+
+            <t t-call="portal.portal_searchbar">
+                <t t-set="title">Lavoratori</t>
+            </t>
+            <t t-if="not gs_workers">
+                <div class="alert alert-warning mt8" role="alert">
+                    Non ci sono lavoratori.
+                </div>
+            </t>
+            <t t-if="gs_workers" t-call="portal.portal_table">
+                <tbody>
+                    <tr t-foreach="gs_workers" t-as="worker">
+                        <td>
+                            <a t-attf-href="/my/worker/#{worker.id}?{{ keep_query() }}">
+                                <span t-field="worker.name" />
+                            </a>
+                        </td>
+                        <td>
+                            <span t-field="worker.contract_employee_serial" />
+                        </td>
+                        <td>
+                            <span t-field="worker.contract_start_date" />
+                        </td>
+                        <td>
+                            <span t-field="worker.contract_job_description" />
+                        </td>
+                    </tr>
+                </tbody>
+            </t>
+        </t>
+    </template>
+
+    <template id="portal_my_worker" name="My Worker">
+        <t t-call="portal.portal_layout">
+            <t t-set="o_portal_fullwidth_alert" groups="gscudo-oe.group_portal">
+                <t t-call="portal.portal_back_in_edit_mode">
+                    <t t-set="backend_url" t-value="'/web#model=gs_workert&amp;id=%s&amp;view_type=form' % (worker.id)" />
+                </t>
+            </t>
+
+            <t t-call="portal.portal_record_layout">
+                <span>qui ci va il contenuto</span>
+
+            </t>
+            <span>qui ci va il contenuto </span><br />
+            <span t-field="worker.contract_job_description" /><br/>
+            <a t-attf-href="'/web#model=gs_workert&amp;id=%s&amp;view_type=form' % (worker.id)"><span t-field="worker.name" /></a>
+            
+        </t>
+        <span>qui ci va il contenuto3</span>
+    </template>
+
+
+
+
+</odoo>
