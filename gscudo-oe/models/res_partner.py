@@ -69,10 +69,12 @@ class ResPartner (models.Model):
     managers_number=fields.Integer(string = 'Nr Dirigenti', help = 'managers_number', )
     fire_officers_number=fields.Integer(string = 'Nr Addetti Antincendio', help = 'fire_officers_number', )
     first_aid_attendants_number=fields.Integer(string = 'Nr Addetti Primo Soccorso', help = 'first_aid_attendants_number', )
-    evacuation_coordinators_number=fields.Integer(string = 'Nr Addetti Evaquazione', help = 'evacuation_coordinators_number', )
+    evacuation_coordinators_number=fields.Integer(string = 'Nr Addetti Evacuazione', help = 'evacuation_coordinators_number', )
     doctor=fields.Char(string = 'Medico', help = 'doctor', )
     doctor_notes=fields.Text(string = 'Medico Note', help = 'doctor_notes', )
     spring_code=fields.Char(string = 'spring_code', help = 'spring_code', )
+    medical_supplier = fields.Char(string='Fornitore Sorveglianza Sanitaria', help = 'medical_supplier',)
+    
 
     is_saleagent = fields.Boolean(string='Agente', default=False)
     is_telemarketer = fields.Boolean(string='Telemarketer', default=False)

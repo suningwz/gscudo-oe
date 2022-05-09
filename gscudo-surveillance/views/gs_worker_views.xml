@@ -7,7 +7,7 @@
         <field name="inherit_id" ref="gscudo-oe.gs_worker_view_form" />
         <field name="arch" type="xml">
             <xpath expr="//page[@name='sawgest_data']" position="before">
-                <page name="worker_Checks" string="Visite / Controlli">
+                <page name="worker_Checks" string="Visite / Controlli" groups="gscudo-surveillance.group_surveillance_backoffice">
                     <group>
                         <field name="gs_worker_medical_check_ids">
                             <tree default_order="expiry_date desc">

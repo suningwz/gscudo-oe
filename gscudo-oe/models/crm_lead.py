@@ -134,8 +134,9 @@ class CrmLeads(models.Model):
     def _check_vat_ita(self):
         for record in self:
             if record.country_id.code == False or record.country_id.code == "IT":
-                if re.fullmatch(r"(IT)[0-9]{11}",record.vat) == None:
-                    raise ValidationError("Partita Iva non valida")
+                if record.vat != "" and record.vat != False:
+                    if re.fullmatch(r"(IT)[0-9]{11}",record.vat) == None:
+                        raise ValidationError("Partita Iva non valida")
 
     
     
