@@ -88,7 +88,7 @@ class ResPartner (models.Model):
         return [('','non definito '),
                 ('int','interno '),
                 ('est','esterno '),
-                ('cli','cliente')
+                ('cli','cliente'),
                 ]
         
 
@@ -123,6 +123,13 @@ class ResPartner (models.Model):
     has_competitors  = fields.Boolean(string='Ci sono concorrenti', compute='_compute_has_competitor', store=True)
     is_customer  = fields.Boolean(string='E\' cliente', compute='_compute_has_competitor', store=True)
     
+
+    has_safety = fields.Boolean(string='RSPP / Suporto RSPP', default = False)
+    has_training_manager = fields.Boolean(string='Manager Formativo', default = False)
+    has_healthsurv = fields.Boolean(string='Sorveglianza Sanitaria', default = False)
+    
+
+
     @api.depends('safety_competitor_type', 'training_competitor_type', 'food_competitor_type', 'machdir_competitor_type', 'healthsurv_competitor_type', 'environment_competitor_type')                                  
     def _compute_has_competitor(self):
         for record in self:
@@ -145,8 +152,6 @@ class ResPartner (models.Model):
                         record.environment_competitor_type == "cli") :
                 record.is_customer = True
    
-
-
     
     
     @api.depends('user_id')

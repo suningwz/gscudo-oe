@@ -75,3 +75,14 @@ class GSWorker(models.Model):
     gs_worker_contract_ids = fields.One2many(comodel_name='gs_worker_contract', inverse_name='gs_worker_id', string='Contratti/Posizioni')
     
     
+
+class ResPartner(models.Model):
+    _inherit = "res.partner"
+    
+    gs_worker_ids = fields.One2many('gs_worker', 'contract_partner_id', string='Lavoratori')
+
+    workers_count = fields.Integer(string='N. Lavoratori' , compute='_compute_workers_count')
+    def _compute_workers_count(self):
+        for record in self:
+            record.worker_count = len(record.gs_worker_ids)
+            
