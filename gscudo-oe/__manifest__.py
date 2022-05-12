@@ -35,7 +35,6 @@
         'security/security_groups.xml',
         'security/ir.model.access.csv',
         'security/custom_rules.xml',
-        'data/ateco_category.xml',
         'data/ir_config_parameter.xml',
         'data/gs_partner_division.xml',
         'data/gs_product_family.xml',
