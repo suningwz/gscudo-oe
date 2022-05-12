@@ -18,7 +18,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'GruppoScudo',
-    'version': '1.9',
+    'version': '14.0.1.10',
 
     # any module necessary for this one to work correctly
     'depends': ['base',
@@ -35,6 +35,7 @@
         'security/security_groups.xml',
         'security/ir.model.access.csv',
         'security/custom_rules.xml',
+        'data/ateco_category.xml',
         'data/ir_config_parameter.xml',
         'data/gs_partner_division.xml',
         'data/gs_product_family.xml',
