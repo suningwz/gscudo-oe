@@ -13,14 +13,14 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     "category": "GruppoScudo",
-    "version": "14.0.1.9",
+    "version": "14.0.1.10",
     # any module necessary for this one to work correctly
     "depends": ["base", "web", "hr"],
     # always loaded
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",
-        "views/views.xml",
+        "views/gs_itasset_menus.xml",
         "views/gs_itasset_views.xml",
         "views/gs_credential_views.xml",
         "views/hr_employee_views.xml",
@@ -28,6 +28,5 @@
         "reports/emp_itasset_report.xml",
         "reports/emp_credential_template.xml",
         "reports/emp_credential_report.xml",
-        "views/templates.xml",
     ],
 }

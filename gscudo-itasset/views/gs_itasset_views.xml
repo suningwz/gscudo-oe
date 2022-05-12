@@ -1,10 +1,12 @@
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <!-- gs_itasset search view -->
     <record id="gs_itasset_view_search" model="ir.ui.view">
-        <field name="name">gs_itasset.view.search</field>
+        <field name="name">gs_itasset_view_search</field>
         <field name="model">gs_itasset</field>
         <field name="arch" type="xml">
-            <search string="Search Description">
+            <search>
+            <!-- <search string="Search Description"> -->
                 <field name="name" />
                 <field name="itasset_type_id" />
                 <field name="description" />
@@ -31,10 +33,8 @@
         </field>
     </record>
 
-
-    <!-- explicit list view definition -->
-    <record model="ir.ui.view" id="gscudo-itasset.list">
-        <field name="name">Attrezzature IT</field>
+    <record id="gs_itasset_view_tree" model="ir.ui.view">
+        <field name="name">gs_itasset_view_tree</field>
         <field name="model">gs_itasset</field>
         <field name="arch" type="xml">
             <tree>
@@ -49,11 +49,11 @@
         </field>
     </record>
 
-    <record id="gs_itasset_form" model="ir.ui.view">
-        <field name="name">IT Asset</field>
+    <record id="gs_itasset_view_form" model="ir.ui.view">
+        <field name="name">gs_itasset_view_form</field>
         <field name="model">gs_itasset</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <header />
                 <sheet>
                     <group>
@@ -90,30 +90,16 @@
         </field>
     </record>
 
-
-
-    <!-- actions opening views on models -->
-    <record model="ir.actions.act_window" id="gscudo-itasset.action_window">
+    <record id="gs_itasset_action" model="ir.actions.act_window">
         <field name="name">IT Assets</field>
         <field name="res_model">gs_itasset</field>
-        <field name="view_mode">tree,form,activity</field>
+        <field name="view_mode">tree,form</field>
     </record>
 
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="gscudo-itasset.action_server">
-        <field name="name">gscudo-itasset server</field>
-        <field name="model_id" ref="model_gscudo-itasset_gscudo-itasset"/>
-        <field name="state">code</field>
-        <field name="code">
-            action = {
-                "type": "ir.actions.act_window",
-                "view_mode": "tree,form",
-                "res_model": model._name,
-            }
-        </field>
-    </record>
--->
-
-    <menuitem name="Lista" id="gscudo-itasset.itasset_list" parent="itasset_menu_root" action="gscudo-itasset.action_window" />
+    <menuitem
+        name="Assets"
+        id="gs_itasset_menu_tree"
+        parent="itasset_menu_root"
+        action="gs_itasset_action"
+    />
 </odoo>

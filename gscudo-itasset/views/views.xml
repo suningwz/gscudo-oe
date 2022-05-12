@@ -1,4 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<odoo>
-    <menuitem id="itasset_menu_root" name="IT Assets"  web_icon="gscudo-itasset,static/description/icon.png" groups="gscudo-itasset.group_it_manager"/>
-</odoo>
