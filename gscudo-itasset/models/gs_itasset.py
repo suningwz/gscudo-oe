@@ -1,3 +1,4 @@
+import logging
 from odoo import models, fields, api
 
 
@@ -61,6 +62,15 @@ class ItAsset(models.Model):
         """
         When an asset gets assigned to an employee, all children assets should too.
         """
-        for record in self:
-            for asset_id in record.children_ids:
-                asset_id.write({"employee_id": record.employee_id.id})
+        for child in self.children_ids:
+            child.employee_id = self.employee_id
+            # logging.info("'%s' employee id changed to '%s'", child.name, self.employee_id.name)
+
+    @api.onchange("parent_id")
+    def _onchange_parent_id(self):
+        """
+        When an asset gets a new parent, it should inherit the new parent's employee.
+        """
+        self.employee_id = self.parent_id.employee_id
+        # logging.info(
+        #     "'%s' employee id changed to '%s'", self.name, self.parent_id.employee_id.name)
