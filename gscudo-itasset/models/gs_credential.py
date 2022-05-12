@@ -20,5 +20,8 @@ class Credential(models.Model):
     )
 
     employee_id = fields.Many2one(
-        comodel_name="hr.employee", string="Assegnatario", tracking=True
+        comodel_name="hr.employee",
+        string="Assegnatario",
+        tracking=True,
+        required=True,
     )
