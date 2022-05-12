@@ -75,4 +75,5 @@ class GSPartnerEmployee(models.Model):
             record.surname = surname
             record.firstname = firstname
 
-  
+    
+
