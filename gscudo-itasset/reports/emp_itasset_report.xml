@@ -6,9 +6,9 @@
         <field name="model">hr.employee</field>
         <field name="report_type">qweb-pdf</field>
         <field name="report_name">gscudo-itasset.emp_itasset</field>
-        <field name="report_file">gscudo-itasset.emp_itasset</field>
+        <!-- <field name="report_file">gscudo-itasset.emp_itasset</field> -->
         <field name="binding_model_id" ref="model_hr_employee"/>
-        <field name="binding_type">report</field>
+        <!-- <field name="binding_type">report</field> -->
     </record>
 
 </odoo>
