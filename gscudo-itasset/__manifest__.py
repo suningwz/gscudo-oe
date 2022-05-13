@@ -6,7 +6,7 @@
     "description": """
         Il modulo consente di gestire gli asset it e la stampa delle credenziali di default
     """,
-    "license": "",
+    "license": "Other proprietary",
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     # Categories can be used to filter modules in modules listing
