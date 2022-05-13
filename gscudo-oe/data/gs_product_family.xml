@@ -1,36 +1,37 @@
 <?xml version='1.0' encoding='utf-8'?>
-<odoo>
-    <data noupdate="1">
-        <record id="gs_safety" model="gs_product_family">
-            <field name="name">Sicurezza</field>
-            <field name="code">sic</field>
-        </record>
-        <record id="gs_food" model="gs_product_family">
-            <field name="name">Alimentare</field>
-            <field name="code">ali</field>
-        </record>
+<odoo noupdate="1">
+    <record id="gs_safety" model="gs_product_family">
+        <field name="name">Sicurezza</field>
+        <field name="code">sic</field>
+    </record>
 
-        <record id="gs_training" model="gs_product_family">
-            <field name="name">Formazione</field>
-            <field name="code">form</field>
-        </record>
+    <record id="gs_food" model="gs_product_family">
+        <field name="name">Alimentare</field>
+        <field name="code">ali</field>
+    </record>
 
-        <record id="gs_machdir" model="gs_product_family">
-            <field name="name">Direttiva Macchine</field>
-            <field name="code">dirma</field>
-        </record>
-        <record id="gs_healthsurv" model="gs_product_family">
-            <field name="name">Sorveglianza Sanitaria</field>
-            <field name="code">sanit</field>
-        </record>
-        <record id="gs_environment" model="gs_product_family">
-            <field name="name">Ambientale</field>
-            <field name="code">amb</field>
+    <record id="gs_training" model="gs_product_family">
+        <field name="name">Formazione</field>
+        <field name="code">form</field>
+    </record>
 
-        </record>
-        <record id="gs_management" model="gs_product_family">
-            <field name="name">Sistemi di Gestione</field>
-            <field name="code">gest</field>
-        </record>
-    </data>
+    <record id="gs_machdir" model="gs_product_family">
+        <field name="name">Direttiva Macchine</field>
+        <field name="code">dirma</field>
+    </record>
+
+    <record id="gs_healthsurv" model="gs_product_family">
+        <field name="name">Sorveglianza Sanitaria</field>
+        <field name="code">sanit</field>
+    </record>
+
+    <record id="gs_environment" model="gs_product_family">
+        <field name="name">Ambientale</field>
+        <field name="code">amb</field>
+    </record>
+
+    <record id="gs_management" model="gs_product_family">
+        <field name="name">Sistemi di Gestione</field>
+        <field name="code">gest</field>
+    </record>
 </odoo>
