@@ -118,4 +118,4 @@ class ResPartner(models.Model):
     @api.depends("gs_worker_ids")
     def _compute_workers_count(self):
         for record in self:
-            record.worker_count = len(record.gs_worker_ids)
+            record.workers_count = len(record.gs_worker_ids)
