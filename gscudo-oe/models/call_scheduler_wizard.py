@@ -18,19 +18,23 @@ class CallScheduler(models.TransientModel):
         .search([("model", "=", "crm.lead")])
         .id
     )
-    activity_type_id = fields.Many2one(
-        comodel_name="mail.activity.type", string="Tipo attività"
-    )
+
+    # activity_type_id = fields.Many2one(
+    #     comodel_name="mail.activity.type", string="Tipo attività"
+    # )
+
     summary = fields.Char(string="Summary")
 
-    #def _get_model_id(self):
-        #return self.env["ir.model"].search([("model", "=", "crm.lead")])
+    # def _get_model_id(self):
+    # return self.env["ir.model"].search([("model", "=", "crm.lead")])
 
     def schedule_call(self):
-        # return all selected payments using active_ids
-        # and you can filter them and use any validation you want
+        """
+        Schedule calls for the selected leads.
+        """
+        # get all selected leads
         leads = self.env["crm.lead"].browse(self._context.get("active_ids"))
-        # loop the payments
+
         call_schedule = 0
         call_date = self.date_from
         for lead in leads:

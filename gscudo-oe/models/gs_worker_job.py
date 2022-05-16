@@ -54,7 +54,7 @@ class WorkerJob(models.Model):
     @api.onchange("gs_worker_job_type_id")
     def _onchange_gs_worker_job_type_id(self):
         for record in self:
-            if not record.job_description:
+            if record.job_description is False:
                 record.job_description = record.gs_worker_job_type_id.name
 
 

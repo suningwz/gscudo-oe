@@ -19,8 +19,8 @@ class ProjectTask(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_base_url")
         if base_url:
             for record in self:
-                if record.sg_task_id and record.sg_task_id > 0:
-                    #record.sg_url = f"{base_url}tasks/{str(record.sg_task_id)}"
+                if record.sg_task_id is not False and record.sg_task_id > 0:
+                    # record.sg_url = f"{base_url}tasks/{str(record.sg_task_id)}"
                     record.sg_url = f"{base_url}tasks/{record.sg_task_id}"
                 else:
                     record.sg_url = False

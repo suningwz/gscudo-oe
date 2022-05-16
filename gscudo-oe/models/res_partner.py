@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 from odoo import models, fields, api
 
 COMPETITOR_TYPE = [
@@ -7,6 +6,7 @@ COMPETITOR_TYPE = [
     ("est", "Esterno"),
     ("cli", "Cliente"),
 ]
+
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
@@ -28,7 +28,7 @@ class ResPartner(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_branches_url")
         if base_url:
             for record in self:
-                if record.sg_branches_id and record.sg_branches_id > 0:
+                if record.sg_branches_id is not False and record.sg_branches_id > 0:
                     record.sg_url = base_url.format(record.sg_branches_id)
                 else:
                     record.sg_url = False
@@ -42,8 +42,10 @@ class ResPartner(models.Model):
 
     revenue = fields.Integer(string="Fatturato")
     balance_year = fields.Integer(string="Anno bilancio", default="")
-    employee_qty = fields.Integer(String="Adetti")
-    main_ateco_id = fields.Many2one(comodel_name="ateco.category", string="Descrizione ATECO 2007")
+    employee_qty = fields.Integer(string="Adetti")
+    main_ateco_id = fields.Many2one(
+        comodel_name="ateco.category", string="Descrizione ATECO 2007"
+    )
     rating = fields.Integer(string="Rating")
     share_capital = fields.Float(string="Capitale Sociale")
     # credit_limit = fields.Float(string='Fido')
@@ -93,16 +95,20 @@ class ResPartner(models.Model):
     is_backoffice = fields.Boolean(string="È Backoffice", default=False)
 
     ##### Competitors
-    def get_competitor_type(self):
-        return [
-            ("", "non definito "),
-            ("int", "interno "),
-            ("est", "esterno "),
-            ("cli", "cliente"),
-        ]
+    # def get_competitor_type(self):
+    #     return [
+    #         ("", "non definito "),
+    #         ("int", "interno "),
+    #         ("est", "esterno "),
+    #         ("cli", "cliente"),
+    #     ]
 
     safety_competitor_type = fields.Selection(
-        get_competitor_type, string="Sicurezza gestione", default="", tracking=True
+        string="Sicurezza gestione",
+        selection=COMPETITOR_TYPE,
+        default="",
+        # required=True,
+        tracking=True,
     )
     safety_partner_id = fields.Many2one(
         string="Conc. Sicurezza",
@@ -112,7 +118,11 @@ class ResPartner(models.Model):
     )
 
     training_competitor_type = fields.Selection(
-        get_competitor_type, string="Formazione gestione", default="", tracking=True
+        string="Formazione gestione",
+        selection=COMPETITOR_TYPE,
+        default="",
+        # required=True,
+        tracking=True,
     )
     training_partner_id = fields.Many2one(
         string="Conc. Formazione",
@@ -122,7 +132,11 @@ class ResPartner(models.Model):
     )
 
     food_competitor_type = fields.Selection(
-        get_competitor_type, string="Alimentare gestione", default="", tracking=True
+        string="Alimentare gestione",
+        selection=COMPETITOR_TYPE,
+        # required=True,
+        default="",
+        tracking=True,
     )
     food_partner_id = fields.Many2one(
         string="Conc. Alimentare",
@@ -132,8 +146,9 @@ class ResPartner(models.Model):
     )
 
     machdir_competitor_type = fields.Selection(
-        get_competitor_type,
         string="Dirett. Macchine gestione",
+        selection=COMPETITOR_TYPE,
+        # required=True,
         default="",
         tracking=True,
     )
@@ -145,7 +160,11 @@ class ResPartner(models.Model):
     )
 
     healthsurv_competitor_type = fields.Selection(
-        get_competitor_type, string="Sorv. Sanit. gestione", default="", tracking=True
+        string="Sorv. Sanit. gestione",
+        selection=COMPETITOR_TYPE,
+        # required=True,
+        default="",
+        tracking=True,
     )
     healthsurv_partner_id = fields.Many2one(
         string="Conc. Sorv. Sanit.",
@@ -155,7 +174,11 @@ class ResPartner(models.Model):
     )
 
     environment_competitor_type = fields.Selection(
-        get_competitor_type, string="Ambientale gestione", default="", tracking=True
+        string="Ambientale gestione",
+        selection=COMPETITOR_TYPE,
+        # required=True,
+        default="",
+        tracking=True,
     )
     environment_partner_id = fields.Many2one(
         string="Conc. Ambientale",
@@ -165,7 +188,11 @@ class ResPartner(models.Model):
     )
 
     management_competitor_type = fields.Selection(
-        get_competitor_type, string="Sistemi Gest. gestione", default="", tracking=True
+        string="Sistemi Gest. gestione",
+        selection=COMPETITOR_TYPE,
+        # required=True,
+        default="",
+        tracking=True,
     )
     management_partner_id = fields.Many2one(
         string="Conc. Sistemi Gest.",
@@ -178,7 +205,7 @@ class ResPartner(models.Model):
         string="Ci sono concorrenti", compute="_compute_has_competitor", store=True
     )
     is_customer = fields.Boolean(
-        string="E' cliente", compute="_compute_has_competitor", store=True
+        string="È cliente", compute="_compute_has_competitor", store=True
     )
 
     has_safety = fields.Boolean(string="RSPP / Suporto RSPP", default=False)
@@ -221,6 +248,6 @@ class ResPartner(models.Model):
     @api.depends("user_id")
     def _onchange_user_id(self):
         for record in self:
-            if record.user_id != False:
-                if record.user_id.tmk_user_id != False:
+            if record.user_id is not False:
+                if record.user_id.tmk_user_id is not False:
                     record.tmk_user_id = record.user_id.tmk_user_id.id

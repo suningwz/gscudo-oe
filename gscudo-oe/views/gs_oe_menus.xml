@@ -1,0 +1,3 @@
+<odoo>
+    <menuitem name="GruppoScudo" id="gscudo-oe.settings" parent="base.menu_custom" />
+</odoo>

@@ -23,7 +23,7 @@ class ProjectProject(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_offers_url")
         if base_url:
             for record in self:
-                if record.sg_offer_id and record.sg_offer_id > 0:
+                if record.sg_offer_id is not False and record.sg_offer_id > 0:
                     record.sg_url = base_url.format(record.sg_offer_id)
                 else:
                     record.sg_url = False

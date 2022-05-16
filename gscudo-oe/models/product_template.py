@@ -11,7 +11,9 @@ class ProductTemplate(models.Model):
 
     sg_product_id = fields.Integer(string="ID prodotto SaWGest")
     sg_product_url = fields.Char(
-        string="Vedi prodotto in SaWGest", compute="_compute_sg_product_url", store=False
+        string="Vedi prodotto in SaWGest",
+        compute="_compute_sg_product_url",
+        store=False,
     )
     sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
@@ -21,7 +23,7 @@ class ProductTemplate(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_base_url")
         if base_url:
             for record in self:
-                if record.sg_product_id and record.sg_product_id > 0:
+                if record.sg_product_id is not False and record.sg_product_id > 0:
                     record.sg_product_url = f"{base_url}products/{record.sg_product_id}"
                 else:
                     record.sg_product_url = False
@@ -38,7 +40,7 @@ class ProductTemplate(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_base_url")
         if base_url:
             for record in self:
-                if record.sg_article_id and record.sg_article_id > 0:
+                if record.sg_article_id is not False and record.sg_article_id > 0:
                     record.sg_article_url = f"{base_url}articles/{record.sg_article_id}"
                 else:
                     record.sg_article_url = False

@@ -1,6 +1,7 @@
 from datetime import datetime, timedelta, date
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+
 # from odoo.exceptions import UserError
 
 
@@ -38,8 +39,8 @@ class WorkerContract(models.Model):
 
     @api.constrains("start_date", "end_date")
     def _check_date(self):
-        if self.start_date:
-            if self.start_date < (datetime.now() - timedelta(days=40*365)).date():
+        if self.start_date is not False:
+            if self.start_date < (datetime.now() - timedelta(days=40 * 365)).date():
                 raise ValidationError(
                     "La data di inizio deve essere negli ultimi 40 anni"
                 )
@@ -47,7 +48,7 @@ class WorkerContract(models.Model):
                 raise ValidationError(
                     "La data di inizio deve essere entro i prossimi 30 giorni"
                 )
-            if self.end_date:
+            if self.end_date is not False:
                 if self.start_date > self.end_date:
                     raise ValidationError(
                         "La data di fine deve essere maggiore di quella di inizio"

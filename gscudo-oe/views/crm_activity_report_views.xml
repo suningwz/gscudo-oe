@@ -1,20 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="crm_activity_report_tree_gscudo" model="ir.ui.view" >
-         
+    <record id="crm_activity_report_view_tree" model="ir.ui.view">
         <field name="inherit_id" ref="crm.crm_activity_report_view_tree" />
-      
         <field name="model">crm.activity.report</field>
-       <field name="name">crm.activity.report.tree customization</field>
-       <field name="priority">90</field>
-       <field name="arch" type="xml">
-           <data>
-               <xpath expr="//field[@name='body']" position="after">
-                   <field name="lead_id" widget="many2onebutton"/>
-               </xpath>
-           </data>
-       </field>
-   </record>
-
+        <field name="name">crm_activity_report_view_tree_inherit</field>
+        <field name="priority">90</field>
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='body']" position="after">
+                    <field name="lead_id" widget="many2onebutton"/>
+                </xpath>
+            </data>
+        </field>
+    </record>
 </odoo>

@@ -11,7 +11,7 @@ COMPETITOR_TYPE = [
 ]
 
 
-class CrmLeads(models.Model):
+class CrmLead(models.Model):
     _inherit = "crm.lead"
 
     _sql_constraints = [("vat", "unique(vat)", "P.IVA già presente")]
@@ -30,7 +30,7 @@ class CrmLeads(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_branches_url")
         if base_url:
             for record in self:
-                if record.sg_branches_id and record.sg_branches_id > 0:
+                if record.sg_branches_id is not False and record.sg_branches_id > 0:
                     record.sg_url = base_url.format(record.sg_branches_id)
                 else:
                     record.sg_url = False
@@ -44,7 +44,7 @@ class CrmLeads(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_base_url")
         if base_url:
             for record in self:
-                if record.sg_clients_id and record.sg_clients_id > 0:
+                if record.sg_clients_id is not False and record.sg_clients_id > 0:
                     record.sg_offers_url = (
                         base_url + f"offers/0/list?cfr={record.sg_clients_id}"
                     )
@@ -72,7 +72,7 @@ class CrmLeads(models.Model):
     balance_year = fields.Integer(string="Anno bilancio", default="")
     employee_qty = fields.Integer(string="Adetti")
     ateco_id = fields.Many2one(
-        string="Descrizione ATECO 2007", comodel="ateco.category"
+        string="Descrizione ATECO 2007", comodel_name="ateco.category"
     )
     rating = fields.Integer(string="Rating")
     share_capital = fields.Float(string="Capitale Sociale")
@@ -92,7 +92,7 @@ class CrmLeads(models.Model):
         string="Sicurezza gestione",
         selection=COMPETITOR_TYPE,
         default="",
-        #required=True,
+        # required=True,
         tracking=True,
     )
     safety_partner_id = fields.Many2one(
@@ -106,7 +106,7 @@ class CrmLeads(models.Model):
         string="Formazione gestione",
         selection=COMPETITOR_TYPE,
         default="",
-        #required=True,
+        # required=True,
         tracking=True,
     )
     training_partner_id = fields.Many2one(
@@ -119,7 +119,7 @@ class CrmLeads(models.Model):
     food_competitor_type = fields.Selection(
         string="Alimentare gestione",
         selection=COMPETITOR_TYPE,
-        #required=True,
+        # required=True,
         default="",
         tracking=True,
     )
@@ -133,7 +133,7 @@ class CrmLeads(models.Model):
     machdir_competitor_type = fields.Selection(
         string="Dirett. Macchine gestione",
         selection=COMPETITOR_TYPE,
-        #required=True,
+        # required=True,
         default="",
         tracking=True,
     )
@@ -147,7 +147,7 @@ class CrmLeads(models.Model):
     healthsurv_competitor_type = fields.Selection(
         string="Sorv. Sanit. gestione",
         selection=COMPETITOR_TYPE,
-        #required=True,
+        # required=True,
         default="",
         tracking=True,
     )
@@ -161,7 +161,7 @@ class CrmLeads(models.Model):
     environment_competitor_type = fields.Selection(
         string="Ambientale gestione",
         selection=COMPETITOR_TYPE,
-        required=True,
+        # required=True,
         default="",
         tracking=True,
     )
@@ -175,7 +175,7 @@ class CrmLeads(models.Model):
     management_competitor_type = fields.Selection(
         string="Sistemi Gest. gestione",
         selection=COMPETITOR_TYPE,
-        required=True,
+        # required=True,
         default="",
         tracking=True,
     )
@@ -229,14 +229,14 @@ class CrmLeads(models.Model):
     @api.constrains("vat", "country_id")
     def _check_vat_ita(self):
         for record in self:
-            if not record.country_id.code or record.country_id.code == "IT":
-                if record.vat != "" and record.vat:
+            if record.country_id.code is False or record.country_id.code == "IT":
+                if record.vat != "" and record.vat is not False:
                     if re.fullmatch(r"(IT)[0-9]{11}", record.vat) is None:
                         raise ValidationError("Partita Iva non valida")
 
     @api.depends("user_id")
     def _onchange_user_id(self):
         for record in self:
-            if record.user_id:
-                if record.user_id.tmk_user_id:
+            if record.user_id is not False:
+                if record.user_id.tmk_user_id is not False:
                     record.tmk_user_id = record.user_id.tmk_user_id.id

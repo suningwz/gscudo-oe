@@ -33,7 +33,7 @@
         "data/ir_config_parameter.xml",
         "data/gs_partner_division.xml",
         "data/gs_product_family.xml",
-        "views/views.xml",
+        "views/gs_oe_menus.xml",
         "views/res_partner_views.xml",
         "views/hr_department_views.xml",
         "views/gs_product_family_views.xml",
@@ -47,6 +47,5 @@
         "views/gs_worker_job_type_views.xml",
         "views/gs_worker_job_views.xml",
         "views/product_template_views.xml",
-        "views/templates.xml",
     ],
 }

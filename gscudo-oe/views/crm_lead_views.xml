@@ -1,9 +1,8 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-
     <!-- crm.lead inherit form view -->
-    <record id="crm_lead_view_form_inherited" model="ir.ui.view">
-        <field name="name">crm.lead.inherit.view.form</field>
+    <record id="crm_lead_view_form" model="ir.ui.view">
+        <field name="name">crm_lead_view_form_inherited</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form" />
         <field name="priority">33</field>
@@ -47,7 +46,6 @@
                 </page>
                 <page name="competitor" string="Concorrenza">
                     <group col="2">
-
                         <group>
                             <label for="safety_partner_id" />
                             <div>
@@ -62,7 +60,6 @@
                                 <field name="training_partner_id" class="oe_inline" attrs="{'invisible':[('training_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
-
                         <group>
                             <label for="food_partner_id" />
                             <div>
@@ -98,21 +95,17 @@
                                 <field name="management_partner_id" attrs="{'invisible':[('management_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
-                       
-                        
                     </group>
-
                 </page>
             </notebook>
         </field>
     </record>
 
-    <record id="view_crm_case_leads_filter_inherited" model="ir.ui.view">
-        <field name="name">crm.lead.search.inherited</field>
+    <record id="view_crm_case_leads_filter" model="ir.ui.view">
+        <field name="name">view_crm_case_leads_filter_inherited</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.view_crm_case_leads_filter" />
         <field name="arch" type="xml">
-
             <field name="user_id" position="before">
                 <field name="vat" />
                 <field name="tmk_user_id" />
@@ -126,8 +119,8 @@
         </field>
     </record>
 
-    <record id="crm_case_tree_view_leads_inherited" model="ir.ui.view">
-        <field name="name">crm.lead.tree.lead_inherited</field>
+    <record id="crm_case_tree_view_leads" model="ir.ui.view">
+        <field name="name">crm_case_tree_view_leads_inherited</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_case_tree_view_leads" />
         <field name="arch" type="xml">

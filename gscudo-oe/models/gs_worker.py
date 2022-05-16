@@ -52,7 +52,7 @@ class GSWorker(models.Model):
         base_url = irconfigparam.sudo().get_param("sawgest_base_url")
         if base_url:
             for record in self:
-                if record.sg_worker_id and record.sg_worker_id > 0:
+                if record.sg_worker_id is not False and record.sg_worker_id > 0:
                     record.sg_url = f"{base_url}workers/{record.sg_worker_id}"
                 else:
                     record.sg_url = False
