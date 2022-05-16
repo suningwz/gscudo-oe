@@ -1,8 +1,8 @@
-from odoo import api, fields, models
+from odoo import fields, models
 
 
 class GSTrainingPlanner(models.Model):
-    _name = 'gs_training_planner'
-    _description = 'Planner Formazione'
+    _name = "gs_training_planner"
+    _description = "Planner Formazione"
 
-    name = fields.Char(string='Name')
+    name = fields.Char(string="Name")

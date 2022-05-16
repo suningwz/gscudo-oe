@@ -1,32 +1,24 @@
 <?xml version="1.0" ?>
 <odoo>
+    <!-- Gruppo Scudo Training User Group -->
+    <record id="group_training_user" model="res.groups">
+        <field name="name">Utente Formazione</field>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
 
-
-  <!-- Gruppo Scudo Training User Group -->
-  <record id="group_training_user" model="res.groups">
-    <field name="name">Utente Formazione</field>
-    <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
-  </record>
-
-
-  <!-- Gruppo Scudo Training Manager Group -->
-  <record id="group_training_backoffice" model="res.groups">
-    <field name="name">Backoffice Formazione</field>
-    <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
-    <field name="users" eval="[(4, ref('base.user_root')),
+    <!-- Gruppo Scudo Training Manager Group -->
+    <record id="group_training_backoffice" model="res.groups">
+        <field name="name">Backoffice Formazione</field>
+        <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')),
                   (4, ref('base.user_admin'))]"/>
-  </record>
+    </record>
 
-  <!-- Gruppo Scudo Training Manager Group -->
-  <record id="group_training_manager" model="res.groups">
-    <field name="name">Manager Formazione</field>
-    <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
-    <field name="users" eval="[(4, ref('base.user_root')),
+    <!-- Gruppo Scudo Training Manager Group -->
+    <record id="group_training_manager" model="res.groups">
+        <field name="name">Manager Formazione</field>
+        <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')),
                   (4, ref('base.user_admin'))]"/>
-  </record>
-
-
-
-
-
+    </record>
 </odoo>
