@@ -1,28 +1,30 @@
 <?xml version='1.0' encoding='utf-8'?>
-<odoo>
-    <data noupdate="1">
-        <record id="gs_default" model="gs_partner_division">
-            <field name="name">Gruppo Scudo</field>
-        </record>
-        <record id="gs_swsrl" model="gs_partner_division">
-            <field name="name">SW Srl</field>
-        </record>
+<odoo noupdate="1">
+    <record id="gs_default" model="gs_partner_division">
+        <field name="name">Gruppo Scudo</field>
+    </record>
 
-        <record id="gs_ei" model="gs_partner_division">
-            <field name="name">EI Srl</field>
-        </record>
+    <record id="gs_swsrl" model="gs_partner_division">
+        <field name="name">SW Srl</field>
+    </record>
 
-        <record id="gs_polydea" model="gs_partner_division">
-            <field name="name">Polydea Srl</field>
-        </record>
-        <record id="gs_quadras" model="gs_partner_division">
-            <field name="name">Quadras Srl</field>
-        </record>
-        <record id="gs_eneco" model="gs_partner_division">
-            <field name="name">Eneco Srl</field>
-        </record>
-        <record id="gs_uf" model="gs_partner_division">
-            <field name="name">UF Srl</field>
-        </record>
-    </data>
+    <record id="gs_ei" model="gs_partner_division">
+        <field name="name">EI Srl</field>
+    </record>
+
+    <record id="gs_polydea" model="gs_partner_division">
+        <field name="name">Polydea Srl</field>
+    </record>
+
+    <record id="gs_quadras" model="gs_partner_division">
+        <field name="name">Quadras Srl</field>
+    </record>
+
+    <record id="gs_eneco" model="gs_partner_division">
+        <field name="name">Eneco Srl</field>
+    </record>
+
+    <record id="gs_uf" model="gs_partner_division">
+        <field name="name">UF Srl</field>
+    </record>
 </odoo>

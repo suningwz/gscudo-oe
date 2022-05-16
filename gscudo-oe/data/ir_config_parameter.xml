@@ -1,27 +1,22 @@
 <?xml version='1.0' encoding='utf-8'?>
-<odoo>
-    <data noupdate="1">
-        <record id="sawgest_branches_url" model="ir.config_parameter">
-            <field name="key">sawgest_branches_url</field>
-            <field name="value">https://gestionale.grupposcudo.it/#/app/branches/&#123;&#125;</field>
-        </record>
+<odoo noupdate="1">
+    <record id="sawgest_branches_url" model="ir.config_parameter">
+        <field name="key">sawgest_branches_url</field>
+        <field name="value">https://gestionale.grupposcudo.it/#/app/branches/&#123;&#125;</field>
+    </record>
 
-   
-    
-        <record id="sawgest_offers_url" model="ir.config_parameter">
-            <field name="key">sawgest_offers_url</field>
-            <field name="value">https://gestionale.grupposcudo.it/#/app/offers/&#123;&#125;</field>
-        </record>
+    <record id="sawgest_offers_url" model="ir.config_parameter">
+        <field name="key">sawgest_offers_url</field>
+        <field name="value">https://gestionale.grupposcudo.it/#/app/offers/&#123;&#125;</field>
+    </record>
 
+    <record id="sawgest_base_url" model="ir.config_parameter">
+        <field name="key">sawgest_base_url</field>
+        <field name="value">https://gestionale.grupposcudo.it/#/app/</field>
+    </record>
 
-        <record id="sawgest_base_url" model="ir.config_parameter">
-            <field name="key">sawgest_base_url</field>
-            <field name="value">https://gestionale.grupposcudo.it/#/app/</field>
-        </record>
-
-        <record id="sawgest_document_url" model="ir.config_parameter">
-            <field name="key">sawgest_document_url</field>
-            <field name="value">https://gestionale.grupposcudo.it/documents/</field>
-        </record>
-    </data>
+    <record id="sawgest_document_url" model="ir.config_parameter">
+        <field name="key">sawgest_document_url</field>
+        <field name="value">https://gestionale.grupposcudo.it/documents/</field>
+    </record>
 </odoo>
