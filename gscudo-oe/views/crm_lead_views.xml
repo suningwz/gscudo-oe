@@ -5,7 +5,7 @@
         <field name="name">crm_lead_view_form_inherited</field>
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_lead_view_form" />
-        <field name="priority">33</field>
+        <field name="priority">99</field>
         <field name="arch" type="xml">
             <!-- Add your xpath here -->
             <field name="partner_id" position="after">
