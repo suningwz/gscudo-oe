@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="gs_training_certificate_type_view_form" model="ir.ui.view">
-        <field name="name">gs_training_certificate_type_view_form</field>
-        <field name="model">gs_training_certificate_type</field>
+    <record id="gs_certificate_type_view_form" model="ir.ui.view">
+        <field name="name">gs_certificate_type_view_form</field>
+        <field name="model">gs_certificate_type</field>
         <field name="arch" type="xml">
             <form>
                 <sheet>
@@ -20,9 +20,9 @@
         </field>
     </record>
 
-    <record id="gs_training_certificate_type_view_tree" model="ir.ui.view">
-        <field name="name">gs_training_certificate_type_view_tree</field>
-        <field name="model">gs_training_certificate_type</field>
+    <record id="gs_certificate_type_view_tree" model="ir.ui.view">
+        <field name="name">gs_certificate_type_view_tree</field>
+        <field name="model">gs_certificate_type</field>
         <field name="arch" type="xml">
             <tree default_order="name">
                 <field name="code" />
@@ -35,9 +35,9 @@
         </field>
     </record>
 
-    <record id="gs_training_certificate_type_view_search" model="ir.ui.view">
-        <field name="name">gs_training_certificate_type_view_search</field>
-        <field name="model">gs_training_certificate_type</field>
+    <record id="gs_certificate_type_view_search" model="ir.ui.view">
+        <field name="name">gs_certificate_type_view_search</field>
+        <field name="model">gs_certificate_type</field>
         <field name="arch" type="xml">
             <search>
                 <field name="name" />
@@ -51,22 +51,22 @@
         </field>
     </record>
 
-    <!-- gs_training_certificate_type action -->
-    <record id="gs_training_certificate_type_action_view_tree" model="ir.actions.act_window">
+    <!-- gs_certificate_type action -->
+    <record id="gs_certificate_type_action_view_tree" model="ir.actions.act_window">
         <field name="name">Certificato Formativo</field>
-        <field name="res_model">gs_training_certificate_type</field>
+        <field name="res_model">gs_certificate_type</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
-        <field name="view_id" ref="gs_training_certificate_type_view_tree" />
+        <field name="view_id" ref="gs_certificate_type_view_tree" />
     </record>
 
-    <!-- gs_training_certificate_type menu -->
+    <!-- gs_certificate_type menu -->
     <menuitem
-        id="gs_training_certificate_type_menu"
+        id="gs_certificate_type_menu"
         name="Certificati Formativo"
         parent="gs_training_menu_settings"
         sequence="10"
-        action="gs_training_certificate_type_action_view_tree"
+        action="gs_certificate_type_action_view_tree"
         groups="gscudo-training.group_training_manager"
     />
 </odoo>

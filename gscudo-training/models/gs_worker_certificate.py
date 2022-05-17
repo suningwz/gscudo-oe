@@ -6,7 +6,7 @@ from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
-class WorkerCertificate(models.Model):
+class GSWorkerCertificate(models.Model):
     _name = "gs_worker_certificate"
     _description = "Certificazioni"
     _inherit = ["mail.thread", "mail.activity.mixin"]
@@ -23,8 +23,8 @@ class WorkerCertificate(models.Model):
         index=True,
     )
 
-    gs_training_certificate_type_id = fields.Many2one(
-        comodel_name="gs_training_certificate_type",
+    gs_certificate_type_id = fields.Many2one(
+        comodel_name="gs_certificate_type",
         string="Tipo certificazione",
     )
     type = fields.Selection(
@@ -67,15 +67,15 @@ class WorkerCertificate(models.Model):
         compute="_compute_expiration",
     )
 
-    @api.depends("issue_date", "gs_training_certificate_type_id")
+    @api.depends("issue_date", "gs_certificate_type_id")
     def _compute_expiry_date(self):
         for record in self:
             if (
                 record.issue_date is not False
-                and record.gs_training_certificate_type_id is not False
+                and record.gs_certificate_type_id is not False
             ):
                 record.expiry_date = record.issue_date + relativedelta(
-                    years=record.gs_training_certificate_type_id.update_interval
+                    years=record.gs_certificate_type_id.update_interval
                 )
 
     @api.depends("expiry_date")
@@ -97,6 +97,7 @@ class WorkerCertificate(models.Model):
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
     sg_synched_at = fields.Datetime(string="Data ultima Syncronizzazione sawgest")
 
+    # TODO this field is never used
     sg_url = fields.Char(
         string="Vedi in sawgest", compute="_compute_sg_url", store=False
     )
@@ -116,7 +117,7 @@ class WorkerCertificate(models.Model):
                     record.sg_url = False
 
 
-class Worker(models.Model):
+class GSWorker(models.Model):
     _inherit = "gs_worker"
 
     gs_worker_certificate_ids = fields.One2many(

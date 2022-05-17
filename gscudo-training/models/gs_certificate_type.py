@@ -1,8 +1,7 @@
 from odoo import fields, models
 
-# FIXME class and file names
-class CertificateType(models.Model):
-    _name = "gs_training_certificate_type"
+class GSCertificateType(models.Model):
+    _name = "gs_certificate_type"
     _description = "Tipo Certificato Formativo"
 
     name = fields.Char(string="Name")

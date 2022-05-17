@@ -2,7 +2,7 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 
 
-class GSEnrollment(models.Model):
+class GSCourseEnrollment(models.Model):
     _name = "gs_course_enrollment"
     _description = "Registrazione corso"
 

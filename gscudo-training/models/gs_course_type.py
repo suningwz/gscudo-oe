@@ -18,8 +18,8 @@ class GSCourseType(models.Model):
     active = fields.Boolean(string="Attivo", default=True)
     duration = fields.Float(string="Durata in ore", default=2, required=True)
     note = fields.Char(string="Note")
-    gs_training_certificate_type_id = fields.Many2one(
-        comodel_name="gs_training_certificate_type", string="Certificato formativo"
+    gs_certificate_type_id = fields.Many2one(
+        comodel_name="gs_certificate_type", string="Certificato formativo"
     )
     is_update = fields.Boolean(string="È un aggiornamento", default=False)
     is_multicompany = fields.Boolean(string="Multiazendale", default=False)

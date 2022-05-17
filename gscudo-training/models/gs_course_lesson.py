@@ -1,7 +1,7 @@
 from odoo import api, fields, models
 
 
-class GSLesson(models.Model):
+class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
 
