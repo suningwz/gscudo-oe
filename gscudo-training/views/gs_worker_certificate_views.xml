@@ -1,10 +1,10 @@
-<!-- gs_worker_certificate views -->
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="gs_worker_certificate_view_form" model="ir.ui.view">
-        <field name="name">gs_worker_certificate Form</field>
+        <field name="name">gs_worker_certificate_view_form</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="gs_worker_id" />
@@ -31,7 +31,7 @@
     </record>
 
     <record id="gs_worker_certificate_view_tree" model="ir.ui.view">
-        <field name="name">gs_worker_certificate Tree</field>
+        <field name="name">gs_worker_certificate_view_tree</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
             <tree create="0" delete="0" default_order="name desc">
@@ -50,7 +50,7 @@
     </record>
 
     <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
-        <field name="name">gs_worker_certificate.view.pivot</field>
+        <field name="name">gs_worker_certificate_view_pivot</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
             <pivot string="Certificati/Attestati">
@@ -59,9 +59,6 @@
                 <field name="type" type="col" />
                 <field name="gs_training_certificate_type_id" type="col" />
                 <field name="expiry_date" interval="month" type="col" />
-
-
-
             </pivot>
         </field>
     </record>
@@ -76,10 +73,12 @@
                 <field name="gs_training_certificate_type_id" />
                 <field name="expiry_date" />
                 <field name="note" />
-                <separator />
-                <filter name="filter_expiring" domain="['&amp;',('expiry_date','&gt;=',((context_today()).strftime('%Y-%m-%d'))), ('expiry_date','&lt;=',((context_today() + relativedelta(months=2) ).strftime('%Y-%m-%d')))
-                ]" string="In scadenza" />
 
+                <filter
+                    name="filter_expiring"
+                    domain="['&amp;',('expiry_date','&gt;=',((context_today()).strftime('%Y-%m-%d'))),('expiry_date','&lt;=',((context_today()+relativedelta(months=2)).strftime('%Y-%m-%d')))]"
+                    string="In scadenza"
+                />
                 <filter name="filter_expired" domain="[('expiry_date','&lt;=',((context_today()).strftime('%Y-%m-%d')))]" string="Scaduti" />
                 <separator />
                 <filter name="expiry_date" date="expiry_date" string="Data scadenza" />
@@ -89,6 +88,7 @@
                 <separator />
                 <filter name="filter_not_passed" domain="[('passed','=',False)]" string="Non superati" />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                
                 <group expand="1" string="Group By">
                     <filter string="Azienda" name="contract_partner_id" context="{'group_by':'contract_partner_id'}" />
                     <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
@@ -100,7 +100,7 @@
     </record>
 
     <!-- gs_worker_certificate action -->
-    <record id="view_gs_worker_certificate_action" model="ir.actions.act_window">
+    <record id="gs_worker_certificate_action_view_tree" model="ir.actions.act_window">
         <field name="name">Certificati/Attestati</field>
         <field name="res_model">gs_worker_certificate</field>
         <field name="domain"></field>
@@ -108,6 +108,12 @@
         <field name="view_id" ref="gs_worker_certificate_view_tree" />
     </record>
 
-    <menuitem id="gs_worker_certificate_menu" name="Certificati/Attestati" parent="gscudo-training.menu_backoffice" sequence="80" action="view_gs_worker_certificate_action" groups="gscudo-training.group_training_manager" />
-
+    <menuitem
+        id="gs_worker_certificate_menu"
+        name="Certificati/Attestati"
+        parent="gs_training_menu_backoffice"
+        sequence="80"
+        action="gs_worker_certificate_action_view_tree"
+        groups="gscudo-training.group_training_manager"
+    />
 </odoo>

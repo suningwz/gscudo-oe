@@ -67,8 +67,7 @@ class WorkerCertificate(models.Model):
         compute="_compute_expiration",
     )
 
-    # FIXME onchange only supports one field, should be depends
-    @api.onchange("issue_date", "gs_training_certificate_type_id")
+    @api.depends("issue_date", "gs_training_certificate_type_id")
     def _compute_expiry_date(self):
         for record in self:
             if (
@@ -109,9 +108,10 @@ class WorkerCertificate(models.Model):
         if base_url:
             for record in self:
                 if record.sg_id and record.sg_id > 0:
-                    record.sg_url = base_url + "training_timetables/{}".format(
-                        record.sg_id
-                    )
+                    record.sg_url = f"{base_url}training_timetables/{record.sg_id}"
+                    # record.sg_url = base_url + "training_timetables/{}".format(
+                    #     record.sg_id
+                    # )
                 else:
                     record.sg_url = False
 

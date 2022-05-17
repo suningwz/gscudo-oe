@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="gs_worker_job_type_training_form" model="ir.ui.view">
-        <field name="name">gs.worker.job.type.training.form</field>
+    <record id="gs_worker_job_type_view_form" model="ir.ui.view">
+        <field name="name">gs_worker_job_type_view_form</field>
         <field name="model">gs_worker_job_type</field>
         <field name="inherit_id" ref="gscudo-oe.gs_worker_job_type_view_form" />
         <field name="arch" type="xml">
@@ -13,5 +12,4 @@
             </xpath>
         </field>
     </record>
-
 </odoo>

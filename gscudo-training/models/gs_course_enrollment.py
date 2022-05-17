@@ -30,7 +30,7 @@ class GSEnrollment(models.Model):
         """
         At creation, add implicit lesson creation.
         """
-        enrollment = super(GSEnrollment, self).create(values)
+        enrollment = super().create(values)
         for c in enrollment.gs_course_id.gs_course_lesson_ids:
             data = {
                 "gs_worker_id": enrollment.gs_worker_id.id,
@@ -48,11 +48,15 @@ class GSEnrollment(models.Model):
             l.state = self.state
 
     def unlink(self):
+        """
+        When you delete a course enrollment, also delete all linked lessons enrollments.
+        Also, check there are no attendants before deleting a lesson.
+        """
         for lesson_enrollment in self.gs_lesson_enrollment_ids:
             if lesson_enrollment.is_attendant is True:
                 raise UserError("Impossibile cancellare iscrizioni con presenze")
             lesson_enrollment.unlink()
-        return super(GSEnrollment, self).unlink()
+        return super().unlink()
 
 
 class GSCourse(models.Model):
