@@ -97,12 +97,10 @@ class GSWorkerCertificate(models.Model):
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
     sg_synched_at = fields.Datetime(string="Data ultima Syncronizzazione sawgest")
 
-    # TODO this field is never used
     sg_url = fields.Char(
         string="Vedi in sawgest", compute="_compute_sg_url", store=False
     )
 
-    # TODO missing ir.config_parameter
     def _compute_sg_url(self):
         irconfigparam = self.env["ir.config_parameter"]
         base_url = irconfigparam.sudo().get_param("sawgest_base_url")

@@ -5,7 +5,7 @@ class GSLessonEnrollment(models.Model):
     _name = "gs_lesson_enrollment"
     _description = "Registrazione corso"
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione"
     )

@@ -4,7 +4,7 @@ class GSCertificateType(models.Model):
     _name = "gs_certificate_type"
     _description = "Tipo Certificato Formativo"
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Nome")
     active = fields.Boolean(string="Attivo", default=True)
     code = fields.Char(string="Codice")
     note = fields.Char(string="Note")

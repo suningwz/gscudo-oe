@@ -5,7 +5,7 @@ class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)
     gs_course_id = fields.Many2one(comodel_name="gs_course", string="Corso")
