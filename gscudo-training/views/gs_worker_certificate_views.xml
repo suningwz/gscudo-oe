@@ -17,8 +17,10 @@
                         <field name="expiry_date" />
                         <field name="expiring" />
                         <field name="expired" />
+                        <field name="state" />
                         <field name="passed" />
                         <field name="is_update"/>
+                        <field name="is_required"/>
                         <field name="note" />
                     </group>
                 </sheet>
@@ -43,6 +45,7 @@
                 <field name="issue_serial" />
                 <field name="is_update" />
                 <field name="passed"/>
+                <field name="state" />
                 <field name="expiring" />
                 <field name="expired" />
             </tree>

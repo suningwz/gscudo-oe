@@ -14,6 +14,11 @@
                         <field name="renewal_interval" />
                         <field name="update_interval" />
                         <field name="active" />
+                        <field name="gs_certificate_type_ids" />
+                    </group>
+                    <group string="Visibilità">
+                        <field name="color" />
+                        <field name="visibility" />
                     </group>
                 </sheet>
             </form>
