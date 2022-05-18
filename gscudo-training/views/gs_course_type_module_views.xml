@@ -1,10 +1,10 @@
-<!-- gs_course_type_module views -->
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="gs_course_type_module_view_form" model="ir.ui.view">
-        <field name="name">gs_course_type_module Form</field>
+        <field name="name">gs_course_type_module_view_form</field>
         <field name="model">gs_course_type_module</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="gs_course_type_id" />
@@ -15,7 +15,6 @@
                         <field name="elearning" />
                         <field name="note" />
                         <field name="module_required_ids" />
-
                     </group>
                 </sheet>
             </form>
@@ -23,7 +22,7 @@
     </record>
 
     <record id="gs_course_type_module_view_tree" model="ir.ui.view">
-        <field name="name">gs_course_type_module Tree</field>
+        <field name="name">gs_course_type_module_view_tree</field>
         <field name="model">gs_course_type_module</field>
         <field name="arch" type="xml">
             <tree default_order="gs_course_type_id,sequence,name">
@@ -38,13 +37,14 @@
     </record>
 
     <record id="gs_course_type_module_view_search" model="ir.ui.view">
-        <field name="name">gs_course_type_module Search</field>
+        <field name="name">gs_course_type_module_view_search</field>
         <field name="model">gs_course_type_module</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <field name="name" />
-                <separator />
+
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+
                 <group expand="1" string="Group By">
                     <filter string="Tipo corso" name="gs_course_type_id" context="{'group_by':'gs_course_type_id'}" />
                 </group>
@@ -53,7 +53,7 @@
     </record>
 
     <!-- gs_course_type_module action -->
-    <record id="view_gs_course_type_module_action" model="ir.actions.act_window">
+    <record id="gs_course_type_module_action_view_tree" model="ir.actions.act_window">
         <field name="name">Tipologie di corso</field>
         <field name="res_model">gs_course_type_module</field>
         <field name="domain"></field>
@@ -62,6 +62,13 @@
     </record>
 
     <!-- gs_course_type_module menu -->
-    <menuitem id="gs_course_type_module_menu" name="Moduli Corsi" parent="gscudo-training.menu_settings" sequence="50" action="view_gs_course_type_module_action" groups="gscudo-training.group_training_manager" />
+    <menuitem
+        id="gs_course_type_module_menu"
+        name="Moduli Corsi"
+        parent="gs_training_menu_settings"
+        sequence="50"
+        action="gs_course_type_module_action_view_tree"
+        groups="gscudo-training.group_training_manager"
+    />
 
 </odoo>

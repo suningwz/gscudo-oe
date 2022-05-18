@@ -1,10 +1,10 @@
-<!-- gs_course_enrollment views -->
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="gs_course_enrollment_view_form" model="ir.ui.view">
-        <field name="name">gs_course_enrollment Form</field>
+        <field name="name">gs_course_enrollment_view_form</field>
         <field name="model">gs_course_enrollment</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -14,7 +14,6 @@
                         <field name="note" />
                         <field name="active" />
                         <field name="gs_lesson_enrollment_ids" />
-
                     </group>
                 </sheet>
             </form>
@@ -22,12 +21,11 @@
     </record>
 
     <record id="gs_course_enrollment_view_tree" model="ir.ui.view">
-        <field name="name">gs_course_enrollment Tree</field>
+        <field name="name">gs_course_enrollment_view_tree</field>
         <field name="model">gs_course_enrollment</field>
         <field name="arch" type="xml">
-            <tree  default_order="name">
+            <tree default_order="name">
                 <field name="name" />
-
                 <field name="gs_course_id" />
                 <field name="gs_worker_id" />
                 <field name="state" />
@@ -36,21 +34,25 @@
     </record>
 
     <record id="gs_course_enrollment_view_search" model="ir.ui.view">
-        <field name="name">gs_course_enrollment Search</field>
+        <field name="name">gs_course_enrollment_view_search</field>
         <field name="model">gs_course_enrollment</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
+                <!-- Search fields -->
                 <field name="name" />
                 <field name="gs_course_id" />
                 <field name="gs_worker_id" />
                 <field name="state" />
-                <separator />
+                
+                <!-- Filters -->
                 <filter name="filter_state_i" domain="[('state','=','I')]" string="Identificato" />
                 <filter name="filter_state_p" domain="[('state','=','P')]" string="Proposto" />
                 <filter name="filter_state_c" domain="[('state','=','C')]" string="Confermato" />
                 <filter name="filter_state_a" domain="[('state','=','A')]" string="Accettato" />
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                
+                <!-- Grouping -->
                 <group expand="1" string="Group By">
                     <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
                     <filter string="Corso" name="gs_course_id" context="{'group_by':'gs_course_id'}" />
@@ -61,7 +63,7 @@
     </record>
 
     <!-- gs_course_enrollment action -->
-    <record id="view_gs_course_enrollment_action" model="ir.actions.act_window">
+    <record id="gs_course_enrollment_action_view_tree" model="ir.actions.act_window">
         <field name="name">Iscrizione Corsi</field>
         <field name="res_model">gs_course_enrollment</field>
         <field name="domain"></field>
@@ -70,8 +72,12 @@
     </record>
 
     <!-- gs_course_enrollment menu -->
-    <menuitem id="gs_course_enrollment_menu" name="Iscrizioni Corsi" parent="gscudo-training.menu_backoffice" sequence="50" 
-    action="view_gs_course_enrollment_action" groups="group_training_backoffice" />
-
-
+    <menuitem
+        id="gs_course_enrollment_menu"
+        name="Iscrizioni Corsi"
+        parent="gs_training_menu_backoffice"
+        sequence="50"
+        action="gs_course_enrollment_action_view_tree"
+        groups="group_training_backoffice"
+    />
 </odoo>

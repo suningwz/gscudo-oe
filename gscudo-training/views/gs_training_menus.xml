@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem id="gs_training_menu_root" name="Formazione" web_icon="gscudo-training,static/description/elearning.jpg" groups="group_training_user,group_training_manager" />
+
+    <menuitem id="gs_training_menu_backoffice" name="Backoffice" parent="gs_training_menu_root" sequence="40" groups="group_training_backoffice" />
+    <menuitem id="gs_training_menu_workers" name="Lavoratori" parent="gs_training_menu_root" sequence="45" groups="group_training_backoffice" />
+    <menuitem id="gs_training_menu_settings" name="Configurazione" parent="gs_training_menu_root" sequence="90" groups="group_training_manager" />
+
+    <menuitem id="gs_worker_menu" name="Lavoratori" parent="gs_training_menu_workers" sequence="45" action="gscudo-oe.view_gs_worker_action" groups="group_training_backoffice" />
+    <menuitem id="gs_worker_menu_contract" name="Contratti" parent="gs_training_menu_workers" sequence="50" action="gscudo-oe.view_gs_worker_contract_action" groups="group_training_backoffice" />
+    <menuitem id="gs_worker_menu_job_type" name="Tipi Mansioni" parent="gs_training_menu_workers" sequence="55" action="gscudo-oe.view_gs_worker_job_type_action" groups="group_training_backoffice" />
+    <menuitem id="gs_worker_menu_job" name="Mansioni" parent="gs_training_menu_workers" sequence="60" action="gscudo-oe.view_gs_worker_job_action" groups="group_training_backoffice" />
+</odoo>
