@@ -1,10 +1,11 @@
-<!-- gs_worker_contract views -->
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
+    <!-- gs_worker_contract views -->
     <record id="gs_worker_contract_view_form" model="ir.ui.view">
-        <field name="name">Contratto Lavoratore</field>
+        <field name="name">gs_worker_contract_view_form</field>
         <field name="model">gs_worker_contract</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -23,14 +24,14 @@
     </record>
 
     <record id="gs_worker_contract_view_tree" model="ir.ui.view">
-        <field name="name">Contratti Lavoratore</field>
+        <field name="name">gs_worker_contract_view_tree</field>
         <field name="model">gs_worker_contract</field>
         <field name="arch" type="xml">
             <tree default_order="gs_worker_id,start_date">
                 <field name="name" />
                 <field name="gs_worker_id" />
                 <field name="partner_id" />
-                <field name="name" />
+                <!-- <field name="name" /> -->
                 <field name="employee_serial" />
                 <field name="start_date" />
                 <field name="end_date" />
@@ -41,11 +42,10 @@
     </record>
 
     <record id="gs_worker_contract_view_search" model="ir.ui.view">
-        <field name="name">gs_worker_contract Search</field>
+        <field name="name">gs_worker_contract_view_search</field>
         <field name="model">gs_worker_contract</field>
         <field name="arch" type="xml">
-            <search string="">
-
+            <search>
                 <field name="partner_id" />
                 <field name="gs_worker_id" />
                 <field name="name" />
@@ -65,14 +65,11 @@
     <record id="view_gs_worker_contract_action" model="ir.actions.act_window">
         <field name="name">Contratti Lavoratori</field>
         <field name="res_model">gs_worker_contract</field>
-        <field name="domain"></field>
+        <!-- <field name="domain"></field> -->
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_worker_contract_view_tree" />
     </record>
 
     <!-- gs_worker_contract menu -->
-    <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-oe.gs_worker_main_menu" sequence="50" action="view_gs_worker_contract_action" 
-    groups="gscudo-oe.group_manager" />
-/>
-
+    <menuitem id="gs_worker_contract_menu" name="Contratti" parent="gscudo-oe.gs_worker_main_menu" sequence="50" action="view_gs_worker_contract_action" groups="gscudo-oe.group_manager" />
 </odoo>

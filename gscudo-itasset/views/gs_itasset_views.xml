@@ -1,130 +1,105 @@
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
-  <data>
-
-
     <!-- gs_itasset search view -->
     <record id="gs_itasset_view_search" model="ir.ui.view">
-      <field name="name">gs_itasset.view.search</field>
-      <field name="model">gs_itasset</field>
-      <field name="arch" type="xml">
-        <search string="Search Description">
-          <field name="name" />
-          <field name="itasset_type_id" />
-          <field name="description" />
-          <field name="serial" />
-          <field name="employee_id" />
-          <field name="status" />
-          <field name="accounting_ref" />
-
-          <separator />
-          <filter name="unassigned" string="Non assegnati" domain="[('employee_id','=',False)]" />
-
-          <separator />
-
-          <filter name="usable" string="Utilizzabili" domain="['|', ('status','=','1'),('status','=','2')]" />
-          <filter name ="unusable" string="Non utilizzabili" domain="['|','|', ('status','=','3'),('status','=','4'),('status','=','9')]" />
-          <separator />
-          <group expand="1" string="Group By">
-            <filter string="Assegnato a " name="employee_id" context="{'group_by':'employee_id'}" />
-            <filter string="Tipologia" name="itasset_type_id" context="{'group_by':'itasset_type_id'}" />
-            <filter string="Stato" name="status" context="{'group_by':'status'}" />
-            <filter string="Collocazione" name="itasset_location" context="{'group_by':'itasset_location'}" />
-
-
-          </group>
-        </search>
-      </field>
-    </record>
-
-
-    <!-- explicit list view definition -->
-    <record model="ir.ui.view" id="gscudo-itasset.list">
-      <field name="name">Attrezzature IT</field>
-      <field name="model">gs_itasset</field>
-      <field name="arch" type="xml">
-        <tree>
-          <field name="name" />
-          <field name="itasset_type_id" />
-          <field name="description" />
-          <field name="status" />
-          <field name="employee_id" />
-
-          <field name="department" />
-          <field name="itasset_location" />
-
-        </tree>
-      </field>
-    </record>
-
-    <record id="gs_itasset_form" model="ir.ui.view">
-      <field name="name">IT Asset</field>
-      <field name="model">gs_itasset</field>
-      <field name="arch" type="xml">
-        <form string="">
-          <header>
-          </header>
-          <sheet>
-            <group>
-              <group>
+        <field name="name">gs_itasset_view_search</field>
+        <field name="model">gs_itasset</field>
+        <field name="arch" type="xml">
+            <search>
+            <!-- <search string="Search Description"> -->
                 <field name="name" />
                 <field name="itasset_type_id" />
                 <field name="description" />
                 <field name="serial" />
+                <field name="employee_id" />
                 <field name="status" />
-                <field name="parent_id" />
-              </group>
-              <group>
-                <field name="employee_id" attrs="{'readonly':[('parent_id','!=',False)]}" />
+                <field name="accounting_ref" />
+                <separator />
+
+                <filter name="unassigned" string="Non assegnati" domain="[('employee_id','=',False)]" />
+                <separator />
+
+                <filter name="usable" string="Utilizzabili" domain="['|', ('status','=','1'),('status','=','2')]" />
+                <filter name ="unusable" string="Non utilizzabili" domain="['|','|', ('status','=','3'),('status','=','4'),('status','=','9')]" />
+                <separator />
+
+                <group expand="1" string="Group By">
+                    <filter string="Assegnato a" name="employee_id" context="{'group_by':'employee_id'}" />
+                    <filter string="Tipologia" name="itasset_type_id" context="{'group_by':'itasset_type_id'}" />
+                    <filter string="Stato" name="status" context="{'group_by':'status'}" />
+                    <filter string="Collocazione" name="itasset_location" context="{'group_by':'itasset_location'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="gs_itasset_view_tree" model="ir.ui.view">
+        <field name="name">gs_itasset_view_tree</field>
+        <field name="model">gs_itasset</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="name" />
+                <field name="itasset_type_id" />
+                <field name="description" />
+                <field name="status" />
+                <field name="employee_id" />
                 <field name="department" />
                 <field name="itasset_location" />
-                <field name="accounting_ref" />
-                <field name="acquisition_date" />
-                <field name="expiration_date" />
-              </group>
-            </group>
-            <group>
-
-              <field name="note"></field>
-            </group>
-            <group>
-              <field name="children_ids" />
-            </group>
-          </sheet>
-          <div class="oe_chatter">
-            <field name="activity_ids" widget="mail_activity" />
-            <field name="message_follower_ids" widget="mail_followers" />
-            <field name="message_ids" widget="mail_thread" />
-          </div>
-        </form>
-      </field>
+            </tree>
+        </field>
     </record>
 
-
-
-    <!-- actions opening views on models -->
-    <record model="ir.actions.act_window" id="gscudo-itasset.action_window">
-      <field name="name">IT Assets</field>
-      <field name="res_model">gs_itasset</field>
-      <field name="view_mode">tree,form,activity</field>
+    <record id="gs_itasset_view_form" model="ir.ui.view">
+        <field name="name">gs_itasset_view_form</field>
+        <field name="model">gs_itasset</field>
+        <field name="arch" type="xml">
+            <form>
+                <header />
+                <sheet>
+                    <group>
+                        <group>
+                            <field name="name" />
+                            <field name="itasset_type_id" />
+                            <field name="description" />
+                            <field name="serial" />
+                            <field name="status" />
+                            <field name="parent_id" />
+                        </group>
+                        <group>
+                            <field name="employee_id" attrs="{'readonly':[('parent_id','!=',False)]}" />
+                            <field name="department" />
+                            <field name="itasset_location" />
+                            <field name="accounting_ref" />
+                            <field name="acquisition_date" />
+                            <field name="expiration_date" />
+                        </group>
+                    </group>
+                    <group>
+                        <field name="note" />
+                    </group>
+                    <group>
+                        <field name="children_ids" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
     </record>
 
-    <!-- server action to the one above -->
-    <!--
-    <record model="ir.actions.server" id="gscudo-itasset.action_server">
-      <field name="name">gscudo-itasset server</field>
-      <field name="model_id" ref="model_gscudo-itasset_gscudo-itasset"/>
-      <field name="state">code</field>
-      <field name="code">
-        action = {
-          "type": "ir.actions.act_window",
-          "view_mode": "tree,form",
-          "res_model": model._name,
-        }
-      </field>
+    <record id="gs_itasset_action" model="ir.actions.act_window">
+        <field name="name">IT Assets</field>
+        <field name="res_model">gs_itasset</field>
+        <field name="view_mode">tree,form</field>
     </record>
--->
 
-    <menuitem name="Lista" id="gscudo-itasset.itasset_list" parent="itasset_menu_root" action="gscudo-itasset.action_window" />
-
-  </data>
+    <menuitem
+        name="Assets"
+        id="gs_itasset_menu_tree"
+        parent="itasset_menu_root"
+        action="gs_itasset_action"
+    />
 </odoo>
