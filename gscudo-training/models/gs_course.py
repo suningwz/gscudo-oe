@@ -23,7 +23,7 @@ class GSCourse(models.Model):
         default="1-nuovo",
     )
     note = fields.Char(string="Note")
-    max_workers = fields.Integer(string="Massimo iscritti",)
+    max_workers = fields.Integer(string="Massimo iscritti")
     location_partner_id = fields.Many2one(comodel_name="res.partner", string="Sede")
     start_date = fields.Date(string="Data inizio")
     end_date = fields.Date(string="Data termine")

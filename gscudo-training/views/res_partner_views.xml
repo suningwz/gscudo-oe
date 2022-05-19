@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">view_partner_form_inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority">99</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="inside">
+                <!-- TODO remove -->
+                <group name="debug" string="Debug">
+                    <field name="attentionable_workers_number" />
+                    <field name="gs_worker_attentionable_ids" />
+                    <field name="gs_worker_ids" />
+                </group>
+            </xpath>
+        </field>
+    </record>
+</odoo>

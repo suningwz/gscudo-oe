@@ -19,8 +19,8 @@ class GSCertificateType(models.Model):
     active = fields.Boolean(string="Attivo", default=True)
     code = fields.Char(string="Codice")
     note = fields.Char(string="Note")
-    renewal_interval = fields.Integer(string="Intervallo rinnovo in anni")
-    update_interval = fields.Integer(string="Intervallo aggiornamento in anni")
+    validity_interval = fields.Integer(string="Lunghezza validità in anni")
+    is_updateable = fields.Boolean(string="Aggiornabile")
     law_ref = fields.Text(string="Riferimento normativo")
 
     # Visualization options
