@@ -41,6 +41,12 @@ class GSWorkerCertificate(models.Model):
         comodel_name="gs_certificate_type",
         string="Tipo certificazione",
     )
+
+    gs_training_certificate_type_id = fields.Many2one(
+        comodel_name="gs_training_certificate_type",
+        string="Tipo certificazione (old)",
+    )
+
     type = fields.Selection(
         string="Tipo",
         selection=[
@@ -90,6 +96,8 @@ class GSWorkerCertificate(models.Model):
                 certificate.active = True
 
     is_update = fields.Boolean(string="Aggiornabile")
+
+    expiry_date = fields.Date(string="Data scadenza (old)")
 
     expiration_date = fields.Date(
         string="Data scadenza",

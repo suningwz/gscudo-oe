@@ -7,6 +7,7 @@
         <field name="arch" type="xml">
             <xpath expr="//page[@name='worker_jobs']//tree" position="inside">
                 <field name="gs_certificate_type_ids" widget="many2many_tags" />
+                <field name="gs_training_certificate_type_ids" widget="many2many_tags" />
             </xpath>
             <xpath expr="//page[@name='sawgest_data']" position="before">
                 <page name="training_certificate" string="Attestati" groups="gscudo-training.group_training_backoffice">
@@ -16,15 +17,12 @@
                             <tree default_order="expiration_date desc">
                                 <field name="type" />
                                 <field name="gs_certificate_type_id" />
+                                <field name="gs_training_certificate_type_id" />
                                 <field name="issue_date" />
                                 <field name="expiration_date" />
                                 <field
                                     name="state"
-                                    options="{'bg_color':
-                                        '#ff8f8f: state == \'expired\';
-                                        #fbff8f: state == \'expiring\';
-                                        #8fff93: state == \'valid\';'
-                                    }"
+                                    options="{'bg_color': '#ff8f8f: state == \'expired\'; #fbff8f: state == \'expiring\'; #8fff93: state == \'valid\';'}"
                                 />
                             </tree>
                         </field>
@@ -32,15 +30,12 @@
                             <tree default_order="expiration_date desc">
                                 <field name="type" />
                                 <field name="gs_certificate_type_id" />
+                                <field name="gs_training_certificate_type_id" />
                                 <field name="issue_date" />
                                 <field name="expiration_date" />
                                 <field
                                     name="state"
-                                    options="{'bg_color':
-                                        '#ff8f8f: state == \'expired\';
-                                        #fbff8f: state == \'expiring\';
-                                        #8fff93: state == \'valid\';'
-                                    }"
+                                    options="{'bg_color': '#ff8f8f: state == \'expired\'; #fbff8f: state == \'expiring\'; #8fff93: state == \'valid\';' }"
                                 />
                             </tree>
                         </field>

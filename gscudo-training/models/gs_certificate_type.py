@@ -12,6 +12,7 @@ _COLORS = [
 
 
 class GSCertificateType(models.Model):
+    # TODO reimport the right id
     _name = "gs_certificate_type"
     _description = "Tipo Certificato Formativo"
 

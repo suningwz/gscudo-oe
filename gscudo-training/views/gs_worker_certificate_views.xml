@@ -10,6 +10,7 @@
                         <field name="gs_worker_id" />
                         <field name="contract_partner_id" />
                         <field name="gs_certificate_type_id" />
+                        <field name="gs_training_certificate_type_id" />
                         <field name="name" />
                         <field name="type" />
                         <field name="issue_date" />
@@ -38,6 +39,7 @@
                 <field name="contract_partner_id" />
                 <field name="gs_worker_id" />
                 <field name="gs_certificate_type_id" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="type" />
                 <field name="issue_date" />
                 <field name="expiration_date" />
@@ -79,6 +81,7 @@
                 <field name="gs_worker_id" />
                 <field name="contract_partner_id" />
                 <field name="gs_certificate_type_id" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="expiration_date" />
                 <field name="note" />
                 <field name="state" />
@@ -99,6 +102,7 @@
                     <filter string="Azienda" name="contract_partner_id" context="{'group_by':'contract_partner_id'}" />
                     <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
                     <filter string="Tipologia" name="gs_certificate_type_id" context="{'group_by':'gs_certificate_type_id'}" />
+                    <filter string="Tipologia (old)" name="gs_training_certificate_type_id" context="{'group_by':'gs_training_certificate_type_id'}" />
                     <filter string="Scadenza" name="expiration_date" context="{'group_by':'expiration_date'}" />
                 </group>
             </search>

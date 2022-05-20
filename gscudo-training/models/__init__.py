@@ -10,3 +10,4 @@ from . import gs_worker_job_type
 from . import gs_worker_job
 from . import product_template
 from . import res_partner
+from . import gs_training_certificate_type

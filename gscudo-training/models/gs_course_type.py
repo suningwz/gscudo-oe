@@ -21,5 +21,9 @@ class GSCourseType(models.Model):
     gs_certificate_type_id = fields.Many2one(
         comodel_name="gs_certificate_type", string="Certificato formativo"
     )
+    gs_training_certificate_type_id = fields.Many2one(
+        comodel_name="gs_training_certificate_type",
+        string="Certificato formativo (old)",
+    )
     is_update = fields.Boolean(string="È un aggiornamento", default=False)
     is_multicompany = fields.Boolean(string="Multiazendale", default=False)
