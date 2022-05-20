@@ -27,5 +27,7 @@
         "views/gs_lesson_enrollment_views.xml",
         "views/gs_worker_certificate_views.xml",
         "views/product_template_views.xml",
+        "views/res_partner_views.xml",
+        "automation/automatic_actions.xml",
     ],
 }

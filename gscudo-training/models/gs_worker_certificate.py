@@ -1,9 +1,9 @@
+import logging  # pylint: disable=unused-import
 import datetime
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
 
 from odoo import api, fields, models
-from odoo.exceptions import ValidationError
 
 
 class GSWorkerCertificate(models.Model):
@@ -11,7 +11,21 @@ class GSWorkerCertificate(models.Model):
     _description = "Certificazioni"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Certificazione")
+    name = fields.Char(string="Certificazione", compute="_compute_name", store=True)
+
+    @api.depends(
+        "gs_worker_id.name",
+        "gs_certificate_type_id.name",
+        "issue_date",
+    )
+    def _compute_name(self):
+        for certificate in self:
+            certificate.name = (
+                f"{certificate.gs_worker_id.name} - "
+                f"{certificate.gs_certificate_type_id.name} -"
+                f"{certificate.issue_date}"
+            )
+
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker", string="Lavoratore", index=True
     )
@@ -34,64 +48,154 @@ class GSWorkerCertificate(models.Model):
             ("E", "Esigenza formativa"),
         ],
         default="E",
+        required=True,
     )
-    active = fields.Boolean(string="Attivo", default=True)
+
     note = fields.Char(string="Note")
 
     issue_date = fields.Date(string="Data attestato")
     issue_serial = fields.Char(string="Protocollo attestato")
 
     external_link = fields.Char(string="Link Esterno")
-    passed = fields.Boolean(string="Superato")
-    is_update = fields.Boolean(string="È un aggiornamento")
 
-    expiry_date = fields.Date(string="Data scadenza", index=True)
+    active = fields.Boolean(string="Superato", compute="_compute_active", store=True)
 
-    @api.constrains("issue_date", "expiry_date")
-    def _check_date(self):
-        if self.expiry_date is not False:
-            if self.expiry_date is not False:
-                if self.issue_date > self.expiry_date:
-                    raise ValidationError(
-                        "La data di scadenza deve essere successiva a quella dell'attestato"
-                    )
-
-    note = fields.Char(string="Note")
-
-    expired = fields.Boolean(
-        string="Scaduto",
-        compute="_compute_expiration",
+    @api.depends(
+        "gs_worker_id.gs_worker_certificate_ids.issue_date",
+        "gs_certificate_type_id",
+        "issue_date",
     )
-    expiring = fields.Boolean(
-        string="In scadenza",
-        compute="_compute_expiration",
+    def _compute_active(self):
+        """
+        Here active means that there is not a newer certificate of the same type
+        or greater.
+        It's the opposite of the old "passed" field.
+        """
+        for certificate in self:
+            if certificate.type == "E":
+                certificate.active = True
+                return
+            certificate_dates = [
+                c.issue_date
+                for c in certificate.gs_worker_id.gs_worker_certificate_ids
+                if c.gs_certificate_type_id.satisfies(
+                    certificate.gs_certificate_type_id
+                )
+                and c.issue_date is not False
+                and c.type == "C"
+            ]
+            if certificate_dates and certificate.issue_date is not False:
+                certificate.active = certificate.issue_date == max(certificate_dates)
+            else:
+                certificate.active = True
+
+    is_update = fields.Boolean(string="Aggiornabile")
+
+    expiration_date = fields.Date(
+        string="Data scadenza",
+        compute="_compute_expiration_date",
+        index=True,
+        store=True,
     )
 
-    @api.depends("issue_date", "gs_certificate_type_id")
-    def _compute_expiry_date(self):
+    @api.depends("issue_date", "gs_certificate_type_id.validity_interval")
+    def _compute_expiration_date(self):
+        """
+        Computes the expiration date of the certificate.
+
+        La data di scandenza di un certificato è sempre data dalla data di conseguimento
+        più l'intervallo di validità alla situazione legale attuale.
+        """
         for record in self:
             if (
                 record.issue_date is not False
                 and record.gs_certificate_type_id is not False
             ):
-                record.expiry_date = record.issue_date + relativedelta(
-                    years=record.gs_certificate_type_id.update_interval
+                record.expiration_date = record.issue_date + relativedelta(
+                    years=record.gs_certificate_type_id.validity_interval
                 )
 
-    @api.depends("expiry_date")
-    def _compute_expiration(self):
-        for record in self:
-            record.expired = False
-            record.expiring = False
-            if record.expiry_date is not False:
-                if record.expiry_date < datetime.now().date():
-                    record.expired = True
-                    record.expiring = False
-                elif record.expiry_date < datetime.now().date() + relativedelta(
-                    months=2
-                ):
-                    record.expired = False
-                    record.expiring = True
+    note = fields.Char(string="Note")
+
+    state = fields.Selection(
+        string="Validità",
+        selection=[
+            ("valid", "Valido"),
+            ("expiring", "In scadenza"),
+            ("expired", "Scaduto"),
+            ("na", "Non disponibile"),
+        ],
+        compute="_compute_state",
+        index=True,
+        store=True,
+    )
+
+    @api.depends("expiration_date")
+    def _compute_state(self):
+        today = datetime.now().date()
+        for certificate in self:
+            if certificate.expiration_date is not False:
+                if certificate.expiration_date < today:
+                    certificate.state = "expired"
+                elif certificate.expiration_date < today + relativedelta(months=2):
+                    certificate.state = "expiring"
+                else:
+                    certificate.state = "valid"
+            else:
+                certificate.state = "na"
+
+    def recompute_state(self):
+        """
+        Recomputes the validity state of the certificates that are either near the
+        expiration date, or about two months from it
+        """
+
+        def domain_date_between(field: str, date: datetime.date, delta: relativedelta):
+            """
+            Generates a search domain constraining the given field
+            between date - delta and date + delta.
+            """
+            domain = ["&"]
+            datefrom = (date - delta).strftime("%Y-%m-%d")
+            dateto = (date + delta).strftime("%Y-%m-%d")
+            domain.extend([(field, ">=", datefrom), (field, "<=", dateto)])
+            return domain
+
+        logging.info("Recomputing certificates state")
+
+        today = datetime.now().date()
+        two_days = relativedelta(days=2)
+        two_months = relativedelta(months=2)
+
+        domain = ["|"]
+        domain.extend(domain_date_between("expiration_date", today, two_days))
+        domain.extend(
+            domain_date_between("expiration_date", today + two_months, two_days)
+        )
+
+        self.env.add_to_compute(
+            self._fields["state"],
+            self.search(domain),
+        )
+
+    is_required = fields.Boolean(
+        string="Richiesto", compute="_compute_is_required", store=True, index=True
+    )
+
+    @api.depends("gs_worker_id", "gs_certificate_type_id")
+    def _compute_is_required(self):
+        for certificate in self:
+            active_jobs = [
+                job
+                for job in certificate.gs_worker_id.gs_worker_job_ids
+                if job.end_date is False
+            ]
+            certificate.is_required = False
+            for job in active_jobs:
+                for req in job.gs_certificate_type_ids:
+                    if certificate.gs_certificate_type_id.satisfies(req):
+                        certificate.is_required = True
+                        return
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
@@ -124,3 +228,31 @@ class GSWorker(models.Model):
         string="Attestati",
         groups="gscudo-training.group_training_backoffice",
     )
+
+    gs_worker_certificate_attentionable_ids = fields.One2many(
+        comodel_name="gs_worker_certificate",
+        inverse_name="gs_worker_id",
+        string="Attestati attenzionabili",
+        groups="gscudo-training.group_training_backoffice",
+        domain=[
+            "|",
+            ("state", "=", "expiring"),
+            "&",
+            ("state", "=", "expired"),
+            ("is_required", "=", True),
+        ],
+    )
+
+    is_attentionable = fields.Boolean(
+        string="Attenzionabile", compute="_compute_is_attentionable", store=True
+    )
+
+    @api.depends(
+        "gs_worker_certificate_ids.state",
+        "gs_worker_certificate_ids.is_required",
+    )
+    def _compute_is_attentionable(self):
+        for worker in self:
+            worker.is_attentionable = (
+                len(worker.gs_worker_certificate_attentionable_ids) > 0
+            )

@@ -11,9 +11,14 @@
                         <field name="code" />
                         <field name="note" />
                         <field name="law_ref" />
-                        <field name="renewal_interval" />
-                        <field name="update_interval" />
+                        <field name="validity_interval" />
+                        <!-- <field name="update_interval" /> -->
                         <field name="active" />
+                        <field name="gs_certificate_type_ids" />
+                    </group>
+                    <group string="Visibilità">
+                        <field name="color" />
+                        <field name="visibility" />
                     </group>
                 </sheet>
             </form>
@@ -29,8 +34,8 @@
                 <field name="name" />
                 <field name="note" />
                 <field name="law_ref" />
-                <field name="renewal_interval" />
-                <field name="update_interval" />
+                <field name="validity_interval" />
+                <!-- <field name="update_interval" /> -->
             </tree>
         </field>
     </record>

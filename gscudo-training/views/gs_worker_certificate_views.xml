@@ -14,11 +14,11 @@
                         <field name="type" />
                         <field name="issue_date" />
                         <field name="issue_serial" />
-                        <field name="expiry_date" />
-                        <field name="expiring" />
-                        <field name="expired" />
-                        <field name="passed" />
+                        <field name="expiration_date" />
+                        <field name="state" />
+                        <field name="active" />
                         <field name="is_update"/>
+                        <field name="is_required"/>
                         <field name="note" />
                     </group>
                 </sheet>
@@ -34,17 +34,23 @@
         <field name="name">gs_worker_certificate_view_tree</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <tree create="0" delete="0" default_order="name desc">
+            <tree create="0" delete="0" default_order="expiration_date desc">
                 <field name="contract_partner_id" />
                 <field name="gs_worker_id" />
                 <field name="gs_certificate_type_id" />
                 <field name="type" />
                 <field name="issue_date" />
+                <field name="expiration_date" />
                 <field name="issue_serial" />
                 <field name="is_update" />
-                <field name="passed"/>
-                <field name="expiring" />
-                <field name="expired" />
+                <field
+                    name="state"
+                    options="{'bg_color':
+                        '#ff8f8f: state == \'expired\';
+                        #fbff8f: state == \'expiring\';
+                        #8fff93: state == \'valid\';'
+                    }"
+                />
             </tree>
         </field>
     </record>
@@ -59,42 +65,41 @@
                 <field name="gs_worker_id" type="row" />
                 <field name="type" type="col" />
                 <field name="gs_certificate_type_id" type="col" />
-                <field name="expiry_date" interval="month" type="col" />
+                <field name="expiration_date" interval="month" type="col" />
             </pivot>
         </field>
     </record>
 
     <record id="gs_worker_certificate_view_search" model="ir.ui.view">
-        <field name="name">gs_worker_certificate Search</field>
+        <field name="name">gs_worker_certificate_view_search</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
             <search string="">
+                <!-- Search fields -->
                 <field name="gs_worker_id" />
                 <field name="contract_partner_id" />
                 <field name="gs_certificate_type_id" />
-                <field name="expiry_date" />
+                <field name="expiration_date" />
                 <field name="note" />
+                <field name="state" />
 
-                <filter
-                    name="filter_expiring"
-                    domain="['&amp;',('expiry_date','&gt;=',((context_today()).strftime('%Y-%m-%d'))),('expiry_date','&lt;=',((context_today()+relativedelta(months=2)).strftime('%Y-%m-%d')))]"
-                    string="In scadenza"
-                />
-                <filter name="filter_expired" domain="[('expiry_date','&lt;=',((context_today()).strftime('%Y-%m-%d')))]" string="Scaduti" />
+                <!-- Filters -->
+                <filter name="filter_expiring" string="In scadenza" domain="[('state', '=', 'expiring')]" />
+                <filter name="filter_expired" string="Scaduti" domain="[('state', '=', 'expired')]" />
                 <separator />
-                <filter name="expiry_date" date="expiry_date" string="Data scadenza" />
+                <filter name="expiration_date" date="expiration_date" string="Data scadenza" />
                 <separator />
                 <filter name="filter_type_E" domain="[('type','=','E')]" string="Esigenza formativa" />
                 <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
                 <separator />
-                <filter name="filter_not_passed" domain="[('passed','=',False)]" string="Non superati" />
-                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Superati" />
                 
+                <!-- Grouping -->
                 <group expand="1" string="Group By">
                     <filter string="Azienda" name="contract_partner_id" context="{'group_by':'contract_partner_id'}" />
                     <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
                     <filter string="Tipologia" name="gs_certificate_type_id" context="{'group_by':'gs_certificate_type_id'}" />
-                    <filter string="Scadenza" name="expiry_date" context="{'group_by':'expiry_date'}" />
+                    <filter string="Scadenza" name="expiration_date" context="{'group_by':'expiration_date'}" />
                 </group>
             </search>
         </field>

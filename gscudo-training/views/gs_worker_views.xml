@@ -11,15 +11,37 @@
             <xpath expr="//page[@name='sawgest_data']" position="before">
                 <page name="training_certificate" string="Attestati" groups="gscudo-training.group_training_backoffice">
                     <group>
-                        <field name="gs_worker_certificate_ids">
-                            <tree default_order="expiry_date desc">
+                        <field name="is_attentionable" />
+                        <field name="gs_worker_certificate_attentionable_ids">
+                            <tree default_order="expiration_date desc">
                                 <field name="type" />
                                 <field name="gs_certificate_type_id" />
-                                <field name="name" />
                                 <field name="issue_date" />
-                                <field name="issue_serial" />
-                                <field name="expiry_date" />
-                                <field name="note" />
+                                <field name="expiration_date" />
+                                <field
+                                    name="state"
+                                    options="{'bg_color':
+                                        '#ff8f8f: state == \'expired\';
+                                        #fbff8f: state == \'expiring\';
+                                        #8fff93: state == \'valid\';'
+                                    }"
+                                />
+                            </tree>
+                        </field>
+                        <field name="gs_worker_certificate_ids">
+                            <tree default_order="expiration_date desc">
+                                <field name="type" />
+                                <field name="gs_certificate_type_id" />
+                                <field name="issue_date" />
+                                <field name="expiration_date" />
+                                <field
+                                    name="state"
+                                    options="{'bg_color':
+                                        '#ff8f8f: state == \'expired\';
+                                        #fbff8f: state == \'expiring\';
+                                        #8fff93: state == \'valid\';'
+                                    }"
+                                />
                             </tree>
                         </field>
                         <field name="gs_course_enrollment_ids" />
