@@ -12,29 +12,36 @@
                 <page name="training_certificate" string="Attestati" groups="gscudo-training.group_training_backoffice">
                     <group>
                         <field name="is_attentionable" />
-                        <button name="action_recompute_is_attentionable" type="object" string="Recompute"/>
                         <field name="gs_worker_certificate_attentionable_ids">
                             <tree default_order="expiration_date desc">
                                 <field name="type" />
                                 <field name="gs_certificate_type_id" />
-                                <field name="name" />
                                 <field name="issue_date" />
-                                <field name="issue_serial" />
                                 <field name="expiration_date" />
-                                <field name="state" />
-                                <field name="note" />
+                                <field
+                                    name="state"
+                                    options="{'bg_color':
+                                        '#ff8f8f: state == \'expired\';
+                                        #fbff8f: state == \'expiring\';
+                                        #8fff93: state == \'valid\';'
+                                    }"
+                                />
                             </tree>
                         </field>
                         <field name="gs_worker_certificate_ids">
                             <tree default_order="expiration_date desc">
                                 <field name="type" />
                                 <field name="gs_certificate_type_id" />
-                                <field name="name" />
                                 <field name="issue_date" />
-                                <field name="issue_serial" />
                                 <field name="expiration_date" />
-                                <field name="state" />
-                                <field name="note" />
+                                <field
+                                    name="state"
+                                    options="{'bg_color':
+                                        '#ff8f8f: state == \'expired\';
+                                        #fbff8f: state == \'expiring\';
+                                        #8fff93: state == \'valid\';'
+                                    }"
+                                />
                             </tree>
                         </field>
                         <field name="gs_course_enrollment_ids" />

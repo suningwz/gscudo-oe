@@ -15,10 +15,8 @@
                         <field name="issue_date" />
                         <field name="issue_serial" />
                         <field name="expiration_date" />
-                        <!-- <field name="expiring" />
-                        <field name="expired" /> -->
                         <field name="state" />
-                        <field name="passed" />
+                        <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
                         <field name="note" />
@@ -36,18 +34,23 @@
         <field name="name">gs_worker_certificate_view_tree</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <tree create="0" delete="0" default_order="name desc">
+            <tree create="0" delete="0" default_order="expiration_date desc">
                 <field name="contract_partner_id" />
                 <field name="gs_worker_id" />
                 <field name="gs_certificate_type_id" />
                 <field name="type" />
                 <field name="issue_date" />
+                <field name="expiration_date" />
                 <field name="issue_serial" />
                 <field name="is_update" />
-                <field name="passed"/>
-                <field name="state" />
-                <!-- <field name="expiring" />
-                <field name="expired" /> -->
+                <field
+                    name="state"
+                    options="{'bg_color':
+                        '#ff8f8f: state == \'expired\';
+                        #fbff8f: state == \'expiring\';
+                        #8fff93: state == \'valid\';'
+                    }"
+                />
             </tree>
         </field>
     </record>
@@ -89,8 +92,7 @@
                 <filter name="filter_type_E" domain="[('type','=','E')]" string="Esigenza formativa" />
                 <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
                 <separator />
-                <filter name="filter_not_passed" domain="[('passed','=',False)]" string="Non superati" />
-                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Superati" />
                 
                 <!-- Grouping -->
                 <group expand="1" string="Group By">

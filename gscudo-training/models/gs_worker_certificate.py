@@ -11,7 +11,21 @@ class GSWorkerCertificate(models.Model):
     _description = "Certificazioni"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Certificazione")
+    name = fields.Char(string="Certificazione", compute="_compute_name", store=True)
+
+    @api.depends(
+        "gs_worker_id.name",
+        "gs_certificate_type_id.name",
+        "issue_date",
+    )
+    def _compute_name(self):
+        for certificate in self:
+            certificate.name = (
+                f"{certificate.gs_worker_id.name} - "
+                f"{certificate.gs_certificate_type_id.name} -"
+                f"{certificate.issue_date}"
+            )
+
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker", string="Lavoratore", index=True
     )
@@ -36,25 +50,30 @@ class GSWorkerCertificate(models.Model):
         default="E",
         required=True,
     )
-    active = fields.Boolean(string="Attivo", default=True)
+
     note = fields.Char(string="Note")
 
     issue_date = fields.Date(string="Data attestato")
     issue_serial = fields.Char(string="Protocollo attestato")
 
     external_link = fields.Char(string="Link Esterno")
-    passed = fields.Boolean(string="Superato", compute="_compute_passed", store=True)
 
-    # TODO is_updateable should influence this
+    active = fields.Boolean(string="Superato", compute="_compute_active", store=True)
+
     @api.depends(
         "gs_worker_id.gs_worker_certificate_ids.issue_date",
         "gs_certificate_type_id",
         "issue_date",
     )
-    def _compute_passed(self):
+    def _compute_active(self):
+        """
+        Here active means that there is not a newer certificate of the same type
+        or greater.
+        It's the opposite of the old "passed" field.
+        """
         for certificate in self:
             if certificate.type == "E":
-                certificate.passed = False
+                certificate.active = True
                 return
             certificate_dates = [
                 c.issue_date
@@ -66,11 +85,11 @@ class GSWorkerCertificate(models.Model):
                 and c.type == "C"
             ]
             if certificate_dates and certificate.issue_date is not False:
-                certificate.passed = certificate.issue_date < max(certificate_dates)
+                certificate.active = certificate.issue_date == max(certificate_dates)
             else:
-                certificate.passed = False
+                certificate.active = True
 
-    is_update = fields.Boolean(string="È un aggiornamento")
+    is_update = fields.Boolean(string="Aggiornabile")
 
     expiration_date = fields.Date(
         string="Data scadenza",
@@ -96,15 +115,6 @@ class GSWorkerCertificate(models.Model):
                     years=record.gs_certificate_type_id.validity_interval
                 )
 
-    # @api.constrains("issue_date", "expiration_date")
-    # def _check_date(self):
-    #     if self.expiration_date is not False:
-    #         if self.expiration_date is not False:
-    #             if self.issue_date > self.expiration_date:
-    #                 raise ValidationError(
-    #                     "La data di scadenza deve essere successiva a quella dell'attestato"
-    #                 )
-
     note = fields.Char(string="Note")
 
     state = fields.Selection(
@@ -120,7 +130,6 @@ class GSWorkerCertificate(models.Model):
         store=True,
     )
 
-    # TODO add a planned action that recomputes state
     @api.depends("expiration_date")
     def _compute_state(self):
         today = datetime.now().date()
@@ -135,44 +144,38 @@ class GSWorkerCertificate(models.Model):
             else:
                 certificate.state = "na"
 
-    # FIXME test this stuff
     def recompute_state(self):
         """
         Recomputes the validity state of the certificates that are either near the
         expiration date, or about two months from it
         """
 
-        def domain_date_between(field, date: datetime.date, delta: relativedelta):
+        def domain_date_between(field: str, date: datetime.date, delta: relativedelta):
             """
-            docstring
+            Generates a search domain constraining the given field
+            between date - delta and date + delta.
             """
             domain = ["&"]
             datefrom = (date - delta).strftime("%Y-%m-%d")
-            dateto = (date - delta).strftime("%Y-%m-%d")
-            domain.extend(
-                [
-                    (field, ">=", datefrom),
-                    (field, "<=", dateto),
-                ]
-            )
+            dateto = (date + delta).strftime("%Y-%m-%d")
+            domain.extend([(field, ">=", datefrom), (field, "<=", dateto)])
             return domain
+
+        logging.info("Recomputing certificates state")
 
         today = datetime.now().date()
         two_days = relativedelta(days=2)
         two_months = relativedelta(months=2)
 
-        model = self.env["gs_worker_certificate"]
+        domain = ["|"]
+        domain.extend(domain_date_between("expiration_date", today, two_days))
+        domain.extend(
+            domain_date_between("expiration_date", today + two_months, two_days)
+        )
+
         self.env.add_to_compute(
-            model._fields["state"],
-            model.search(
-                [
-                    "|",
-                    domain_date_between("expiration_date", today, two_days),
-                    domain_date_between(
-                        "expiration_date", today + two_months, two_days
-                    ),
-                ]
-            ),
+            self._fields["state"],
+            self.search(domain),
         )
 
     is_required = fields.Boolean(
@@ -231,47 +234,14 @@ class GSWorker(models.Model):
         inverse_name="gs_worker_id",
         string="Attestati attenzionabili",
         groups="gscudo-training.group_training_backoffice",
-        # domain=[("state", "in", ["expired", "expiring"])],
         domain=[
             "|",
             ("state", "=", "expiring"),
-            [
-                ("state", "=", "expired"),
-                ("is_required", "=", True),
-            ],
+            "&",
+            ("state", "=", "expired"),
+            ("is_required", "=", True),
         ],
     )
-
-    # TODO performances
-    def has_expiring_certificates(self):
-        """
-        Returns whether the worker has expiring certificates.
-        """
-        for worker in self:
-            for certificate in worker.gs_worker_certificate_ids:
-                if certificate.state == "expiring":
-                    return True
-        return False
-
-    def has_expired_certificates(self):
-        """
-        Returns whether the worker has expired certificates that are required.
-        """
-        for worker in self:
-            for certificate in worker.gs_worker_certificate_ids:
-                if certificate.state == "expired" and certificate.is_required:
-                    return True
-        return False
-
-    def has_expiring_unreq_certificates(self):
-        """
-        Returns whether the worker has expired certificates that are NOT required
-        """
-        for worker in self:
-            for certificate in worker.gs_worker_certificate_ids:
-                if certificate.state == "expired" and not certificate.is_required:
-                    return True
-        return False
 
     is_attentionable = fields.Boolean(
         string="Attenzionabile", compute="_compute_is_attentionable", store=True
@@ -282,17 +252,7 @@ class GSWorker(models.Model):
         "gs_worker_certificate_ids.is_required",
     )
     def _compute_is_attentionable(self):
-        """
-        Returns whether any of the above functions return true.
-        """
         for worker in self:
             worker.is_attentionable = (
                 len(worker.gs_worker_certificate_attentionable_ids) > 0
             )
-
-    def action_recompute_is_attentionable(self):
-        """
-        Recompute the is_attentionable field for all workers.
-        """
-        model = self.env["gs_worker"]
-        self.env.add_to_compute(model._fields["is_attentionable"], model.search([]))

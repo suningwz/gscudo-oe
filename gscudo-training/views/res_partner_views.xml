@@ -4,15 +4,21 @@
         <field name="name">view_partner_form_inherited</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
-        <field name="priority">99</field>
+        <field name="priority">50</field>
         <field name="arch" type="xml">
-            <xpath expr="//page[@name='internal_notes']" position="inside">
-                <!-- TODO remove -->
-                <group name="debug" string="Debug">
-                    <field name="attentionable_workers_number" />
-                    <field name="gs_worker_attentionable_ids" />
-                    <field name="gs_worker_ids" />
-                </group>
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="certificates" string="Certificati">
+                    <group name="certificates">
+                        <field name="attentionable_workers_number" />
+                        <field name="gs_worker_attentionable_ids">
+                            <tree>
+                                <field name="name" />
+                                <field name="contract_job_description" />
+                                <field name="contract_department" />
+                            </tree>
+                        </field>
+                    </group>                    
+                </page>
             </xpath>
         </field>
     </record>
