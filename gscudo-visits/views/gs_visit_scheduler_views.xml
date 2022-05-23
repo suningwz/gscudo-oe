@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_visit_scheduler_view_form" model="ir.ui.view">
+        <field name="name">gs_visit_scheduler_view_form</field>
+        <field name="model">gs_visit_scheduler</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="partner_id" />
+                        <field name="agent_id" />
+                        <field name="technician_id" />
+                        <field name="area" />
+                    </group>
+                    <group>
+                        <field name="yearly_visits" />
+                        <field name="theoretical_visits" />
+                        <field name="total_visits" />
+                        <field name="visit_ids" />
+                        <field name="assignment" />
+                        <field name="date_ins" />
+                        <field name="rspp" />
+                        <field name="date_appointment" />
+                        <field name="is_appointment_ok" />
+                        <field name="note" />
+                    </group>
+                    <group>
+                        <field name="non_conformity_number" />
+                        <field name="non_conformity_cause" />
+                        <field name="non_conformity_correction" />
+                    </group>
+                    <group>
+                        <field name="contract_number" />
+                        <field name="ateco_category_id" />
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_visit_scheduler_view_tree" model="ir.ui.view">
+        <field name="name">gs_visit_scheduler_view_tree</field>
+        <field name="model">gs_visit_scheduler</field>
+        <field name="arch" type="xml">
+            <tree default_order="partner_id">
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="agent_id" />
+                <field name="technician_id" />
+                <field name="area" />
+                <field name="yearly_visits" />
+                <field name="total_visits" />
+                <field name="date_ins" />
+                <field name="is_appointment_ok" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_visit_scheduler_view_search" model="ir.ui.view">
+        <field name="name">gs_visit_scheduler_view_search</field>
+        <field name="model">gs_visit_scheduler</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="partner_id" />
+                <field name="agent_id" />
+                <field name="technician_id" />
+                <field name="area" />
+
+                <!-- <filter name="no_end_date" domain="[('end_date','=',False)]" string="Senza data fine" />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" /> -->
+
+                <group expand="1" string="Group By">
+                    <filter string="Agente" name="agent_id" context="{'group_by':'agent_id'}" />
+                    <filter string="Tecnico" name="technician_id" context="{'group_by':'technician_id'}" />
+                    <filter string="Sede" name="partner_id" context="{'group_by':'partner_id'}" />
+                    <filter string="Area" name="area" context="{'group_by':'area'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_visit_scheduler action -->
+    <record id="view_gs_visit_scheduler_action" model="ir.actions.act_window">
+        <field name="name">Schedulatore visite (prototipo)</field>
+        <field name="res_model">gs_visit_scheduler</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_visit_scheduler_view_tree" />
+    </record>
+
+    <!-- gs_visit_scheduler menu -->
+    <menuitem
+        id="gs_visit_scheduler_menu"
+        name="Schedulatore visite (prototipo)"
+        parent="gs_visits_menu_root"
+        sequence="10"
+        action="view_gs_visit_scheduler_action"
+        groups="base.group_user"
+    />
+</odoo>

@@ -1,0 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <menuitem
+        id="gs_visits_menu_root"
+        name="Schedulatore visite (prototipo)"
+        web_icon="gscudo-visits,static/description/icon.png"
+        groups="base.group_user"
+        action="view_gs_visit_scheduler_action"
+    />
+</odoo>
