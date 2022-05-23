@@ -31,11 +31,10 @@
         <field name="arch" type="xml">
             <tree default_order="name">
                 <field name="code" />
+                <field name="validity_interval" string="Validità (anni)" />
                 <field name="name" />
-                <field name="note" />
                 <field name="law_ref" />
-                <field name="validity_interval" />
-                <!-- <field name="update_interval" /> -->
+                <field name="note" />
             </tree>
         </field>
     </record>

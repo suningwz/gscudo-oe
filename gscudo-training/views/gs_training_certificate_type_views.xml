@@ -64,7 +64,7 @@
     <menuitem
         id="gs_training_certificate_type_menu"
         name="Certificati Formativo (old)"
-        parent="gscudo-training.menu_settings"
+        parent="gs_training_menu_settings"
         sequence="10"
         action="view_gs_training_certificate_type_action"
         groups="gscudo-training.group_training_manager"

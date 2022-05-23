@@ -35,7 +35,9 @@
         <field name="name">gs_worker_certificate_view_tree</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <tree create="0" delete="0" default_order="expiration_date desc">
+            <tree default_order="expiration_date desc">
+            <!-- TODO why no create? -->
+            <!-- <tree create="0" delete="0" default_order="expiration_date desc"> -->
                 <field name="contract_partner_id" />
                 <field name="gs_worker_id" />
                 <field name="gs_certificate_type_id" />
@@ -114,7 +116,8 @@
         <field name="name">Certificati/Attestati</field>
         <field name="res_model">gs_worker_certificate</field>
         <field name="domain"></field>
-        <field name="view_mode">tree,form,pivot</field>
+        <!-- <field name="view_mode">tree,form,pivot</field> -->
+        <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_worker_certificate_view_tree" />
     </record>
 

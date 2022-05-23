@@ -14,7 +14,7 @@
                     <group>
                         <field name="is_attentionable" />
                         <field name="gs_worker_certificate_attentionable_ids">
-                            <tree default_order="expiration_date desc">
+                            <tree default_order="expiration_date desc" create="0" delete="0">
                                 <field name="type" />
                                 <field name="gs_certificate_type_id" />
                                 <field name="gs_training_certificate_type_id" />

@@ -22,7 +22,7 @@ class GSWorkerCertificate(models.Model):
         for certificate in self:
             certificate.name = (
                 f"{certificate.gs_worker_id.name} - "
-                f"{certificate.gs_certificate_type_id.name} -"
+                f"{certificate.gs_certificate_type_id.name} - "
                 f"{certificate.issue_date}"
             )
 
