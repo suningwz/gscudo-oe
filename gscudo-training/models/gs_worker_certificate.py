@@ -53,7 +53,7 @@ class GSWorkerCertificate(models.Model):
             ("C", "Certificato"),
             ("E", "Esigenza formativa"),
         ],
-        default="E",
+        default="C",
         required=True,
     )
 
@@ -243,6 +243,7 @@ class GSWorker(models.Model):
         string="Attestati attenzionabili",
         groups="gscudo-training.group_training_backoffice",
         domain=[
+            ("active", "=", True),
             "|",
             ("state", "=", "expiring"),
             "&",
