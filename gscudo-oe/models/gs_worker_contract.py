@@ -108,7 +108,9 @@ class ResPartner(models.Model):
     _inherit = "res.partner"
 
     gs_worker_ids = fields.One2many(
-        "gs_worker", "contract_partner_id", string="Lavoratori"
+        comodel_name="gs_worker",
+        inverse_name="contract_partner_id",
+        string="Lavoratori",
     )
 
     workers_count = fields.Integer(
