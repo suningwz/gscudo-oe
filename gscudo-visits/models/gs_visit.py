@@ -12,3 +12,22 @@ class GSVisit(models.Model):
         string="Referenza scheduler",
     )
     date = fields.Date(string="Data")
+
+    confirmed = fields.Boolean(string="Confermata", default=True)
+    done = fields.Boolean(string="Eseguita", default=False)
+
+    agent_id = fields.Many2one(
+        related="visit_scheduler_id.agent_id",
+        comodel_name="hr.employee",
+        string="Agente",
+    )
+    technician_id = fields.Many2one(
+        related="visit_scheduler_id.technician_id",
+        comodel_name="hr.employee",
+        string="Tecnico",
+    )
+    partner_id = fields.Many2one(
+        related="visit_scheduler_id.partner_id",
+        comodel_name="res.partner",
+        string="Sede",
+    )

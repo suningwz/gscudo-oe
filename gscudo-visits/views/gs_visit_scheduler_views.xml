@@ -17,7 +17,22 @@
                         <field name="yearly_visits" />
                         <field name="theoretical_visits" />
                         <field name="total_visits" />
-                        <field name="visit_ids" />
+                        <button
+                            name="schedule_tentative_visits"
+                            type="object"
+                            string="Pianifica visite"
+                        />
+                        <field name="visit_ids">
+                            <tree default_order="date">
+                                <field name="name" />
+                                <field name="visit_scheduler_id" />
+                                <field name="date" />
+                                <field name="confirmed" widget="boolean_toggle"/>
+                                <field name="done" widget="boolean_toggle"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
                         <field name="assignment" />
                         <field name="date_ins" />
                         <field name="rspp" />

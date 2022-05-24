@@ -24,6 +24,11 @@
                 <field name="name" />
                 <field name="visit_scheduler_id" />
                 <field name="date" />
+                <field name="agent_id" />
+                <field name="technician_id" />
+                <field name="partner_id" />
+                <field name="confirmed" widget="boolean_toggle"/>
+                <field name="done" widget="boolean_toggle"/>
             </tree>
         </field>
     </record>
@@ -65,7 +70,7 @@
         name="Visite (prototipo)"
         parent="gs_visits_menu_root"
         sequence="20"
-        action="view_gs_visit_scheduler_action"
+        action="view_gs_visit_action"
         groups="base.group_user"
     />
 </odoo>

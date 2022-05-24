@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import date, timedelta
 from math import floor
 from odoo import fields, models, api
+from odoo.exceptions import ValidationError
 
 
 class GSVisitScheduler(models.Model):
@@ -52,6 +53,8 @@ class GSVisitScheduler(models.Model):
                     visit
                     for visit in scheduler.visit_ids
                     if visit.date.year == date.today().year
+                    and visit.confirmed
+                    and not visit.done
                 ]
             )
 
@@ -89,4 +92,32 @@ class GSVisitScheduler(models.Model):
 
     # Macrosettore Ateco 2006
     # Formazione asr2011
-    # Visite teoriche in base a ingresso
+
+    def schedule_tentative_visits(self):
+        """
+        Creates unconfirmed visits based on the number of theoretical visits
+        and on today's date.
+        """
+        this_year = date.today().year
+        for scheduler in self:
+            if [visit for visit in scheduler.visit_ids if visit.date.year == this_year]:
+                raise ValidationError(
+                    f"Ci sono già visite programmate per il {date.today().year}"
+                )
+            days_elapsed = date.today() - date(day=1, month=1, year=this_year)
+            days_remaining = date(day=31, month=12, year=this_year) - date.today()
+            visits_number = floor(scheduler.yearly_visits * days_elapsed.days / 365)
+            if visits_number == 0:
+                continue
+            visit_interval = floor(days_remaining.days / (visits_number + 1))
+
+            for v in range(1, visits_number + 1):
+                visit = {
+                    "name": f"Visita {v} - {this_year}",
+                    "visit_scheduler_id": scheduler.id,
+                    "date": date.today() + timedelta(days=visit_interval * v),
+                    "confirmed": False,
+                    "done": False,
+                }
+
+                self.env["gs_visit"].create(visit)
