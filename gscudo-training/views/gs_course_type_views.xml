@@ -7,7 +7,6 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="gs_certificate_type_id" />
                         <field name="gs_training_certificate_type_id" />
                         <field name="name" />
                         <field name="code" />
@@ -39,7 +38,6 @@
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
             <tree default_order="code, name">
-                <field name="gs_certificate_type_id" />
                 <field name="gs_training_certificate_type_id" />
                 <field name="code" />
                 <field name="name" />
@@ -60,7 +58,6 @@
                 <field name="name" />
                 <field name="code" />
                 <field name="product_id" />
-                <field name="gs_certificate_type_id" />
                 <field name="gs_training_certificate_type_id" />
 
                 <filter name="filter_elearning" domain="[('mode','=','E')]" string="ELearning" />
@@ -73,8 +70,7 @@
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
                 
                 <group expand="1" string="Group By">
-                    <filter string="Certificato Formativo" name="gs_certificate_type_id" context="{'group_by':'gs_certificate_type_id'}" />
-                    <filter string="Certificato Formativo (old)" name="gs_training_certificate_type_id" context="{'group_by':'gs_training_certificate_type_id'}" />
+                    <filter string="Certificato Formativo" name="gs_training_certificate_type_id" context="{'group_by':'gs_training_certificate_type_id'}" />
                     <filter string="Prodotto" name="product_id" context="{'group_by':'product_id'}" />
                 </group>
             </search>

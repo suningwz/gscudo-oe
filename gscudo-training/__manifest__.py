@@ -16,8 +16,7 @@
         "security/security_groups.xml",
         "security/ir.model.access.csv",
         "views/gs_training_menus.xml",
-        "views/gs_certificate_type_views.xml",
-        "views/gs_training_certificate_type_views.xml",  # TODO remove
+        "views/gs_training_certificate_type_views.xml",
         "views/gs_course_type_views.xml",
         "views/gs_course_type_module_views.xml",
         "views/gs_course_views.xml",

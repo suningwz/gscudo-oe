@@ -15,14 +15,14 @@ class GSWorkerCertificate(models.Model):
 
     @api.depends(
         "gs_worker_id.name",
-        "gs_certificate_type_id.name",
+        "gs_training_certificate_type_id.name",
         "issue_date",
     )
     def _compute_name(self):
         for certificate in self:
             certificate.name = (
                 f"{certificate.gs_worker_id.name} - "
-                f"{certificate.gs_certificate_type_id.name} - "
+                f"{certificate.gs_training_certificate_type_id.name} - "
                 f"{certificate.issue_date}"
             )
 
@@ -37,14 +37,9 @@ class GSWorkerCertificate(models.Model):
         index=True,
     )
 
-    gs_certificate_type_id = fields.Many2one(
-        comodel_name="gs_certificate_type",
-        string="Tipo certificazione",
-    )
-
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
-        string="Tipo certificazione (old)",
+        string="Tipo certificazione",
     )
 
     type = fields.Selection(
@@ -68,7 +63,7 @@ class GSWorkerCertificate(models.Model):
 
     @api.depends(
         "gs_worker_id.gs_worker_certificate_ids.issue_date",
-        "gs_certificate_type_id",
+        "gs_training_certificate_type_id",
         "issue_date",
     )
     def _compute_active(self):
@@ -84,8 +79,8 @@ class GSWorkerCertificate(models.Model):
             certificate_dates = [
                 c.issue_date
                 for c in certificate.gs_worker_id.gs_worker_certificate_ids
-                if c.gs_certificate_type_id.satisfies(
-                    certificate.gs_certificate_type_id
+                if c.gs_training_certificate_type_id.satisfies(
+                    certificate.gs_training_certificate_type_id
                 )
                 and c.issue_date is not False
                 and c.type == "C"
@@ -106,7 +101,7 @@ class GSWorkerCertificate(models.Model):
         store=True,
     )
 
-    @api.depends("issue_date", "gs_certificate_type_id.validity_interval")
+    @api.depends("issue_date", "gs_training_certificate_type_id.validity_interval")
     def _compute_expiration_date(self):
         """
         Computes the expiration date of the certificate.
@@ -117,10 +112,10 @@ class GSWorkerCertificate(models.Model):
         for record in self:
             if (
                 record.issue_date is not False
-                and record.gs_certificate_type_id is not False
+                and record.gs_training_certificate_type_id is not False
             ):
                 record.expiration_date = record.issue_date + relativedelta(
-                    years=record.gs_certificate_type_id.validity_interval
+                    years=record.gs_training_certificate_type_id.validity_interval
                 )
 
     note = fields.Char(string="Note")
@@ -190,7 +185,7 @@ class GSWorkerCertificate(models.Model):
         string="Richiesto", compute="_compute_is_required", store=True, index=True
     )
 
-    @api.depends("gs_worker_id", "gs_certificate_type_id")
+    @api.depends("gs_worker_id", "gs_training_certificate_type_id")
     def _compute_is_required(self):
         for certificate in self:
             active_jobs = [
@@ -200,8 +195,8 @@ class GSWorkerCertificate(models.Model):
             ]
             certificate.is_required = False
             for job in active_jobs:
-                for req in job.gs_certificate_type_ids:
-                    if certificate.gs_certificate_type_id.satisfies(req):
+                for req in job.gs_training_certificate_type_ids:
+                    if certificate.gs_training_certificate_type_id.satisfies(req):
                         certificate.is_required = True
                         return
 

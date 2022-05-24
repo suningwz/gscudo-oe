@@ -7,7 +7,6 @@
         <field name="arch" type="xml">
             <xpath expr="//sheet" position="inside">
                 <group>
-                    <field name="gs_certificate_type_ids" />
                     <field name="gs_training_certificate_type_ids" />
                 </group>
             </xpath>
