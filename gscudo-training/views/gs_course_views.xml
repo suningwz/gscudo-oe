@@ -80,7 +80,6 @@
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
             <kanban create="false" class="o_kanban_mobile" default_group_by="state">
-                <!-- TODO these should be inside the kanban-box maybe? -->
                 <field name="name" />
                 <field name="start_date" />
                 <field name="location_partner_id" />
