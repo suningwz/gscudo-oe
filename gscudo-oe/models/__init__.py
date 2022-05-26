@@ -10,3 +10,4 @@ from . import gs_worker
 from . import gs_worker_contract
 from . import gs_worker_job_type
 from . import gs_worker_job
+from . import crm_tag
