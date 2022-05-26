@@ -35,6 +35,7 @@
         "data/gs_product_family.xml",
         "views/gs_oe_menus.xml",
         "views/res_partner_views.xml",
+        "views/res_partner_category_views.xml",
         "views/hr_department_views.xml",
         "views/gs_product_family_views.xml",
         "views/project_project_views.xml",

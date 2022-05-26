@@ -50,4 +50,15 @@
         <field name="perm_unlink" eval="True" />
         <field name="perm_create" eval="True" />
     </record>
+
+    <record model="ir.rule" id="crm_tag_group_access">
+        <field name="name">Partner Category Restricted</field>
+        <field ref="model_res_partner_category" name="model_id" />
+        <field name="domain_force">['|', ('read_group_ids', '=', False),
+                    ('read_group_ids', 'in', [g.id for g in user.groups_id]),]</field>
+        <field name="perm_read" eval="True" />
+        <field name="perm_write" eval="True" />
+        <field name="perm_unlink" eval="True" />
+        <field name="perm_create" eval="True" />
+    </record>
 </odoo>
