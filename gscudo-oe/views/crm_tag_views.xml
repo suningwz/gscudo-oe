@@ -1,9 +1,9 @@
 <?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <record id="sales.team.crm.tag.view.tree" model="ir.ui.view">
+    <record id="sales_team_crm_tag_view_tree" model="ir.ui.view">
         <field name="name">crm.tag.inherit.view.form</field>
         <field name="model">crm.tag</field>
-        <field name="inherit_id" ref="base_module.sales.team.crm.tag.view.tree" />
+        <field name="inherit_id" ref="sales_team.sales_team_crm_tag_view_tree" />
         <field name="arch" type="xml">
             <xpath expr="//tree[1]/field[@name='name']" position="after">
                 <field name="read_group_ids" optional="show" widget="many2many_tags" />

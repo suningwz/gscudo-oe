@@ -43,8 +43,8 @@
     <record model="ir.rule" id="crm_tag_group_access">
         <field name="name">Crm Tag Restricted</field>
         <field ref="model_crm_tag" name="model_id" />
-        <field name="domain_force">['|', ('x_studio_access_group_ids', '=', False),
-                    ('x_studio_access_group_ids', 'in', [g.id for g in user.groups_id]),]</field>
+        <field name="domain_force">['|', ('read_group_ids', '=', False),
+                    ('read_group_ids', 'in', [g.id for g in user.groups_id]),]</field>
         <field name="perm_read" eval="True" />
         <field name="perm_write" eval="True" />
         <field name="perm_unlink" eval="True" />
