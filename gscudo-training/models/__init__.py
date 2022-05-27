@@ -1,4 +1,3 @@
-from . import gs_certificate_type
 from . import gs_course_type
 from . import gs_course_type_module
 from . import gs_course
@@ -9,3 +8,5 @@ from . import gs_worker_certificate
 from . import gs_worker_job_type
 from . import gs_worker_job
 from . import product_template
+from . import res_partner
+from . import gs_training_certificate_type
