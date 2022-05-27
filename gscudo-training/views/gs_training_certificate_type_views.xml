@@ -9,10 +9,11 @@
                     <group>
                         <field name="name" />
                         <field name="code" />
-                        <field name="note" />
                         <field name="law_ref" />
                         <field name="validity_interval" />
+                        <field name="is_updateable" />
                         <field name="active" />
+                        <field name="note" />
                     </group>
                 </sheet>
             </form>
@@ -27,8 +28,8 @@
                 <field name="code" />
                 <field name="validity_interval" string="Validità (anni)" />
                 <field name="name" />
-                <field name="note" />
                 <field name="law_ref" />
+                <field name="note" />
             </tree>
         </field>
     </record>
