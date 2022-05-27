@@ -43,6 +43,8 @@
                 <field name="expiration_date" />
                 <field name="issue_serial" />
                 <field name="is_update" />
+                <!-- FIXME why does it show the field technical name? -->
+                <field name="active" optional="hide" string="Attivo" />
                 <field
                     name="state"
                     options="{'bg_color':
@@ -92,7 +94,11 @@
                 <filter name="filter_type_E" domain="[('type','=','E')]" string="Esigenza formativa" />
                 <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
                 <separator />
-                <filter name="filter_archived" domain="[('active','=',0)]" string="Superati" />
+                <filter
+                    name="filter_all"
+                    domain="['|', ('active','=',True), ('active','=',False)]"
+                    string="Tutti"
+                />
                 
                 <!-- Grouping -->
                 <group expand="1" string="Group By">

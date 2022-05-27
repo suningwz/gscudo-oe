@@ -59,7 +59,7 @@ class GSWorkerCertificate(models.Model):
 
     external_link = fields.Char(string="Link Esterno")
 
-    active = fields.Boolean(string="Superato", compute="_compute_active", store=True)
+    active = fields.Boolean(string="Attivo", compute="_compute_active", store=True)
 
     @api.depends(
         "gs_worker_id.gs_worker_certificate_ids.issue_date",
@@ -86,6 +86,8 @@ class GSWorkerCertificate(models.Model):
                 and c.type == "C"
             ]
             if certificate_dates and certificate.issue_date is not False:
+                # a certificate is active if its date is the biggest among the
+                # certificates of the same type
                 certificate.active = certificate.issue_date == max(certificate_dates)
             else:
                 certificate.active = True
