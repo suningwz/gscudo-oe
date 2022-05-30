@@ -16,11 +16,12 @@ class GSCourseEnrollment(models.Model):
     state = fields.Selection(
         string="Stato",
         selection=[
-            ("I", "Identificato"),
+            # ("I", "Identificato"),
             ("P", "Proposto"),
             ("A", "Accettato"),
             ("C", "Confermato"),
         ],
+        default="P",
     )
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)
@@ -31,10 +32,10 @@ class GSCourseEnrollment(models.Model):
         At creation, add implicit lesson creation.
         """
         enrollment = super().create(values)
-        for c in enrollment.gs_course_id.gs_course_lesson_ids:
+        for lesson in enrollment.gs_course_id.gs_course_lesson_ids:
             data = {
                 "gs_worker_id": enrollment.gs_worker_id.id,
-                "gs_course_lesson_id": c.id,
+                "gs_course_lesson_id": lesson.id,
                 "state": enrollment.state,
                 "implicit": True,
                 "gs_course_enrollment_id": enrollment.id,

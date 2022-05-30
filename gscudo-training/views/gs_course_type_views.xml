@@ -17,8 +17,18 @@
                         <field name="is_multicompany" />
                         <field name="note" />
                         <field name="active" />
+                    </group>
+                    <group>
+                        <button
+                            name="%(gs_course_type_module_wizard_action)d"
+                            type="action"
+                            string="Aggiungi modulo"
+                            context="{'default_gs_course_type_id': active_id}"
+                        />
+                    </group>
+                    <group>
                         <field name="gs_course_type_module_ids">
-                            <tree>
+                            <tree create="0">
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
                                 <field name="duration" />
@@ -45,7 +55,7 @@
                 <field name="duration" />
                 <field name="is_update" />
                 <field name="mode" />
-                <field name="is_multicompany" widget="boolean_toggle" />
+                <field name="is_multicompany" />
             </tree>
         </field>
     </record>
@@ -95,5 +105,4 @@
         action="gs_course_type_action_view_tree"
         groups="gscudo-training.group_training_manager"
     />
-
 </odoo>

@@ -19,7 +19,20 @@
                         <field name="max_workers" />
                         <field name="state" />
                         <field name="note" />
-                        <field name="gs_course_lesson_ids" />
+                        <field name="gs_course_lesson_ids">
+                            <tree create="false" delete="false">
+                                <field name="name" />
+                                <field name="start_time" />
+                                <field name="duration" />
+                                <field name="state" />
+                                <button
+                                    type="object"
+                                    name="get_formview_action"
+                                    string="Open"
+                                    icon="fa-edit"
+                                />
+                            </tree>
+                        </field>
                     </group>
                 </sheet>
             </form>

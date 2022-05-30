@@ -5,7 +5,7 @@ class GSTrainingCertificateType(models.Model):
     _name = "gs_training_certificate_type"
     _description = "Tipo Certificato Formativo"
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Nome")
     active = fields.Boolean(string="Attivo", default=True)
     code = fields.Char(string="Codice")
     note = fields.Char(string="Note")
@@ -24,8 +24,8 @@ class GSTrainingCertificateType(models.Model):
         string="Soddisfa anche",
     )
 
-    def satisfies(self, other):
+    def weaker_certificates(self):
         """
-        Returns True if self is stronger than other
+        Returns the list of weaker certificate types
         """
-        return other == self or other in self.weaker_certificate_ids
+        return list(self.weaker_certificate_ids) + [self]

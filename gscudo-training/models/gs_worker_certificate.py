@@ -79,8 +79,9 @@ class GSWorkerCertificate(models.Model):
             certificate_dates = [
                 c.issue_date
                 for c in certificate.gs_worker_id.gs_worker_certificate_ids
-                if c.gs_training_certificate_type_id.satisfies(
-                    certificate.gs_training_certificate_type_id
+                if (
+                    c.gs_training_certificate_type_id
+                    in certificate.gs_training_certificate_type_id.weaker_certificates()
                 )
                 and c.issue_date is not False
                 and c.type == "C"
@@ -94,7 +95,7 @@ class GSWorkerCertificate(models.Model):
 
     is_update = fields.Boolean(string="Aggiornabile")
 
-    expiry_date = fields.Date(string="Data scadenza (old)")
+    expiry_date = fields.Date(string="Data scadenza (sawgest)")
 
     expiration_date = fields.Date(
         string="Data scadenza",
@@ -198,7 +199,10 @@ class GSWorkerCertificate(models.Model):
             certificate.is_required = False
             for job in active_jobs:
                 for req in job.gs_training_certificate_type_ids:
-                    if certificate.gs_training_certificate_type_id.satisfies(req):
+                    if (
+                        req
+                        in certificate.gs_training_certificate_type_id.weaker_certificates()
+                    ):
                         certificate.is_required = True
                         return
 

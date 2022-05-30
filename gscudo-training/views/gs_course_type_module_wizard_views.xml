@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_course_type_module_wizard_form" model="ir.ui.view">
+        <field name="name">gs_course_type_module_wizard_view_form</field>
+        <field name="model">gs_course_type_module_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="gs_course_type_id" />
+                        <field name="content" />
+                        <field name="duration" />
+                        <field name="remaining_hours" />
+                        <field name="generate_certificate" widget="boolean_toggle" />
+                        <field name="elearning" widget="boolean_toggle" />
+                        <field name="note" />
+                        <field name="module_required_ids" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="create_module" type="object" string="Crea" class="oe_highlight" />
+                    o
+                    <button special="cancel" string="Annulla" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_course_type_module_wizard_action" model="ir.actions.act_window">
+        <field name="name">Crea modulo</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gs_course_type_module_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>     
+        <field name="view_id" ref="gs_course_type_module_wizard_form"/>
+        <field name="binding_model_id" ref="model_gs_course_type"/>
+    </record>
+</odoo>

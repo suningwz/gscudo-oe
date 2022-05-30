@@ -17,6 +17,8 @@
         "security/ir.model.access.csv",
         "views/gs_training_menus.xml",
         "views/gs_training_certificate_type_views.xml",
+        "views/gs_course_type_module_wizard_views.xml",
+        "views/gs_course_lesson_views.xml",
         "views/gs_course_type_views.xml",
         "views/gs_course_type_module_views.xml",
         "views/gs_course_views.xml",

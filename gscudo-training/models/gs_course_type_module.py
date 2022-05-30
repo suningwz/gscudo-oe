@@ -3,18 +3,11 @@ from odoo import fields, models
 
 class GSCourseTypeModule(models.Model):
     _name = "gs_course_type_module"
-    _description = "GS Modulo"
+    _description = "Modulo"
 
     name = fields.Char(string="Modulo")
     active = fields.Boolean(string="Attivo", default=True)
     content = fields.Text(string="Contenuto")
-    # alternate_id = fields.Integer(
-    #     string="alternate_id", compute="_compute_alternate_id", store=True, index=True
-    # )
-
-    # def _compute_alternate_id(self):
-    #     for record in self:
-    #         record.alternate_id = record.id
 
     note = fields.Char(string="Note")
 

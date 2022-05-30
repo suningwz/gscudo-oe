@@ -20,11 +20,12 @@ class GSLessonEnrollment(models.Model):
     state = fields.Selection(
         string="Stato",
         selection=[
-            ("I", "identificato"),
+            # ("I", "identificato"),
             ("P", "proposto"),
             ("A", "accettato"),
             ("C", "confermato"),
         ],
+        default="P",
     )
     active = fields.Boolean(string="Attivo", default=True)
     is_attendant = fields.Boolean(string="È presente", default=False)
@@ -35,7 +36,7 @@ class GSLessonEnrollment(models.Model):
     )
 
 
-class GSCourse(models.Model):
+class GSCourseLesson(models.Model):
     _inherit = "gs_course_lesson"
 
     gs_worker_ids = fields.One2many(
@@ -45,7 +46,7 @@ class GSCourse(models.Model):
     )
 
 
-class GSEnrollment(models.Model):
+class GSCourseEnrollment(models.Model):
     _inherit = "gs_course_enrollment"
 
     gs_lesson_enrollment_ids = fields.One2many(

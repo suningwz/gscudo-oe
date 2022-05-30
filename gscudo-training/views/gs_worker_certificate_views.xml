@@ -43,7 +43,6 @@
                 <field name="expiration_date" />
                 <field name="issue_serial" />
                 <field name="is_update" />
-                <!-- FIXME why does it show the field technical name? -->
                 <field name="active" optional="hide" string="Attivo" />
                 <field
                     name="state"
