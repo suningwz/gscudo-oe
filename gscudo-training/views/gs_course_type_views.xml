@@ -18,17 +18,17 @@
                         <field name="note" />
                         <field name="active" />
                     </group>
-                    <group>
+                    <!-- <group>
                         <button
                             name="%(gs_course_type_module_wizard_action)d"
                             type="action"
                             string="Aggiungi modulo"
                             context="{'default_gs_course_type_id': active_id}"
                         />
-                    </group>
+                    </group> -->
                     <group>
                         <field name="gs_course_type_module_ids">
-                            <tree create="0">
+                            <tree>
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
                                 <field name="duration" />

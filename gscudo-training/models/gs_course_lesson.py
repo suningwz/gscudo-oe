@@ -16,6 +16,16 @@ class GSCourseLesson(models.Model):
         string="Tipo Corso",
     )
 
+    # FIXME automatically change children when parent is changed
+    parent_lesson_id = fields.Many2one(
+        comodel_name="gs_course_lesson", string="Lezione padre"
+    )
+    children_lesson_ids = fields.One2many(
+        comodel_name="gs_course_lesson",
+        inverse_name="parent_lesson_id",
+        string="Lezioni figlie",
+    )
+
     state = fields.Selection(
         selection=[("tentative", "Provvisorio"), ("final", "Definitivo")],
         string="Stato",
@@ -52,6 +62,25 @@ class GSCourseLesson(models.Model):
     is_coteacher_remote = fields.Boolean(string="Codocente in videoconf.")
     meeting_url = fields.Char(string="Link videoconferenza")
 
+    def write(self, vals):
+        """
+        If a lesson is updated, update all children accordingly.
+        """
+        for parent in self:
+            if not parent.children_lesson_ids:
+                continue
+
+            for child in parent.children_lesson_ids:
+                if vals.get("start_time") and vals.get("start_time") != child.start_time:
+                    child.start_time = vals["start_time"]
+                if (
+                    vals.get("teacher_partner_id")
+                    and vals.get("teacher_partner_id") != child.teacher_partner_id.id
+                ):
+                    child.teacher_partner_id = vals["teacher_partner_id"]
+
+        return super().write(vals)
+
 
 class GSCourse(models.Model):
     _inherit = "gs_course"
@@ -62,27 +91,14 @@ class GSCourse(models.Model):
         string="Lezioni",
     )
 
-    # @api.onchange("gs_course_type_id")
-    # def _onchange_gs_course_type_id(self):
-    #     """
-    #     Create new lessons according to course type modules.
-    #     """
-    #     for module in self.gs_course_type_id.gs_course_type_module_ids:
-    #         data = {
-    #             "name": module.name,
-    #             "gs_course_id": self.id,
-    #             "duration": module.duration,
-    #             "gs_course_type_module_id": module.id,
-    #             "state": "tentative",
-    #         }
-    #         self.env["gs_course_lesson"].create(data)
-
     @api.model
     def create(self, vals):
         """
-        Create new course and lessons according to course type modules.
+        Create lessons according to course type modules.
         """
         course = super().create(vals)
+        parent = course.parent_course_id
+
         for module in course.gs_course_type_id.gs_course_type_module_ids:
             data = {
                 "name": f"Lezione {module.name}",
@@ -92,6 +108,20 @@ class GSCourse(models.Model):
                 "location_partner_id": course.location_partner_id.id,
                 "state": "tentative",
             }
+
+            if parent is not False and not module.generate_certificate:
+                parents = [
+                    lesson
+                    for lesson in parent.gs_course_lesson_ids
+                    if lesson.gs_course_type_module_id == module
+                ]
+
+                if parents:
+                    lesson = parents[0]
+                    data["parent_lesson_id"] = lesson.id
+                    data["start_time"] = lesson.start_time
+                    data["teacher_partner_id"] = lesson.teacher_partner_id.id
+
             self.env["gs_course_lesson"].create(data)
         return course
 

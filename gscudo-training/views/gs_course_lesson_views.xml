@@ -9,6 +9,7 @@
                     <group>
                         <field name="name" />
                         <field name="state" />
+                        <field name="parent_lesson_id" />
                         <field name="gs_course_id" readonly="1"/>
                         <field name="gs_course_type_id" readonly="1"/>
                     </group>
@@ -21,7 +22,6 @@
                         <field name="note" />
                     </group>
                     <group>
-                        <!-- FIXME populate the res.partner table with the teachers -->
                         <field name="teacher_partner_id" />
                         <field name="is_teacher_remote" />
                         <field name="coteacher_partner_id" />

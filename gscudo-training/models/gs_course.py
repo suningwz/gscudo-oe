@@ -32,3 +32,21 @@ class GSCourse(models.Model):
     )
     mode = fields.Selection(related="gs_course_type_id.mode", string="Modalità")
     is_multicompany = fields.Boolean(string="Multiazendale")
+
+    parent_course_id = fields.Many2one(
+        comodel_name="gs_course", string="Corso padre"
+    )
+    children_course_ids = fields.One2many(
+        comodel_name="gs_course",
+        inverse_name="parent_course_id",
+        string="Corsi figli",
+    )
+
+    is_child = fields.Boolean(
+        string="Figlio",
+        compute="_compute_is_child",
+    )
+
+    def _compute_is_child(self):
+        for course in self:
+            course.is_child = (course.parent_course_id.id is not False)

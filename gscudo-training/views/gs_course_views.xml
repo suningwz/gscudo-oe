@@ -19,6 +19,7 @@
                         <field name="max_workers" />
                         <field name="state" />
                         <field name="note" />
+                        <field name="parent_course_id" />
                         <field name="gs_course_lesson_ids">
                             <tree create="false" delete="false">
                                 <field name="name" />
@@ -71,6 +72,7 @@
                 <field name="mode" />
                 <field name="is_multicompany" />
                 <field name="state" />
+                <field name="is_child" />
             </tree>
         </field>
     </record>
