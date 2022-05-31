@@ -15,9 +15,11 @@
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",
+        "views/gs_course_type_module_wizard_views.xml",
+        "views/gs_course_enrollment_wizard_views.xml",
+        "views/gs_lesson_enrollment_wizard_views.xml",
         "views/gs_training_menus.xml",
         "views/gs_training_certificate_type_views.xml",
-        "views/gs_course_type_module_wizard_views.xml",
         "views/gs_course_lesson_views.xml",
         "views/gs_course_type_views.xml",
         "views/gs_course_type_module_views.xml",

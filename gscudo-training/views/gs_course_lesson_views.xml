@@ -29,7 +29,20 @@
                         <field name="meeting_url" />
                     </group>
                     <group>
-                        <field name="gs_worker_ids" />
+                        <field name="gs_worker_ids">
+                            <tree create="false" delete="false">
+                                <field name="gs_worker_id" />
+                                <field name="partner_id" />
+                                <field name="state" />
+                                <button
+                                    type="object"
+                                    name="get_formview_action"
+                                    string="Modifica"
+                                    icon="fa-edit"
+                                    context="{'form_view_initial_mode': 'edit'}"
+                                />
+                            </tree>
+                        </field>
                     </group>
                 </sheet>
             </form>

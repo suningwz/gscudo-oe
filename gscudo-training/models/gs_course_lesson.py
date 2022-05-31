@@ -103,15 +103,3 @@ class GSCourse(models.Model):
             for lesson in course.gs_course_lesson_ids:
                 lesson.unlink()
         return super().unlink()
-
-
-# FIXME move to lesson enrollment
-class GSWorker(models.Model):
-    _inherit = "gs_worker"
-
-    gs_lesson_enrollment_ids = fields.One2many(
-        comodel_name="gs_lesson_enrollment",
-        inverse_name="gs_worker_id",
-        string="Lezioni",
-        groups="gscudo-training.group_training_backoffice",
-    )

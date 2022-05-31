@@ -17,6 +17,12 @@ class GSLessonEnrollment(models.Model):
     )
 
     gs_worker_id = fields.Many2one(comodel_name="gs_worker", string="Lavoratore")
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Azienda",
+        related="gs_worker_id.contract_partner_id",
+    )
+
     state = fields.Selection(
         string="Stato",
         selection=[
@@ -53,4 +59,15 @@ class GSCourseEnrollment(models.Model):
         comodel_name="gs_lesson_enrollment",
         inverse_name="gs_course_enrollment_id",
         string="Iscrizione Lezioni",
+    )
+
+
+class GSWorker(models.Model):
+    _inherit = "gs_worker"
+
+    gs_lesson_enrollment_ids = fields.One2many(
+        comodel_name="gs_lesson_enrollment",
+        inverse_name="gs_worker_id",
+        string="Lezioni",
+        groups="gscudo-training.group_training_backoffice",
     )

@@ -12,3 +12,5 @@ from . import res_partner
 from . import gs_training_certificate_type
 
 from . import gs_course_type_module_wizard
+from . import gs_course_enrollment_wizard
+from . import gs_lesson_enrollment_wizard

@@ -13,6 +13,11 @@ class GSCourseEnrollment(models.Model):
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker", string="Lavoratore", required=True
     )
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Azienda",
+        related="gs_worker_id.contract_partner_id",
+    )
     state = fields.Selection(
         string="Stato",
         selection=[
@@ -22,7 +27,8 @@ class GSCourseEnrollment(models.Model):
             ("C", "Confermato"),
         ],
         default="P",
-    )
+    )    
+
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)
 

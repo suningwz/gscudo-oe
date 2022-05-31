@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_lesson_mass_enrollment_wizard_view_form" model="ir.ui.view">
+        <field name="name">gs_lesson_mass_enrollment_wizard_view_form</field>
+        <field name="model">gs_lesson_mass_enrollment_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="gs_course_id" />
+                        <field
+                            name="gs_course_lesson_id"
+                            domain="[('gs_course_id', '=', gs_course_id)]"
+                        />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="enroll_workers" type="object" string="Iscrivi" class="oe_highlight" />
+                    <button special="cancel" string="Annulla" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_lesson_mass_enrollment_wizard_action" model="ir.actions.act_window">
+        <field name="name">Iscrivi a una lezione...</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gs_lesson_mass_enrollment_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>     
+        <field name="view_id" ref="gs_lesson_mass_enrollment_wizard_view_form" />
+        <field name="binding_model_id" ref="model_gs_worker" />
+    </record>
+
+    <record id="gs_lesson_single_enrollment_wizard_view_form" model="ir.ui.view">
+        <field name="name">gs_lesson_single_enrollment_wizard_view_form</field>
+        <field name="model">gs_lesson_single_enrollment_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="gs_worker_id" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="enroll_worker" type="object" string="Iscrivi" class="oe_highlight" />
+                    <button special="cancel" string="Annulla" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_lesson_single_enrollment_wizard_action" model="ir.actions.act_window">
+        <field name="name">Iscrivi lavoratore</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gs_lesson_single_enrollment_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>     
+        <field name="view_id" ref="gs_lesson_single_enrollment_wizard_view_form" />
+        <field name="binding_model_id" ref="model_gs_course_lesson" />
+    </record>
+</odoo>
