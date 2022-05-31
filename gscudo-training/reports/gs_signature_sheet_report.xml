@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_signature_sheet_action" model="ir.actions.report">
+        <field name="name">Foglio firme</field>
+        <field name="model">gs_course_lesson</field>
+        <field name="report_type">qweb-pdf</field>
+        <field name="report_name">gscudo-training.gs_signature_sheet</field>
+        <field name="binding_model_id" ref="model_gs_course_lesson"/>
+    </record>
+</odoo>

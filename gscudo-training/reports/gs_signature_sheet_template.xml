@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="gs_signature_sheet">
+        <t t-call="web.html_container">
+            <t t-foreach="docs" t-as="doc">
+                <t t-call="web.external_layout">
+                    <div class="page">
+                        <h1><t t-esc="doc.name" /></h1>
+                        <h2><t t-esc="doc.gs_course_id.name" /></h2>
+                        <!-- FIXME stile the template -->
+                        <!-- <table class="table"> -->
+                        <table class="table table-sm">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th class="text-center">Firma</th>
+                                </tr>
+                            </thead>
+                            <t t-foreach="doc.gs_worker_ids" t-as="enrollment">
+                                <tr>
+                                    <td style="width: 1%; white-space: nowrap;"><t t-esc="enrollment.gs_worker_id.name" /></td>
+                                    <td></td>
+                                </tr>
+                            </t>
+                        </table>
+                    </div>
+                </t>
+            </t>
+        </t>
+    </template>
+</odoo>
