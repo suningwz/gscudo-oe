@@ -28,6 +28,11 @@
                         <field name="is_coteacher_remote" />
                         <field name="meeting_url" />
                     </group>
+                    <button 
+                        name="attend_all"
+                        type="object"
+                        string="Imposta tutti come presenti"
+                    />
                     <group>
                         <field name="gs_worker_ids">
                             <tree create="false" delete="false">
@@ -35,6 +40,7 @@
                                 <field name="partner_id" />
                                 <field name="state" />
                                 <field name="is_attendant" widget="boolean_toggle" />
+                                <field name="attended_hours" />
                                 <button
                                     type="object"
                                     name="get_formview_action"

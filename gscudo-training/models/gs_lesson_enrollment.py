@@ -5,6 +5,7 @@ class GSLessonEnrollment(models.Model):
     _name = "gs_lesson_enrollment"
     _description = "Registrazione corso"
 
+    # FIXME name
     name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione"
@@ -35,7 +36,10 @@ class GSLessonEnrollment(models.Model):
     )
     active = fields.Boolean(string="Attivo", default=True)
     is_attendant = fields.Boolean(string="È presente", default=False)
-    attended_hours = fields.Float(string="Ore frequentate", default=0.0)
+    attended_hours = fields.Float(
+        string="Ore frequentate",
+        default=0.0,
+    )
 
     @api.onchange("is_attendant")
     def _onchange_is_attendant(self):
@@ -46,7 +50,7 @@ class GSLessonEnrollment(models.Model):
             return
 
         if self.is_attendant:
-            self.attended_hours = self.gs_course_lesson_id.hours
+            self.attended_hours = self.gs_course_lesson_id.duration
         else:
             self.attended_hours = 0.0
 

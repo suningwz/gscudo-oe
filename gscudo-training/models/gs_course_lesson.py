@@ -17,7 +17,6 @@ class GSCourseLesson(models.Model):
         string="Tipo Corso",
     )
 
-    # FIXME automatically change children when parent is changed
     parent_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione padre"
     )
@@ -85,6 +84,16 @@ class GSCourseLesson(models.Model):
 
         return super().write(vals)
 
+    def attend_all(self):
+        """
+        Set all workers enrolled in the lesson as "have attended".
+        """
+        self.ensure_one()
+        for enrollment in self.gs_worker_ids:
+            if enrollment.is_attendant is False:
+                enrollment.is_attendant = True
+                enrollment.attended_hours = self.duration
+
     @api.model
     def generate_certificates(self):
         """
@@ -92,7 +101,7 @@ class GSCourseLesson(models.Model):
         """
         test = self.browse(self.env.context.get("active_id"))
         # test = self.env.context.get("active_ids")
-        test.ensure_one()
+        # test.ensure_one()
 
         if not test.gs_course_type_module_id.generate_certificate:
             raise UserError("Questo non è un test finale.")

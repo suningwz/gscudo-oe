@@ -33,9 +33,7 @@ class GSCourse(models.Model):
     mode = fields.Selection(related="gs_course_type_id.mode", string="Modalità")
     is_multicompany = fields.Boolean(string="Multiazendale")
 
-    parent_course_id = fields.Many2one(
-        comodel_name="gs_course", string="Corso padre"
-    )
+    parent_course_id = fields.Many2one(comodel_name="gs_course", string="Corso padre")
     children_course_ids = fields.One2many(
         comodel_name="gs_course",
         inverse_name="parent_course_id",
@@ -49,4 +47,19 @@ class GSCourse(models.Model):
 
     def _compute_is_child(self):
         for course in self:
-            course.is_child = (course.parent_course_id.id is not False)
+            course.is_child = course.parent_course_id.id is not False
+
+    total_enrolled = fields.Integer(
+        string="Iscritti totali",
+        compute="_compute_total_enrolled",
+    )
+
+    def _compute_total_enrolled(self):
+        """
+        This counts all the workers enrolled to at least one lesson of the course.
+        """
+        for course in self:
+            enrolled = set([])
+            for lesson in course.gs_course_lesson_ids:
+                enrolled.update([e.gs_worker_id.id for e in lesson.gs_worker_ids])
+            course.total_enrolled = len(enrolled)

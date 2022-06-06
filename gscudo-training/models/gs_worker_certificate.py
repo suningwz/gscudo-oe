@@ -55,9 +55,7 @@ class GSWorkerCertificate(models.Model):
     note = fields.Char(string="Note")
 
     issue_date = fields.Date(string="Data attestato")
-    issue_serial = fields.Char(
-        string="Protocollo attestato", store=True
-    )
+    issue_serial = fields.Char(string="Protocollo attestato", store=True)
 
     @api.model
     def create(self, vals):

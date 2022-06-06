@@ -27,7 +27,7 @@ class GSCourseEnrollment(models.Model):
             ("C", "Confermato"),
         ],
         default="P",
-    )    
+    )
 
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)

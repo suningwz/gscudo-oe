@@ -12,6 +12,7 @@
                         <field name="protocol" />
                         <field name="start_date" />
                         <field name="end_date" />
+                        <field name="total_enrolled" />
                         <field name="partner_id" />
                         <field name="location_partner_id" />
                         <field name="mode" />
@@ -32,7 +33,7 @@
                                     string="Apri"
                                     icon="fa-file"
                                 />
-                                    <!-- context="{'form_view_initial_mode': 'edit'}" -->
+                                <!-- context="{'form_view_initial_mode': 'edit'}" -->
                             </tree>
                         </field>
                     </group>
@@ -67,6 +68,11 @@
                 <field name="protocol" />
                 <field name="start_date" />
                 <field name="end_date" />
+                <field
+                    name="total_enrolled"
+                    string="Iscritti"
+                    options="{'bg_color':'#ff8f8f:total_enrolled>35;'}"
+                />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
                 <field name="mode" />

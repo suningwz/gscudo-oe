@@ -32,8 +32,6 @@
         "views/gs_worker_certificate_views.xml",
         "views/product_template_views.xml",
         "views/res_partner_views.xml",
-        #"reports/gs_signature_sheet_report.xml",
-        #"reports/gs_signature_sheet_template.xml",
         "automation/automatic_actions.xml",
     ],
 }
