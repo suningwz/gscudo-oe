@@ -1,5 +1,6 @@
 from datetime import timedelta
 from odoo import api, fields, models
+from odoo.exceptions import UserError
 
 
 class GSCourseLesson(models.Model):
@@ -71,7 +72,10 @@ class GSCourseLesson(models.Model):
                 continue
 
             for child in parent.children_lesson_ids:
-                if vals.get("start_time") and vals.get("start_time") != child.start_time:
+                if (
+                    vals.get("start_time")
+                    and vals.get("start_time") != child.start_time
+                ):
                     child.start_time = vals["start_time"]
                 if (
                     vals.get("teacher_partner_id")
@@ -80,6 +84,21 @@ class GSCourseLesson(models.Model):
                     child.teacher_partner_id = vals["teacher_partner_id"]
 
         return super().write(vals)
+
+    @api.model
+    def generate_certificates(self):
+        """
+        Generate certificates for all workers that passed the final test.
+        """
+        test = self.browse(self.env.context.get("active_id"))
+        # test = self.env.context.get("active_ids")
+        test.ensure_one()
+
+        if not test.gs_course_type_module_id.generate_certificate:
+            raise UserError("Questo non è un test finale.")
+
+        for enrollment in test.gs_worker_ids:
+            enrollment.generate_certificate()
 
 
 class GSCourse(models.Model):

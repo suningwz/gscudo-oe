@@ -55,7 +55,18 @@ class GSWorkerCertificate(models.Model):
     note = fields.Char(string="Note")
 
     issue_date = fields.Date(string="Data attestato")
-    issue_serial = fields.Char(string="Protocollo attestato")
+    issue_serial = fields.Char(
+        string="Protocollo attestato", store=True
+    )
+
+    @api.model
+    def create(self, vals):
+        """
+        When a certificate is created, automatically set the issue number.
+        """
+        certificate = super().create(vals)
+        certificate.issue_serial = f"CERT-{certificate.id}"
+        return certificate
 
     external_link = fields.Char(string="Link Esterno")
 
