@@ -4,7 +4,7 @@
         <field name="name">gs_training_certificate_type_view_form</field>
         <field name="model">gs_training_certificate_type</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -38,7 +38,7 @@
         <field name="name">gs_training_certificate_type_view_search</field>
         <field name="model">gs_training_certificate_type</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <field name="name" />
 
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />

@@ -11,6 +11,7 @@ class GSWorkerCertificate(models.Model):
     _description = "Certificazioni"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    # TODO cert name
     name = fields.Char(string="Certificazione", compute="_compute_name", store=True)
 
     @api.depends(
@@ -214,6 +215,25 @@ class GSWorkerCertificate(models.Model):
                     ):
                         certificate.is_required = True
                         return
+
+    test_id = fields.Many2one(
+        comodel_name="gs_lesson_enrollment", string="Iscrizione al test"
+    )
+
+    attended_hours = fields.Float(string="Ore frequentate")
+
+    def compute_enrollments(self):
+        """
+        Compute the list of lesson enrollments that satisfies this certificate's requirements.
+        """
+        self.ensure_one()
+        enrollments = []
+        prev = self.test_id
+        while prev.id is not False:
+            enrollments.append(prev)
+            prev = prev.previous_enrollment_id
+
+        return enrollments
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")

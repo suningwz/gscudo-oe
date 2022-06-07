@@ -40,6 +40,12 @@
                 <sheet>
                     <group>
                         <field name="gs_worker_id" />
+                        <field name="is_reenrollment" />
+                        <field name="removed_course_id" />
+                        <field
+                            name="removed_course_lesson_id"
+                            domain="[('gs_course_id', '=', removed_course_id)]"
+                        />
                     </group>
                 </sheet>
                 <footer>

@@ -79,17 +79,13 @@ model.generate_certificates()
 action = {
     'name': 'Certificati Generati',
     'type': 'ir.actions.act_window',
-    'view_mode': 'tree',
+    'view_mode': 'tree,form',
     'res_model': 'gs_worker_certificate',
     'domain': [
         ('issue_date', '=', record.gs_course_id.end_date),
         ('gs_training_certificate_type_id', '=', record.gs_course_id.gs_course_type_id.gs_training_certificate_type_id.id),
         ('gs_worker_id', 'in', [w.gs_worker_id.id for w in record.gs_worker_ids]),
     ],
-    #'context': {
-        #'search_default_issue_date': record.gs_course_id.end_date,
-        #'search_default_gs_training_certificate_type_id': record.gs_course_id.gs_course_type_id.gs_training_certificate_type_id.id,
-    #},
     'target': 'current',
 }
         </field>

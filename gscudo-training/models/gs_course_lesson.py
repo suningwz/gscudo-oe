@@ -1,4 +1,5 @@
 from datetime import timedelta
+import functools
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
@@ -7,7 +8,7 @@ class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
 
-    # FIXME lesson name
+    # TODO lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)
@@ -109,6 +110,54 @@ class GSCourseLesson(models.Model):
 
         for enrollment in test.gs_worker_ids:
             enrollment.generate_certificate()
+
+    def prev_lesson(self):
+        """
+        Returns the previous lesson in the course, or False if this is the first one.
+
+        This is done by taking all lessons whose module is required for the given lesson,
+        ordering them via module requirement in reverse, and taking the first one.
+        """
+        self.ensure_one()
+
+        return next(
+            # TODO performances
+            iter(
+                sorted(
+                    [
+                        l
+                        for l in self.gs_course_id.gs_course_lesson_ids
+                        if l.gs_course_type_module_id
+                        in self.gs_course_type_module_id.module_required_ids
+                    ],
+                    key=functools.cmp_to_key(
+                        lambda x, y: (
+                            -1
+                            if x.gs_course_type_module_id
+                            in y.gs_course_type_module_id.module_required_ids
+                            else 1
+                        )
+                    ),
+                    reverse=True,
+                )
+            ),
+            False,
+        )
+
+    def next_lesson(self):
+        """
+        Returns the next lesson in the course, or False if this is the last one.
+        """
+        self.ensure_one()
+        return next(
+            # TODO performances
+            iter(
+                l
+                for l in self.gs_course_id.gs_course_lesson_ids
+                if l.prev_lesson() == self
+            ),
+            False,
+        )
 
 
 class GSCourse(models.Model):

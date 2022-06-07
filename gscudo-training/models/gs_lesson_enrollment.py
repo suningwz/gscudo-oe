@@ -5,7 +5,7 @@ class GSLessonEnrollment(models.Model):
     _name = "gs_lesson_enrollment"
     _description = "Registrazione corso"
 
-    # FIXME lesson enrollment name
+    # TODO lesson enrollment name
     name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione"
@@ -59,6 +59,18 @@ class GSLessonEnrollment(models.Model):
         comodel_name="gs_course_enrollment", string="Iscrizione al corso"
     )
 
+    gs_course_type_module_id = fields.Many2one(
+        comodel_name="gs_course_type_module",
+        string="Modulo",
+        related="gs_course_lesson_id.gs_course_type_module_id",
+    )
+
+    previous_enrollment_id = fields.Many2one(
+        comodel_name="gs_lesson_enrollment", string="Lezione precedente"
+    )
+
+    # def get_all
+
     def generate_certificate(self):
         """
         Generate certificates for the workers that passed the final test.
@@ -67,8 +79,6 @@ class GSLessonEnrollment(models.Model):
         # for test in self.env.context.get("active_ids"):
         for test in self:
             if not test.is_attendant:
-                # The worker did not pass the final test
-                # UserError("Il lavoratore non ha superato il test finale.")
                 continue
 
             certificate_type_id = (
@@ -81,15 +91,17 @@ class GSLessonEnrollment(models.Model):
                 # fmt: on
             )
 
-            if self.env["gs_worker_certificate"].search(
-                [
-                    ("gs_worker_id", "=", test.gs_worker_id.id),
-                    ("gs_training_certificate_type_id", "=", certificate_type_id),
-                    ("issue_date", "=", test.gs_course_id.end_date),
-                ]
-            ):
+            if self.env["gs_worker_certificate"].search([("test_id", "=", test.id)]):
                 # Certificate already generated
                 continue
+
+            enrollments = []
+            curr = test
+
+            # TODO why this?
+            while curr.id is not False:
+                enrollments.append(curr)
+                curr = curr.previous_enrollment_id
 
             if test.is_attendant:
                 self.env["gs_worker_certificate"].create(
@@ -98,6 +110,8 @@ class GSLessonEnrollment(models.Model):
                         "gs_training_certificate_type_id": certificate_type_id,
                         "type": "C",
                         "issue_date": test.gs_course_id.end_date,
+                        "test_id": test.id,
+                        "attended_hours": sum([e.attended_hours for e in enrollments]),
                     }
                 )
 

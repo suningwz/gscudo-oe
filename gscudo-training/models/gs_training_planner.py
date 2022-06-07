@@ -1,4 +1,4 @@
-# FIXME delete?
+# TODO delete?
 from odoo import fields, models
 
 

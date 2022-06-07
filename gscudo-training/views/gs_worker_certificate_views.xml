@@ -19,6 +19,7 @@
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
+                        <field name="attended_hours" />
                         <field name="note" />
                     </group>
                 </sheet>
@@ -56,7 +57,7 @@
         </field>
     </record>
 
-    <!-- TODO Odoo can't manage all data in a pivot table -->
+    <!-- TODO Odoo can't manage all data in a pivot table
     <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_pivot</field>
         <field name="model">gs_worker_certificate</field>
@@ -69,13 +70,13 @@
                 <field name="expiration_date" interval="month" type="col" />
             </pivot>
         </field>
-    </record>
+    </record> -->
 
     <record id="gs_worker_certificate_view_search" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_search</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <!-- Search fields -->
                 <field name="gs_worker_id" />
                 <field name="contract_partner_id" />
