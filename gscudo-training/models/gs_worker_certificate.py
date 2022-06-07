@@ -229,6 +229,7 @@ class GSWorkerCertificate(models.Model):
         self.ensure_one()
         enrollments = []
         prev = self.test_id
+        # TODO check this
         while prev.id is not False:
             enrollments.append(prev)
             prev = prev.previous_enrollment_id
