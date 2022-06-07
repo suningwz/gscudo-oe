@@ -1,3 +1,4 @@
+# FIXME delete?
 from odoo import fields, models
 
 

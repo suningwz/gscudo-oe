@@ -7,6 +7,7 @@ class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
 
+    # FIXME lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)

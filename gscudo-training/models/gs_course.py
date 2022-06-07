@@ -5,6 +5,7 @@ class GSCourse(models.Model):
     _name = "gs_course"
     _description = "Corso"
 
+    # FIXME course name
     name = fields.Char(string="Corso")
     active = fields.Boolean(string="Attivo", default=True)
 

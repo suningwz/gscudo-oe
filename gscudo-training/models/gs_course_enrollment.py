@@ -6,6 +6,7 @@ class GSCourseEnrollment(models.Model):
     _name = "gs_course_enrollment"
     _description = "Registrazione corso"
 
+    # FIXME course enrollment name
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
         comodel_name="gs_course", string="Corso", required=True

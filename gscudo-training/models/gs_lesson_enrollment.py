@@ -5,7 +5,7 @@ class GSLessonEnrollment(models.Model):
     _name = "gs_lesson_enrollment"
     _description = "Registrazione corso"
 
-    # FIXME name
+    # FIXME lesson enrollment name
     name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione"
@@ -27,10 +27,10 @@ class GSLessonEnrollment(models.Model):
     state = fields.Selection(
         string="Stato",
         selection=[
-            # ("I", "identificato"),
-            ("P", "proposto"),
-            ("A", "accettato"),
-            ("C", "confermato"),
+            # ("I", "Identificato"),
+            ("P", "Proposto"),
+            ("A", "Accettato"),
+            ("C", "Confermato"),
         ],
         default="P",
     )

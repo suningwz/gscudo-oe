@@ -5,6 +5,7 @@ from odoo import models, fields, api
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    # FIXME "attenzionabili"
     gs_worker_attentionable_ids = fields.One2many(
         comodel_name="gs_worker",
         inverse_name="contract_partner_id",
