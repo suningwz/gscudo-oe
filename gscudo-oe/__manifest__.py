@@ -23,7 +23,6 @@
         # 'helpdesk',
         "crm",
         "crm_lead_vat",
-        # FIXME licensing
         "l10n_it_ateco",
     ],
     # always loaded

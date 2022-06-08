@@ -240,16 +240,15 @@ class GSWorkerCertificate(models.Model):
         self.ensure_one()
         enrollments = []
         prev = self.test_id
-        # TODO check this
         while prev.id is not False:
             enrollments.append(prev)
             prev = prev.previous_enrollment_id
 
-        return enrollments
+        return reversed(enrollments)
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
-    sg_synched_at = fields.Datetime(string="Data ultima Syncronizzazione sawgest")
+    sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
 
     sg_url = fields.Char(
         string="Vedi in sawgest", compute="_compute_sg_url", store=False

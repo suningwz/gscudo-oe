@@ -70,6 +70,7 @@
                 <field name="protocol" />
                 <field name="start_date" />
                 <field name="end_date" />
+                <!-- TODO not configurable -->
                 <field
                     name="total_enrolled"
                     string="Iscritti"
