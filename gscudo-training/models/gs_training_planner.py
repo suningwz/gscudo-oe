@@ -1,4 +1,3 @@
-# TODO delete?
 from odoo import fields, models
 
 

@@ -116,7 +116,6 @@ class GSLessonEnrollment(models.Model):
                         "gs_worker_id": test.gs_worker_id.id,
                         "gs_training_certificate_type_id": certificate_type_id,
                         "type": "C",
-                        # FIXME is this right?
                         "issue_date": test.gs_course_id.end_date,
                         "test_id": test.id,
                         "attended_hours": attended_hours,

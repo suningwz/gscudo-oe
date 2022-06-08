@@ -70,11 +70,11 @@
                 <field name="protocol" />
                 <field name="start_date" />
                 <field name="end_date" />
-                <!-- TODO not configurable -->
+                <field name="max_workers" invisible="1" />
                 <field
                     name="total_enrolled"
                     string="Iscritti"
-                    options="{'bg_color':'#ff8f8f:total_enrolled>35;'}"
+                    options="{'bg_color':'#ff8f8f:total_enrolled>max_workers;'}"
                 />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
