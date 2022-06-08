@@ -11,7 +11,8 @@
                         <field name="name" />
                         <field name="code" />
                         <field name="product_id" />
-                        <field name="duration" />
+                        <field name="duration" widget="float_time" />
+                        <field name="min_attendance" widget="percentage" />
                         <field name="is_update" />
                         <field name="mode"  />
                         <field name="is_multicompany" />
@@ -31,7 +32,7 @@
                             <tree>
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
-                                <field name="duration" />
+                                <field name="duration" widget="float_time" />
                                 <field name="content" />
                                 <field name="elearning" />
                                 <field name="generate_certificate" />
@@ -52,7 +53,7 @@
                 <field name="code" />
                 <field name="name" />
                 <field name="product_id" optional="hide" />
-                <field name="duration" />
+                <field name="duration" widget="float_time" />
                 <field name="is_update" />
                 <field name="mode" />
                 <field name="is_multicompany" />

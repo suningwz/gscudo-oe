@@ -10,7 +10,7 @@
                         <field name="gs_course_type_id" />
                         <field name="name" />
                         <field name="content" />
-                        <field name="duration" />
+                        <field name="duration" widget="float_time" />
                         <field name="generate_certificate" />
                         <field name="elearning" />
                         <field name="note" />
@@ -28,7 +28,7 @@
             <tree default_order="gs_course_type_id,sequence,name">
                 <field name="gs_course_type_id" />
                 <field name="name" />
-                <field name="duration" />
+                <field name="duration" widget="float_time" />
                 <field name="generate_certificate" />
                 <field name="elearning" />
                 <field name="module_required_ids" widget="many2many_tags" />

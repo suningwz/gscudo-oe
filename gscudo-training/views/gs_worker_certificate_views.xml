@@ -19,7 +19,8 @@
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
-                        <field name="attended_hours" />
+                        <field name="attended_hours" widget="float_time" />
+                        <field name="attendance_percentage" widget="percentage" />
                         <field name="note" />
                     </group>
                 </sheet>
@@ -57,8 +58,8 @@
         </field>
     </record>
 
-    <!-- TODO Odoo can't manage all data in a pivot table
-    <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
+    <!-- TODO Odoo can't manage all data in a pivot table -->
+    <!-- <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_pivot</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">

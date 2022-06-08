@@ -22,7 +22,8 @@
         </field>
     </record>
 
-    <record id="gs_lesson_mass_enrollment_wizard_action" model="ir.actions.act_window">
+    <!-- TODO probably remove this -->
+    <!-- <record id="gs_lesson_mass_enrollment_wizard_action" model="ir.actions.act_window">
         <field name="name">Iscrivi a una lezione...</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">gs_lesson_mass_enrollment_wizard</field>
@@ -30,7 +31,7 @@
         <field name="target">new</field>     
         <field name="view_id" ref="gs_lesson_mass_enrollment_wizard_view_form" />
         <field name="binding_model_id" ref="model_gs_worker" />
-    </record>
+    </record> -->
 
     <record id="gs_lesson_single_enrollment_wizard_view_form" model="ir.ui.view">
         <field name="name">gs_lesson_single_enrollment_wizard_view_form</field>

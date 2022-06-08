@@ -75,8 +75,6 @@ class GSLessonEnrollment(models.Model):
         """
         Generate certificates for the workers that passed the final test.
         """
-        # logging.warning(self.env.context.get("active_ids"))
-        # for test in self.env.context.get("active_ids"):
         for test in self:
             if not test.is_attendant:
                 continue
@@ -103,15 +101,25 @@ class GSLessonEnrollment(models.Model):
                 enrollments.append(curr)
                 curr = curr.previous_enrollment_id
 
+            attended_hours = sum([e.attended_hours for e in enrollments])
+
+            # if (
+            #     attended_hours
+            #     < test.gs_course_id.duration * test.gs_course_id.min_attendance
+            # ):
+            #     # worker attendance was not high enough
+            #     continue
+
             if test.is_attendant:
                 self.env["gs_worker_certificate"].create(
                     {
                         "gs_worker_id": test.gs_worker_id.id,
                         "gs_training_certificate_type_id": certificate_type_id,
                         "type": "C",
+                        # FIXME is this right?
                         "issue_date": test.gs_course_id.end_date,
                         "test_id": test.id,
-                        "attended_hours": sum([e.attended_hours for e in enrollments]),
+                        "attended_hours": attended_hours,
                     }
                 )
 

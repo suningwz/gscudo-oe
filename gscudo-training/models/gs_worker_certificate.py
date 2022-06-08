@@ -220,7 +220,18 @@ class GSWorkerCertificate(models.Model):
         comodel_name="gs_lesson_enrollment", string="Iscrizione al test"
     )
 
+    duration = fields.Float(string="Durata", related="test_id.gs_course_id.duration")
+    min_attendance = fields.Float(
+        string="Partecipazione minima", related="test_id.gs_course_id.min_attendance"
+    )
     attended_hours = fields.Float(string="Ore frequentate")
+    attendance_percentage = fields.Float(
+        string="Frequenza", compute="_compute_attendance_percentage"
+    )
+
+    @api.depends("attended_hours", "duration")
+    def _compute_attendance_percentage(self):
+        self.attendance_percentage = self.attended_hours / self.duration
 
     def compute_enrollments(self):
         """

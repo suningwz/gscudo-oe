@@ -1,4 +1,4 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class GSCourse(models.Model):
@@ -24,14 +24,31 @@ class GSCourse(models.Model):
         default="1-nuovo",
     )
     note = fields.Char(string="Note")
-    max_workers = fields.Integer(string="Massimo iscritti")
+    max_workers = fields.Integer(string="Massimo iscritti", default=35)
     location_partner_id = fields.Many2one(comodel_name="res.partner", string="Sede")
     start_date = fields.Date(string="Data inizio")
     end_date = fields.Date(string="Data termine")
+
+    duration = fields.Float(string="Durata in ore", default=2, required=True)
+    min_attendance = fields.Float(
+        string="Partecipazione minima", required=True, default=0.9
+    )
+
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type", string="Tipo Corso"
     )
-    mode = fields.Selection(related="gs_course_type_id.mode", string="Modalità")
+    mode = fields.Selection(
+        string="Modalità",
+        selection=[("P", "Presenza"), ("E", "E-learning"), ("M", "Misto")],
+        default="P",
+    )
+
+    @api.onchange("gs_course_type_id")
+    def _onchange_gs_course_type_id(self):
+        self.mode = self.gs_course_type_id.mode
+        self.duration = self.gs_course_type_id.duration
+        self.min_attendance = self.gs_course_type_id.min_attendance
+
     is_multicompany = fields.Boolean(string="Multiazendale")
 
     parent_course_id = fields.Many2one(comodel_name="gs_course", string="Corso padre")

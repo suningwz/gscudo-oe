@@ -17,6 +17,9 @@ class GSCourseType(models.Model):
     )
     active = fields.Boolean(string="Attivo", default=True)
     duration = fields.Float(string="Durata in ore", default=2, required=True)
+    min_attendance = fields.Float(
+        string="Partecipazione minima", required=True, default=0.9
+    )
     note = fields.Char(string="Note")
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
