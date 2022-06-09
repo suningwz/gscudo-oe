@@ -3,7 +3,7 @@ from odoo import fields, models, api
 
 class GSLessonEnrollment(models.Model):
     _name = "gs_lesson_enrollment"
-    _description = "Registrazione corso"
+    _description = "Registrazione lezione"
 
     # TODO lesson enrollment name
     name = fields.Char(string="Nome")
@@ -69,7 +69,12 @@ class GSLessonEnrollment(models.Model):
         comodel_name="gs_lesson_enrollment", string="Lezione precedente"
     )
 
-    # def get_all
+    def get_next_enrollment(self):
+        """
+        Returns the next enrollment for the worker, or False if this is the last one.
+        """
+        enrollment = self.search([("previous_enrollment_id", "=", self.id)])
+        return enrollment if len(enrollment) > 0 else False
 
     def generate_certificate(self):
         """

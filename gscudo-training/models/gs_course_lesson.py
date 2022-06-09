@@ -46,6 +46,8 @@ class GSCourseLesson(models.Model):
         string="Termine", compute="_compute_end_time", store=True
     )
 
+    is_closed = fields.Boolean(string="Lezione chiusa", default=False)
+
     @api.depends("start_time", "duration")
     def _compute_end_time(self):
         for lesson in self:
@@ -68,11 +70,8 @@ class GSCourseLesson(models.Model):
         """
         If a lesson is updated, update all children accordingly.
         """
-        for parent in self:
-            if not parent.children_lesson_ids:
-                continue
-
-            for child in parent.children_lesson_ids:
+        for lesson in self:
+            for child in lesson.children_lesson_ids:
                 if (
                     vals.get("start_time")
                     and vals.get("start_time") != child.start_time
@@ -96,6 +95,7 @@ class GSCourseLesson(models.Model):
                 enrollment.is_attendant = True
                 enrollment.attended_hours = self.duration
 
+    # FIXME why api.model?
     @api.model
     def generate_certificates(self):
         """
@@ -158,6 +158,15 @@ class GSCourseLesson(models.Model):
             ),
             False,
         )
+
+    def close_lesson(self):
+        """
+        Sets the lesson as closed.
+        """
+        self.ensure_one()
+        if self.is_closed:
+            raise UserError("Questa lezione è già chiusa.")
+        self.is_closed = True
 
 
 class GSCourse(models.Model):

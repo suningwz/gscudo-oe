@@ -28,11 +28,18 @@
                         <field name="is_coteacher_remote" />
                         <field name="meeting_url" />
                     </group>
-                    <button 
-                        name="attend_all"
-                        type="object"
-                        string="Imposta tutti come presenti"
-                    />
+                    <group>
+                        <button 
+                            name="attend_all"
+                            type="object"
+                            string="Imposta tutti come presenti"
+                        />
+                        <button 
+                            name="close_lesson"
+                            type="object"
+                            string="Chiudi lezione"
+                        />
+                    </group>
                     <group>
                         <field name="gs_worker_ids">
                             <tree create="false" delete="false">
