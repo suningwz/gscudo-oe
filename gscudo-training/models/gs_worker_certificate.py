@@ -177,7 +177,7 @@ class GSWorkerCertificate(models.Model):
             domain.extend([(field, ">=", datefrom), (field, "<=", dateto)])
             return domain
 
-        logging.info("Recomputing certificates state")
+        # logging.info("Recomputing certificates state")
 
         today = datetime.now().date()
         two_days = relativedelta(days=2)

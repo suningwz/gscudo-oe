@@ -115,5 +115,5 @@ class GSLessonSingleEnrollmentWizard(models.TransientModel):
             }
         )
 
-            # previous_enrollment_id = e.id
-            # gs_course_lesson = gs_course_lesson.next_lesson()
+        # previous_enrollment_id = e.id
+        # gs_course_lesson = gs_course_lesson.next_lesson()
