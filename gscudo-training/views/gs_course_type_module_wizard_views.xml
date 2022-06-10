@@ -11,7 +11,7 @@
                         <field name="gs_course_type_id" />
                         <field name="content" />
                         <field name="duration" widget="float_time" />
-                        <field name="remaining_hours" />
+                        <field name="remaining_hours" widget="float_time" />
                         <field name="generate_certificate" widget="boolean_toggle" />
                         <field name="elearning" widget="boolean_toggle" />
                         <field name="note" />
