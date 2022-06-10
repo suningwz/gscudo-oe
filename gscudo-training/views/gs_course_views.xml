@@ -12,6 +12,9 @@
                         <field name="protocol" />
                         <field name="start_date" />
                         <field name="end_date" />
+                        <field name="duration" widget="float_time" />
+                        <field name="min_attendance" widget="percentage" />
+                        <field name="total_enrolled" />
                         <field name="partner_id" />
                         <field name="location_partner_id" />
                         <field name="mode" />
@@ -19,7 +22,38 @@
                         <field name="max_workers" />
                         <field name="state" />
                         <field name="note" />
-                        <field name="gs_course_lesson_ids" />
+                        <field name="parent_course_id" />
+                        <field name="gs_course_lesson_ids">
+                            <tree create="false" delete="false">
+                                <field name="name" />
+                                <field name="start_time" />
+                                <field name="duration" widget="float_time" />
+                                <field name="state" />
+                                <button
+                                    type="object"
+                                    name="get_formview_action"
+                                    string="Apri"
+                                    icon="fa-file"
+                                />
+                                <!-- context="{'form_view_initial_mode': 'edit'}" -->
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="gs_worker_ids">
+                            <tree create="false" delete="false">
+                                <field name="gs_worker_id" />
+                                <field name="partner_id" />
+                                <field name="state" />
+                                <button
+                                    type="object"
+                                    name="get_formview_action"
+                                    string="Modifica"
+                                    icon="fa-edit"
+                                    context="{'form_view_initial_mode': 'edit'}"
+                                />
+                            </tree>
+                        </field>
                     </group>
                 </sheet>
             </form>
@@ -36,11 +70,18 @@
                 <field name="protocol" />
                 <field name="start_date" />
                 <field name="end_date" />
+                <field name="max_workers" invisible="1" />
+                <field
+                    name="total_enrolled"
+                    string="Iscritti"
+                    options="{'bg_color':'#ff8f8f:total_enrolled>max_workers;'}"
+                />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
                 <field name="mode" />
                 <field name="is_multicompany" />
                 <field name="state" />
+                <field name="is_child" />
             </tree>
         </field>
     </record>

@@ -6,6 +6,7 @@ class GSCourseEnrollment(models.Model):
     _name = "gs_course_enrollment"
     _description = "Registrazione corso"
 
+    # TODO course enrollment name
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
         comodel_name="gs_course", string="Corso", required=True
@@ -13,33 +14,55 @@ class GSCourseEnrollment(models.Model):
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker", string="Lavoratore", required=True
     )
+    partner_id = fields.Many2one(
+        comodel_name="res.partner",
+        string="Azienda",
+        related="gs_worker_id.contract_partner_id",
+    )
     state = fields.Selection(
         string="Stato",
         selection=[
-            ("I", "Identificato"),
+            # ("I", "Identificato"),
             ("P", "Proposto"),
             ("A", "Accettato"),
             ("C", "Confermato"),
         ],
+        default="P",
     )
+
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True)
 
     @api.model
     def create(self, values):
         """
-        At creation, add implicit lesson creation.
+        At creation, add implicit lesson enrollment.
         """
         enrollment = super().create(values)
-        for c in enrollment.gs_course_id.gs_course_lesson_ids:
-            data = {
-                "gs_worker_id": enrollment.gs_worker_id.id,
-                "gs_course_lesson_id": c.id,
-                "state": enrollment.state,
-                "implicit": True,
-                "gs_course_enrollment_id": enrollment.id,
-            }
-            self.env["gs_lesson_enrollment"].create(data)
+        lesson_enrollments = []
+        for lesson in enrollment.gs_course_id.gs_course_lesson_ids:
+            lesson_enrollments.append(
+                self.env["gs_lesson_enrollment"].create(
+                    {
+                        "gs_worker_id": enrollment.gs_worker_id.id,
+                        "gs_course_lesson_id": lesson.id,
+                        "state": enrollment.state,
+                        "implicit": True,
+                        "gs_course_enrollment_id": enrollment.id,
+                    }
+                )
+            )
+
+        # for e in lesson_enrollments:
+        #     e.previous_enrollment_id = next(
+        #         iter(
+        #             pe
+        #             for pe in lesson_enrollments
+        #             if pe.gs_course_lesson_id == e.gs_course_lesson_id.prev_lesson()
+        #         ),
+        #         False,
+        #     )
+
         return enrollment
 
     @api.onchange("state")
