@@ -53,15 +53,15 @@ class GSCourseEnrollment(models.Model):
                 )
             )
 
-        for e in lesson_enrollments:
-            e.previous_enrollment_id = next(
-                iter(
-                    pe
-                    for pe in lesson_enrollments
-                    if pe.gs_course_lesson_id == e.gs_course_lesson_id.prev_lesson()
-                ),
-                False,
-            )
+        # for e in lesson_enrollments:
+        #     e.previous_enrollment_id = next(
+        #         iter(
+        #             pe
+        #             for pe in lesson_enrollments
+        #             if pe.gs_course_lesson_id == e.gs_course_lesson_id.prev_lesson()
+        #         ),
+        #         False,
+        #     )
 
         return enrollment
 

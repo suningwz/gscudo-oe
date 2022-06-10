@@ -48,7 +48,7 @@
         <field name="name">gs_course_type_view_tree</field>
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
-            <tree default_order="code, name">
+            <tree default_order="code,name">
                 <field name="gs_training_certificate_type_id" />
                 <field name="code" />
                 <field name="name" />

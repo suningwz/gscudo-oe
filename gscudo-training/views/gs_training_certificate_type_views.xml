@@ -52,7 +52,7 @@
 
     <!-- gs_training_certificate_type action -->
     <record id="view_gs_training_certificate_type_action" model="ir.actions.act_window">
-        <field name="name">Certificato Formativo</field>
+        <field name="name">Certificati Formativi</field>
         <field name="res_model">gs_training_certificate_type</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
@@ -61,7 +61,7 @@
 
     <menuitem
         id="gs_training_certificate_type_menu"
-        name="Certificati Formativo"
+        name="Certificati Formativi"
         parent="gs_training_menu_settings"
         sequence="10"
         action="view_gs_training_certificate_type_action"

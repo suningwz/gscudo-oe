@@ -14,7 +14,7 @@
                         <field name="generate_certificate" />
                         <field name="elearning" />
                         <field name="note" />
-                        <field name="module_required_ids" />
+                        <!-- <field name="module_required_ids" /> -->
                     </group>
                 </sheet>
             </form>
@@ -25,13 +25,13 @@
         <field name="name">gs_course_type_module_view_tree</field>
         <field name="model">gs_course_type_module</field>
         <field name="arch" type="xml">
-            <tree default_order="gs_course_type_id,sequence,name">
-                <field name="gs_course_type_id" />
+            <tree default_order="sequence,name">
+                <field name="gs_course_type_id" widget="many2many_tags" />
                 <field name="name" />
                 <field name="duration" widget="float_time" />
                 <field name="generate_certificate" />
                 <field name="elearning" />
-                <field name="module_required_ids" widget="many2many_tags" />
+                <!-- <field name="module_required_ids" widget="many2many_tags" /> -->
             </tree>
         </field>
     </record>

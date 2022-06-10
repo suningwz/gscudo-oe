@@ -15,7 +15,7 @@
                         <field name="generate_certificate" widget="boolean_toggle" />
                         <field name="elearning" widget="boolean_toggle" />
                         <field name="note" />
-                        <field name="module_required_ids" />
+                        <!-- <field name="module_required_ids" /> -->
                     </group>
                 </sheet>
                 <footer>

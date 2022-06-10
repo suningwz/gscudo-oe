@@ -41,12 +41,12 @@
                 <sheet>
                     <group>
                         <field name="gs_worker_id" />
-                        <field name="is_reenrollment" />
+                        <!-- <field name="is_reenrollment" />
                         <field name="removed_course_id" />
                         <field
                             name="removed_course_lesson_id"
                             domain="[('gs_course_id', '=', removed_course_id)]"
-                        />
+                        /> -->
                     </group>
                 </sheet>
                 <footer>
@@ -57,7 +57,7 @@
         </field>
     </record>
 
-    <record id="gs_lesson_single_enrollment_wizard_action" model="ir.actions.act_window">
+    <!-- <record id="gs_lesson_single_enrollment_wizard_action" model="ir.actions.act_window">
         <field name="name">Iscrivi lavoratore</field>
         <field name="type">ir.actions.act_window</field>
         <field name="res_model">gs_lesson_single_enrollment_wizard</field>
@@ -65,5 +65,5 @@
         <field name="target">new</field>     
         <field name="view_id" ref="gs_lesson_single_enrollment_wizard_view_form" />
         <field name="binding_model_id" ref="model_gs_course_lesson" />
-    </record>
+    </record> -->
 </odoo>
