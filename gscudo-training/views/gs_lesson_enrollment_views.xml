@@ -15,6 +15,7 @@
                         <field name="is_attendant" />
                         <field name="attended_hours" widget="float_time" />
                         <field name="implicit" />
+                        <field name="previous_enrollment_id" />
                     </group>
                 </sheet>
             </form>
@@ -33,6 +34,7 @@
                 <field name="gs_course_lesson_id" />
                 <field name="is_attendant" />
                 <field name="implicit" />
+                <field name="previous_enrollment_id" />
             </tree>
         </field>
     </record>

@@ -22,6 +22,7 @@
                         <field name="attended_hours" widget="float_time" />
                         <field name="attendance_percentage" widget="percentage" />
                         <field name="note" />
+                        <field name="enrollments" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">

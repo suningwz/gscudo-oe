@@ -22,12 +22,12 @@ class GSCourseEnrollment(models.Model):
     state = fields.Selection(
         string="Stato",
         selection=[
-            # ("I", "Identificato"),
+            ("I", "Identificato"),
             ("P", "Proposto"),
             ("A", "Accettato"),
             ("C", "Confermato"),
         ],
-        default="P",
+        default="I",
     )
 
     note = fields.Char(string="Note")
@@ -38,6 +38,7 @@ class GSCourseEnrollment(models.Model):
         """
         At creation, add implicit lesson enrollment.
         """
+        # FIXME check if worker is already enrolled
         enrollment = super().create(values)
         lesson_enrollments = []
         for lesson in enrollment.gs_course_id.gs_course_lesson_ids:
@@ -53,15 +54,15 @@ class GSCourseEnrollment(models.Model):
                 )
             )
 
-        # for e in lesson_enrollments:
-        #     e.previous_enrollment_id = next(
-        #         iter(
-        #             pe
-        #             for pe in lesson_enrollments
-        #             if pe.gs_course_lesson_id == e.gs_course_lesson_id.prev_lesson()
-        #         ),
-        #         False,
-        #     )
+        for e in lesson_enrollments:
+            e.previous_enrollment_id = next(
+                iter(
+                    pe
+                    for pe in lesson_enrollments
+                    if pe.gs_course_lesson_id == e.gs_course_lesson_id.prev_lesson()
+                ),
+                False,
+            )
 
         return enrollment
 

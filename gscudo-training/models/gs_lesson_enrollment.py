@@ -27,7 +27,7 @@ class GSLessonEnrollment(models.Model):
     state = fields.Selection(
         string="Stato",
         selection=[
-            # ("I", "Identificato"),
+            ("I", "Identificato"),
             ("P", "Proposto"),
             ("A", "Accettato"),
             ("C", "Confermato"),
@@ -101,19 +101,18 @@ class GSLessonEnrollment(models.Model):
             enrollments = []
             curr = test
 
-            # TODO why this?
             while curr.id is not False:
                 enrollments.append(curr)
                 curr = curr.previous_enrollment_id
 
             attended_hours = sum([e.attended_hours for e in enrollments])
 
-            # if (
-            #     attended_hours
-            #     < test.gs_course_id.duration * test.gs_course_id.min_attendance
-            # ):
-            #     # worker attendance was not high enough
-            #     continue
+            if (
+                attended_hours
+                < test.gs_course_id.duration * test.gs_course_id.min_attendance
+            ):
+                # worker attendance was not high enough
+                continue
 
             if test.is_attendant:
                 self.env["gs_worker_certificate"].create(

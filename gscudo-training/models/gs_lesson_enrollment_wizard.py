@@ -93,7 +93,6 @@ class GSLessonSingleEnrollmentWizard(models.TransientModel):
         #         raise ValidationError(
         #             "Il lavoratore non è iscritto alla lezione da sostituire"
         #         )
-        #     # TODO sanity check: enrollments are for the same module
         #     previous_enrollment_id = old_enrollment.previous_enrollment_id.id
 
         #     # delete the enrollment to replace and all subsequent enrollments

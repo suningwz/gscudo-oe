@@ -233,6 +233,15 @@ class GSWorkerCertificate(models.Model):
     def _compute_attendance_percentage(self):
         self.attendance_percentage = self.attended_hours / self.duration
 
+    enrollments = fields.One2many(
+        comodel_name="gs_lesson_enrollment",
+        string="Lezioni seguite",
+        compute="_compute_enrollment_field",
+    )
+
+    def _compute_enrollment_field(self):
+        self.enrollments = [e.id for e in self.compute_enrollments()]
+
     def compute_enrollments(self):
         """
         Compute the list of lesson enrollments that satisfies this certificate's requirements.

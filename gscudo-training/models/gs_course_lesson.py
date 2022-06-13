@@ -95,7 +95,6 @@ class GSCourseLesson(models.Model):
                 enrollment.is_attendant = True
                 enrollment.attended_hours = self.duration
 
-    # FIXME why api.model?
     @api.model
     def generate_certificates(self):
         """
@@ -111,6 +110,27 @@ class GSCourseLesson(models.Model):
         for enrollment in test.gs_worker_ids:
             enrollment.generate_certificate()
 
+    @api.model
+    def sorted(self, vals, reverse=False):
+        """
+        Takes an array of lessons and returns it ordered.
+        """
+        return sorted(
+            vals,
+            key=functools.cmp_to_key(
+                lambda x, y: (
+                    -1
+                    if (
+                        y.gs_course_type_module_id.generate_certificate
+                        and not x.gs_course_type_module_id.generate_certificate
+                    )
+                    or x.name.lower() < y.name.lower()
+                    else 1
+                )
+            ),
+            reverse=reverse,
+        )
+
     def prev_lesson(self):
         """
         Returns the previous lesson in the course, or False if this is the first one.
@@ -121,23 +141,15 @@ class GSCourseLesson(models.Model):
         self.ensure_one()
 
         return next(
-            # TODO performances
+            # TODO rewrite this
             iter(
-                sorted(
+                self.sorted(
                     [
                         l
                         for l in self.gs_course_id.gs_course_lesson_ids
-                        if l.gs_course_type_module_id
-                        in self.gs_course_type_module_id.module_required_ids
+                        if not l.gs_course_type_module_id.generate_certificate
+                        and self.name.lower() > l.name.lower()
                     ],
-                    key=functools.cmp_to_key(
-                        lambda x, y: (
-                            -1
-                            if x.gs_course_type_module_id
-                            in y.gs_course_type_module_id.module_required_ids
-                            else 1
-                        )
-                    ),
                     reverse=True,
                 )
             ),
@@ -152,9 +164,14 @@ class GSCourseLesson(models.Model):
         return next(
             # TODO performances
             iter(
-                l
-                for l in self.gs_course_id.gs_course_lesson_ids
-                if l.prev_lesson() == self
+                self.sorted(
+                    [
+                        l
+                        for l in self.gs_course_id.gs_course_lesson_ids
+                        if l.gs_course_type_module_id.generate_certificate
+                        or self.name.lower() < l.name.lower()
+                    ],
+                )
             ),
             False,
         )

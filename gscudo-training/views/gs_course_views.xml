@@ -10,8 +10,12 @@
                         <field name="name" />
                         <field name="gs_course_type_id" />
                         <field name="protocol" />
-                        <field name="start_date" />
-                        <field name="end_date" />
+                        <label for="start_date" string="Data"/>
+                        <div class="o_row">
+                            <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}" />
+                            <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                            <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}" />
+                        </div>
                         <field name="duration" widget="float_time" />
                         <field name="min_attendance" widget="percentage" />
                         <field name="total_enrolled" />
