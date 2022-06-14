@@ -70,7 +70,7 @@ class CrmLead(models.Model):
 
     revenue = fields.Integer(string="Fatturato")
     balance_year = fields.Integer(string="Anno bilancio", default="")
-    employee_qty = fields.Integer(string="Adetti")
+    employee_qty = fields.Integer(string="Addetti")
     ateco_id = fields.Many2one(
         string="Descrizione ATECO 2007", comodel_name="ateco.category"
     )
