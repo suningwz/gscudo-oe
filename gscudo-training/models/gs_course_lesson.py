@@ -7,11 +7,12 @@ from odoo.exceptions import UserError
 class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     # TODO lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
-    active = fields.Boolean(string="Attivo", default=True)
+    active = fields.Boolean(string="Attivo", default=True, tracking=True)
     gs_course_id = fields.Many2one(comodel_name="gs_course", string="Corso")
     gs_course_type_id = fields.Many2one(
         related="gs_course_id.gs_course_type_id",
@@ -20,7 +21,7 @@ class GSCourseLesson(models.Model):
     )
 
     parent_lesson_id = fields.Many2one(
-        comodel_name="gs_course_lesson", string="Lezione padre"
+        comodel_name="gs_course_lesson", string="Lezione padre", tracking=True
     )
     children_lesson_ids = fields.One2many(
         comodel_name="gs_course_lesson",
@@ -32,6 +33,7 @@ class GSCourseLesson(models.Model):
         selection=[("tentative", "Provvisorio"), ("final", "Definitivo")],
         string="Stato",
         default="tentative",
+        tracking=True,
     )
 
     note = fields.Char(string="Note")
@@ -39,14 +41,15 @@ class GSCourseLesson(models.Model):
         comodel_name="gs_course_type_module",
         string="Modulo",
         domain="[('gs_course_type_id','=',gs_course_type_id)]",
+        tracking=True,
     )
-    start_time = fields.Datetime(string="Inizio")
-    duration = fields.Float(string="Durata in ore")
+    start_time = fields.Datetime(string="Inizio", tracking=True)
+    duration = fields.Float(string="Durata in ore", tracking=True)
     end_time = fields.Datetime(
         string="Termine", compute="_compute_end_time", store=True
     )
 
-    is_closed = fields.Boolean(string="Lezione chiusa", default=False)
+    is_closed = fields.Boolean(string="Lezione chiusa", default=False, tracking=True)
 
     @api.depends("start_time", "duration")
     def _compute_end_time(self):
@@ -54,27 +57,34 @@ class GSCourseLesson(models.Model):
             if lesson.start_time and lesson.duration:
                 lesson.end_time = lesson.start_time + timedelta(hours=lesson.duration)
 
-    location_partner_id = fields.Many2one(comodel_name="res.partner", string="Sede")
-    elearning = fields.Boolean(string="Modalità elearning")
+    location_partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Sede", tracking=True
+    )
+    elearning = fields.Boolean(string="Modalità elearning", tracking=True)
 
-    teacher_partner_id = fields.Many2one(comodel_name="res.partner", string="Docente")
-    is_teacher_remote = fields.Boolean(string="Docente in videoconf.")
+    teacher_partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Docente", tracking=True
+    )
+    is_teacher_remote = fields.Boolean(string="Docente in videoconf.", tracking=True)
 
     coteacher_partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Co-docente"
+        comodel_name="res.partner", string="Co-docente", tracking=True
     )
-    is_coteacher_remote = fields.Boolean(string="Codocente in videoconf.")
-    meeting_url = fields.Char(string="Link videoconferenza")
+    is_coteacher_remote = fields.Boolean(
+        string="Codocente in videoconf.", tracking=True
+    )
+    meeting_url = fields.Char(string="Link videoconferenza", tracking=True)
 
     def write(self, vals):
         """
         If a lesson is updated, update all children accordingly.
+        For now triggers on change of start_time and teacher_partner_id.
         """
         for lesson in self:
             for child in lesson.children_lesson_ids:
                 if (
                     vals.get("start_time")
-                    and vals.get("start_time") != child.start_time
+                    and not vals.get("start_time") != child.start_time
                 ):
                     child.start_time = vals["start_time"]
                 if (
@@ -193,6 +203,7 @@ class GSCourse(models.Model):
         comodel_name="gs_course_lesson",
         inverse_name="gs_course_id",
         string="Lezioni",
+        tracking=True,
     )
 
     @api.model

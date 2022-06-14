@@ -5,14 +5,15 @@ from odoo.exceptions import UserError
 class GSCourseEnrollment(models.Model):
     _name = "gs_course_enrollment"
     _description = "Registrazione corso"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     # TODO course enrollment name
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
-        comodel_name="gs_course", string="Corso", required=True
+        comodel_name="gs_course", string="Corso", required=True, tracking=True
     )
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", required=True
+        comodel_name="gs_worker", string="Lavoratore", required=True, tracking=True
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
@@ -28,17 +29,20 @@ class GSCourseEnrollment(models.Model):
             ("C", "Confermato"),
         ],
         default="I",
+        tracking=True,
     )
 
     note = fields.Char(string="Note")
-    active = fields.Boolean(string="Attivo", default=True)
+    active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
     @api.model
     def create(self, values):
         """
         At creation, add implicit lesson enrollment.
         """
-        # FIXME check if worker is already enrolled
+        if self.search([("gs_worker_id", "=", values.get("gs_worker_id"))]):
+            raise UserError("Lavoratore già iscritto al corso.")
+
         enrollment = super().create(values)
         lesson_enrollments = []
         for lesson in enrollment.gs_course_id.gs_course_lesson_ids:

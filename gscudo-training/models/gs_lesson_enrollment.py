@@ -4,20 +4,24 @@ from odoo import fields, models, api
 class GSLessonEnrollment(models.Model):
     _name = "gs_lesson_enrollment"
     _description = "Registrazione lezione"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     # TODO lesson enrollment name
     name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
-        comodel_name="gs_course_lesson", string="Lezione"
+        comodel_name="gs_course_lesson", string="Lezione", tracking=True
     )
     gs_course_id = fields.Many2one(
         comodel_name="gs_course",
         string="Corso",
         related="gs_course_lesson_id.gs_course_id",
         store=True,
+        tracking=True,
     )
 
-    gs_worker_id = fields.Many2one(comodel_name="gs_worker", string="Lavoratore")
+    gs_worker_id = fields.Many2one(
+        comodel_name="gs_worker", string="Lavoratore", tracking=True
+    )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Azienda",
@@ -32,10 +36,11 @@ class GSLessonEnrollment(models.Model):
             ("A", "Accettato"),
             ("C", "Confermato"),
         ],
-        default="P",
+        default="I",
+        tracking=True,
     )
-    active = fields.Boolean(string="Attivo", default=True)
-    is_attendant = fields.Boolean(string="È presente", default=False)
+    active = fields.Boolean(string="Attivo", default=True, tracking=True)
+    is_attendant = fields.Boolean(string="È presente", default=False, tracking=True)
     attended_hours = fields.Float(
         string="Ore frequentate",
         default=0.0,
@@ -56,17 +61,18 @@ class GSLessonEnrollment(models.Model):
 
     implicit = fields.Boolean(string="Iscrizione implicita", default=True)
     gs_course_enrollment_id = fields.Many2one(
-        comodel_name="gs_course_enrollment", string="Iscrizione al corso"
+        comodel_name="gs_course_enrollment", string="Iscrizione al corso", tracking=True
     )
 
     gs_course_type_module_id = fields.Many2one(
         comodel_name="gs_course_type_module",
         string="Modulo",
         related="gs_course_lesson_id.gs_course_type_module_id",
+        tracking=True,
     )
 
     previous_enrollment_id = fields.Many2one(
-        comodel_name="gs_lesson_enrollment", string="Lezione precedente"
+        comodel_name="gs_lesson_enrollment", string="Lezione precedente", tracking=True
     )
 
     def get_next_enrollment(self):
