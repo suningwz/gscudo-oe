@@ -35,6 +35,7 @@ class GSLessonEnrollment(models.Model):
             ("P", "Proposto"),
             ("A", "Accettato"),
             ("C", "Confermato"),
+            ("X", "Annullato"),
         ],
         default="I",
         tracking=True,

@@ -32,6 +32,7 @@ class GSWorkerCertificate(models.Model):
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True
     )
+    # FIXME this is the paying firm
     contract_partner_id = fields.Many2one(
         related="gs_worker_id.contract_partner_id",
         comodel_name="res.partner",
@@ -133,9 +134,14 @@ class GSWorkerCertificate(models.Model):
                 record.issue_date is not False
                 and record.gs_training_certificate_type_id is not False
             ):
-                record.expiration_date = record.issue_date + relativedelta(
-                    years=record.gs_training_certificate_type_id.validity_interval
-                )
+                if record.gs_training_certificate_type_id.validity_interval != 0:
+                    record.expiration_date = record.issue_date + relativedelta(
+                        years=record.gs_training_certificate_type_id.validity_interval
+                    )
+                else:
+                    record.gs_training_certificate_type_id.validity_interval = (
+                        datetime.date(2099, 12, 31)
+                    )
 
     state = fields.Selection(
         string="Validità",
