@@ -5,6 +5,19 @@
         <field name="model">gs_course_lesson</field>
         <field name="arch" type="xml">
             <form>
+                <header>
+                    <button 
+                        name="attend_all"
+                        type="object"
+                        string="Imposta tutti come presenti"
+                    />
+                    <button 
+                        name="close_lesson"
+                        type="object"
+                        string="Chiudi lezione"
+                        class="oe_highlight"
+                    />
+                </header>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -12,6 +25,7 @@
                         <field name="parent_lesson_id" />
                         <field name="gs_course_id" readonly="1"/>
                         <field name="gs_course_type_id" readonly="1"/>
+                        <field name="is_closed" />
                     </group>
                     <group>
                         <field name="location_partner_id" />
@@ -27,18 +41,6 @@
                         <field name="coteacher_partner_id" />
                         <field name="is_coteacher_remote" />
                         <field name="meeting_url" />
-                    </group>
-                    <group>
-                        <button 
-                            name="attend_all"
-                            type="object"
-                            string="Imposta tutti come presenti"
-                        />
-                        <button 
-                            name="close_lesson"
-                            type="object"
-                            string="Chiudi lezione"
-                        />
                     </group>
                     <group>
                         <field name="gs_worker_ids">

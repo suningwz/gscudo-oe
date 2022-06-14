@@ -43,6 +43,11 @@ class GSCourseLesson(models.Model):
         domain="[('gs_course_type_id','=',gs_course_type_id)]",
         tracking=True,
     )
+    generate_certificate = fields.Boolean(
+        related="gs_course_type_module_id.generate_certificate",
+        string="Corso finale",
+    )
+
     start_time = fields.Datetime(string="Inizio", tracking=True)
     duration = fields.Float(string="Durata in ore", tracking=True)
     end_time = fields.Datetime(

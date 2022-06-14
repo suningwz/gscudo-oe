@@ -28,17 +28,19 @@
                         <field name="note" />
                         <field name="parent_course_id" />
                         <field name="gs_course_lesson_ids">
-                            <tree create="false" delete="false">
+                            <tree create="false" delete="false" default_order="start_time,generate_certificate,name">
                                 <field name="name" />
                                 <field name="start_time" />
                                 <field name="duration" widget="float_time" />
                                 <field name="state" />
+                                <field name="is_closed" readonly="1" />
                                 <button
                                     type="object"
                                     name="get_formview_action"
                                     string="Apri"
                                     icon="fa-file"
                                 />
+                                <field name="generate_certificate" invisible="1"/>
                                 <!-- context="{'form_view_initial_mode': 'edit'}" -->
                             </tree>
                         </field>
