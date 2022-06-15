@@ -7,7 +7,15 @@ from odoo.exceptions import UserError
 class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
+
+    signatures_sheet = fields.Binary(string="Foglio firme")
+
+    def _get_document_folder(self):
+        return self.env["documents.folder"].search([("name", "=", "Formazione")])
+
+    def _get_document_tags(self):
+        return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
     # TODO lesson name
     name = fields.Char(string="Nome")

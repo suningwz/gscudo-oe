@@ -11,7 +11,7 @@
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
     "version": "14.0.1.15",
-    "depends": ["base", "sale", "gscudo-oe"],
+    "depends": ["base", "sale", "gscudo-oe", "documents"],
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",

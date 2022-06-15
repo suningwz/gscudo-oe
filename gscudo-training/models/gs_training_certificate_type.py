@@ -1,5 +1,6 @@
 from odoo import fields, models
 
+
 class GSTrainingCertificateType(models.Model):
     _name = "gs_training_certificate_type"
     _description = "Tipo Certificato Formativo"
@@ -10,7 +11,9 @@ class GSTrainingCertificateType(models.Model):
     code = fields.Char(string="Codice", tracking=True)
     note = fields.Char(string="Note", tracking=True)
 
-    validity_interval = fields.Integer(string="Lunghezza validità in anni", tracking=True)
+    validity_interval = fields.Integer(
+        string="Lunghezza validità in anni", tracking=True
+    )
     is_updateable = fields.Boolean(string="Aggiornabile", tracking=True)
     law_ref = fields.Text(string="Riferimento normativo", tracking=True)
 

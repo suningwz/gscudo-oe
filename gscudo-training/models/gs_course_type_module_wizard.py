@@ -1,5 +1,6 @@
 from odoo import fields, models, api
 
+
 class GSCourseTypeModuleWizard(models.TransientModel):
     _name = "gs_course_type_module_wizard"
     _description = "Wizard per la creazione di moduli formativi"
