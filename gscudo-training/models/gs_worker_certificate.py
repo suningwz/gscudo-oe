@@ -308,9 +308,9 @@ class GSWorker(models.Model):
             ("active", "=", True),
             "|",
             ("state", "=", "expiring"),
-            "&",
+            # "&",
             ("state", "=", "expired"),
-            ("is_required", "=", True),
+            # ("is_required", "=", True),
         ],
     )
 
