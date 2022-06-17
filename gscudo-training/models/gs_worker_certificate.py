@@ -246,7 +246,9 @@ class GSWorkerCertificate(models.Model):
 
     @api.depends("attended_hours", "duration")
     def _compute_attendance_percentage(self):
-        self.attendance_percentage = self.attended_hours / self.duration
+        self.attendance_percentage = (
+            (self.attended_hours / self.duration) if self.duration > 0 else 0
+        )
 
     enrollments = fields.One2many(
         comodel_name="gs_lesson_enrollment",
