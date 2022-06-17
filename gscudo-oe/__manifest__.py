@@ -24,6 +24,7 @@
         "crm",
         "crm_lead_vat",
         "l10n_it_ateco",
+        "sale",
     ],
     # always loaded
     "data": [
