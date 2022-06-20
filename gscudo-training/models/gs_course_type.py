@@ -21,6 +21,7 @@ class GSCourseType(models.Model):
     )
     active = fields.Boolean(string="Attivo", default=True)
     duration = fields.Float(string="Durata in ore", default=2, required=True)
+    max_workers = fields.Integer(string="Massimo iscritti", default=35, tracking=True)
     min_attendance = fields.Float(
         string="Partecipazione minima", required=True, default=0.9, tracking=True
     )

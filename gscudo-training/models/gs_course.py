@@ -55,6 +55,7 @@ class GSCourse(models.Model):
         self.mode = self.gs_course_type_id.mode
         self.duration = self.gs_course_type_id.duration
         self.min_attendance = self.gs_course_type_id.min_attendance
+        self.max_workers = self.gs_course_type_id.max_workers
 
     is_multicompany = fields.Boolean(string="Multiazendale")
 
