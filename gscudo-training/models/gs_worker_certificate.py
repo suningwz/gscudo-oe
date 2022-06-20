@@ -9,7 +9,13 @@ from odoo import api, fields, models
 class GSWorkerCertificate(models.Model):
     _name = "gs_worker_certificate"
     _description = "Certificazioni"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
+
+    def _get_document_folder(self):
+        return self.env["documents.folder"].search([("name", "=", "Formazione")])
+
+    def _get_document_tags(self):
+        return self.env["documents.tag"].search([("name", "=", "Attestato")])
 
     # TODO cert name
     name = fields.Char(
@@ -139,9 +145,7 @@ class GSWorkerCertificate(models.Model):
                         years=record.gs_training_certificate_type_id.validity_interval
                     )
                 else:
-                    record.gs_training_certificate_type_id.validity_interval = (
-                        datetime.date(2099, 12, 31)
-                    )
+                    record.gs_training_certificate_type_id.validity_interval = 99
 
     state = fields.Selection(
         string="Validità",
@@ -247,7 +251,7 @@ class GSWorkerCertificate(models.Model):
     @api.depends("attended_hours", "duration")
     def _compute_attendance_percentage(self):
         self.attendance_percentage = (
-            (self.attended_hours / self.duration) if self.duration > 0 else 0
+            (self.attended_hours / self.duration) if self.duration > 0 else 1
         )
 
     enrollments = fields.One2many(

@@ -90,3 +90,5 @@ class GSCourse(models.Model):
             for lesson in course.gs_course_lesson_ids:
                 enrolled.update([e.gs_worker_id.id for e in lesson.gs_worker_ids])
             course.total_enrolled = len(enrolled)
+
+    external_url = fields.Char(string="URL esterno")

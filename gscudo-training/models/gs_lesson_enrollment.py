@@ -35,6 +35,8 @@ class GSLessonEnrollment(models.Model):
             ("P", "Proposto"),
             ("A", "Accettato"),
             ("C", "Confermato"),
+            ("S", "Scaduto"),
+            ("F", "Concluso"),
             ("X", "Annullato"),
         ],
         default="I",

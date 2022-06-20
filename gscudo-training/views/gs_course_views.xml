@@ -25,6 +25,7 @@
                         <field name="is_multicompany" />
                         <field name="max_workers" />
                         <field name="state" />
+                        <field name="external_url" />
                         <field name="note" />
                         <field name="parent_course_id" />
                         <field name="gs_course_lesson_ids">

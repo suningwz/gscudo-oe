@@ -9,8 +9,6 @@ class GSCourseLesson(models.Model):
     _description = "Lezione"
     _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
 
-    signatures_sheet = fields.Binary(string="Foglio firme")
-
     def _get_document_folder(self):
         return self.env["documents.folder"].search([("name", "=", "Formazione")])
 
