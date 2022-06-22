@@ -7,7 +7,7 @@ class GSCourseEnrollment(models.Model):
     _description = "Registrazione corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # TODO course enrollment name
+    # CHNAME course enrollment name
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
         comodel_name="gs_course", string="Corso", required=True, tracking=True

@@ -30,7 +30,7 @@
         <field name="name">gs_course_type_module_view_tree</field>
         <field name="model">gs_course_type_module</field>
         <field name="arch" type="xml">
-            <tree default_order="sequence,name">
+            <tree default_order="sequence,name" multi_edit="1">
                 <field name="gs_course_type_id" widget="many2many_tags" />
                 <field name="name" />
                 <field name="duration" widget="float_time" />

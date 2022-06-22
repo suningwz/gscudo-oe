@@ -15,7 +15,7 @@ class GSCourseLesson(models.Model):
     def _get_document_tags(self):
         return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
-    # TODO lesson name
+    # CHNAME lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
@@ -162,7 +162,6 @@ class GSCourseLesson(models.Model):
         self.ensure_one()
 
         return next(
-            # TODO rewrite this
             iter(
                 self.sorted(
                     [
@@ -183,7 +182,7 @@ class GSCourseLesson(models.Model):
         """
         self.ensure_one()
         return next(
-            # TODO performances
+            # LOW performances
             iter(
                 self.sorted(
                     [
@@ -259,3 +258,5 @@ class GSCourse(models.Model):
             for lesson in course.gs_course_lesson_ids:
                 lesson.unlink()
         return super().unlink()
+
+    id_sawgest = fields.Integer(string="Id Sawgest")

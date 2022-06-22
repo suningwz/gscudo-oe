@@ -29,7 +29,7 @@
                         <field name="note" />
                         <field name="parent_course_id" />
                         <field name="gs_course_lesson_ids">
-                            <tree create="false" delete="false" default_order="start_time,generate_certificate,name">
+                            <tree default_order="start_time,generate_certificate,name">
                                 <field name="name" />
                                 <field name="start_time" />
                                 <field name="duration" widget="float_time" />
@@ -48,7 +48,7 @@
                     </group>
                     <group>
                         <field name="gs_worker_ids">
-                            <tree create="false" delete="false">
+                            <tree>
                                 <field name="gs_worker_id" />
                                 <field name="partner_id" />
                                 <field name="state" />
@@ -76,7 +76,7 @@
         <field name="name">gs_course_view_tree</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
+            <tree default_order="name" multi_edit="1">
                 <field name="name" />
                 <field name="gs_course_type_id" />
                 <field name="protocol" />

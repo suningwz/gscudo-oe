@@ -29,7 +29,7 @@
         <field name="name">gs_training_certificate_type_view_tree</field>
         <field name="model">gs_training_certificate_type</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
+            <tree default_order="name" multi_edit="1">
                 <field name="code" />
                 <field name="validity_interval" string="Validità (anni)" />
                 <field name="name" />

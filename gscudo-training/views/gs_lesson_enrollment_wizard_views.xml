@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
+    <!-- LOW preparing for automation -->
     <record id="gs_lesson_mass_enrollment_wizard_view_form" model="ir.ui.view">
         <field name="name">gs_lesson_mass_enrollment_wizard_view_form</field>
         <field name="model">gs_lesson_mass_enrollment_wizard</field>
@@ -22,7 +23,6 @@
         </field>
     </record>
 
-    <!-- TODO probably remove this -->
     <!-- <record id="gs_lesson_mass_enrollment_wizard_action" model="ir.actions.act_window">
         <field name="name">Iscrivi a una lezione...</field>
         <field name="type">ir.actions.act_window</field>

@@ -22,7 +22,7 @@
                     </group>
                     <group>
                         <field name="gs_course_type_module_ids">
-                            <tree default_order="generate_certificate, name">
+                            <tree default_order="generate_certificate,name">
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
                                 <field name="duration" widget="float_time" />
@@ -46,7 +46,7 @@
         <field name="name">gs_course_type_view_tree</field>
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
-            <tree default_order="code,name">
+            <tree default_order="code,name" multi_edit="1">
                 <field name="gs_training_certificate_type_id" />
                 <field name="code" />
                 <field name="name" />

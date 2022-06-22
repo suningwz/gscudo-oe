@@ -5,7 +5,7 @@ from odoo import models, fields, api
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    # TODO "attenzionabili"
+    # CHNAME "attenzionabili"
     gs_worker_attentionable_ids = fields.One2many(
         comodel_name="gs_worker",
         inverse_name="contract_partner_id",
@@ -18,7 +18,7 @@ class ResPartner(models.Model):
         compute="_compute_attentionable_workers_number",
     )
 
-    # TODO test this
+    # LOW test this
     @api.depends(
         "gs_worker_ids.is_attentionable",
         "gs_worker_ids",

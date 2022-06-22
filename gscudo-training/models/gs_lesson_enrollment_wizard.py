@@ -29,7 +29,7 @@ class GSLessonMassEnrollmentWizard(models.TransientModel):
                 "state": "P",
                 "implicit": False,
             }
-            # TODO test this
+            # LOW test this
             if model.search(
                 [
                     ("gs_course_lesson_id", "=", data["gs_course_lesson_id"]),

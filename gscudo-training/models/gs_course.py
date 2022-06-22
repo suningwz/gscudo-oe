@@ -6,7 +6,7 @@ class GSCourse(models.Model):
     _description = "Corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # TODO course name
+    # CHNAME course name
     name = fields.Char(string="Corso")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
@@ -89,7 +89,15 @@ class GSCourse(models.Model):
         for course in self:
             enrolled = set([])
             for lesson in course.gs_course_lesson_ids:
-                enrolled.update([e.gs_worker_id.id for e in lesson.gs_worker_ids])
+                enrolled.update(
+                    [
+                        e.gs_worker_id.id
+                        for e in lesson.gs_worker_ids
+                        if e.state not in ["X", "I", "P"]
+                    ]
+                )
             course.total_enrolled = len(enrolled)
 
     external_url = fields.Char(string="URL esterno")
+
+    id_sawgest = fields.Integer(string="Id Sawgest")

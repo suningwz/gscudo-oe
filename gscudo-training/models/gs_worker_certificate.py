@@ -17,7 +17,7 @@ class GSWorkerCertificate(models.Model):
     def _get_document_tags(self):
         return self.env["documents.tag"].search([("name", "=", "Attestato")])
 
-    # TODO cert name
+    # CHNAME cert name
     name = fields.Char(
         string="Certificazione", compute="_compute_name", store=True, tracking=True
     )
@@ -38,7 +38,6 @@ class GSWorkerCertificate(models.Model):
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True
     )
-    # FIXME this is the paying firm
     contract_partner_id = fields.Many2one(
         related="gs_worker_id.contract_partner_id",
         comodel_name="res.partner",
@@ -212,7 +211,7 @@ class GSWorkerCertificate(models.Model):
         string="Richiesto", compute="_compute_is_required", store=True, index=True
     )
 
-    # TODO depends
+    # LOW depends
     @api.depends("gs_worker_id", "gs_training_certificate_type_id")
     def _compute_is_required(self):
         for certificate in self:

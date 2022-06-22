@@ -29,7 +29,7 @@
         <field name="name">gs_course_enrollment_view_tree</field>
         <field name="model">gs_course_enrollment</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
+            <tree default_order="name" multi_edit="1">
                 <field name="name" />
                 <field name="gs_course_id" />
                 <field name="gs_worker_id" />
