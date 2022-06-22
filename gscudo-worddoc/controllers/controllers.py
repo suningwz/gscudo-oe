@@ -60,6 +60,7 @@ class Worddoc(http.Controller):
 
         # with NamedTemporaryFile("w+b") as f:
 
+        # pylint: disable-next=consider-using-with
         f = NamedTemporaryFile()
         f.write(base64.b64decode(doc_template.template))
         document = DocxTemplate(f.name)

@@ -7,11 +7,18 @@ from odoo.exceptions import UserError
 class GSCourseLesson(models.Model):
     _name = "gs_course_lesson"
     _description = "Lezione"
+    _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
 
-    # TODO lesson name
+    def _get_document_folder(self):
+        return self.env["documents.folder"].search([("name", "=", "Formazione")])
+
+    def _get_document_tags(self):
+        return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
+
+    # CHNAME lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
-    active = fields.Boolean(string="Attivo", default=True)
+    active = fields.Boolean(string="Attivo", default=True, tracking=True)
     gs_course_id = fields.Many2one(comodel_name="gs_course", string="Corso")
     gs_course_type_id = fields.Many2one(
         related="gs_course_id.gs_course_type_id",
@@ -20,7 +27,7 @@ class GSCourseLesson(models.Model):
     )
 
     parent_lesson_id = fields.Many2one(
-        comodel_name="gs_course_lesson", string="Lezione padre"
+        comodel_name="gs_course_lesson", string="Lezione padre", tracking=True
     )
     children_lesson_ids = fields.One2many(
         comodel_name="gs_course_lesson",
@@ -32,6 +39,7 @@ class GSCourseLesson(models.Model):
         selection=[("tentative", "Provvisorio"), ("final", "Definitivo")],
         string="Stato",
         default="tentative",
+        tracking=True,
     )
 
     note = fields.Char(string="Note")
@@ -39,14 +47,20 @@ class GSCourseLesson(models.Model):
         comodel_name="gs_course_type_module",
         string="Modulo",
         domain="[('gs_course_type_id','=',gs_course_type_id)]",
+        tracking=True,
     )
-    start_time = fields.Datetime(string="Inizio")
-    duration = fields.Float(string="Durata in ore")
+    generate_certificate = fields.Boolean(
+        related="gs_course_type_module_id.generate_certificate",
+        string="Corso finale",
+    )
+
+    start_time = fields.Datetime(string="Inizio", tracking=True)
+    duration = fields.Float(string="Durata in ore", tracking=True)
     end_time = fields.Datetime(
         string="Termine", compute="_compute_end_time", store=True
     )
 
-    is_closed = fields.Boolean(string="Lezione chiusa", default=False)
+    is_closed = fields.Boolean(string="Lezione chiusa", default=False, tracking=True)
 
     @api.depends("start_time", "duration")
     def _compute_end_time(self):
@@ -54,27 +68,34 @@ class GSCourseLesson(models.Model):
             if lesson.start_time and lesson.duration:
                 lesson.end_time = lesson.start_time + timedelta(hours=lesson.duration)
 
-    location_partner_id = fields.Many2one(comodel_name="res.partner", string="Sede")
-    elearning = fields.Boolean(string="Modalità elearning")
+    location_partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Sede", tracking=True
+    )
+    elearning = fields.Boolean(string="Modalità elearning", tracking=True)
 
-    teacher_partner_id = fields.Many2one(comodel_name="res.partner", string="Docente")
-    is_teacher_remote = fields.Boolean(string="Docente in videoconf.")
+    teacher_partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Docente", tracking=True
+    )
+    is_teacher_remote = fields.Boolean(string="Docente in videoconf.", tracking=True)
 
     coteacher_partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Co-docente"
+        comodel_name="res.partner", string="Co-docente", tracking=True
     )
-    is_coteacher_remote = fields.Boolean(string="Codocente in videoconf.")
-    meeting_url = fields.Char(string="Link videoconferenza")
+    is_coteacher_remote = fields.Boolean(
+        string="Codocente in videoconf.", tracking=True
+    )
+    meeting_url = fields.Char(string="Link videoconferenza", tracking=True)
 
     def write(self, vals):
         """
         If a lesson is updated, update all children accordingly.
+        For now triggers on change of start_time and teacher_partner_id.
         """
         for lesson in self:
             for child in lesson.children_lesson_ids:
                 if (
                     vals.get("start_time")
-                    and vals.get("start_time") != child.start_time
+                    and not vals.get("start_time") != child.start_time
                 ):
                     child.start_time = vals["start_time"]
                 if (
@@ -95,7 +116,6 @@ class GSCourseLesson(models.Model):
                 enrollment.is_attendant = True
                 enrollment.attended_hours = self.duration
 
-    # FIXME why api.model?
     @api.model
     def generate_certificates(self):
         """
@@ -111,6 +131,29 @@ class GSCourseLesson(models.Model):
         for enrollment in test.gs_worker_ids:
             enrollment.generate_certificate()
 
+    # @staticmethod
+    # def sorted(vals, reverse=False):
+    @api.model
+    def sorted(self, vals, reverse=False):
+        """
+        Takes an array of lessons and returns it ordered.
+        """
+        return sorted(
+            vals,
+            key=functools.cmp_to_key(
+                lambda x, y: (
+                    -1
+                    if (
+                        y.gs_course_type_module_id.generate_certificate
+                        and not x.gs_course_type_module_id.generate_certificate
+                    )
+                    or x.name.lower() < y.name.lower()
+                    else 1
+                )
+            ),
+            reverse=reverse,
+        )
+
     def prev_lesson(self):
         """
         Returns the previous lesson in the course, or False if this is the first one.
@@ -121,23 +164,14 @@ class GSCourseLesson(models.Model):
         self.ensure_one()
 
         return next(
-            # TODO performances
             iter(
-                sorted(
+                self.sorted(
                     [
                         l
                         for l in self.gs_course_id.gs_course_lesson_ids
-                        if l.gs_course_type_module_id
-                        in self.gs_course_type_module_id.module_required_ids
+                        if not l.gs_course_type_module_id.generate_certificate
+                        and self.name.lower() > l.name.lower()
                     ],
-                    key=functools.cmp_to_key(
-                        lambda x, y: (
-                            -1
-                            if x.gs_course_type_module_id
-                            in y.gs_course_type_module_id.module_required_ids
-                            else 1
-                        )
-                    ),
                     reverse=True,
                 )
             ),
@@ -150,11 +184,16 @@ class GSCourseLesson(models.Model):
         """
         self.ensure_one()
         return next(
-            # TODO performances
+            # LOW performances
             iter(
-                l
-                for l in self.gs_course_id.gs_course_lesson_ids
-                if l.prev_lesson() == self
+                self.sorted(
+                    [
+                        l
+                        for l in self.gs_course_id.gs_course_lesson_ids
+                        if l.gs_course_type_module_id.generate_certificate
+                        or self.name.lower() < l.name.lower()
+                    ],
+                )
             ),
             False,
         )
@@ -176,6 +215,7 @@ class GSCourse(models.Model):
         comodel_name="gs_course_lesson",
         inverse_name="gs_course_id",
         string="Lezioni",
+        tracking=True,
     )
 
     @api.model
@@ -220,3 +260,5 @@ class GSCourse(models.Model):
             for lesson in course.gs_course_lesson_ids:
                 lesson.unlink()
         return super().unlink()
+
+    id_sawgest = fields.Integer(string="Id Sawgest")

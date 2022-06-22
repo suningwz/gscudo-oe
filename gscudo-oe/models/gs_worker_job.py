@@ -6,7 +6,7 @@ class WorkerJob(models.Model):
     _name = "gs_worker_job"
     _description = "Mansione/Delega"
 
-    name = fields.Char(string="Name", compute="_compute_name", store=True)
+    name = fields.Char(string="Nome", compute="_compute_name", store=True)
 
     @api.depends("gs_worker_contract_id", "gs_worker_id", "start_date")
     def _compute_name(self):
