@@ -24,3 +24,5 @@ class ProjectTask(models.Model):
                     record.sg_url = f"{base_url}tasks/{record.sg_task_id}"
                 else:
                     record.sg_url = False
+
+    

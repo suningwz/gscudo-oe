@@ -15,8 +15,6 @@ class ProductTemplate(models.Model):
         compute="_compute_sg_product_url",
         store=False,
     )
-    sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
-    sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
 
     def _compute_sg_product_url(self):
         irconfigparam = self.env["ir.config_parameter"]
@@ -44,3 +42,7 @@ class ProductTemplate(models.Model):
                     record.sg_article_url = f"{base_url}articles/{record.sg_article_id}"
                 else:
                     record.sg_article_url = False
+
+    sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
+    sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
+    
