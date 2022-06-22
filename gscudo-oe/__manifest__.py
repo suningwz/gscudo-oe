@@ -23,6 +23,7 @@
         # 'helpdesk',
         "crm",
         "crm_lead_vat",
+        "sale",
         "l10n_it_ateco",
     ],
     # always loaded
