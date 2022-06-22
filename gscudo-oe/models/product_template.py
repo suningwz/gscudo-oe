@@ -45,4 +45,3 @@ class ProductTemplate(models.Model):
 
     sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
-    

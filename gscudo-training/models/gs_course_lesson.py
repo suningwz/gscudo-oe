@@ -131,6 +131,8 @@ class GSCourseLesson(models.Model):
         for enrollment in test.gs_worker_ids:
             enrollment.generate_certificate()
 
+    # @staticmethod
+    # def sorted(vals, reverse=False):
     @api.model
     def sorted(self, vals, reverse=False):
         """

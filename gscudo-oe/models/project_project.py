@@ -27,5 +27,3 @@ class ProjectProject(models.Model):
                     record.sg_url = base_url.format(record.sg_offer_id)
                 else:
                     record.sg_url = False
-
-    
