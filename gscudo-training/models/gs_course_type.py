@@ -3,7 +3,7 @@ from odoo import models, fields
 
 class GSCourseType(models.Model):
     _name = "gs_course_type"
-    _description = "GS Tipo di corso"
+    _description = "Tipo di corso"
 
     name = fields.Char(string="Tipo di corso", required=True)
     code = fields.Char(string="Codice")
@@ -17,13 +17,14 @@ class GSCourseType(models.Model):
     )
     active = fields.Boolean(string="Attivo", default=True)
     duration = fields.Float(string="Durata in ore", default=2, required=True)
+    min_attendance = fields.Float(
+        string="Partecipazione minima", required=True, default=0.9
+    )
     note = fields.Char(string="Note")
     gs_training_certificate_type_id = fields.Many2one(
-        comodel_name="gs_training_certificate_type", string="Certificato formativo"
-    )
-    gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
-        string="Certificato formativo (old)",
+        string="Certificato formativo",
     )
+
     is_update = fields.Boolean(string="È un aggiornamento", default=False)
     is_multicompany = fields.Boolean(string="Multiazendale", default=False)

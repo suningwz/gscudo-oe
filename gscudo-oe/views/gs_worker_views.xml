@@ -116,11 +116,12 @@
                 <field name="contract_partner_id" />
                 <field name="contract_job_description" />
                 <field name="contract_department" />
-                <separator />
+
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                
                 <group expand="1" string="Group By">
-                    <filter string="Datore di lavoro" name="contract_partner_id" context="{'group_by':'contract_partner_id'}" />
-                    <filter string="Mansione" name="contract_job_description" context="{'group_by':'contract_job_description'}" />
+                    <filter string="Datore di lavoro" name="group_by_contract_partner_id" context="{'group_by':'contract_partner_id'}" />
+                    <filter string="Mansione" name="group_by_contract_job_description" context="{'group_by':'contract_job_description'}" />
                 </group>
             </search>
         </field>
