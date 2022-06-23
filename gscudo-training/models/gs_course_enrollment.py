@@ -43,7 +43,12 @@ class GSCourseEnrollment(models.Model):
         """
         At creation, add implicit lesson enrollment.
         """
-        if self.search([("gs_worker_id", "=", values.get("gs_worker_id"))]):
+        if self.search(
+            [
+                ("gs_worker_id", "=", values.get("gs_worker_id")),
+                ("gs_course_id", "=", values.get("gs_course_id")),
+            ]
+        ):
             raise UserError("Lavoratore già iscritto al corso.")
 
         enrollment = super().create(values)

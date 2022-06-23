@@ -230,7 +230,7 @@ class GSCourse(models.Model):
 
         for module in course.gs_course_type_id.gs_course_type_module_ids:
             data = {
-                "name": f"Lezione {module.name}",
+                "name": module.name,
                 "gs_course_id": course.id,
                 "duration": module.duration,
                 "gs_course_type_module_id": module.id,
