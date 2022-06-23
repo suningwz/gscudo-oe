@@ -10,7 +10,7 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.16",
+    "version": "14.0.1.16a",
     "depends": [
         "base",
         "contacts",
@@ -46,5 +46,6 @@
         "views/gs_worker_job_type_views.xml",
         "views/gs_worker_job_views.xml",
         "views/product_template_views.xml",
+        "views/sale_order_views.xml",
     ],
 }
