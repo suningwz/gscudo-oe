@@ -10,8 +10,12 @@
                         <field name="name" />
                         <field name="gs_course_type_id" />
                         <field name="protocol" />
-                        <field name="start_date" />
-                        <field name="end_date" />
+                        <label for="start_date" string="Data"/>
+                        <div class="o_row">
+                            <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}" />
+                            <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                            <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}" />
+                        </div>
                         <field name="duration" widget="float_time" />
                         <field name="min_attendance" widget="percentage" />
                         <field name="total_enrolled" />
@@ -21,27 +25,30 @@
                         <field name="is_multicompany" />
                         <field name="max_workers" />
                         <field name="state" />
+                        <field name="external_url" />
                         <field name="note" />
                         <field name="parent_course_id" />
                         <field name="gs_course_lesson_ids">
-                            <tree create="false" delete="false">
+                            <tree default_order="start_time,generate_certificate,name">
                                 <field name="name" />
                                 <field name="start_time" />
                                 <field name="duration" widget="float_time" />
                                 <field name="state" />
+                                <field name="is_closed" readonly="1" />
                                 <button
                                     type="object"
                                     name="get_formview_action"
                                     string="Apri"
                                     icon="fa-file"
                                 />
+                                <field name="generate_certificate" invisible="1"/>
                                 <!-- context="{'form_view_initial_mode': 'edit'}" -->
                             </tree>
                         </field>
                     </group>
                     <group>
                         <field name="gs_worker_ids">
-                            <tree create="false" delete="false">
+                            <tree>
                                 <field name="gs_worker_id" />
                                 <field name="partner_id" />
                                 <field name="state" />
@@ -56,6 +63,11 @@
                         </field>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>
@@ -64,7 +76,7 @@
         <field name="name">gs_course_view_tree</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
+            <tree default_order="name" multi_edit="1">
                 <field name="name" />
                 <field name="gs_course_type_id" />
                 <field name="protocol" />

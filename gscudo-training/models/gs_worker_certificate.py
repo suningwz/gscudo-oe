@@ -9,10 +9,18 @@ from odoo import api, fields, models
 class GSWorkerCertificate(models.Model):
     _name = "gs_worker_certificate"
     _description = "Certificazioni"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
 
-    # TODO cert name
-    name = fields.Char(string="Certificazione", compute="_compute_name", store=True)
+    def _get_document_folder(self):
+        return self.env["documents.folder"].search([("name", "=", "Formazione")])
+
+    def _get_document_tags(self):
+        return self.env["documents.tag"].search([("name", "=", "Attestato")])
+
+    # CHNAME cert name
+    name = fields.Char(
+        string="Certificazione", compute="_compute_name", store=True, tracking=True
+    )
 
     @api.depends(
         "gs_worker_id.name",
@@ -28,7 +36,7 @@ class GSWorkerCertificate(models.Model):
             )
 
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", index=True
+        comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True
     )
     contract_partner_id = fields.Many2one(
         related="gs_worker_id.contract_partner_id",
@@ -36,11 +44,13 @@ class GSWorkerCertificate(models.Model):
         string="Azienda/Sede",
         store=True,
         index=True,
+        tracking=True,
     )
 
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
         string="Tipo certificazione",
+        tracking=True,
     )
 
     type = fields.Selection(
@@ -51,12 +61,13 @@ class GSWorkerCertificate(models.Model):
         ],
         default="C",
         required=True,
+        tracking=True,
     )
 
     note = fields.Char(string="Note")
 
-    issue_date = fields.Date(string="Data attestato")
-    issue_serial = fields.Char(string="Protocollo attestato", store=True)
+    issue_date = fields.Date(string="Data attestato", tracking=True)
+    issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True)
 
     @api.model
     def create(self, vals):
@@ -103,7 +114,7 @@ class GSWorkerCertificate(models.Model):
             else:
                 certificate.active = True
 
-    is_update = fields.Boolean(string="Aggiornabile")
+    is_update = fields.Boolean(string="Aggiornabile", tracking=True)
 
     expiry_date = fields.Date(string="Data scadenza (sawgest)")
 
@@ -112,6 +123,7 @@ class GSWorkerCertificate(models.Model):
         compute="_compute_expiration_date",
         index=True,
         store=True,
+        tracking=True,
     )
 
     @api.depends("issue_date", "gs_training_certificate_type_id.validity_interval")
@@ -127,11 +139,12 @@ class GSWorkerCertificate(models.Model):
                 record.issue_date is not False
                 and record.gs_training_certificate_type_id is not False
             ):
-                record.expiration_date = record.issue_date + relativedelta(
-                    years=record.gs_training_certificate_type_id.validity_interval
-                )
-
-    note = fields.Char(string="Note")
+                if record.gs_training_certificate_type_id.validity_interval != 0:
+                    record.expiration_date = record.issue_date + relativedelta(
+                        years=record.gs_training_certificate_type_id.validity_interval
+                    )
+                else:
+                    record.gs_training_certificate_type_id.validity_interval = 99
 
     state = fields.Selection(
         string="Validità",
@@ -198,6 +211,7 @@ class GSWorkerCertificate(models.Model):
         string="Richiesto", compute="_compute_is_required", store=True, index=True
     )
 
+    # LOW depends
     @api.depends("gs_worker_id", "gs_training_certificate_type_id")
     def _compute_is_required(self):
         for certificate in self:
@@ -217,14 +231,18 @@ class GSWorkerCertificate(models.Model):
                         return
 
     test_id = fields.Many2one(
-        comodel_name="gs_lesson_enrollment", string="Iscrizione al test"
+        comodel_name="gs_lesson_enrollment", string="Iscrizione al test", tracking=True
     )
 
-    duration = fields.Float(string="Durata", related="test_id.gs_course_id.duration")
-    min_attendance = fields.Float(
-        string="Partecipazione minima", related="test_id.gs_course_id.min_attendance"
+    duration = fields.Float(
+        string="Durata", related="test_id.gs_course_id.duration", tracking=True
     )
-    attended_hours = fields.Float(string="Ore frequentate")
+    min_attendance = fields.Float(
+        string="Partecipazione minima",
+        related="test_id.gs_course_id.min_attendance",
+        tracking=True,
+    )
+    attended_hours = fields.Float(string="Ore frequentate", tracking=True)
     attendance_percentage = fields.Float(
         string="Frequenza", compute="_compute_attendance_percentage"
     )
@@ -232,8 +250,17 @@ class GSWorkerCertificate(models.Model):
     @api.depends("attended_hours", "duration")
     def _compute_attendance_percentage(self):
         self.attendance_percentage = (
-            (self.attended_hours / self.duration) if self.duration > 0 else 0
+            (self.attended_hours / self.duration) if self.duration > 0 else 1
         )
+
+    enrollments = fields.One2many(
+        comodel_name="gs_lesson_enrollment",
+        string="Lezioni seguite",
+        compute="_compute_enrollment_field",
+    )
+
+    def _compute_enrollment_field(self):
+        self.enrollments = [e.id for e in self.compute_enrollments()]
 
     def compute_enrollments(self):
         """
@@ -263,9 +290,6 @@ class GSWorkerCertificate(models.Model):
             for record in self:
                 if record.sg_id and record.sg_id > 0:
                     record.sg_url = f"{base_url}training_timetables/{record.sg_id}"
-                    # record.sg_url = base_url + "training_timetables/{}".format(
-                    #     record.sg_id
-                    # )
                 else:
                     record.sg_url = False
 
@@ -289,9 +313,9 @@ class GSWorker(models.Model):
             ("active", "=", True),
             "|",
             ("state", "=", "expiring"),
-            "&",
+            # "&",
             ("state", "=", "expired"),
-            ("is_required", "=", True),
+            # ("is_required", "=", True),
         ],
     )
 

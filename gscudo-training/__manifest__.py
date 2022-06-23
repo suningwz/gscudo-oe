@@ -10,8 +10,8 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.15a",
-    "depends": ["base", "sale", "gscudo-oe"],
+    "version": "14.0.1.16a",
+    "depends": ["base", "sale", "gscudo-oe", "documents"],
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",

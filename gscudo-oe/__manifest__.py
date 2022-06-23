@@ -10,7 +10,7 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.15",
+    "version": "14.0.1.16",
     "depends": [
         "base",
         "contacts",
@@ -21,6 +21,7 @@
         "crm_lead_vat",
         "sale",
         "l10n_it_ateco",
+        "sale",
     ],
     "data": [
         "security/security_groups.xml",

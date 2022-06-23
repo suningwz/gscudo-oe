@@ -42,7 +42,7 @@
 
     <!-- Top menu item -->
 
-    <menuitem name="Verfiche" id="gscudo-periodicchecklist.menu_root"  web_icon="gscudo-periodicchecklist,static/description/periodicchecklist.png" />
+    <menuitem name="Verifiche" id="gscudo-periodicchecklist.menu_root"  web_icon="gscudo-periodicchecklist,static/description/periodicchecklist.png" />
     <menuitem name="Riunioni" id="gscudo-periodicchecklist.menu_meeting"   parent="menu_root" sequence="10" />
 
     <!-- menu categories -->
