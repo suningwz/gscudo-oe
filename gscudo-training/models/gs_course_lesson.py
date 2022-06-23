@@ -207,6 +207,8 @@ class GSCourseLesson(models.Model):
             raise UserError("Questa lezione è già chiusa.")
         self.is_closed = True
 
+    id_sawgest = fields.Integer(string="Id Sawgest")
+
 
 class GSCourse(models.Model):
     _inherit = "gs_course"
@@ -260,5 +262,3 @@ class GSCourse(models.Model):
             for lesson in course.gs_course_lesson_ids:
                 lesson.unlink()
         return super().unlink()
-
-    id_sawgest = fields.Integer(string="Id Sawgest")
