@@ -5,6 +5,7 @@ from odoo import models, fields, api
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    # TODO "attenzionabili"
     gs_worker_attentionable_ids = fields.One2many(
         comodel_name="gs_worker",
         inverse_name="contract_partner_id",
@@ -17,7 +18,7 @@ class ResPartner(models.Model):
         compute="_compute_attentionable_workers_number",
     )
 
-    # TODO performances
+    # TODO test this
     @api.depends(
         "gs_worker_ids.is_attentionable",
         "gs_worker_ids",
@@ -27,3 +28,9 @@ class ResPartner(models.Model):
             partner.attentionable_workers_number = len(
                 [worker for worker in partner.gs_worker_ids if worker.is_attentionable]
             )
+            # partner.attentionable_workers_number = self.gs_worker_ids.search_count(
+            #     [
+            #         ("is_attentionable", "=", True),
+            #         ("contract_partner_id", "=", partner.id),
+            #     ]
+            # )

@@ -1,10 +1,11 @@
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class GSCourse(models.Model):
     _name = "gs_course"
     _description = "Corso"
 
+    # TODO course name
     name = fields.Char(string="Corso")
     active = fields.Boolean(string="Attivo", default=True)
 
@@ -23,12 +24,60 @@ class GSCourse(models.Model):
         default="1-nuovo",
     )
     note = fields.Char(string="Note")
-    max_workers = fields.Integer(string="Massimo iscritti")
+    max_workers = fields.Integer(string="Massimo iscritti", default=35)
     location_partner_id = fields.Many2one(comodel_name="res.partner", string="Sede")
     start_date = fields.Date(string="Data inizio")
     end_date = fields.Date(string="Data termine")
+
+    duration = fields.Float(string="Durata in ore", default=2, required=True)
+    min_attendance = fields.Float(
+        string="Partecipazione minima", required=True, default=0.9
+    )
+
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type", string="Tipo Corso"
     )
-    mode = fields.Selection(related="gs_course_type_id.mode", string="Modalità")
+    mode = fields.Selection(
+        string="Modalità",
+        selection=[("P", "Presenza"), ("E", "E-learning"), ("M", "Misto")],
+        default="P",
+    )
+
+    @api.onchange("gs_course_type_id")
+    def _onchange_gs_course_type_id(self):
+        self.mode = self.gs_course_type_id.mode
+        self.duration = self.gs_course_type_id.duration
+        self.min_attendance = self.gs_course_type_id.min_attendance
+
     is_multicompany = fields.Boolean(string="Multiazendale")
+
+    parent_course_id = fields.Many2one(comodel_name="gs_course", string="Corso padre")
+    children_course_ids = fields.One2many(
+        comodel_name="gs_course",
+        inverse_name="parent_course_id",
+        string="Corsi figli",
+    )
+
+    is_child = fields.Boolean(
+        string="Figlio",
+        compute="_compute_is_child",
+    )
+
+    def _compute_is_child(self):
+        for course in self:
+            course.is_child = course.parent_course_id.id is not False
+
+    total_enrolled = fields.Integer(
+        string="Iscritti totali",
+        compute="_compute_total_enrolled",
+    )
+
+    def _compute_total_enrolled(self):
+        """
+        This counts all the workers enrolled to at least one lesson of the course.
+        """
+        for course in self:
+            enrolled = set([])
+            for lesson in course.gs_course_lesson_ids:
+                enrolled.update([e.gs_worker_id.id for e in lesson.gs_worker_ids])
+            course.total_enrolled = len(enrolled)

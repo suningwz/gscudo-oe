@@ -11,6 +11,7 @@ class GSWorkerCertificate(models.Model):
     _description = "Certificazioni"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
+    # TODO cert name
     name = fields.Char(string="Certificazione", compute="_compute_name", store=True)
 
     @api.depends(
@@ -55,11 +56,20 @@ class GSWorkerCertificate(models.Model):
     note = fields.Char(string="Note")
 
     issue_date = fields.Date(string="Data attestato")
-    issue_serial = fields.Char(string="Protocollo attestato")
+    issue_serial = fields.Char(string="Protocollo attestato", store=True)
+
+    @api.model
+    def create(self, vals):
+        """
+        When a certificate is created, automatically set the issue number.
+        """
+        certificate = super().create(vals)
+        certificate.issue_serial = f"CERT-{certificate.id}"
+        return certificate
 
     external_link = fields.Char(string="Link Esterno")
 
-    active = fields.Boolean(string="Superato", compute="_compute_active", store=True)
+    active = fields.Boolean(string="Attivo", compute="_compute_active", store=True)
 
     @api.depends(
         "gs_worker_id.gs_worker_certificate_ids.issue_date",
@@ -79,20 +89,23 @@ class GSWorkerCertificate(models.Model):
             certificate_dates = [
                 c.issue_date
                 for c in certificate.gs_worker_id.gs_worker_certificate_ids
-                if c.gs_training_certificate_type_id.satisfies(
-                    certificate.gs_training_certificate_type_id
+                if (
+                    c.gs_training_certificate_type_id
+                    in certificate.gs_training_certificate_type_id.weaker_certificates()
                 )
                 and c.issue_date is not False
                 and c.type == "C"
             ]
             if certificate_dates and certificate.issue_date is not False:
+                # a certificate is active if its date is the biggest among the
+                # certificates of the same type
                 certificate.active = certificate.issue_date == max(certificate_dates)
             else:
                 certificate.active = True
 
     is_update = fields.Boolean(string="Aggiornabile")
 
-    expiry_date = fields.Date(string="Data scadenza (old)")
+    expiry_date = fields.Date(string="Data scadenza (sawgest)")
 
     expiration_date = fields.Date(
         string="Data scadenza",
@@ -164,7 +177,7 @@ class GSWorkerCertificate(models.Model):
             domain.extend([(field, ">=", datefrom), (field, "<=", dateto)])
             return domain
 
-        logging.info("Recomputing certificates state")
+        # logging.info("Recomputing certificates state")
 
         today = datetime.now().date()
         two_days = relativedelta(days=2)
@@ -196,13 +209,48 @@ class GSWorkerCertificate(models.Model):
             certificate.is_required = False
             for job in active_jobs:
                 for req in job.gs_training_certificate_type_ids:
-                    if certificate.gs_training_certificate_type_id.satisfies(req):
+                    if (
+                        req
+                        in certificate.gs_training_certificate_type_id.weaker_certificates()
+                    ):
                         certificate.is_required = True
                         return
 
+    test_id = fields.Many2one(
+        comodel_name="gs_lesson_enrollment", string="Iscrizione al test"
+    )
+
+    duration = fields.Float(string="Durata", related="test_id.gs_course_id.duration")
+    min_attendance = fields.Float(
+        string="Partecipazione minima", related="test_id.gs_course_id.min_attendance"
+    )
+    attended_hours = fields.Float(string="Ore frequentate")
+    attendance_percentage = fields.Float(
+        string="Frequenza", compute="_compute_attendance_percentage"
+    )
+
+    @api.depends("attended_hours", "duration")
+    def _compute_attendance_percentage(self):
+        self.attendance_percentage = (
+            (self.attended_hours / self.duration) if self.duration > 0 else 0
+        )
+
+    def compute_enrollments(self):
+        """
+        Compute the list of lesson enrollments that satisfies this certificate's requirements.
+        """
+        self.ensure_one()
+        enrollments = []
+        prev = self.test_id
+        while prev.id is not False:
+            enrollments.append(prev)
+            prev = prev.previous_enrollment_id
+
+        return reversed(enrollments)
+
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
-    sg_synched_at = fields.Datetime(string="Data ultima Syncronizzazione sawgest")
+    sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
 
     sg_url = fields.Char(
         string="Vedi in sawgest", compute="_compute_sg_url", store=False

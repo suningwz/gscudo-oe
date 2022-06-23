@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo>
+    <record id="partner_category_inherit_view_tree" model="ir.ui.view">
+        <field name="name">base.view_partner_category_list</field>
+        <field name="model">res.partner.category</field>
+        <field name="inherit_id" ref="base.view_partner_category_list" />
+        <field name="arch" type="xml">
+            <field name="display_name" position="after">
+                <field name="read_group_ids" optional="show" widget="many2many_tags" />
+            </field>
+        </field>
+    </record>
+
+    <record id="partner_category_inherit_view_form" model="ir.ui.view">
+        <field name="name">base.view_partner_category_list</field>
+        <field name="model">res.partner.category</field>
+        <field name="inherit_id" ref="base.view_partner_category_form" />
+        <field name="arch" type="xml">
+            <field name="parent_id" position="after">
+                <field name="read_group_ids" optional="show" widget="many2many_tags" />
+            </field>
+        </field>
+    </record>
+</odoo>

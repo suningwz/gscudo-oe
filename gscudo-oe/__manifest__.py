@@ -9,12 +9,8 @@
     "license": "Other proprietary",
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
-    # Categories can be used to filter modules in modules listing
-    # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
-    # for the full list
     "category": "GruppoScudo",
-    "version": "14.0.1.14",
-    # any module necessary for this one to work correctly
+    "version": "14.0.1.15",
     "depends": [
         "base",
         "contacts",
@@ -23,9 +19,9 @@
         # 'helpdesk',
         "crm",
         "crm_lead_vat",
+        "sale",
         "l10n_it_ateco",
     ],
-    # always loaded
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",
@@ -35,9 +31,11 @@
         "data/gs_product_family.xml",
         "views/gs_oe_menus.xml",
         "views/res_partner_views.xml",
+        "views/res_partner_category_views.xml",
         "views/hr_department_views.xml",
         "views/gs_product_family_views.xml",
         "views/project_project_views.xml",
+        "views/crm_tag_views.xml",
         "views/crm_lead_views.xml",
         "views/crm_activity_report_views.xml",
         "views/call_scheduler_wizard.xml",
@@ -47,5 +45,6 @@
         "views/gs_worker_job_type_views.xml",
         "views/gs_worker_job_views.xml",
         "views/product_template_views.xml",
+        "views/sale_order_views.xml",
     ],
 }
