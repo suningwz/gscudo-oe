@@ -7,7 +7,6 @@ class GSCourseEnrollment(models.Model):
     _description = "Registrazione corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # CHNAME course enrollment name
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
         comodel_name="gs_course", string="Corso", required=True, tracking=True
@@ -57,6 +56,7 @@ class GSCourseEnrollment(models.Model):
             lesson_enrollments.append(
                 self.env["gs_lesson_enrollment"].create(
                     {
+                        "name": enrollment.name,
                         "gs_worker_id": enrollment.gs_worker_id.id,
                         "gs_course_lesson_id": lesson.id,
                         "state": enrollment.state,

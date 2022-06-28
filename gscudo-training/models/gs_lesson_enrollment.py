@@ -6,7 +6,6 @@ class GSLessonEnrollment(models.Model):
     _description = "Registrazione lezione"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # CHNAME lesson enrollment name
     name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione", tracking=True
@@ -85,6 +84,7 @@ class GSLessonEnrollment(models.Model):
         enrollment = self.search([("previous_enrollment_id", "=", self.id)])
         return enrollment if len(enrollment) > 0 else False
 
+    # FIXME keep only on courses we manage
     def generate_certificate(self):
         """
         Generate certificates for the workers that passed the final test.

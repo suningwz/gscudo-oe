@@ -15,7 +15,6 @@ class GSCourseLesson(models.Model):
     def _get_document_tags(self):
         return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
-    # CHNAME lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)

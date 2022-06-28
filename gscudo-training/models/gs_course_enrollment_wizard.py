@@ -49,6 +49,7 @@ class GSCourseSingleEnrollmentWizard(models.TransientModel):
         """
         model = self.env["gs_course_enrollment"]
         data = {
+            "name": f"Iscrizione per {self.gs_worker_id.name}",
             "gs_course_id": self.env.context.get("active_id"),
             "gs_worker_id": self.gs_worker_id.id,
             "state": "P",

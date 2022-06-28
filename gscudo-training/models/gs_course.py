@@ -6,7 +6,6 @@ class GSCourse(models.Model):
     _description = "Corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # CHNAME course name
     name = fields.Char(string="Corso")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
@@ -24,7 +23,12 @@ class GSCourse(models.Model):
         string="Stato",
         default="1-nuovo",
         tracking=True,
+        group_expand="_group_expand_states",
     )
+
+    def _group_expand_states(self, _states, _domain, _order):
+        return [key for key, _ in type(self).state.selection]
+
     note = fields.Char(string="Note")
     max_workers = fields.Integer(string="Massimo iscritti", default=35, tracking=True)
     location_partner_id = fields.Many2one(
@@ -52,6 +56,7 @@ class GSCourse(models.Model):
 
     @api.onchange("gs_course_type_id")
     def _onchange_gs_course_type_id(self):
+        self.name = self.gs_course_type_id.name
         self.mode = self.gs_course_type_id.mode
         self.duration = self.gs_course_type_id.duration
         self.min_attendance = self.gs_course_type_id.min_attendance
