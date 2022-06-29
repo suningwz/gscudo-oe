@@ -25,8 +25,9 @@
                         <field name="is_multicompany" />
                         <field name="max_workers" />
                         <field name="state" />
-                        <field name="external_url" />
+                        <field name="external_url" widget="url" />
                         <field name="note" />
+                        <field name="id_sawgest" />
                         <field name="parent_course_id" />
                         <field name="gs_course_lesson_ids">
                             <tree default_order="start_time,generate_certificate,name">
@@ -52,6 +53,7 @@
                                 <field name="gs_worker_id" />
                                 <field name="partner_id" />
                                 <field name="state" />
+                                <field name="enrollment_date" />
                                 <button
                                     type="object"
                                     name="get_formview_action"
@@ -146,9 +148,12 @@
                                     <field name="name" />
                                 </p>
                             </strong>
+                            <p>
+                                Data: <field name="start_date" />
+                            </p>
                             <div class="oe_button_box" name="button_box">
                                 <button name="vedi" type="open" class="oe_stat_button" icon="fa-search">
-                                Vedi 
+                                Apri 
                                 </button>
                             </div>
                         </div>
@@ -165,6 +170,23 @@
         <field name="domain"></field>
         <field name="view_mode">tree,form,kanban</field>
         <field name="view_id" ref="gs_course_view_tree" />
+    </record>
+
+    <record id="gs_course_action_see_certificates" model="ir.actions.server">
+        <field name="name">Certificati Corso</field>
+        <field name="model_id" ref="model_gs_course" />
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'name': 'Certificati del corso',
+    'type': 'ir.actions.act_window',
+    'view_mode': 'tree,form',
+    'res_model': 'gs_worker_certificate',
+    'domain': [('test_id.gs_course_id.id', '=', record.id)],
+    'target': 'current',
+}
+        </field>
+        <field name="binding_model_id" ref="model_gs_course" />
     </record>
 
     <!-- gs_course menu -->

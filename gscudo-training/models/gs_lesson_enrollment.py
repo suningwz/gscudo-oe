@@ -1,3 +1,4 @@
+from datetime import datetime
 from odoo import fields, models, api
 
 
@@ -6,7 +7,6 @@ class GSLessonEnrollment(models.Model):
     _description = "Registrazione lezione"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # CHNAME lesson enrollment name
     name = fields.Char(string="Nome")
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione", tracking=True
@@ -42,6 +42,10 @@ class GSLessonEnrollment(models.Model):
         default="I",
         tracking=True,
     )
+
+    enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
+    expiration_date = fields.Date(string="Scadenza iscrizione")
+
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
     is_attendant = fields.Boolean(string="È presente", default=False, tracking=True)
     attended_hours = fields.Float(

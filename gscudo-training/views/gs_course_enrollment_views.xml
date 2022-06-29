@@ -11,6 +11,7 @@
                         <field name="gs_course_id" />
                         <field name="gs_worker_id" />
                         <field name="state" />
+                        <field name="enrollment_date" />
                         <field name="note" />
                         <field name="active" />
                         <field name="gs_lesson_enrollment_ids" />

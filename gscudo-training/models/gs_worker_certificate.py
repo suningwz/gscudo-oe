@@ -17,7 +17,6 @@ class GSWorkerCertificate(models.Model):
     def _get_document_tags(self):
         return self.env["documents.tag"].search([("name", "=", "Attestato")])
 
-    # CHNAME cert name
     name = fields.Char(
         string="Certificazione", compute="_compute_name", store=True, tracking=True
     )
@@ -153,12 +152,14 @@ class GSWorkerCertificate(models.Model):
             ("expiring", "In scadenza"),
             ("expired", "Scaduto"),
             ("na", "Non disponibile"),
+            ("renewing", "In rinnovo"),
         ],
         compute="_compute_state",
         index=True,
         store=True,
     )
 
+    # TODO add renewing
     @api.depends("expiration_date")
     def _compute_state(self):
         today = datetime.now().date()

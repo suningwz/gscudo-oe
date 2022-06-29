@@ -1,3 +1,4 @@
+from datetime import datetime
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
@@ -7,7 +8,6 @@ class GSCourseEnrollment(models.Model):
     _description = "Registrazione corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    # CHNAME course enrollment name
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
         comodel_name="gs_course", string="Corso", required=True, tracking=True
@@ -35,6 +35,9 @@ class GSCourseEnrollment(models.Model):
         tracking=True,
     )
 
+    enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
+    expiration_date = fields.Date(string="Scadenza iscrizione")
+
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
@@ -43,20 +46,32 @@ class GSCourseEnrollment(models.Model):
         """
         At creation, add implicit lesson enrollment.
         """
-        if self.search([("gs_worker_id", "=", values.get("gs_worker_id"))]):
+        if self.search(
+            [
+                ("gs_worker_id", "=", values.get("gs_worker_id")),
+                ("gs_course_id", "=", values.get("gs_course_id")),
+            ]
+        ):
             raise UserError("Lavoratore già iscritto al corso.")
 
         enrollment = super().create(values)
+
+        if "expiration_date" not in values:
+            enrollment.expiration_date = enrollment.gs_course_id.end_date
+
         lesson_enrollments = []
         for lesson in enrollment.gs_course_id.gs_course_lesson_ids:
             lesson_enrollments.append(
                 self.env["gs_lesson_enrollment"].create(
                     {
+                        "name": enrollment.name,
                         "gs_worker_id": enrollment.gs_worker_id.id,
                         "gs_course_lesson_id": lesson.id,
                         "state": enrollment.state,
                         "implicit": True,
                         "gs_course_enrollment_id": enrollment.id,
+                        "enrollment_date": enrollment.enrollment_date,
+                        "expiration_date": enrollment.expiration_date,
                     }
                 )
             )

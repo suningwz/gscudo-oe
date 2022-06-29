@@ -15,7 +15,6 @@ class GSCourseLesson(models.Model):
     def _get_document_tags(self):
         return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
-    # CHNAME lesson name
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
@@ -125,6 +124,9 @@ class GSCourseLesson(models.Model):
         # test = self.env.context.get("active_ids")
         # test.ensure_one()
 
+        if not test.gs_course_type_id.is_internal:
+            raise UserError("Corso non erogato da Gruppo Scudo.")
+
         if not test.gs_course_type_module_id.generate_certificate:
             raise UserError("Questo non è un test finale.")
 
@@ -230,7 +232,7 @@ class GSCourse(models.Model):
 
         for module in course.gs_course_type_id.gs_course_type_module_ids:
             data = {
-                "name": f"Lezione {module.name}",
+                "name": module.name,
                 "gs_course_id": course.id,
                 "duration": module.duration,
                 "gs_course_type_module_id": module.id,
