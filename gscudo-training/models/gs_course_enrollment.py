@@ -1,3 +1,4 @@
+from datetime import datetime
 from odoo import api, fields, models
 from odoo.exceptions import UserError
 
@@ -34,6 +35,9 @@ class GSCourseEnrollment(models.Model):
         tracking=True,
     )
 
+    enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
+    expiration_date = fields.Date(string="Scadenza iscrizione")
+
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
@@ -51,6 +55,10 @@ class GSCourseEnrollment(models.Model):
             raise UserError("Lavoratore già iscritto al corso.")
 
         enrollment = super().create(values)
+
+        if "expiration_date" not in values:
+            enrollment.expiration_date = enrollment.gs_course_id.end_date
+
         lesson_enrollments = []
         for lesson in enrollment.gs_course_id.gs_course_lesson_ids:
             lesson_enrollments.append(
@@ -62,6 +70,8 @@ class GSCourseEnrollment(models.Model):
                         "state": enrollment.state,
                         "implicit": True,
                         "gs_course_enrollment_id": enrollment.id,
+                        "enrollment_date": enrollment.enrollment_date,
+                        "expiration_date": enrollment.expiration_date,
                     }
                 )
             )

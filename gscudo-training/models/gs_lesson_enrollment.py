@@ -1,3 +1,4 @@
+from datetime import datetime
 from odoo import fields, models, api
 
 
@@ -41,6 +42,10 @@ class GSLessonEnrollment(models.Model):
         default="I",
         tracking=True,
     )
+
+    enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
+    expiration_date = fields.Date(string="Scadenza iscrizione")
+
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
     is_attendant = fields.Boolean(string="È presente", default=False, tracking=True)
     attended_hours = fields.Float(
@@ -84,7 +89,6 @@ class GSLessonEnrollment(models.Model):
         enrollment = self.search([("previous_enrollment_id", "=", self.id)])
         return enrollment if len(enrollment) > 0 else False
 
-    # FIXME keep only on courses we manage
     def generate_certificate(self):
         """
         Generate certificates for the workers that passed the final test.

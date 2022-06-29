@@ -124,6 +124,9 @@ class GSCourseLesson(models.Model):
         # test = self.env.context.get("active_ids")
         # test.ensure_one()
 
+        if not test.gs_course_type_id.is_internal:
+            raise UserError("Corso non erogato da Gruppo Scudo.")
+
         if not test.gs_course_type_module_id.generate_certificate:
             raise UserError("Questo non è un test finale.")
 

@@ -11,6 +11,7 @@
                         <field name="gs_course_id" />
                         <field name="gs_worker_id" />
                         <field name="state" />
+                        <field name="enrollment_date" />
                         <field name="gs_course_lesson_id" />
                         <field name="is_attendant" />
                         <field name="attended_hours" widget="float_time" />

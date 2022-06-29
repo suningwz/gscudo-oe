@@ -38,3 +38,9 @@ class GSCourseType(models.Model):
     is_multicompany = fields.Boolean(
         string="Multiazendale", default=False, tracking=True
     )
+
+    is_internal = fields.Boolean(
+        string="Corso interno",
+        help="Decide se l'attestato è generato da noi o ci viene dato da un'azienda esterna.",
+        tracking=True,
+    )
