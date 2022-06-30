@@ -261,7 +261,8 @@ class GSWorkerCertificate(models.Model):
     )
 
     def _compute_enrollment_field(self):
-        self.enrollments = [e.id for e in self.compute_enrollments()]
+        enrollments = [e.id for e in self.compute_enrollments()]
+        self.enrollments = enrollments if enrollments else False
 
     def compute_enrollments(self):
         """
@@ -270,11 +271,11 @@ class GSWorkerCertificate(models.Model):
         self.ensure_one()
         enrollments = []
         prev = self.test_id
-        while prev.id is not False:
+        while prev.id:
             enrollments.append(prev)
             prev = prev.previous_enrollment_id
 
-        return reversed(enrollments)
+        return list(reversed(enrollments))
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
