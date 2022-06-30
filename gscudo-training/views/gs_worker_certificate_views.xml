@@ -42,7 +42,7 @@
         <field name="name">gs_worker_certificate_view_tree</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <tree default_order="expiration_date desc">
+            <tree default_order="expiration_date desc" multi_edit="1">
                 <field name="contract_partner_id" />
                 <field name="gs_worker_id" />
                 <field name="gs_training_certificate_type_id" />
