@@ -1,70 +1,125 @@
-<!-- gs_course views -->
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="gs_course_view_form" model="ir.ui.view">
-        <field name="name">gs_course Form</field>
+        <field name="name">gs_course_view_form</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
                         <field name="gs_course_type_id" />
                         <field name="protocol" />
-                        <field name="start_date" />
-                        <field name="end_date" />
+                        <label for="start_date" string="Data"/>
+                        <div class="o_row">
+                            <field name="start_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_end_date': 'end_date'}" />
+                            <i class="fa fa-long-arrow-right mx-2" aria-label="Arrow icon" title="Arrow"/>
+                            <field name="end_date" widget="daterange" nolabel="1" class="oe_inline" options="{'related_start_date': 'start_date'}" />
+                        </div>
+                        <field name="duration" widget="float_time" />
+                        <field name="min_attendance" widget="percentage" />
+                        <field name="total_enrolled" />
                         <field name="partner_id" />
                         <field name="location_partner_id" />
                         <field name="mode" />
                         <field name="is_multicompany" />
                         <field name="max_workers" />
                         <field name="state" />
+                        <field name="external_url" widget="url" />
                         <field name="note" />
-                        <field name="gs_course_lesson_ids" />
+                        <field name="id_sawgest" />
+                        <field name="parent_course_id" />
+                        <field name="gs_course_lesson_ids">
+                            <tree default_order="start_time,generate_certificate,name">
+                                <field name="name" />
+                                <field name="start_time" />
+                                <field name="duration" widget="float_time" />
+                                <field name="state" />
+                                <field name="is_closed" readonly="1" />
+                                <button
+                                    type="object"
+                                    name="get_formview_action"
+                                    string="Apri"
+                                    icon="fa-file"
+                                />
+                                <field name="generate_certificate" invisible="1"/>
+                                <!-- context="{'form_view_initial_mode': 'edit'}" -->
+                            </tree>
+                        </field>
+                    </group>
+                    <group>
+                        <field name="gs_worker_ids">
+                            <tree>
+                                <field name="gs_worker_id" />
+                                <field name="partner_id" />
+                                <field name="state" />
+                                <field name="enrollment_date" />
+                                <button
+                                    type="object"
+                                    name="get_formview_action"
+                                    string="Modifica"
+                                    icon="fa-edit"
+                                    context="{'form_view_initial_mode': 'edit'}"
+                                />
+                            </tree>
+                        </field>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>
 
-
-
     <record id="gs_course_view_tree" model="ir.ui.view">
-        <field name="name">gs_course Tree</field>
+        <field name="name">gs_course_view_tree</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
+            <tree default_order="name" multi_edit="1">
                 <field name="name" />
-
                 <field name="gs_course_type_id" />
                 <field name="protocol" />
                 <field name="start_date" />
                 <field name="end_date" />
+                <field name="max_workers" invisible="1" />
+                <field
+                    name="total_enrolled"
+                    string="Iscritti"
+                    options="{'bg_color':'#ff8f8f:total_enrolled>max_workers;'}"
+                />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
                 <field name="mode" />
                 <field name="is_multicompany" />
                 <field name="state" />
-
+                <field name="is_child" />
             </tree>
         </field>
     </record>
 
     <record id="gs_course_view_search" model="ir.ui.view">
-        <field name="name">gs_course Search</field>
+        <field name="name">gs_course_view_search</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
+                <!-- Search fields -->
                 <field name="name" />
                 <field name="protocol" />
                 <field name="start_date" />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
-                <separator />
+                
+                <!-- Filters -->
                 <filter name="filter_elearning" domain="[('mode','=','E')]" string="ELearning" />
                 <filter name="filter_onpremise" domain="[('mode','=','P')]" string="In presenza" />
                 <filter name="filter_mixedmode" domain="[('mode','=','M')]" string="Misto " />
-
+                <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+
+                <!-- Grouping -->
                 <group expand="1" string="Group By">
                     <filter string="Stato" name="state" context="{'group_by':'state'}" />
                     <filter string="Inizio" name="start_date" context="{'group_by':'start_date'}" />
@@ -76,31 +131,30 @@
 
     <!-- gs_course kanban view -->
     <record id="gs_course_view_kanban" model="ir.ui.view">
-        <field name="name">gs_course.view.kanban</field>
+        <field name="name">gs_course_view_kanban</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <kanban string="Gestione Corsi" create="false" class="o_kanban_mobile" default_group_by="state">
-                <!-- Add your fields here -->
+            <kanban create="false" class="o_kanban_mobile" default_group_by="state">
                 <field name="name" />
-
                 <field name="start_date" />
                 <field name="location_partner_id" />
                 <field name="mode" />
                 <field name="is_multicompany" />
-                <templates >
+                <templates>
                     <t t-name="kanban-box">
                         <div class="oe_kanban_details">
                             <strong class="o_kanban_record_title">
                                 <p class="oe_centeralign">
                                     <field name="name" />
-
                                 </p>
                             </strong>
+                            <p>
+                                Data: <field name="start_date" />
+                            </p>
                             <div class="oe_button_box" name="button_box">
                                 <button name="vedi" type="open" class="oe_stat_button" icon="fa-search">
-                                vedi 
+                                Apri 
                                 </button>
-
                             </div>
                         </div>
                     </t>
@@ -110,7 +164,7 @@
     </record>
 
     <!-- gs_course action -->
-    <record id="view_gs_course_action" model="ir.actions.act_window">
+    <record id="gs_course_action_view_tree" model="ir.actions.act_window">
         <field name="name">Corsi</field>
         <field name="res_model">gs_course</field>
         <field name="domain"></field>
@@ -118,7 +172,30 @@
         <field name="view_id" ref="gs_course_view_tree" />
     </record>
 
-    <!-- gs_course menu -->
-    <menuitem id="gs_course_menu" name="Corsi" parent="gscudo-training.menu_backoffice" sequence="40" action="view_gs_course_action" groups="group_training_backoffice" />
+    <record id="gs_course_action_see_certificates" model="ir.actions.server">
+        <field name="name">Certificati Corso</field>
+        <field name="model_id" ref="model_gs_course" />
+        <field name="state">code</field>
+        <field name="code">
+action = {
+    'name': 'Certificati del corso',
+    'type': 'ir.actions.act_window',
+    'view_mode': 'tree,form',
+    'res_model': 'gs_worker_certificate',
+    'domain': [('test_id.gs_course_id.id', '=', record.id)],
+    'target': 'current',
+}
+        </field>
+        <field name="binding_model_id" ref="model_gs_course" />
+    </record>
 
+    <!-- gs_course menu -->
+    <menuitem
+        id="gs_course_menu"
+        name="Corsi"
+        parent="gs_training_menu_backoffice"
+        sequence="40"
+        action="gs_course_action_view_tree"
+        groups="group_training_backoffice"
+    />
 </odoo>

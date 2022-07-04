@@ -1,14 +1,15 @@
+<?xml version='1.0' encoding='utf-8'?>
 <!-- gs_worker_job_type views -->
 <odoo>
     <record id="gs_worker_job_type_view_form" model="ir.ui.view">
-        <field name="name">gs_worker_job_type Form</field>
+        <field name="name">gs_worker_job_type_view_form</field>
         <field name="model">gs_worker_job_type</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
-                          </group>
+                    </group>
                     <group col="2">
                         <group>
                             <field name="partner_id" />
@@ -26,29 +27,28 @@
                             <field name="move_loads" />
                         </group>
                     </group>
-               </sheet>
+                </sheet>
             </form>
         </field>
     </record>
 
     <record id="gs_worker_job_type_view_tree" model="ir.ui.view">
-        <field name="name">gs_worker_job_type Tree</field>
+        <field name="name">gs_worker_job_type_view_tree</field>
         <field name="model">gs_worker_job_type</field>
         <field name="arch" type="xml">
             <tree default_order="name">
                 <field name="name" />
                 <field name="gs_worker_job_type" />
                 <field name="partner_id" />
-         
             </tree>
         </field>
     </record>
 
     <record id="gs_worker_job_type_view_search" model="ir.ui.view">
-        <field name="name">gs_worker_job_type Search</field>
+        <field name="name">gs_worker_job_type_view_search</field>
         <field name="model">gs_worker_job_type</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <field name="name" />
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
@@ -63,7 +63,7 @@
     <record id="view_gs_worker_job_type_action" model="ir.actions.act_window">
         <field name="name">Tipi mansione</field>
         <field name="res_model">gs_worker_job_type</field>
-        <field name="domain"></field>
+        <!-- <field name="domain"></field> -->
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_worker_job_type_view_tree" />
     </record>

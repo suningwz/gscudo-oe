@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-
-    <record id="project_edit_project_gscudo" model="ir.ui.view">
-        <field name="name">GScudo project extension</field>
+    <record id="edit_project" model="ir.ui.view">
+        <field name="name">edit_project_inherited</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.edit_project" />
         <field name="arch" type="xml">
@@ -14,7 +13,6 @@
                     <field name="date_start" />
                     <field name="date" />
                 </group>
-
             </page>
             <page name="settings" position="after">
                 <page name="SAWGest" string="SawGest">
@@ -26,21 +24,20 @@
                         <field name="sg_synched_at" readonly="1" />
                         <field name="sg_url" widget="url" readonly="1" text="vedi in SAWGest" />
                     </group>
-
                 </page>
             </page>
         </field>
     </record>
-    <!-- <record id="project_view_project_inherit_gscudo" model="ir.ui.view">
+
+    <record id="project_view_project_inherit_gscudo" model="ir.ui.view">
         <field name="name">project_view_tree_inherit_gscudo</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='allowed_internal_user_ids']" position="replace">
-                <field name="allowed_internal_user_ids" optional="hide" widget="many2many_tags" />
-            </xpath>
+            <field name="user_id" position="after">
+                <field name="date_start" optional="hide" />
+            </field>
         </field>
-    </record> -->
-
+    </record>
 
 </odoo>

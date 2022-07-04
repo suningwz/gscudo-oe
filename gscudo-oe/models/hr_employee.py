@@ -1,10 +1,8 @@
-from odoo import _, api, fields, models
+from odoo import fields, models
 
 
 class Employee(models.Model):
-    _inherit = 'hr.employee'
+    _inherit = "hr.employee"
 
-    is_resource = fields.Boolean(string='E\' una risorsa')
-    is_external  = fields.Boolean(string='E\' un esterno')
-    
-    
+    is_resource = fields.Boolean(string="È una risorsa")
+    is_external = fields.Boolean(string="È un esterno")

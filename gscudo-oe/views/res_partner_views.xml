@@ -1,13 +1,20 @@
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
     <!-- res.partner inherit form view -->
     <record id="view_partner_form" model="ir.ui.view">
-        <field name="name">res.partner.inherit.view.form</field>
+        <field name="name">view_partner_form_inherited</field>
         <field name="model">res.partner</field>
         <field name="inherit_id" ref="base.view_partner_form" />
         <field name="priority">99</field>
         <field name="arch" type="xml">
-
-
+            <xpath expr="//notebook" position="before">
+                <button
+                    name="%(view_gs_worker_action)d"
+                    type="action"
+                    string="Vedi lavoratori"
+                    context="{'search_default_contract_partner_id': active_id}"
+                />
+            </xpath>
             <xpath expr="//page[@name='sales_purchases']//field[@name='user_id']" position="replace">
                 <field name="user_id" domain="[('is_saleagent','=',True)]" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
                 <field name="tmk_user_id" domain="[('is_telemarketer','=',True)]" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
@@ -26,16 +33,28 @@
                         <field name="has_healthsurv" />
                     </group>
                     <group>
+                        <group>
+                            <field name="is_competitor" />
+                            <field name="is_frontoffice" />
+                            <field name="is_backoffice" />
+                            <field name="has_competitors" />
+                        </group>
+                        <group>
+                            <field name="is_customer" />
+                            <field name="has_safety" />
+                            <field name="has_training_manager" />
+                            <field name="has_healthsurv" />
+                        </group>
+                    </group>
+                    <group>
                         <field name="sg_esolver_id" />
                         <field name="sg_branches_id" />
                         <field name="sg_updated_at" readonly="1" />
                         <field name="sg_synched_at" readonly="1" />
                         <field name="sg_url" widget="url" readonly="1" text="link" />
-
                     </group>
                 </page>
-                <page name="gs_analytics" string="Dati Classificazione">
-
+                <page string="Dati Classificazione">
                     <group>
                         <field name="revenue" />
                         <field name="balance_year" />
@@ -47,7 +66,7 @@
                         <field name="prejudicials" />
                     </group>
                 </page>
-                <page name="gs_safety_ref" string="Contatti e sicurezza">
+                <page string="Contatti e sicurezza">
                     <group col="3">
                         <group>
                             <field name="position_inail" />
@@ -72,7 +91,6 @@
                         </group>
                         <group>
                             <field name="employee_number" />
-
                             <field name="rspp" />
                             <field name="rspp_notes" />
                             <field name="rls" />
@@ -90,9 +108,8 @@
                         </group>
                     </group>
                 </page>
-                <page name="competitor" string="Concorrenza">
+                <page string="Concorrenza">
                     <group col="2">
-
                         <group>
                             <label for="safety_partner_id" />
                             <div>
@@ -107,7 +124,6 @@
                                 <field name="training_partner_id" class="oe_inline" attrs="{'invisible':[('training_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
-
                         <group>
                             <label for="food_partner_id" />
                             <div>
@@ -143,15 +159,9 @@
                                 <field name="management_partner_id" attrs="{'invisible':[('management_competitor_type', '!=', 'est')]}" options='{"no_open": True, "no_create":True }' />
                             </div>
                         </group>
-
-
                     </group>
-
                 </page>
             </xpath>
-
         </field>
     </record>
-
-
 </odoo>

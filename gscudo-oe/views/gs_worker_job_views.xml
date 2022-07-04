@@ -1,10 +1,11 @@
+<?xml version='1.0' encoding='utf-8'?>
 <!-- gs_worker_job views -->
 <odoo>
     <record id="gs_worker_job_view_form" model="ir.ui.view">
-        <field name="name">gs_worker_job Form</field>
+        <field name="name">gs_worker_job_view_form</field>
         <field name="model">gs_worker_job</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -38,7 +39,7 @@
     </record>
 
     <record id="gs_worker_job_view_tree" model="ir.ui.view">
-        <field name="name">gs_worker_job Tree</field>
+        <field name="name">gs_worker_job_view_tree</field>
         <field name="model">gs_worker_job</field>
         <field name="arch" type="xml">
             <tree default_order="name">
@@ -50,18 +51,16 @@
                 <field name="department" />
                 <field name="start_date" />
                 <field name="end_date" />
-
             </tree>
         </field>
     </record>
 
     <record id="gs_worker_job_view_search" model="ir.ui.view">
-        <field name="name">gs_worker_job Search</field>
+        <field name="name">gs_worker_job_view_search</field>
         <field name="model">gs_worker_job</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <field name="gs_worker_id" />
-
                 <field name="name" />
                 <separator />
                 <filter name="filter_runninf" domain="[('end_date','=',False)]" string="In Corso" />
@@ -78,7 +77,7 @@
     <record id="view_gs_worker_job_action" model="ir.actions.act_window">
         <field name="name">Mansioni</field>
         <field name="res_model">gs_worker_job</field>
-        <field name="domain"></field>
+        <!-- <field name="domain"></field> -->
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_worker_job_view_tree" />
     </record>

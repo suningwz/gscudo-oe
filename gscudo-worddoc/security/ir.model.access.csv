@@ -1,0 +1,4 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_word_template,access_word_template,model_word_template,base.group_user,1,0,0,0
+manage_word_template,manage_word_template,model_word_template,gscudo-oe.group_manager,1,1,1,1
+backoffice_word_template,backoffice_word_template,model_word_template,gscudo-oe.group_manager,1,1,1,1
