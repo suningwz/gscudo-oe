@@ -63,8 +63,9 @@ Lavoratori
                         </td>
                         <td>
                             <a t-attf-href="/my/worker/#{worker.id}?{{ keep_query() }}">
-                                <span t-field="worker.name" />
+                                <span t-field="worker.is_attentionable" />
                             </a>
+                             <!-- <span t-field="worker.gs_worker_certificate_attentionable_ids" /> -->
                         </td>
                     </tr>
                 </tbody>

@@ -10,5 +10,13 @@
         <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
     </record>
 
+     <record id="gs_worker_certificate_rule_portal" model="ir.rule">
+        <field name="name">Attestati Formazione  per utnti portal</field>
+        <field name="model_id" ref="gscudo-training.model_gs_worker_certificate"/>
+        <field name="domain_force">[
+            ('contract_partner_id', '=', user.partner_id.id),
+        ]</field>
+        <field name="groups" eval="[(4, ref('base.group_portal'))]"/>
+    </record>
 
 </odoo>

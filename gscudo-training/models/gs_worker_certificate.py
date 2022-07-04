@@ -303,14 +303,14 @@ class GSWorker(models.Model):
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
         string="Attestati",
-        groups="gscudo-training.group_training_backoffice",
+        groups="gscudo-training.group_training_backoffice,base.group_portal",
     )
 
     gs_worker_certificate_attentionable_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
         string="Attestati attenzionabili",
-        groups="gscudo-training.group_training_backoffice",
+        groups="gscudo-training.group_training_backoffice,base.group_portal",
         domain=[
             ("active", "=", True),
             "|",
