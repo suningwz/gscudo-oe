@@ -78,7 +78,7 @@
         <field name="name">gs_course_view_tree</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <tree default_order="name" multi_edit="1">
+            <tree default_order="start_date desc" multi_edit="1">
                 <field name="name" />
                 <field name="gs_course_type_id" />
                 <field name="protocol" />

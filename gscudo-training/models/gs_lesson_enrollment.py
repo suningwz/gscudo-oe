@@ -7,7 +7,12 @@ class GSLessonEnrollment(models.Model):
     _description = "Registrazione lezione"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Nome")
+    name = fields.Char(string="Nome", compute="_compute_name")
+
+    def _compute_name(self):
+        for enrollment in self:
+            enrollment.name = enrollment.gs_course_lesson_id.name
+
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione", tracking=True
     )

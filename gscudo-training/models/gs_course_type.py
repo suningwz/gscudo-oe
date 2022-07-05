@@ -41,6 +41,10 @@ class GSCourseType(models.Model):
 
     is_internal = fields.Boolean(
         string="Corso interno",
-        help="Decide se l'attestato è generato da noi o ci viene dato da un'azienda esterna.",
+        help=(
+            "Decide se il certificato è generato da Odoo o importato esternamente. "
+            "Per ora falso solo per corsi AiFOS."
+        ),
+        default=True,
         tracking=True,
     )
