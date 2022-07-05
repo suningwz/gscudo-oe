@@ -35,6 +35,15 @@ class GSCourseEnrollment(models.Model):
         tracking=True,
     )
 
+    def accept(self):
+        self.state = "A"
+
+    def confirm(self):
+        self.state = "C"
+    
+    def cancel(self):
+        self.state = "X"
+
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
     expiration_date = fields.Date(string="Scadenza iscrizione")
 

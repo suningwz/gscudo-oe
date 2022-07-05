@@ -13,7 +13,11 @@ class GSCourseLesson(models.Model):
         return self.env["documents.folder"].search([("name", "=", "Formazione")])
 
     def _get_document_tags(self):
-        return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
+        # pylint: disable-next=no-else-return
+        if self.generate_certificate:
+            return self.env["documents.tag"].search([("name", "=", "Test finale")])
+        else:
+            return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")

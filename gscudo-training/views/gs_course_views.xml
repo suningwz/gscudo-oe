@@ -61,6 +61,27 @@
                                     icon="fa-edit"
                                     context="{'form_view_initial_mode': 'edit'}"
                                 />
+                                <button
+                                    type="object"
+                                    name="accept"
+                                    string="Accetta"
+                                    icon="fa-solid fa-check"
+                                    attrs="{'invisible': [('state', '=', 'A')]}"
+                                />
+                                <button
+                                    type="object"
+                                    name="confirm"
+                                    string="Conferma"
+                                    icon="fa-solid fa-check"
+                                    attrs="{'invisible': [('state', '=', 'C')]}"
+                                />
+                                <button
+                                    type="object"
+                                    name="cancel"
+                                    string="Annulla"
+                                    icon="fa-solid fa-square-xmark"
+                                    attrs="{'invisible': [('state', '=', 'X')]}"
+                                />
                             </tree>
                         </field>
                     </group>
