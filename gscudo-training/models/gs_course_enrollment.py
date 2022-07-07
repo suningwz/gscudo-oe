@@ -36,12 +36,21 @@ class GSCourseEnrollment(models.Model):
     )
 
     def accept(self):
+        """
+        Set the enrollment state as accepted.
+        """
         self.state = "A"
 
     def confirm(self):
+        """
+        Set the enrollment state as confirmed.
+        """
         self.state = "C"
-    
+
     def cancel(self):
+        """
+        Set the enrollment state as canceled.
+        """
         self.state = "X"
 
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())

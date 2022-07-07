@@ -46,6 +46,16 @@ class GSWorkerCertificate(models.Model):
         tracking=True,
     )
 
+    has_training_manager = fields.Boolean(
+        string="Manager Formativo",
+        related="gs_worker_id.contract_partner_id.has_training_manager",
+    )
+
+    has_safety = fields.Boolean(
+        string="RSPP/Supporto RSPP",
+        related="gs_worker_id.contract_partner_id.has_safety",
+    )
+
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
         string="Tipo certificazione",
