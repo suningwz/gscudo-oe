@@ -2,3 +2,5 @@
 
 from . import controllers
 from . import portal
+
+from . import connector
