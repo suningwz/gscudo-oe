@@ -11,16 +11,15 @@ class MalattiaProfessionale(models.Model):
     def _compute_name(self):
         for record in self:
             record.name = (
-                record.cod_malattia or ""
+                (record.cod_malattia or "")
                 + " "
-                + record.cod_agente or ""
+                + (record.cod_agente or "")
                 + " " 
-                + record.cod_lst or ""
+                + (record.cod_lst or "")
                 + " " 
-                + record.desc_malattia or ""
+                + (record.desc_malattia or "")
                 + " "
-                + record.desc_agente or ""
-                + " "
+                + (record.desc_agente or "")
             )
 
     cod_malattia = fields.Char(string="Codice", )

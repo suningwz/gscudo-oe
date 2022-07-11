@@ -26,7 +26,7 @@
 			<field name="arch" type="xml">
 
 				<tree default_order="name">
-					<field name = "id" />
+					<field name = "id"  optional="hide"/>
 					<field name = "name" />
 					<field name = "complete" />
 					<field name = "com_id" />
@@ -902,7 +902,7 @@
 
 		<!-- inail_mod3b action -->
 		<record id="view_inail_mod3b_action" model="ir.actions.act_window">
-			<field name="name">inail_mod3b</field>
+			<field name="name">Allegati 3B</field>
 			<field name="res_model">inail_mod3b</field>
 			<field name="view_mode">tree,form</field>
 			<field name="view_id" ref="inail_mod3b_tree" />
@@ -912,7 +912,7 @@
 		<menuitem id="view_inail_mod3b_main_menu" name="Allegato 3B" parent="gscudo-surveillance.gssurveillance_menu_root" sequence="90" />
 
 		<!-- inail_mod3b menu -->
-		<menuitem id="view_inail_mod3b_menu" name="inail_mod3b" parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="40" action="view_inail_mod3b_action" />
+		<menuitem id="view_inail_mod3b_menu" name="Allegati 3B" parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="40" action="view_inail_mod3b_action" />
 
 
 	</data>
