@@ -29,7 +29,6 @@ class GSLessonMassEnrollmentWizard(models.TransientModel):
                 "state": "P",
                 "implicit": False,
             }
-            # LOW test this
             if model.search(
                 [
                     ("gs_course_lesson_id", "=", data["gs_course_lesson_id"]),
@@ -82,7 +81,6 @@ class GSLessonSingleEnrollmentWizard(models.TransientModel):
         ):
             raise UserError("Lavoratore già iscritto alla lezione.")
 
-        # FIXME double enrollment
         # if self.is_reenrollment:
         #     old_enrollment = model.search(
         #         [

@@ -78,10 +78,12 @@ class GSWorkerCertificate(models.Model):
     issue_date = fields.Date(string="Data attestato", tracking=True)
     issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True)
 
+    # FIXME set the right cert type depending on the worker's history
     @api.model
     def create(self, vals):
         """
         When a certificate is created, automatically set the issue number.
+        Also, if this is a multiupdate, set the appropriate certificate type.
         """
         certificate = super().create(vals)
         certificate.issue_serial = f"CERT-{certificate.id}"

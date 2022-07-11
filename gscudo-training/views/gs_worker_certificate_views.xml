@@ -60,7 +60,6 @@
         </field>
     </record>
 
-    <!-- LOW Odoo can't manage all data in a pivot table -->
     <!-- <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_pivot</field>
         <field name="model">gs_worker_certificate</field>
