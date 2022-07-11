@@ -1223,28 +1223,3 @@ class ComunicazioneB8(models.Model):
 
 
 
-
-
-
-
-
-    adempimenti43a_m = fields.Integer(
-        string="N. lav. Controllati nell'anno con test di screening (M)"
-    )
-
-    adempimenti43a_f = fields.Integer(
-        string="N. lav. Controllati nell'anno con test di screening (F)"
-    )
-
-    adempimenti43b_m = fields.Integer(
-        string="N. lav. Controllati nell'anno con test di screening (M)"
-    )
-
-    adempimenti43b_f = fields.Integer(
-        string="N. lav. Controllati nell'anno con test di screening (F)"
-    )
-
-
-
-
-
