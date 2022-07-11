@@ -30,7 +30,7 @@ class ComunicazioneB8(models.Model):
     lavoratoriOccupati32_m = fields.Integer(string="Occupati 31/12 Maschi")
     lavoratoriOccupati32_f = fields.Integer(string="Occupati 31/12 Femmine")
     lavoratoriOccupati = fields.Selection(
-        string="",
+        string="Dati forniti dall'azienda",
         selection=[
             ("SI", "SI"),
             ("NO", "NO"),

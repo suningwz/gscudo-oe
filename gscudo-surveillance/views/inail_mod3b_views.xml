@@ -63,16 +63,39 @@
 						</group>
 						<notebook>
 							<page name="azienda" string="Azienda">
-								<group>
-									<group col="2">
-										<field name = "lavoratoriOccupati31_m" />
-										<field name = "lavoratoriOccupati32_m" />
-										<field name = "lavoratoriOccupati" />
-									</group>
-									<group col="2">
-										<field name = "lavoratoriOccupati31_f" />
-										<field name = "lavoratoriOccupati32_f" />
-									</group>
+								<table class="table">
+									<thead>
+
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>Occupati 30/06</th>
+											<td>
+												<field name = "lavoratoriOccupati31_m" />
+											</td>
+											<td>
+												<field name = "lavoratoriOccupati31_f" />
+											</td>
+										</tr>
+										<tr>
+											<th>Occupati 31/12</th>
+											<td>
+												<field name = "lavoratoriOccupati32_m" />
+											</td>
+											<td>
+												<field name = "lavoratoriOccupati32_f" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<group >
+									<field name = "lavoratoriOccupati" />
 								</group>
 							</page>
 							<page name="sorveglianza" string="Sorveglianza">
@@ -886,7 +909,7 @@
 		</record>
 
 
-		<menuitem id="view_inail_mod3b_main_menu" name="Allegato 3B" parent="gscudo-surveillance.gssurveillance_menu_root" sequence="90"  />
+		<menuitem id="view_inail_mod3b_main_menu" name="Allegato 3B" parent="gscudo-surveillance.gssurveillance_menu_root" sequence="90" />
 
 		<!-- inail_mod3b menu -->
 		<menuitem id="view_inail_mod3b_menu" name="inail_mod3b" parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="40" action="view_inail_mod3b_action" />
