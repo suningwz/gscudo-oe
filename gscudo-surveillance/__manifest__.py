@@ -37,6 +37,8 @@
         'views/gs_medical_check_type_views.xml',
         'views/gs_worker_medical_check_views.xml',
         'views/gs_worker_views.xml',
+        'views/inail_mod3b_views.xml',
+        'views/inail_malprof_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],

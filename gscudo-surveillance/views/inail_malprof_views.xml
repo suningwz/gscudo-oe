@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+         
+        <!-- inail_malprof tree -->
+            <record id="inail_malprof_tree" model="ir.ui.view">
+                <field name="name">Tabelle SawGest inail_malprof tree</field>
+                <field name="model">inail_malprof</field>
+                <field name="arch" type="xml">
+
+                    <tree default_order="name" >
+                        				<field name = "id" />
+				<field name = "name" />
+				<field name = "cod_malattia" />
+				<field name = "desc_malattia" />
+				<field name = "cod_gruppo" />
+				<field name = "cod_agente" />
+				<field name = "desc_agente" />
+				<field name = "cod_lst" />
+				<field name = "active" />
+
+
+                    </tree>
+
+                </field>
+            </record>
+    
+        
+<!-- inail_malprof search -->
+            <record id="inail_malprof_search" model="ir.ui.view">
+                <field name="name">Tabelle SawGest inail_malprof tree</field>
+                <field name="model">inail_malprof</field>
+                <field name="arch" type="xml">
+                     <search string="Search ">
+                        				<field name = "id" />
+				<field name = "name" />
+				<field name = "cod_malattia" />
+				<field name = "desc_malattia" />
+				<field name = "cod_gruppo" />
+				<field name = "cod_agente" />
+				<field name = "desc_agente" />
+				<field name = "cod_lst" />
+				<field name = "active" />
+				<field name = "create_uid" />
+				<field name = "create_date" />
+				<field name = "write_uid" />
+				<field name = "write_date" />
+
+
+                    </search>
+
+                </field>
+            </record>
+    
+        
+        <!-- inail_malprof action -->
+        <record id="view_inail_malprof_action" model="ir.actions.act_window">
+            <field name="name">inail_malprof</field>
+            <field name="res_model">inail_malprof</field>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="inail_malprof_tree"/>
+        </record>
+
+
+        <!-- inail_malprof menu -->
+        <menuitem id="view_inail_malprof_menu"
+            name="inail_malprof"
+            parent="gscudo-surveillance.view_inail_mod3b_main_menu" 
+            sequence="60"
+            action="view_inail_malprof_action"
+            
+        />
+
+
+    </data>
+</odoo>

@@ -1,0 +1,1463 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+	<data>
+
+		<!-- inail_mod3b search -->
+		<record id="inail_mod3b_search" model="ir.ui.view">
+			<field name="name">Tabelle SawGest inail_mod3b tree</field>
+			<field name="model">inail_mod3b</field>
+			<field name="arch" type="xml">
+				<search string="Search ">
+
+					<field name = "name" />
+
+					<field name = "year" />
+					<field name = "partner_id" />
+				</search>
+
+			</field>
+		</record>
+
+
+		<!-- inail_mod3b tree -->
+		<record id="inail_mod3b_tree" model="ir.ui.view">
+			<field name="name">Tabelle SawGest inail_mod3b tree</field>
+			<field name="model">inail_mod3b</field>
+			<field name="arch" type="xml">
+
+				<tree default_order="name">
+					<field name = "id" />
+					<field name = "name" />
+					<field name = "complete" />
+					<field name = "com_id" />
+					<field name = "idAssociazione" />
+					<field name = "lavoratoriOccupati31_m" />
+					<field name = "lavoratoriOccupati31_f" />
+					<field name = "lavoratoriOccupati" />
+
+
+				</tree>
+
+			</field>
+		</record>
+
+		<record id="inail_mod3b_view_form" model="ir.ui.view">
+			<field name="name">inail.mod3b.view.form</field>
+			<field name="model">inail_mod3b</field>
+			<field name="arch" type="xml">
+				<form string="Modello 3B">
+					<sheet>
+						<group>
+							<group>
+								<field name = "id" />
+								<field name = "name" />
+								<field name = "active" />
+								<field name = "com_id" />
+								<field name = "idAssociazione" />
+							</group>
+							<group>
+								<field name = "year" />
+								<field name = "partner_id" />
+								<field name="complete" />
+							</group>
+						</group>
+						<notebook>
+							<page name="azienda" string="Azienda">
+								<group>
+									<group col="2">
+										<field name = "lavoratoriOccupati31_m" />
+										<field name = "lavoratoriOccupati32_m" />
+										<field name = "lavoratoriOccupati" />
+									</group>
+									<group col="2">
+										<field name = "lavoratoriOccupati31_f" />
+										<field name = "lavoratoriOccupati32_f" />
+									</group>
+								</group>
+							</page>
+							<page name="sorveglianza" string="Sorveglianza">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>Numero totale lavoratori soggetti a sorveglianza sanitaria</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria44_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria44_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero totale lavoratori visitati con formulazione del giudizio di idoneità nell'anno di riferimento</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria45_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria45_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori idonei</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria46_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria46_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni )</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria41_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria41_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori temporaneamente inidonei</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria47_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria47_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori permanentemente inidonei</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria48_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria48_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero totale lavoratori soggetti a sorveglianza sanitaria</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria26_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria26_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero totale lavoratori visitati con formulazione del giudizio di idoneità nell'anno di riferimento</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria27_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria27_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori idonei</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria28_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria28_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni )</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria41_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria41_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori temporaneamente inidonei</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria34_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria34_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Numero lavoratori permanentemente inidonei</th>
+											<td>
+												<field name="datiSorveglianzaSanitaria35_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="datiSorveglianzaSanitaria35_f" nolabel="1" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+
+							</page>
+							<page name="rischi" string="Esposizione Rischi">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th colspan="2">Soggetti</th>
+											<th colspan="2">Visitati</th>
+											<th colspan="2">Idonei</th>
+											<th colspan="2">Inidonei</th>
+										</tr>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>Movimentazione manuale dei carichi</th>
+											<td>
+												<field name="esposizioneRischiLavorativi1_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Sovraccarico biomeccanico arti superiori</th>
+											<td>
+												<field name="esposizioneRischiLavorativi2_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Rischi Posturali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi36_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti chimici</th>
+											<td>
+												<field name="esposizioneRischiLavorativi3_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti cancerogeni</th>
+											<td>
+												<field name="esposizioneRischiLavorativi37_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti mutageni</th>
+											<td>
+												<field name="esposizioneRischiLavorativi38_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Amianto</th>
+											<td>
+												<field name="esposizioneRischiLavorativi5_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Silice</th>
+											<td>
+												<field name="esposizioneRischiLavorativi49_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti biologici</th>
+											<td>
+												<field name="esposizioneRischiLavorativi7_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Videoterminali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi8_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Vibrazioni corpo intero</th>
+											<td>
+												<field name="esposizioneRischiLavorativi9_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Vibrazioni mano braccio</th>
+											<td>
+												<field name="esposizioneRischiLavorativi10_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Rumore</th>
+											<td>
+												<field name="esposizioneRischiLavorativi11_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Campi Elettromagnetici</th>
+											<td>
+												<field name="esposizioneRischiLavorativi39_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Radiazioni ottiche artificiali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi12_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Radiazioni ultraviolette naturali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi13_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Microclima severo</th>
+											<td>
+												<field name="esposizioneRischiLavorativi14_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Infrasuoni/Ultrasuoni</th>
+											<td>
+												<field name="esposizioneRischiLavorativi40_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Atmosfere iperbariche</th>
+											<td>
+												<field name="esposizioneRischiLavorativi21_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Lavoro notturno > 80gg/anno</th>
+											<td>
+												<field name="esposizioneRischiLavorativi22_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Altri rischi evidenziati da V.R.</th>
+											<td>
+												<field name="esposizioneRischiLavorativi23_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Movimentazione manuale dei carichi</th>
+											<td>
+												<field name="esposizioneRischiLavorativi1_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi1_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Sovraccarico biomeccanico arti superiori</th>
+											<td>
+												<field name="esposizioneRischiLavorativi2_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi2_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Rischi Posturali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi36_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi36_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti chimici</th>
+											<td>
+												<field name="esposizioneRischiLavorativi3_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi3_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti cancerogeni</th>
+											<td>
+												<field name="esposizioneRischiLavorativi37_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi37_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti mutageni</th>
+											<td>
+												<field name="esposizioneRischiLavorativi38_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi38_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Amianto</th>
+											<td>
+												<field name="esposizioneRischiLavorativi5_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi5_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Silice</th>
+											<td>
+												<field name="esposizioneRischiLavorativi49_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi49_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Agenti biologici</th>
+											<td>
+												<field name="esposizioneRischiLavorativi7_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi7_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Videoterminali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi8_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi8_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Vibrazioni corpo intero</th>
+											<td>
+												<field name="esposizioneRischiLavorativi9_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi9_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Vibrazioni mano braccio</th>
+											<td>
+												<field name="esposizioneRischiLavorativi10_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi10_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Rumore</th>
+											<td>
+												<field name="esposizioneRischiLavorativi11_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi11_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Campi Elettromagnetici</th>
+											<td>
+												<field name="esposizioneRischiLavorativi39_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi39_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Radiazioni ottiche artificiali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi12_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi12_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Radiazioni ultraviolette naturali</th>
+											<td>
+												<field name="esposizioneRischiLavorativi13_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi13_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Microclima severo</th>
+											<td>
+												<field name="esposizioneRischiLavorativi14_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi14_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Infrasuoni/Ultrasuoni</th>
+											<td>
+												<field name="esposizioneRischiLavorativi40_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi40_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Atmosfere iperbariche</th>
+											<td>
+												<field name="esposizioneRischiLavorativi21_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi21_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Lavoro notturno > 80gg/anno</th>
+											<td>
+												<field name="esposizioneRischiLavorativi22_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi22_inido_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Altri rischi evidenziati da V.R.</th>
+											<td>
+												<field name="esposizioneRischiLavorativi23_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_sogg_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_visit_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_visit_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_ido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_ido_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_inido_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="esposizioneRischiLavorativi23_inido_f" nolabel="1" />
+											</td>
+										</tr>
+									</tbody>
+								</table>
+							</page>
+							<page name="malattie" string="Malattie">
+								<group>
+									<field name="inail_mod3b_malatt_ids">
+										<tree editable="top">
+											<field name="inail_malprof_id" />
+											<field name="numero_maschi" />
+											<field name="numero_femmine" />
+										</tree>
+									</field>
+								</group>
+							</page>
+							<page name="alcoldroghe" string="Alcol - Droghe">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th colspan="2">Controllati nell'anno  screening</th>
+											<th colspan="2">Inviati presso SERT o Centro Alcologico</th>
+											<th colspan="2">N. casi di dipendenza confermati dal Centro Specialistico</th>
+										</tr>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>Accertamenti assunzione alcol</th>
+											<td>
+												<field name="adempimenti42a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42b_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42b_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42c_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42c_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Accertamenti assunzione sostanze stupefacenti</th>
+											<td>
+												<field name="adempimenti43a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43b_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43b_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43c_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43c_f" nolabel="1" />
+											</td>
+
+										</tr>
+
+									</tbody>
+								</table>
+
+							</page>
+						</notebook>
+
+
+					</sheet>
+				</form>
+			</field>
+		</record>>
+
+		<!-- inail_mod3b action -->
+		<record id="view_inail_mod3b_action" model="ir.actions.act_window">
+			<field name="name">inail_mod3b</field>
+			<field name="res_model">inail_mod3b</field>
+			<field name="view_mode">tree,form</field>
+			<field name="view_id" ref="inail_mod3b_tree" />
+		</record>
+
+
+		<menuitem id="view_inail_mod3b_main_menu" name="Allegato 3B" parent="gscudo-surveillance.gssurveillance_menu_root" sequence="90"  />
+
+		<!-- inail_mod3b menu -->
+		<menuitem id="view_inail_mod3b_menu" name="inail_mod3b" parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="40" action="view_inail_mod3b_action" />
+
+
+	</data>
+</odoo>
