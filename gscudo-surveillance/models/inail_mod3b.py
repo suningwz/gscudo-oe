@@ -7,17 +7,17 @@ class ComunicazioneB8(models.Model):
     _description = "Comunicazione Inail modello 3B"
 
     name = fields.Char(string="Comunicazione", compute="_compute_name", store=True)
+    @api.depends("partner_id","year")
     def _compute_name(self):
         for record in self:
             record.name = (
-                record.parent_id.name
-                + " "
-                + record.year
-                            )
+                (record.partner_id.name or "")
+                + " (" + (record.year or "") + ")"
+                )
     
     active = fields.Boolean(string="Attivo", default=True)
     complete = fields.Boolean(string="Completa", default=False)
-    
+
     year = fields.Integer(
         string="Anno", default=lambda self: fields.datetime.now().year - 1
     )
@@ -1168,3 +1168,81 @@ class ComunicazioneB8(models.Model):
     esposizioneRischiLavorativi23_inido_f = fields.Integer(
         string="Altri rischi evidenziati da V.R. Inidonei (F)"
     )
+
+    adempimenti42a_m = fields.Integer(
+        string="Alcol - N. lav. Controllati nell'anno con test di screening (M)"
+    )
+
+    adempimenti42a_f = fields.Integer(
+        string="Alcol - N. lav. Controllati nell'anno con test di screening (F)"
+    )
+
+    adempimenti42b_m = fields.Integer(
+        string="Alcol - N. lavoratori inviati presso SERT o Centro Alcologico (M)"
+    )
+
+    adempimenti42b_f = fields.Integer(
+        string="Alcol - N. lavoratori inviati presso SERT o Centro Alcologico (F)"
+    )
+
+    adempimenti42c_m = fields.Integer(
+        string="Alcol - N. casi di dipendenza confermati dal Centro Specialistico (M)"
+    )
+
+    adempimenti42c_f = fields.Integer(
+        string="Alcol - N. casi di dipendenza confermati dal Centro Specialistico (F)"
+    )
+
+
+    adempimenti43a_m = fields.Integer(
+        string="Droghe - N. lav. Controllati nell'anno con test di screening (M)"
+    )
+
+    adempimenti43a_f = fields.Integer(
+        string="Droghe - N. lav. Controllati nell'anno con test di screening (F)"
+    )
+
+    adempimenti43b_m = fields.Integer(
+        string="Droghe - N. lavoratori inviati presso SERT o Centro Alcologico (M)"
+    )
+
+    adempimenti43b_f = fields.Integer(
+        string="Droghe - N. lavoratori inviati presso SERT o Centro Alcologico (F)"
+    )
+
+    adempimenti43c_m = fields.Integer(
+        string="Droghe - N. casi di dipendenza confermati dal Centro Specialistico (M)"
+    )
+
+    adempimenti43c_f = fields.Integer(
+        string="Droghe - N. casi di dipendenza confermati dal Centro Specialistico (F)"
+    )
+
+
+
+
+
+
+
+
+
+    adempimenti43a_m = fields.Integer(
+        string="N. lav. Controllati nell'anno con test di screening (M)"
+    )
+
+    adempimenti43a_f = fields.Integer(
+        string="N. lav. Controllati nell'anno con test di screening (F)"
+    )
+
+    adempimenti43b_m = fields.Integer(
+        string="N. lav. Controllati nell'anno con test di screening (M)"
+    )
+
+    adempimenti43b_f = fields.Integer(
+        string="N. lav. Controllati nell'anno con test di screening (F)"
+    )
+
+
+
+
+

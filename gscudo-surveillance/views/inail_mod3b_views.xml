@@ -28,15 +28,11 @@
 				<tree default_order="name">
 					<field name = "id" />
 					<field name = "name" />
-					<field name = "active" />
-					<field name = "year" />
+					<field name = "complete" />
 					<field name = "com_id" />
 					<field name = "idAssociazione" />
-					<field name = "partner_id" />
 					<field name = "lavoratoriOccupati31_m" />
 					<field name = "lavoratoriOccupati31_f" />
-					<field name = "lavoratoriOccupati32_m" />
-					<field name = "lavoratoriOccupati32_f" />
 					<field name = "lavoratoriOccupati" />
 
 
@@ -52,13 +48,18 @@
 				<form string="Modello 3B">
 					<sheet>
 						<group>
-							<field name = "id" />
-							<field name = "name" />
-							<field name = "active" />
-							<field name = "year" />
-							<field name = "com_id" />
-							<field name = "idAssociazione" />
-							<field name = "partner_id" />
+							<group>
+								<field name = "id" />
+								<field name = "name" />
+								<field name = "active" />
+								<field name = "com_id" />
+								<field name = "idAssociazione" />
+							</group>
+							<group>
+								<field name = "year" />
+								<field name = "partner_id" />
+								<field name="complete" />
+							</group>
 						</group>
 						<notebook>
 							<page name="azienda" string="Azienda">
@@ -78,7 +79,7 @@
 								<table class="table">
 									<thead>
 										<tr>
-											<th scope="col">#</th>
+											<th scope="col"></th>
 											<th scope="col">Maschi</th>
 											<th scope="col">Femmine</th>
 										</tr>
@@ -194,20 +195,20 @@
 										</tr>
 									</tbody>
 								</table>
-								
+
 							</page>
 							<page name="rischi" string="Esposizione Rischi">
 								<table class="table">
 									<thead>
 										<tr>
-											<th scope="col">#</th>
+											<th scope="col"></th>
 											<th colspan="2">Soggetti</th>
 											<th colspan="2">Visitati</th>
 											<th colspan="2">Idonei</th>
 											<th colspan="2">Inidonei</th>
 										</tr>
 										<tr>
-											<th scope="col">#</th>
+											<th scope="col"></th>
 											<th scope="col">Maschi</th>
 											<th scope="col">Femmine</th>
 											<th scope="col">Maschi</th>
@@ -1358,8 +1359,82 @@
 							</page>
 							<page name="malattie" string="Malattie">
 								<group>
-								<field name="inail_mod3b_malatt_ids" />
+									<field name="inail_mod3b_malatt_ids">
+										<tree editable="top">
+											<field name="inail_malprof_id" />
+											<field name="numero_maschi" />
+											<field name="numero_femmine" />
+										</tree>
+									</field>
 								</group>
+							</page>
+							<page name="alcoldroghe" string="Alcol - Droghe">
+								<table class="table">
+									<thead>
+										<tr>
+											<th scope="col"></th>
+											<th colspan="2">Controllati nell'anno  screening</th>
+											<th colspan="2">Inviati presso SERT o Centro Alcologico</th>
+											<th colspan="2">N. casi di dipendenza confermati dal Centro Specialistico</th>
+										</tr>
+										<tr>
+											<th scope="col"></th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+											<th scope="col">Maschi</th>
+											<th scope="col">Femmine</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<th>Accertamenti assunzione alcol</th>
+											<td>
+												<field name="adempimenti42a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42b_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42b_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42c_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti42c_f" nolabel="1" />
+											</td>
+										</tr>
+										<tr>
+											<th>Accertamenti assunzione sostanze stupefacenti</th>
+											<td>
+												<field name="adempimenti43a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43a_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43b_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43b_f" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43c_m" nolabel="1" />
+											</td>
+											<td>
+												<field name="adempimenti43c_f" nolabel="1" />
+											</td>
+
+										</tr>
+
+									</tbody>
+								</table>
+
 							</page>
 						</notebook>
 
@@ -1378,8 +1453,10 @@
 		</record>
 
 
+		<menuitem id="view_inail_mod3b_main_menu" name="Allegato 3B" parent="gscudo-surveillance.gssurveillance_menu_root" sequence="90"  />
+
 		<!-- inail_mod3b menu -->
-		<menuitem id="view_inail_mod3b_menu" name="inail_mod3b" parent="gscudo-surveillance.gssurveillance_menu_root" sequence="40" action="view_inail_mod3b_action" />
+		<menuitem id="view_inail_mod3b_menu" name="inail_mod3b" parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="40" action="view_inail_mod3b_action" />
 
 
 	</data>

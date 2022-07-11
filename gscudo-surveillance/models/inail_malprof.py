@@ -7,18 +7,19 @@ class MalattiaProfessionale(models.Model):
 
     name = fields.Char(string="Nome", compute="_compute_name", store=True)
 
+    @api.depends("cod_malattia","cod_agente","cod_lst","desc_malattia","desc_agente")
     def _compute_name(self):
         for record in self:
             record.name = (
-                record.codMalattia
+                record.cod_malattia or ""
                 + " "
-                + record.codAgente
+                + record.cod_agente or ""
+                + " " 
+                + record.cod_lst or ""
+                + " " 
+                + record.desc_malattia or ""
                 + " "
-                + record.codLst
-                + " "
-                + record.descMalattia
-                + " "
-                + record.descAgente
+                + record.desc_agente or ""
                 + " "
             )
 
@@ -26,6 +27,6 @@ class MalattiaProfessionale(models.Model):
     desc_malattia = fields.Char(string="Malattia", )
     cod_gruppo = fields.Char(string="Codice Gruppo", )
     cod_agente = fields.Char(string="Codice Agente", )
-    desc_agete = fields.Char(string="Descrizione Agente", )
+    desc_agente = fields.Char(string="Descrizione Agente", )
     cod_lst = fields.Char(string="Codice Lista", )
     active = fields.Boolean(string="Attivo", default=True)

@@ -9,6 +9,7 @@ class InailMod3BMalatt(models.Model):
     inail_malprof_id = fields.Many2one(comodel_name='inail_malprof', string='Malattie Professione')
     
     name = fields.Char(string='Malattie',compute='_compute_name',store=True)
+    @api.depends('inail_mod3b_id','inail_malprof_id')
     def _compute_name(self):
         for record in self:
             record.name = record.inail_mod3b_id.name + " " + record.inail_malprof_id.name

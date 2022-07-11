@@ -15,7 +15,7 @@
 				<field name = "desc_malattia" />
 				<field name = "cod_gruppo" />
 				<field name = "cod_agente" />
-				<field name = "desc_agete" />
+				<field name = "desc_agente" />
 				<field name = "cod_lst" />
 				<field name = "active" />
 
@@ -38,7 +38,7 @@
 				<field name = "desc_malattia" />
 				<field name = "cod_gruppo" />
 				<field name = "cod_agente" />
-				<field name = "desc_agete" />
+				<field name = "desc_agente" />
 				<field name = "cod_lst" />
 				<field name = "active" />
 				<field name = "create_uid" />
@@ -65,8 +65,8 @@
         <!-- inail_malprof menu -->
         <menuitem id="view_inail_malprof_menu"
             name="inail_malprof"
-            parent="gscudo-surveillance.gssurveillance_menu_root"
-            sequence="90"
+            parent="gscudo-surveillance.view_inail_mod3b_main_menu" 
+            sequence="60"
             action="view_inail_malprof_action"
             
         />
