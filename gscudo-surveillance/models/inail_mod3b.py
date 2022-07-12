@@ -14,7 +14,7 @@ class ComunicazioneB8(models.Model):
                
                 record.name = (
                     (record.partner_id.name or "")
-                    + " (" + (record.year or "") + ")"
+                    + " (" + (str(record.year) or "") + ")"
                     )
             else:
                 record.name="Non definito"
