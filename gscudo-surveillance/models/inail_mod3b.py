@@ -10,11 +10,15 @@ class ComunicazioneB8(models.Model):
     @api.depends("partner_id","year")
     def _compute_name(self):
         for record in self:
-            record.name = (
-                (record.partner_id.name or "")
-                + " (" + (record.year or "") + ")"
-                )
-    
+            if record.partner_id:
+               
+                record.name = (
+                    (record.partner_id.name or "")
+                    + " (" + (record.year or "") + ")"
+                    )
+            else:
+                record.name="Non definito"
+
     active = fields.Boolean(string="Attivo", default=True)
     complete = fields.Boolean(string="Completa", default=False)
 
