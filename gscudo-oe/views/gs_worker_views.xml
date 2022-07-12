@@ -136,6 +136,24 @@
         <field name="view_id" ref="gs_worker_view_tree" />
     </record>
 
+    <record id="view_gs_worker_action_history" model="ir.actions.server">
+        <field name="name">Storico lavoratori</field>
+        <field name="model_id" ref="model_res_partner" />
+        <field name="state">code</field>
+        <field name="code">
+            action = {
+                'name': 'Storico lavoratori',
+                'type': 'ir.actions.act_window',
+                'view_mode': 'tree,form',
+                'res_model': 'gs_worker',
+                'domain': [
+                    ('gs_worker_contract_ids.partner_id','in',[record.id])
+                ],
+                'target': 'current',
+            }
+        </field>
+    </record>
+
     <!-- gs_worker menu -->
     <menuitem id="gs_worker_main_menu" name="Lavoratori" parent="contacts.menu_contacts" sequence="45" groups="gscudo-oe.group_manager" />
     <menuitem id="gs_worker_menu" name="Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="45" action="view_gs_worker_action" groups="gscudo-oe.group_manager" />

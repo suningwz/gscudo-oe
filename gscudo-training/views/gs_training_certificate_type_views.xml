@@ -13,7 +13,9 @@
                         <field name="validity_interval" />
                         <field name="is_updateable" />
                         <field name="active" />
+                        <field name="is_multicert" />
                         <field name="note" />
+                        <field name="weaker_certificate_ids" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">

@@ -23,8 +23,10 @@ class GSTrainingCertificateType(models.Model):
         relation="gs_training_certificate_type_rel",
         column1="stronger",
         column2="weaker",
-        string="Soddisfa anche",
+        string="Certificati implicati",
     )
+
+    is_multicert = fields.Boolean(string="Multicertificato", default=False)
 
     def weaker_certificates(self):
         """
