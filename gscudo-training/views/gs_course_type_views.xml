@@ -48,14 +48,15 @@
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
             <tree default_order="code,name" multi_edit="1">
-                <field name="gs_training_certificate_type_id" />
-                <field name="code" />
                 <field name="name" />
+                <field name="code" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="product_id" optional="hide" />
                 <field name="duration" widget="float_time" />
                 <field name="is_update" />
                 <field name="mode" />
                 <field name="is_multicompany" />
+                <field name="gs_course_type_module_ids" optional="hide" widget="many2many_tags" />
             </tree>
         </field>
     </record>

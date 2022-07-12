@@ -131,7 +131,7 @@
 
     <menuitem
         id="gs_worker_certificate_menu"
-        name="Certificati/Attestati"
+        name="Certificati/Esigenze"
         parent="gs_training_menu_backoffice"
         sequence="80"
         action="gs_worker_certificate_action_view_tree"

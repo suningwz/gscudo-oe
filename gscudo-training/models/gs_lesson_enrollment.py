@@ -1,6 +1,5 @@
 from datetime import datetime
 from odoo import fields, models, api
-from odoo.exceptions import UserError
 
 
 class GSLessonEnrollment(models.Model):
@@ -133,37 +132,6 @@ class GSLessonEnrollment(models.Model):
                 continue
 
             if test.is_attendant:
-
-                # FIXME complete
-                if certificate_type.weaker_certificate_ids:
-                    break
-                    if certificate_type.code == "ASR-P-AGG":
-                        pass
-
-                    if certificate_type.weaker_certificate_ids:
-                        domain_tail = []
-                        for implied_cert in certificate_type.weaker_certificate_ids:
-                            domain_tail.append(
-                                (
-                                    "gs_training_certificate_type_id",
-                                    "=",
-                                    implied_cert.id,
-                                )
-                            )
-                        domain = [("gs_worker_id", "=", test.gs_worker_id.id)]
-                        domain.extend(["|" for _ in range(len(domain_tail) - 1)])
-                        domain.extend(domain_tail)
-
-                        worker_certificates = self.env["gs_worker_certificate"].search(
-                            domain, limit=1, order="issue_date desc"
-                        )
-
-                        if worker_certificates is False:
-                            raise UserError(
-                                f"{test.gs_worker_id.fiscalcode} non può aggiornare "
-                                "un certificato che non ha."
-                            )
-
                 self.env["gs_worker_certificate"].create(
                     {
                         "gs_worker_id": test.gs_worker_id.id,

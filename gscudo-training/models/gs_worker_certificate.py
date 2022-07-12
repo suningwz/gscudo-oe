@@ -2,6 +2,7 @@ import logging  # pylint: disable=unused-import
 import datetime
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
 from odoo import api, fields, models
 
@@ -31,7 +32,7 @@ class GSWorkerCertificate(models.Model):
             certificate.name = (
                 f"{certificate.gs_worker_id.name} - "
                 f"{certificate.gs_training_certificate_type_id.name} - "
-                f"{certificate.issue_date}"
+                f"{certificate.issue_date if certificate.type == 'C' else 'ESIGENZA'}"
             )
 
     gs_worker_id = fields.Many2one(
@@ -78,15 +79,72 @@ class GSWorkerCertificate(models.Model):
     issue_date = fields.Date(string="Data attestato", tracking=True)
     issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True)
 
-    # FIXME set the right cert type depending on the worker's history
     @api.model
     def create(self, vals):
         """
         When a certificate is created, automatically set the issue number.
         Also, if this is a multiupdate, set the appropriate certificate type.
         """
+
+        if "gs_training_certificate_type_id" in vals:
+            certificate_type = self.env["gs_training_certificate_type"].browse(
+                [vals["gs_training_certificate_type_id"]]
+            )
+            certificate_type.ensure_one()
+
+            if certificate_type.is_multicert:
+                domain_tail = []
+                for implied_cert in certificate_type.weaker_certificate_ids:
+                    domain_tail.append(
+                        (
+                            "gs_training_certificate_type_id",
+                            "=",
+                            implied_cert.id,
+                        )
+                    )
+                domain = [("gs_worker_id", "=", vals["gs_worker_id"])]
+                domain.extend(["|" for _ in range(len(domain_tail) - 1)])
+                domain.extend(domain_tail)
+
+                certificate_to_update = self.env["gs_worker_certificate"].search(
+                    domain, limit=1, order="issue_date desc"
+                )
+
+                if not certificate_to_update:
+                    worker = self.env["gs_worker"].browse([vals["gs_worker_id"]])
+                    worker.ensure_one()
+                    raise UserError(
+                        f"{worker.fiscalcode} non può aggiornare un certificato che non ha."
+                    )
+
+                certificate_to_update.ensure_one()
+
+                new_certificate_type = (
+                    certificate_to_update.gs_training_certificate_type_id
+                )
+
+                # this is bad and fragile, but for now it is the only way we can do this
+                if certificate_type.code == "ASR-P-AGG":
+                    if self.env["gs_worker_certificate"].search(
+                        [
+                            ("gs_worker_id", "=", vals["gs_worker_id"]),
+                            ("gs_training_certificate_type_id.code", "=", "ASR-PR"),
+                        ]
+                    ):
+                        pr_type = self.env["gs_training_certificate_type"].search(
+                            [("code", "=", "ASR-PR")]
+                        )
+                        pr_type.ensure_one()
+
+                        pr_vals = vals.copy()
+                        pr_vals["gs_training_certificate_type_id"] = pr_type.id
+                        self.env["gs_worker_certificate"].create(pr_vals)
+
+                vals["gs_training_certificate_type_id"] = new_certificate_type.id
+
         certificate = super().create(vals)
-        certificate.issue_serial = f"CERT-{certificate.id}"
+        if certificate.type == "C":
+            certificate.issue_serial = f"CERT-{certificate.id}"
         return certificate
 
     external_link = fields.Char(string="Link Esterno")
@@ -105,9 +163,9 @@ class GSWorkerCertificate(models.Model):
         It's the opposite of the old "passed" field.
         """
         for certificate in self:
-            if certificate.type == "E":
-                certificate.active = True
-                return
+            # if certificate.type == "E":
+            #     certificate.active = True
+            #     return
             certificate_dates = [
                 c.issue_date
                 for c in certificate.gs_worker_id.gs_worker_certificate_ids
@@ -146,7 +204,9 @@ class GSWorkerCertificate(models.Model):
         più l'intervallo di validità alla situazione legale attuale.
         """
         for record in self:
-            if (
+            if record.type == "E":
+                record.expiration_date = record.issue_date
+            elif (
                 record.issue_date is not False
                 and record.gs_training_certificate_type_id is not False
             ):
@@ -155,7 +215,8 @@ class GSWorkerCertificate(models.Model):
                         years=record.gs_training_certificate_type_id.validity_interval
                     )
                 else:
-                    record.gs_training_certificate_type_id.validity_interval = 99
+                    # record.gs_training_certificate_type_id.validity_interval = 99
+                    record.expiration_date = record.issue_date + relativedelta(years=99)
 
     state = fields.Selection(
         string="Validità",
@@ -164,22 +225,22 @@ class GSWorkerCertificate(models.Model):
             ("expiring", "In scadenza"),
             ("expired", "Scaduto"),
             ("na", "Non disponibile"),
-            ("renewing", "In rinnovo"),
         ],
         compute="_compute_state",
         index=True,
         store=True,
     )
 
-    # TODO add renewing
     @api.depends("expiration_date")
     def _compute_state(self):
         today = datetime.now().date()
         for certificate in self:
-            if certificate.expiration_date is not False:
-                if certificate.expiration_date < today:
+            if certificate.type == "E":
+                certificate.state = "expired"
+            elif certificate.expiration_date is not False:
+                if certificate.expiration_date <= today:
                     certificate.state = "expired"
-                elif certificate.expiration_date < today + relativedelta(months=2):
+                elif certificate.expiration_date <= today + relativedelta(months=2):
                     certificate.state = "expiring"
                 else:
                     certificate.state = "valid"
