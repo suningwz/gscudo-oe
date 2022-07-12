@@ -249,7 +249,7 @@
 												<field name="esposizioneRischiLavorativi1_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi1_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi1_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi1_visit_m" nolabel="1" />
@@ -276,7 +276,7 @@
 												<field name="esposizioneRischiLavorativi2_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi2_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi2_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi2_visit_m" nolabel="1" />
@@ -303,7 +303,7 @@
 												<field name="esposizioneRischiLavorativi36_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi36_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi36_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi36_visit_m" nolabel="1" />
@@ -330,7 +330,7 @@
 												<field name="esposizioneRischiLavorativi3_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi3_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi3_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi3_visit_m" nolabel="1" />
@@ -357,7 +357,7 @@
 												<field name="esposizioneRischiLavorativi37_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi37_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi37_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi37_visit_m" nolabel="1" />
@@ -384,7 +384,7 @@
 												<field name="esposizioneRischiLavorativi38_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi38_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi38_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi38_visit_m" nolabel="1" />
@@ -411,7 +411,7 @@
 												<field name="esposizioneRischiLavorativi5_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi5_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi5_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi5_visit_m" nolabel="1" />
@@ -438,7 +438,7 @@
 												<field name="esposizioneRischiLavorativi49_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi49_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi49_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi49_visit_m" nolabel="1" />
@@ -465,7 +465,7 @@
 												<field name="esposizioneRischiLavorativi7_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi7_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi7_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi7_visit_m" nolabel="1" />
@@ -492,7 +492,7 @@
 												<field name="esposizioneRischiLavorativi8_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi8_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi8_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi8_visit_m" nolabel="1" />
@@ -519,7 +519,7 @@
 												<field name="esposizioneRischiLavorativi9_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi9_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi9_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi9_visit_m" nolabel="1" />
@@ -546,7 +546,7 @@
 												<field name="esposizioneRischiLavorativi10_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi10_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi10_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi10_visit_m" nolabel="1" />
@@ -573,7 +573,7 @@
 												<field name="esposizioneRischiLavorativi11_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi11_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi11_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi11_visit_m" nolabel="1" />
@@ -600,7 +600,7 @@
 												<field name="esposizioneRischiLavorativi39_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi39_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi39_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi39_visit_m" nolabel="1" />
@@ -627,7 +627,7 @@
 												<field name="esposizioneRischiLavorativi12_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi12_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi12_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi12_visit_m" nolabel="1" />
@@ -654,7 +654,7 @@
 												<field name="esposizioneRischiLavorativi13_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi13_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi13_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi13_visit_m" nolabel="1" />
@@ -681,7 +681,7 @@
 												<field name="esposizioneRischiLavorativi14_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi14_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi14_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi14_visit_m" nolabel="1" />
@@ -708,7 +708,7 @@
 												<field name="esposizioneRischiLavorativi40_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi40_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi40_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi40_visit_m" nolabel="1" />
@@ -735,7 +735,7 @@
 												<field name="esposizioneRischiLavorativi21_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi21_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi21_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi21_visit_m" nolabel="1" />
@@ -762,7 +762,7 @@
 												<field name="esposizioneRischiLavorativi22_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi22_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi22_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi22_visit_m" nolabel="1" />
@@ -789,7 +789,7 @@
 												<field name="esposizioneRischiLavorativi23_sogg_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="esposizioneRischiLavorativi23_sogg_m" nolabel="1" />
+												<field name="esposizioneRischiLavorativi23_sogg_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="esposizioneRischiLavorativi23_visit_m" nolabel="1" />
