@@ -60,7 +60,6 @@
         </field>
     </record>
 
-    <!-- LOW Odoo can't manage all data in a pivot table -->
     <!-- <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_pivot</field>
         <field name="model">gs_worker_certificate</field>
@@ -98,6 +97,11 @@
                 <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
                 <separator />
                 <filter
+                    name="filter_ours"
+                    domain="['|', ('has_training_manager','=',True),('has_safety','=',True)]"
+                    string="Nostri clienti"
+                />
+                <filter
                     name="filter_all"
                     domain="['|', ('active','=',True), ('active','=',False)]"
                     string="Tutti"
@@ -121,12 +125,13 @@
         <field name="domain"></field>
         <!-- <field name="view_mode">tree,form,pivot</field> -->
         <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_filter_ours':1}</field>
         <field name="view_id" ref="gs_worker_certificate_view_tree" />
     </record>
 
     <menuitem
         id="gs_worker_certificate_menu"
-        name="Certificati/Attestati"
+        name="Certificati/Esigenze"
         parent="gs_training_menu_backoffice"
         sequence="80"
         action="gs_worker_certificate_action_view_tree"

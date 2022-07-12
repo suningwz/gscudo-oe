@@ -10,7 +10,7 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.17",
+    "version": "14.0.1.18",
     "depends": ["base", "sale", "gscudo-oe", "documents"],
     "data": [
         "security/security_groups.xml",
@@ -18,6 +18,7 @@
         "views/gs_course_type_module_wizard_views.xml",
         "views/gs_course_enrollment_wizard_views.xml",
         "views/gs_lesson_enrollment_wizard_views.xml",
+        "views/gs_training_need_wizard_views.xml",
         "views/gs_training_menus.xml",
         "views/gs_training_certificate_type_views.xml",
         "views/gs_course_lesson_views.xml",

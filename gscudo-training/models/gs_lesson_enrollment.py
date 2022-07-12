@@ -102,13 +102,12 @@ class GSLessonEnrollment(models.Model):
             if not test.is_attendant:
                 continue
 
-            certificate_type_id = (
+            certificate_type = (
                 # fmt: off
                 test
                 .gs_course_id
                 .gs_course_type_id
                 .gs_training_certificate_type_id
-                .id
                 # fmt: on
             )
 
@@ -136,7 +135,7 @@ class GSLessonEnrollment(models.Model):
                 self.env["gs_worker_certificate"].create(
                     {
                         "gs_worker_id": test.gs_worker_id.id,
-                        "gs_training_certificate_type_id": certificate_type_id,
+                        "gs_training_certificate_type_id": certificate_type.id,
                         "type": "C",
                         "issue_date": test.gs_course_id.end_date,
                         "test_id": test.id,

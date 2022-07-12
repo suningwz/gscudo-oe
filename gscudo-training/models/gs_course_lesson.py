@@ -13,7 +13,11 @@ class GSCourseLesson(models.Model):
         return self.env["documents.folder"].search([("name", "=", "Formazione")])
 
     def _get_document_tags(self):
-        return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
+        # pylint: disable-next=no-else-return
+        if self.generate_certificate:
+            return self.env["documents.tag"].search([("name", "=", "Test finale")])
+        else:
+            return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
@@ -186,7 +190,6 @@ class GSCourseLesson(models.Model):
         """
         self.ensure_one()
         return next(
-            # LOW performances
             iter(
                 self.sorted(
                     [
@@ -248,10 +251,10 @@ class GSCourse(models.Model):
                 ]
 
                 if parents:
-                    lesson = parents[0]
-                    data["parent_lesson_id"] = lesson.id
-                    data["start_time"] = lesson.start_time
-                    data["teacher_partner_id"] = lesson.teacher_partner_id.id
+                    parent_lesson = parents[0]
+                    data["parent_lesson_id"] = parent_lesson.id
+                    data["start_time"] = parent_lesson.start_time
+                    data["teacher_partner_id"] = parent_lesson.teacher_partner_id.id
 
             self.env["gs_course_lesson"].create(data)
         return course
