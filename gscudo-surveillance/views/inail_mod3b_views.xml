@@ -850,7 +850,7 @@
 												<field name="adempimenti42a_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="adempimenti42a_m" nolabel="1" />
+												<field name="adempimenti42a_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="adempimenti42b_m" nolabel="1" />
@@ -871,7 +871,7 @@
 												<field name="adempimenti43a_m" nolabel="1" />
 											</td>
 											<td>
-												<field name="adempimenti43a_m" nolabel="1" />
+												<field name="adempimenti43a_f" nolabel="1" />
 											</td>
 											<td>
 												<field name="adempimenti43b_m" nolabel="1" />
