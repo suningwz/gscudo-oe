@@ -3,5 +3,4 @@ portal_access_gs_worker,portal_access_gs_worker,gscudo-oe.model_gs_worker,base.g
 portal_access_gs_worker_contract,portal_access_gs_worker_contract,gscudo-oe.model_gs_worker_contract,base.group_portal,1,1,0,0
 portal_access_gs_worker_job,portal_access_gs_worker_job,gscudo-oe.model_gs_worker_job,base.group_portal,1,0,0,0
 portal_access_gs_worker_job_type,portal_access_gs_worker_job_type,gscudo-oe.model_gs_worker_job_type,base.group_portal,1,0,0,0
-portal_access_gs_worker_certificate,portal_access_gs_worker_job_type,gscudo-training.model_gs_worker_certificate,base.group_portal,1,0,0,0
 

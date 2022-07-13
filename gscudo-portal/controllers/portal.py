@@ -19,11 +19,8 @@ class GscudoPortal(CustomerPortal):
         values = super()._prepare_home_portal_values(counters)
         if 'workers_count' in counters:
             values['workers_count'] = request.env['gs_worker'].search_count([])
+       
         return values
-
-
-
-
 
     # ------------------------------------------------------------
     # My Worker
@@ -33,13 +30,7 @@ class GscudoPortal(CustomerPortal):
             'page_name': 'worker',
             'worker': worker,
         }
-        return self._get_page_view_values(
-            worker,
-            access_token,
-            values,
-            'my_workers_history',
-            False,
-            **kwargs)
+        return self._get_page_view_values(worker, access_token, values, 'my_workers_history', False, **kwargs)
 
     @http.route(['/my/workers', '/my/workers/page/<int:page>'], type='http', auth="user", website=True)
     def portal_my_workerss(self, page=1, date_begin=None, date_end=None, sortby=None, **kw):

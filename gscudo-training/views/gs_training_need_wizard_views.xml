@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_training_need_mass_wizard_view_form" model="ir.ui.view">
+        <field name="name">gs_training_need_mass_wizard_view_form</field>
+        <field name="model">gs_training_need_mass_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="gs_training_certificate_type_id" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="create_training_needs" type="object" string="Crea esigenze" class="oe_highlight" />
+                    <button special="cancel" string="Annulla" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_training_need_mass_wizard_action" model="ir.actions.act_window">
+        <field name="name">Crea esigenza formativa...</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">gs_training_need_mass_wizard</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>     
+        <field name="view_id" ref="gs_training_need_mass_wizard_view_form" />
+        <field name="binding_model_id" ref="model_gs_worker" />
+    </record>
+</odoo>

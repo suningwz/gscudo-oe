@@ -20,7 +20,7 @@ class GSCourseMassEnrollmentWizard(models.TransientModel):
             data = {
                 "gs_course_id": self.gs_course_id.id,
                 "gs_worker_id": worker,
-                "state": "P",
+                "state": "C",
             }
             if model.search(
                 [

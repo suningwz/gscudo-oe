@@ -61,6 +61,27 @@
                                     icon="fa-edit"
                                     context="{'form_view_initial_mode': 'edit'}"
                                 />
+                                <!-- <button
+                                    type="object"
+                                    name="accept"
+                                    string="Accetta"
+                                    icon="fa-check-square-o"
+                                    attrs="{'invisible': [('state', '=', 'A')]}"
+                                />
+                                <button
+                                    type="object"
+                                    name="confirm"
+                                    string="Conferma"
+                                    icon="fa-check-square-o"
+                                    attrs="{'invisible': [('state', '=', 'C')]}"
+                                />
+                                <button
+                                    type="object"
+                                    name="cancel"
+                                    string="Annulla"
+                                    icon="fa-ban"
+                                    attrs="{'invisible': [('state', '=', 'X')]}"
+                                /> -->
                             </tree>
                         </field>
                     </group>
@@ -78,7 +99,7 @@
         <field name="name">gs_course_view_tree</field>
         <field name="model">gs_course</field>
         <field name="arch" type="xml">
-            <tree default_order="name" multi_edit="1">
+            <tree default_order="start_date desc" multi_edit="1">
                 <field name="name" />
                 <field name="gs_course_type_id" />
                 <field name="protocol" />
@@ -88,7 +109,7 @@
                 <field
                     name="total_enrolled"
                     string="Iscritti"
-                    options="{'bg_color':'#ff8f8f:total_enrolled>max_workers;'}"
+                    options="{'bg_color':'#fff645:total_enrolled>max_workers*0.8;#ff8f8f:total_enrolled>max_workers;'}"
                 />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
@@ -115,7 +136,10 @@
                 <!-- Filters -->
                 <filter name="filter_elearning" domain="[('mode','=','E')]" string="ELearning" />
                 <filter name="filter_onpremise" domain="[('mode','=','P')]" string="In presenza" />
-                <filter name="filter_mixedmode" domain="[('mode','=','M')]" string="Misto " />
+                <filter name="filter_mixedmode" domain="[('mode','=','M')]" string="Misto" />
+                <separator />
+                <filter name="filter_aifos" domain="[('gs_course_type_id.code','ilike','aifos')]" string="AiFOS" />
+                <filter name="filter_aifos" domain="['!', ('gs_course_type_id.code','ilike','aifos')]" string="Non AiFOS" />
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
 

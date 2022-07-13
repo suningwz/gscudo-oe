@@ -73,6 +73,16 @@ class GSCourse(models.Model):
         string="Corsi figli",
     )
 
+    @api.onchange("parent_course_id")
+    def _onchange_parent_course_id(self):
+        if self.parent_course_id:
+            self.partner_id = self.parent_course_id.partner_id
+            self.state = self.parent_course_id.state
+            self.start_date = self.parent_course_id.start_date
+            self.end_date = self.parent_course_id.end_date
+            self.duration = self.parent_course_id.duration
+            # course.gs_course_type_id = parent.gs_course_type_id
+
     is_child = fields.Boolean(
         string="Figlio",
         compute="_compute_is_child",
@@ -106,3 +116,16 @@ class GSCourse(models.Model):
     external_url = fields.Char(string="URL esterno")
 
     id_sawgest = fields.Integer(string="Id Sawgest")
+
+    @api.model
+    def create(self, vals):
+        """
+        On course creation, generate an automatic protocol number if it is not
+        manually assigned.
+        """
+        course = super().create(vals)
+
+        if "protocol" not in vals:
+            vals["protocol"] = f"COUR-{course.id}"
+
+        return course

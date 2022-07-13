@@ -18,7 +18,6 @@ class ResPartner(models.Model):
         compute="_compute_attentionable_workers_number",
     )
 
-    # LOW test this
     @api.depends(
         "gs_worker_ids.is_attentionable",
         "gs_worker_ids",

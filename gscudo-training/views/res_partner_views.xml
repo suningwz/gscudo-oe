@@ -9,6 +9,12 @@
             <xpath expr="//page[@name='internal_notes']" position="before">
                 <page name="certificates" string="Certificati">
                     <group name="certificates">
+                        <button
+                            name="%(gs_worker_certificate_action_view_tree)d"
+                            type="action"
+                            string="Vedi certificati"
+                            context="{'search_default_contract_partner_id': active_id}"
+                        />
                         <field name="attentionable_workers_number" />
                         <field name="gs_worker_attentionable_ids" create="0" delete="0">
                             <tree>

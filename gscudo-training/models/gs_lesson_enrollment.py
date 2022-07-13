@@ -7,7 +7,12 @@ class GSLessonEnrollment(models.Model):
     _description = "Registrazione lezione"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Nome")
+    name = fields.Char(string="Nome", compute="_compute_name")
+
+    def _compute_name(self):
+        for enrollment in self:
+            enrollment.name = enrollment.gs_course_lesson_id.name
+
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson", string="Lezione", tracking=True
     )
@@ -97,13 +102,12 @@ class GSLessonEnrollment(models.Model):
             if not test.is_attendant:
                 continue
 
-            certificate_type_id = (
+            certificate_type = (
                 # fmt: off
                 test
                 .gs_course_id
                 .gs_course_type_id
                 .gs_training_certificate_type_id
-                .id
                 # fmt: on
             )
 
@@ -131,7 +135,7 @@ class GSLessonEnrollment(models.Model):
                 self.env["gs_worker_certificate"].create(
                     {
                         "gs_worker_id": test.gs_worker_id.id,
-                        "gs_training_certificate_type_id": certificate_type_id,
+                        "gs_training_certificate_type_id": certificate_type.id,
                         "type": "C",
                         "issue_date": test.gs_course_id.end_date,
                         "test_id": test.id,

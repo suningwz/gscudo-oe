@@ -21,7 +21,7 @@
     # Check https://github.com/odoo/odoo/blob/14.0/odoo/addons/base/data/ir_module_category_data.xml
     # for the full list
     'category': 'GruppoScudo',
-     "version": "14.0.1.17",
+     "version": "14.0.1.18",
 
     # any module necessary for this one to work correctly
     'depends': ['base', 'gscudo-oe'],
@@ -37,6 +37,8 @@
         'views/gs_medical_check_type_views.xml',
         'views/gs_worker_medical_check_views.xml',
         'views/gs_worker_views.xml',
+        'views/inail_mod3b_views.xml',
+        'views/inail_malprof_views.xml',
         'views/views.xml',
         'views/templates.xml',
     ],
