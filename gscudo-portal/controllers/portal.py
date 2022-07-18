@@ -13,7 +13,7 @@ from odoo.tools import groupby as groupbyelem
 from odoo.osv.expression import OR
 
 
-class CustomerPortal(CustomerPortal):
+class GscudoPortal(CustomerPortal):
 
     def _prepare_home_portal_values(self, counters):
         values = super()._prepare_home_portal_values(counters)
@@ -86,4 +86,16 @@ class CustomerPortal(CustomerPortal):
         values = self._worker_get_page_view_values(worker_sudo, access_token, **kw)
         return request.render("gscudo-portal.portal_my_worker", values)
 
-  
+    @http.route(['/my/worker_update/<int:worker_id>'], type='http', auth="user",csrf=False,website=True)
+    def portal_worker_update(self, worker_id=None, access_token=None, **kw):
+
+        try:
+            worker_sudo = self._document_check_access('gs_worker', worker_id, access_token)
+        except (AccessError, MissingError):
+            return request.redirect('/my')
+
+        worker = request.env['gs_worker'].browse(worker_id)
+        worker.write({'surname':kw['surname'],})
+
+        values = self._worker_get_page_view_values(worker_sudo, access_token, **kw)
+        return request.redirect('/my/worker/%s' % worker_id)

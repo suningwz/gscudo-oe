@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
 
-    <template id="portal_layout" name="Portal layout: project menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
+    <template id="portal_layout" name="Portal layout: worker menu entry" inherit_id="portal.portal_breadcrumbs" priority="40">
         <xpath expr="//ol[hasclass('o_portal_submenu')]" position="inside">
-            <li t-if="page_name == 'worker' or worker" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not project else ''}">
-                <a t-if="worker" t-attf-href="/my/worker?{{ keep_query() }}">Lavoratore</a>
-                <t t-else="">Lavoratori</t>
+            <li t-if="page_name == 'worker' or worker" class="col-lg-2" t-attf-class="breadcrumb-item #{'active ' if not worker else ''}">
+                    <a t-attf-href="/my/workers?{{ keep_query() }}">Lavoratore</a>
             </li>
+            <t t-else="">
+Lavoratori
+            </t>
             <li t-if="worker" class="breadcrumb-item active text-truncate col-8 col-lg-10">
                 <t t-esc="worker.name" />
             </li>
@@ -37,6 +39,13 @@
             </t>
             <t t-if="gs_workers" t-call="portal.portal_table">
                 <tbody>
+                    <tr>
+                        <th>Dipendente</th>
+                        <th>Matricola</th>
+                        <th>Inizio</th>
+                        <th>Mansione</th>
+                        <th></th>
+                    </tr>
                     <tr t-foreach="gs_workers" t-as="worker">
                         <td>
                             <a t-attf-href="/my/worker/#{worker.id}?{{ keep_query() }}">
@@ -52,6 +61,11 @@
                         <td>
                             <span t-field="worker.contract_job_description" />
                         </td>
+                        <td>
+                            <a t-attf-href="/my/worker/#{worker.id}?{{ keep_query() }}">
+                                <span t-field="worker.name" />
+                            </a>
+                        </td>
                     </tr>
                 </tbody>
             </t>
@@ -62,20 +76,21 @@
         <t t-call="portal.portal_layout">
             <t t-set="o_portal_fullwidth_alert" groups="gscudo-oe.group_portal">
                 <t t-call="portal.portal_back_in_edit_mode">
-                    <t t-set="backend_url" t-value="'/web#model=gs_workert&amp;id=%s&amp;view_type=form' % (worker.id)" />
+                    <t t-set="backend_url" t-value="'/my/workers'" />
                 </t>
             </t>
 
             <t t-call="portal.portal_record_layout">
-                <span>qui ci va il contenuto</span>
 
             </t>
-            <span>qui ci va il contenuto </span><br />
-            <span t-field="worker.contract_job_description" /><br/>
-            <a t-attf-href="'/web#model=gs_workert&amp;id=%s&amp;view_type=form' % (worker.id)"><span t-field="worker.name" /></a>
-            
+            <div>
+                <form method="post" t-att-action="'/my/worker_update/%s' % worker.id">
+                    <input type="hidden" name="worker_id" t-att-value="worker.id" />
+                    <input name="surname" t-att-value="worker.surname" />
+                    <input type="submit" value="Update" />
+                </form>
+            </div>
         </t>
-        <span>qui ci va il contenuto3</span>
     </template>
 
 

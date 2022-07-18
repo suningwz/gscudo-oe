@@ -1,0 +1,75 @@
+<!-- word_template views -->
+<odoo>
+    <record id="word_template_view_form" model="ir.ui.view">
+        <field name="name">word_template_view_form</field>
+        <field name="model">word_template</field>
+        <field name="arch" type="xml">
+            <form string="">
+                <header>
+                    <button string="Remove action" name="remove_action" type="object" class="oe_highlight" attrs="{'invisible':[('action_id','=',False)]}"/>
+                    <button string="Create action" name="create_action" type="object" class="oe_highlight" attrs="{'invisible':[('action_id','!=',False)]}"/>
+                </header>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="model" />
+                        <field name="template" />
+                        <field name="action_id" />
+                    </group>
+                    <notebook>
+                        <page name="help" string="Istruzioni">
+                            <h1>Istruzioni</h1>
+                            <p> Il modulo consente di associare un template di documento word ad una classe 
+                            </p>
+                            <p> per chiamare la stampa del documento usare l'url <br/>
+                            http://<strong>server_url</strong>/gscudo-worddoc/doc/<strong>codice template</strong>/<strong>id dell'oggetto</strong>
+                            <br/>es:<br />
+                            https://mioserver/gscudo-worddoc/doc/sollecito/32 <br />
+                            consentirà lo scaricamento del template <em>sollecito</em> per l'oggetto <em>32</em>
+                            </p> 
+                        </page>
+                    </notebook>
+                </sheet>
+            </form>
+        </field>
+    </record>
+
+    <record id="word_template_view_tree" model="ir.ui.view">
+        <field name="name">word_template_view_tree</field>
+        <field name="model">word_template</field>
+        <field name="arch" type="xml">
+            <tree default_order="name ">
+                <field name="name" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="word_template_view_search" model="ir.ui.view">
+        <field name="name">word_template_view_search</field>
+        <field name="model">word_template</field>
+        <field name="arch" type="xml">
+            <search string="">
+                <field name="name" />
+                <separator />
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <group expand="1" string="Group By">
+                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- word_template action -->
+    <record id="view_word_template_action" model="ir.actions.act_window">
+        <field name="name">Word Template</field>
+        <field name="res_model">word_template</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="word_template_view_tree" />
+    </record>
+
+    <!-- word_template menu -->
+    <menuitem id="word_template_menu" name="Word Template" parent="base.reporting_menuitem" sequence="40" action="view_word_template_action" groups="base.group_user" />
+
+</odoo>

@@ -1,86 +1,95 @@
-<!-- gs_course_type views -->
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="gs_course_type_view_form" model="ir.ui.view">
-        <field name="name">gs_course_type Form</field>
+        <field name="name">gs_course_type_view_form</field>
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="gs_training_certificate_type_id" />
                         <field name="name" />
                         <field name="code" />
                         <field name="product_id" />
-                        <field name="duration" />
-                        <field name="is_update" widget="boolean_toggle" />
+                        <field name="duration" widget="float_time" />
+                        <field name="min_attendance" widget="percentage" />
+                        <field name="max_workers" />
+                        <field name="is_update" />
                         <field name="mode"  />
-                        <field name="is_multicompany" widget="boolean_toggle" />
+                        <field name="is_multicompany" />
+                        <field name="is_internal" />
                         <field name="note" />
-                        <field name="active" widget="boolean_toggle" />
+                        <field name="active" />
+                    </group>
+                    <group>
                         <field name="gs_course_type_module_ids">
-                            <tree>
+                            <tree default_order="generate_certificate,name">
                                 <field name="sequence" widget="handle" />
                                 <field name="name" />
-                                <field name="duration" />
+                                <field name="duration" widget="float_time" />
                                 <field name="content" />
                                 <field name="elearning" />
                                 <field name="generate_certificate" />
-
                             </tree>
                         </field>
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>
 
     <record id="gs_course_type_view_tree" model="ir.ui.view">
-        <field name="name">gs_course_type Tree</field>
+        <field name="name">gs_course_type_view_tree</field>
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
-            <tree default_order="code, name">
-                <field name="gs_training_certificate_type_id" />
-                <field name="code" />
+            <tree default_order="code,name" multi_edit="1">
                 <field name="name" />
+                <field name="code" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="product_id" optional="hide" />
-                <field name="duration" />
+                <field name="duration" widget="float_time" />
                 <field name="is_update" />
                 <field name="mode" />
-                <field name="is_multicompany" widget="boolean_toggle" />
-
+                <field name="is_multicompany" />
+                <field name="gs_course_type_module_ids" optional="hide" widget="many2many_tags" />
             </tree>
         </field>
     </record>
 
     <record id="gs_course_type_view_search" model="ir.ui.view">
-        <field name="name">gs_course_type Search</field>
+        <field name="name">gs_course_type_view_search</field>
         <field name="model">gs_course_type</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <field name="name" />
                 <field name="code" />
                 <field name="product_id" />
                 <field name="gs_training_certificate_type_id" />
-                <separator />
+
                 <filter name="filter_elearning" domain="[('mode','=','E')]" string="ELearning" />
                 <filter name="filter_onpremise" domain="[('mode','=','P')]" string="In presenza" />
                 <filter name="filter_mixedmode" domain="[('mode','=','M')]" string="Misto " />
-                <separator>
-                    <filter name="filter_multicompany" domain="[('is_multicompany','=',1)]" string="MultiAziendale" />
-                    <filter name="filter_monocompany" domain="[('is_multicompany','=',0)]" string="Mono Aziendale" />
-                </separator>
+                <separator />
+                <filter name="filter_multicompany" domain="[('is_multicompany','=',1)]" string="Multiaziendale" />
+                <filter name="filter_monocompany" domain="[('is_multicompany','=',0)]" string="Monoaziendale" />
+                <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                
                 <group expand="1" string="Group By">
                     <filter string="Certificato Formativo" name="gs_training_certificate_type_id" context="{'group_by':'gs_training_certificate_type_id'}" />
                     <filter string="Prodotto" name="product_id" context="{'group_by':'product_id'}" />
-
                 </group>
             </search>
         </field>
     </record>
 
     <!-- gs_course_type action -->
-    <record id="view_gs_course_type_action" model="ir.actions.act_window">
+    <record id="gs_course_type_action_view_tree" model="ir.actions.act_window">
         <field name="name">Tipi di corso</field>
         <field name="res_model">gs_course_type</field>
         <field name="domain"></field>
@@ -89,6 +98,12 @@
     </record>
 
     <!-- gs_course_type menu -->
-    <menuitem id="gs_course_type_menu" name="Tipi di corso" parent="gscudo-training.menu_settings" sequence="40" action="view_gs_course_type_action" groups="gscudo-training.group_training_manager" />
-
+    <menuitem
+        id="gs_course_type_menu"
+        name="Tipi di corso"
+        parent="gs_training_menu_settings"
+        sequence="40"
+        action="gs_course_type_action_view_tree"
+        groups="gscudo-training.group_training_manager"
+    />
 </odoo>

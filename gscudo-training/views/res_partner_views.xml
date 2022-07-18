@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="view_partner_form" model="ir.ui.view">
+        <field name="name">view_partner_form_inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_form" />
+        <field name="priority">50</field>
+        <field name="arch" type="xml">
+            <xpath expr="//page[@name='internal_notes']" position="before">
+                <page name="certificates" string="Certificati">
+                    <group name="certificates">
+                        <button
+                            name="%(gs_worker_certificate_action_view_tree)d"
+                            type="action"
+                            string="Vedi certificati"
+                            context="{'search_default_contract_partner_id': active_id}"
+                        />
+                        <field name="attentionable_workers_number" />
+                        <field name="gs_worker_attentionable_ids" create="0" delete="0">
+                            <tree>
+                                <field name="name" />
+                                <field name="contract_job_description" />
+                                <field name="contract_department" />
+                            </tree>
+                        </field>
+                    </group>                    
+                </page>
+            </xpath>
+        </field>
+    </record>
+</odoo>

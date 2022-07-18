@@ -1,31 +1,38 @@
-<!-- gs_lesson_enrollment views -->
+<?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <record id="gs_lesson_enrollment_view_form" model="ir.ui.view">
-        <field name="name">gs_lesson_enrollment Form</field>
+        <field name="name">gs_lesson_enrollment_view_form</field>
         <field name="model">gs_lesson_enrollment</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
                         <field name="gs_course_id" />
                         <field name="gs_worker_id" />
                         <field name="state" />
+                        <field name="enrollment_date" />
                         <field name="gs_course_lesson_id" />
                         <field name="is_attendant" />
+                        <field name="attended_hours" widget="float_time" />
                         <field name="implicit" />
-
+                        <field name="previous_enrollment_id" />
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>
 
     <record id="gs_lesson_enrollment_view_tree" model="ir.ui.view">
-        <field name="name">gs_lesson_enrollment Tree</field>
+        <field name="name">gs_lesson_enrollment_view_tree</field>
         <field name="model">gs_lesson_enrollment</field>
         <field name="arch" type="xml">
-            <tree default_order="name">
+            <tree default_order="name" multi_edit="1">
                 <field name="name" />
                 <field name="gs_course_id" />
                 <field name="gs_worker_id" />
@@ -33,18 +40,20 @@
                 <field name="gs_course_lesson_id" />
                 <field name="is_attendant" />
                 <field name="implicit" />
+                <field name="previous_enrollment_id" />
             </tree>
         </field>
     </record>
 
     <record id="gs_lesson_enrollment_view_search" model="ir.ui.view">
-        <field name="name">gs_lesson_enrollment Search</field>
+        <field name="name">gs_lesson_enrollment_view_search</field>
         <field name="model">gs_lesson_enrollment</field>
         <field name="arch" type="xml">
             <search string="">
                 <field name="name" />
-                <separator />
+
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+
                 <group expand="1" string="Group By">
                     <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
                 </group>
@@ -53,7 +62,7 @@
     </record>
 
     <!-- gs_lesson_enrollment action -->
-    <record id="view_gs_lesson_enrollment_action" model="ir.actions.act_window">
+    <record id="gs_lesson_enrollment_action_view_tree" model="ir.actions.act_window">
         <field name="name">Iscrizione Lezioni</field>
         <field name="res_model">gs_lesson_enrollment</field>
         <field name="domain"></field>
@@ -62,6 +71,12 @@
     </record>
 
     <!-- gs_lesson_enrollment menu -->
-    <menuitem id="gs_lesson_enrollment_menu" name="Iscrizioni Lezioni" parent="gscudo-training.menu_backoffice" sequence="70" action="view_gs_lesson_enrollment_action" groups="group_training_backoffice" />
-
+    <menuitem
+        id="gs_lesson_enrollment_menu"
+        name="Iscrizioni Lezioni"
+        parent="gs_training_menu_backoffice"
+        sequence="70"
+        action="gs_lesson_enrollment_action_view_tree"
+        groups="group_training_backoffice"
+    />
 </odoo>

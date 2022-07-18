@@ -1,10 +1,10 @@
+<?xml version='1.0' encoding='utf-8'?>
 <odoo>
-    <!-- gs_product_family views -->
     <record id="gs_product_family_view_form" model="ir.ui.view">
-        <field name="name">gs_product_family Form</field>
+        <field name="name">gs_product_family_view_form</field>
         <field name="model">gs_product_family</field>
         <field name="arch" type="xml">
-            <form string="">
+            <form>
                 <sheet>
                     <group>
                         <field name="name" />
@@ -14,12 +14,11 @@
                     </group>
                 </sheet>
             </form>
-
         </field>
     </record>
 
     <record id="gs_product_family_view_tree" model="ir.ui.view">
-        <field name="name">gs_product_family Tree</field>
+        <field name="name">gs_product_family_view_tree</field>
         <field name="model">gs_product_family</field>
         <field name="arch" type="xml">
             <tree create="0" delete="0" default_order="name desc">
@@ -32,10 +31,10 @@
     </record>
 
     <record id="gs_product_family_view_search" model="ir.ui.view">
-        <field name="name">gs_product_family Search</field>
+        <field name="name">gs_product_family_view_search</field>
         <field name="model">gs_product_family</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <field name="name" />
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
@@ -43,17 +42,15 @@
         </field>
     </record>
 
-
     <!-- gs_product_family action -->
     <record id="view_gs_product_family_action" model="ir.actions.act_window">
         <field name="name">Famiglia Prodotti</field>
         <field name="res_model">gs_product_family</field>
-        <field name="domain"></field>
+        <!-- <field name="domain"></field> -->
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_product_family_view_tree" />
     </record>
 
     <!-- gs_product_family menu -->
     <menuitem id="view_gs_product_family_menu" name="Famiglia Prodotti" parent="gscudo-oe.settings" sequence="40" action="view_gs_product_family_action" groups="base.group_user" />
-
 </odoo>
