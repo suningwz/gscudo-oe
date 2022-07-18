@@ -11,7 +11,7 @@
     "category": "GruppoScudo",
     "version": "14.0.1.18",
     "depends": ["base"],
-    #"external_dependencies": {"python": ["docxtpl"]},
+    "external_dependencies": {"python": ["docxtpl"]},
     "data": [
         "security/ir.model.access.csv",
         "views/word_template_views.xml",

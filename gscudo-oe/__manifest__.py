@@ -22,6 +22,7 @@
         "sale",
         "l10n_it_ateco",
         "sale",
+        "gscudo-worddoc",
     ],
     "data": [
         "security/security_groups.xml",

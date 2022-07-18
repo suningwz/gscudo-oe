@@ -1,5 +1,6 @@
 from datetime import datetime
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 
 class GSLessonEnrollment(models.Model):
@@ -102,6 +103,11 @@ class GSLessonEnrollment(models.Model):
             if not test.is_attendant:
                 continue
 
+            if not test.gs_course_id.is_internal:
+                raise UserError(
+                    "Impossibile generare certificati per corsi non gestiti."
+                )
+
             certificate_type = (
                 # fmt: off
                 test
@@ -137,7 +143,7 @@ class GSLessonEnrollment(models.Model):
                         "gs_worker_id": test.gs_worker_id.id,
                         "gs_training_certificate_type_id": certificate_type.id,
                         "type": "C",
-                        "issue_date": test.gs_course_id.end_date,
+                        "issue_date": test.gs_course_lesson_id.start_time.date(),
                         "test_id": test.id,
                         "attended_hours": attended_hours,
                     }

@@ -17,7 +17,9 @@
                         <field name="is_update" />
                         <field name="mode"  />
                         <field name="is_multicompany" />
+                        <field name="content" />
                         <field name="is_internal" />
+                        <field name="document_template_id" />
                         <field name="note" />
                         <field name="active" />
                     </group>
