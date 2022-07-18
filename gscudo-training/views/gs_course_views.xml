@@ -21,8 +21,11 @@
                         <field name="total_enrolled" />
                         <field name="partner_id" />
                         <field name="location_partner_id" />
+                        <field name="teacher_partner_id" />
                         <field name="mode" />
                         <field name="is_multicompany" />
+                        <field name="is_internal" />
+                        <field name="document_template_id" />
                         <field name="max_workers" />
                         <field name="state" />
                         <field name="external_url" widget="url" />
@@ -121,6 +124,20 @@
         </field>
     </record>
 
+    <record id="gs_course_view_calendar" model="ir.ui.view">
+        <field name="name">gs_course_view_calendar</field>
+        <field name="model">gs_course</field>
+        <field name="arch" type="xml">
+            <calendar
+                date_start="start_date"
+                date_stop="end_date"
+                color="state"
+                mode="month"
+                quick_add="0"
+            />
+        </field>
+    </record>
+
     <record id="gs_course_view_search" model="ir.ui.view">
         <field name="name">gs_course_view_search</field>
         <field name="model">gs_course</field>
@@ -132,6 +149,7 @@
                 <field name="start_date" />
                 <field name="partner_id" />
                 <field name="location_partner_id" />
+                <field name="id_sawgest" />
                 
                 <!-- Filters -->
                 <filter name="filter_elearning" domain="[('mode','=','E')]" string="ELearning" />
@@ -139,7 +157,7 @@
                 <filter name="filter_mixedmode" domain="[('mode','=','M')]" string="Misto" />
                 <separator />
                 <filter name="filter_aifos" domain="[('gs_course_type_id.code','ilike','aifos')]" string="AiFOS" />
-                <filter name="filter_aifos" domain="['!', ('gs_course_type_id.code','ilike','aifos')]" string="Non AiFOS" />
+                <filter name="filter_not_aifos" domain="['!', ('gs_course_type_id.code','ilike','aifos')]" string="Non AiFOS" />
                 <separator />
                 <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
 
@@ -192,7 +210,7 @@
         <field name="name">Corsi</field>
         <field name="res_model">gs_course</field>
         <field name="domain"></field>
-        <field name="view_mode">tree,form,kanban</field>
+        <field name="view_mode">tree,form,kanban,calendar</field>
         <field name="view_id" ref="gs_course_view_tree" />
     </record>
 

@@ -125,11 +125,6 @@ class GSCourseLesson(models.Model):
         Generate certificates for all workers that passed the final test.
         """
         test = self.browse(self.env.context.get("active_id"))
-        # test = self.env.context.get("active_ids")
-        # test.ensure_one()
-
-        if not test.gs_course_type_id.is_internal:
-            raise UserError("Corso non erogato da Gruppo Scudo.")
 
         if not test.gs_course_type_module_id.generate_certificate:
             raise UserError("Questo non è un test finale.")
@@ -213,6 +208,17 @@ class GSCourseLesson(models.Model):
         self.is_closed = True
 
     id_sawgest = fields.Integer(string="Id Sawgest")
+    url_sawgest = fields.Char(
+        string="Vedi in sawgest", compute="_compute_url_sawgest", store=False
+    )
+
+    def _compute_url_sawgest(self):
+        for lesson in self:
+            if lesson.id_sawgest is not False and lesson.id_sawgest > 0:
+                lesson.url_sawgest = (
+                    "https://gestionale.grupposcudo.it/#/app/"
+                    f"training_class_modules/{lesson.id_sawgest}"
+                )
 
 
 class GSCourse(models.Model):
@@ -224,6 +230,19 @@ class GSCourse(models.Model):
         string="Lezioni",
         tracking=True,
     )
+
+    def write(self, vals):
+        """
+        When location or teacher are updated on the course, also update
+        them on the lessons.
+        """
+        for course in self:
+            for lesson in course.gs_course_lesson_ids:
+                if "teacher_partner_id" in vals:
+                    lesson.teacher_partner_id = vals["teacher_partner_id"]
+                if "location_partner_id" in vals:
+                    lesson.location_partner_id = vals["location_partner_id"]
+        return super().write(vals)
 
     @api.model
     def create(self, vals):
@@ -240,6 +259,7 @@ class GSCourse(models.Model):
                 "duration": module.duration,
                 "gs_course_type_module_id": module.id,
                 "location_partner_id": course.location_partner_id.id,
+                "teacher_partner_id": course.teacher_partner_id.id,
                 "state": "tentative",
             }
 

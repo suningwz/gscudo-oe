@@ -25,6 +25,9 @@ class GSCourseType(models.Model):
     min_attendance = fields.Float(
         string="Partecipazione minima", required=True, default=0.9, tracking=True
     )
+
+    content = fields.Text(string="Contenuto")
+
     note = fields.Char(string="Note")
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
@@ -40,11 +43,25 @@ class GSCourseType(models.Model):
     )
 
     is_internal = fields.Boolean(
-        string="Corso interno",
+        string="Corso gestito",
         help=(
-            "Decide se il certificato è generato da Odoo o importato esternamente. "
-            "Per ora falso solo per corsi AiFOS."
+            "Decide se l'attestato è generato da Odoo o importato esternamente. "
+            "Esempi di corsi non interni sono i corsi AiFOS e quelli organizzati da "
+            "Officina del Carrello."
         ),
         default=True,
         tracking=True,
+    )
+
+    document_template_id = fields.Many2one(
+        comodel_name="word_template",
+        string="Modello attestato",
+        default=lambda self: (
+            self.env["word_template"].search(
+                [("code", "ilike", "default_certificate_template")],
+                limit=1,
+            )
+            or False
+        ),
+        domain=[("model.model", "=", "gs_worker_certificate")],
     )

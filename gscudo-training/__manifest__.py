@@ -11,7 +11,8 @@
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
     "version": "14.0.1.18",
-    "depends": ["base", "sale", "gscudo-oe", "documents"],
+    "depends": ["base", "sale", "gscudo-oe", "documents", "gscudo-worddoc"],
+    #"external_dependencies": {"python": ["docxtpl"]},
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",

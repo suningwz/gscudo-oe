@@ -1,10 +1,20 @@
+import base64
 import logging  # pylint: disable=unused-import
 import datetime
-from datetime import datetime
+from datetime import date, datetime
+from tempfile import NamedTemporaryFile
 from dateutil.relativedelta import relativedelta
-from odoo.exceptions import UserError
 
 from odoo import api, fields, models
+from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
+try:
+    from docxtpl import DocxTemplate
+    from jinja2.exceptions import UndefinedError
+except (ImportError, IOError) as err:
+    _logger.error(err)
 
 
 class GSWorkerCertificate(models.Model):
@@ -72,20 +82,20 @@ class GSWorkerCertificate(models.Model):
         default="C",
         required=True,
         tracking=True,
+        index=True,
     )
 
     note = fields.Char(string="Note")
 
-    issue_date = fields.Date(string="Data attestato", tracking=True)
-    issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True)
+    issue_date = fields.Date(string="Data attestato", tracking=True, index=True)
+    issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True, index=True)
 
     @api.model
     def create(self, vals):
         """
         When a certificate is created, automatically set the issue number.
-        Also, if this is a multiupdate, set the appropriate certificate type.
+        Also, if this is a multicertificate, set the appropriate certificate type.
         """
-
         if "gs_training_certificate_type_id" in vals:
             certificate_type = self.env["gs_training_certificate_type"].browse(
                 [vals["gs_training_certificate_type_id"]]
@@ -110,12 +120,18 @@ class GSWorkerCertificate(models.Model):
                     domain, limit=1, order="issue_date desc"
                 )
 
+                # For now keep the multicertificate
                 if not certificate_to_update:
-                    worker = self.env["gs_worker"].browse([vals["gs_worker_id"]])
-                    worker.ensure_one()
-                    raise UserError(
-                        f"{worker.fiscalcode} non può aggiornare un certificato che non ha."
-                    )
+                    certificate = super().create(vals)
+                    if certificate.type == "C":
+                        certificate.issue_serial = f"CERT-{certificate.id}"
+                    return certificate
+
+                    # worker = self.env["gs_worker"].browse([vals["gs_worker_id"]])
+                    # worker.ensure_one()
+                    # raise UserError(
+                    #     f"{worker.fiscalcode} non può aggiornare un certificato che non ha."
+                    # )
 
                 certificate_to_update.ensure_one()
 
@@ -253,14 +269,16 @@ class GSWorkerCertificate(models.Model):
         expiration date, or about two months from it
         """
 
-        def domain_date_between(field: str, date: datetime.date, delta: relativedelta):
+        def domain_date_between(
+            field: str, base_date: datetime.date, delta: relativedelta
+        ):
             """
             Generates a search domain constraining the given field
             between date - delta and date + delta.
             """
             domain = ["&"]
-            datefrom = (date - delta).strftime("%Y-%m-%d")
-            dateto = (date + delta).strftime("%Y-%m-%d")
+            datefrom = (base_date - delta).strftime("%Y-%m-%d")
+            dateto = (base_date + delta).strftime("%Y-%m-%d")
             domain.extend([(field, ">=", datefrom), (field, "<=", dateto)])
             return domain
 
@@ -368,6 +386,123 @@ class GSWorkerCertificate(models.Model):
                 else:
                     record.sg_url = False
 
+    @api.model
+    def generate_docs(self):
+        """
+        Mass document generation.
+        """
+        certificates = self.browse(self.env.context.get("active_ids"))
+        for certificate in certificates:
+            certificate.generate_doc()
+
+    def generate_doc(self):
+        """
+        Generates a docx/pdf document for the certificate.
+        """
+
+        def hours(time: int) -> str:
+            hours = int(time)
+            mins = int((time - hours) * 60)
+            return f"{hours}:{mins:02}"
+
+        def address(partner) -> str:
+            return f"{partner.street} {partner.zip} {partner.city} ({partner.state_id.code})"
+
+        for certificate in self:
+            if self.env["ir.attachment"].search(
+                [
+                    ("res_model", "=", "gs_worker_certificate"),
+                    ("res_id", "=", certificate.id),
+                ]
+            ):
+                continue
+
+            doc_template = certificate.test_id.gs_course_id.document_template_id
+            if not doc_template:
+                raise UserError("Template mancante.")
+
+            # select the data
+            data = {
+                "name": certificate.gs_worker_id.name,
+                "birth_date": certificate.gs_worker_id.birth_date,
+                # FIXME
+                "birth_place": (
+                    certificate.gs_worker_id.birth_place
+                    if certificate.gs_worker_id.birth_place
+                    else certificate.gs_worker_id.birth_country
+                ),
+                "fiscalcode": certificate.gs_worker_id.fiscalcode,
+                "partner": certificate.gs_worker_id.contract_partner_id.name,
+                "job_description": certificate.gs_worker_id.contract_job_description,
+                "course_name": certificate.test_id.gs_course_id.gs_course_type_id.name,
+                "law_ref": certificate.gs_training_certificate_type_id.law_ref,
+                "duration": hours(certificate.test_id.gs_course_id.duration),
+                "lessons": [
+                    {
+                        "date": e.gs_course_lesson_id.start_time.strftime("%d-%m-%Y"),
+                        "location": address(e.gs_course_lesson_id.location_partner_id),
+                        "duration": hours(e.gs_course_lesson_id.duration),
+                        "teacher": e.gs_course_lesson_id.teacher_partner_id.name,
+                        "coteacher": (
+                            e.gs_course_lesson_id.coteacher_partner_id.name
+                            if e.gs_course_lesson_id.coteacher_partner_id.name
+                            is not False
+                            else ""
+                        ),
+                    }
+                    for e in certificate.compute_enrollments()
+                    if not e.gs_course_lesson_id.generate_certificate
+                ],
+                "attended_hours": hours(certificate.attended_hours),
+                "min_attendance": int(certificate.min_attendance * 100),
+                "ateco": certificate.gs_worker_id.contract_partner_id.main_ateco_id.code,
+                "issue_date": certificate.issue_date.strftime("%d/%m/%Y"),
+                "issue_serial": certificate.issue_serial,
+            }
+
+            # pylint: disable-next=consider-using-dict-items
+            for key in data:
+                if data[key] is False:
+                    raise UserError(
+                        f"Missing parameter '{key}' for certificate {certificate.issue_serial}"
+                    )
+
+            # create the document
+            with NamedTemporaryFile("w+b") as f:
+                f.write(base64.b64decode(doc_template.template))
+                document = DocxTemplate(f.name)
+
+                try:
+                    document.render(data)
+                    document.save(f.name)
+                except UndefinedError as e:
+                    _logger.warning(e)
+                    raise e
+
+                # convert it in pdf
+
+                # save it as an attachment
+                f.seek(0)
+                self.env["ir.attachment"].create(
+                    {
+                        "name": (
+                            f"{certificate.gs_worker_id.fiscalcode} - "
+                            f"{certificate.test_id.gs_course_id.protocol} - "
+                            f"{certificate.issue_date}"
+                            ".docx"
+                        ),
+                        "description": f"Generato il {date.today()}",
+                        "res_model": "gs_worker_certificate",
+                        "res_id": certificate.id,
+                        "type": "binary",
+                        "datas": base64.encodebytes(f.read()),
+                        "mimetype": (
+                            "application/vnd.openxmlformats-officedocument"
+                            ".wordprocessingml.document"
+                        ),
+                    }
+                )
+
 
 class GSWorker(models.Model):
     _inherit = "gs_worker"
@@ -387,6 +522,8 @@ class GSWorker(models.Model):
         domain=[
             ("active", "=", True),
             "|",
+            "|",
+            ("type", "=", "E"),
             ("state", "=", "expiring"),
             # "&",
             ("state", "=", "expired"),
