@@ -219,6 +219,8 @@ class GSCourseLesson(models.Model):
                     "https://gestionale.grupposcudo.it/#/app/"
                     f"training_class_modules/{lesson.id_sawgest}"
                 )
+            else:
+                lesson.url_sawgest = False
 
 
 class GSCourse(models.Model):
