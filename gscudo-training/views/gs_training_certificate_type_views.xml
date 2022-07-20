@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_training_certificate_type_view_form" model="ir.ui.view">
+        <field name="name">gs_training_certificate_type_view_form</field>
+        <field name="model">gs_training_certificate_type</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="name" />
+                        <field name="code" />
+                        <field name="law_ref" />
+                        <field name="validity_interval" />
+                        <field name="is_updateable" />
+                        <field name="active" />
+                        <field name="is_multicert" />
+                        <field name="note" />
+                        <field name="weaker_certificate_ids" />
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_training_certificate_type_view_tree" model="ir.ui.view">
+        <field name="name">gs_training_certificate_type_view_tree</field>
+        <field name="model">gs_training_certificate_type</field>
+        <field name="arch" type="xml">
+            <tree default_order="name" multi_edit="1">
+                <field name="code" />
+                <field name="validity_interval" string="Validità (anni)" />
+                <field name="name" />
+                <field name="law_ref" />
+                <field name="note" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gs_training_certificate_type_view_search" model="ir.ui.view">
+        <field name="name">gs_training_certificate_type_view_search</field>
+        <field name="model">gs_training_certificate_type</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="name" />
+                <field name="code" />
+                <field name="law_ref" />
+                <field name="note" />
+
+                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+
+                <group expand="1" string="Group By">
+                    <!-- <filter string="Gruppo" name="name" context="{'group_by':'name'}" /> -->
+                    <filter string="Validità" name="validity_interval" context="{'group_by':'validity_interval'}" />
+                    <filter string="Aggiornabile" name="is_updateable" context="{'group_by':'is_updateable'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_training_certificate_type action -->
+    <record id="view_gs_training_certificate_type_action" model="ir.actions.act_window">
+        <field name="name">Certificati Formativi</field>
+        <field name="res_model">gs_training_certificate_type</field>
+        <field name="domain"></field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="gs_training_certificate_type_view_tree" />
+    </record>
+
+    <menuitem
+        id="gs_training_certificate_type_menu"
+        name="Certificati Formativi"
+        parent="gs_training_menu_settings"
+        sequence="10"
+        action="view_gs_training_certificate_type_action"
+        groups="gscudo-training.group_training_manager"
+    />
+</odoo>

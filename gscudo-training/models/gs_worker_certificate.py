@@ -2,6 +2,7 @@ import logging  # pylint: disable=unused-import
 import datetime
 from datetime import datetime
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import UserError
 
 from odoo import api, fields, models
 
@@ -9,25 +10,33 @@ from odoo import api, fields, models
 class GSWorkerCertificate(models.Model):
     _name = "gs_worker_certificate"
     _description = "Certificazioni"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
 
-    name = fields.Char(string="Certificazione", compute="_compute_name", store=True)
+    def _get_document_folder(self):
+        return self.env["documents.folder"].search([("name", "=", "Formazione")])
+
+    def _get_document_tags(self):
+        return self.env["documents.tag"].search([("name", "=", "Attestato")])
+
+    name = fields.Char(
+        string="Certificazione", compute="_compute_name", store=True, tracking=True
+    )
 
     @api.depends(
         "gs_worker_id.name",
-        "gs_certificate_type_id.name",
+        "gs_training_certificate_type_id.name",
         "issue_date",
     )
     def _compute_name(self):
         for certificate in self:
             certificate.name = (
                 f"{certificate.gs_worker_id.name} - "
-                f"{certificate.gs_certificate_type_id.name} -"
-                f"{certificate.issue_date}"
+                f"{certificate.gs_training_certificate_type_id.name} - "
+                f"{certificate.issue_date if certificate.type == 'C' else 'ESIGENZA'}"
             )
 
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", index=True
+        comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True
     )
     contract_partner_id = fields.Many2one(
         related="gs_worker_id.contract_partner_id",
@@ -35,34 +44,116 @@ class GSWorkerCertificate(models.Model):
         string="Azienda/Sede",
         store=True,
         index=True,
+        tracking=True,
     )
 
-    gs_certificate_type_id = fields.Many2one(
-        comodel_name="gs_certificate_type",
-        string="Tipo certificazione",
+    has_training_manager = fields.Boolean(
+        string="Manager Formativo",
+        related="gs_worker_id.contract_partner_id.has_training_manager",
     )
+
+    has_safety = fields.Boolean(
+        string="RSPP/Supporto RSPP",
+        related="gs_worker_id.contract_partner_id.has_safety",
+    )
+
+    gs_training_certificate_type_id = fields.Many2one(
+        comodel_name="gs_training_certificate_type",
+        string="Tipo certificazione",
+        tracking=True,
+    )
+
     type = fields.Selection(
         string="Tipo",
         selection=[
             ("C", "Certificato"),
             ("E", "Esigenza formativa"),
         ],
-        default="E",
+        default="C",
         required=True,
+        tracking=True,
     )
 
     note = fields.Char(string="Note")
 
-    issue_date = fields.Date(string="Data attestato")
-    issue_serial = fields.Char(string="Protocollo attestato")
+    issue_date = fields.Date(string="Data attestato", tracking=True)
+    issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True)
+
+    @api.model
+    def create(self, vals):
+        """
+        When a certificate is created, automatically set the issue number.
+        Also, if this is a multiupdate, set the appropriate certificate type.
+        """
+
+        if "gs_training_certificate_type_id" in vals:
+            certificate_type = self.env["gs_training_certificate_type"].browse(
+                [vals["gs_training_certificate_type_id"]]
+            )
+            certificate_type.ensure_one()
+
+            if certificate_type.is_multicert:
+                domain_tail = []
+                for implied_cert in certificate_type.weaker_certificate_ids:
+                    domain_tail.append(
+                        (
+                            "gs_training_certificate_type_id",
+                            "=",
+                            implied_cert.id,
+                        )
+                    )
+                domain = [("gs_worker_id", "=", vals["gs_worker_id"])]
+                domain.extend(["|" for _ in range(len(domain_tail) - 1)])
+                domain.extend(domain_tail)
+
+                certificate_to_update = self.env["gs_worker_certificate"].search(
+                    domain, limit=1, order="issue_date desc"
+                )
+
+                if not certificate_to_update:
+                    worker = self.env["gs_worker"].browse([vals["gs_worker_id"]])
+                    worker.ensure_one()
+                    raise UserError(
+                        f"{worker.fiscalcode} non può aggiornare un certificato che non ha."
+                    )
+
+                certificate_to_update.ensure_one()
+
+                new_certificate_type = (
+                    certificate_to_update.gs_training_certificate_type_id
+                )
+
+                # this is bad and fragile, but for now it is the only way we can do this
+                if certificate_type.code == "ASR-P-AGG":
+                    if self.env["gs_worker_certificate"].search(
+                        [
+                            ("gs_worker_id", "=", vals["gs_worker_id"]),
+                            ("gs_training_certificate_type_id.code", "=", "ASR-PR"),
+                        ]
+                    ):
+                        pr_type = self.env["gs_training_certificate_type"].search(
+                            [("code", "=", "ASR-PR")]
+                        )
+                        pr_type.ensure_one()
+
+                        pr_vals = vals.copy()
+                        pr_vals["gs_training_certificate_type_id"] = pr_type.id
+                        self.env["gs_worker_certificate"].create(pr_vals)
+
+                vals["gs_training_certificate_type_id"] = new_certificate_type.id
+
+        certificate = super().create(vals)
+        if certificate.type == "C":
+            certificate.issue_serial = f"CERT-{certificate.id}"
+        return certificate
 
     external_link = fields.Char(string="Link Esterno")
 
-    active = fields.Boolean(string="Superato", compute="_compute_active", store=True)
+    active = fields.Boolean(string="Attivo", compute="_compute_active", store=True)
 
     @api.depends(
         "gs_worker_id.gs_worker_certificate_ids.issue_date",
-        "gs_certificate_type_id",
+        "gs_training_certificate_type_id",
         "issue_date",
     )
     def _compute_active(self):
@@ -72,33 +163,39 @@ class GSWorkerCertificate(models.Model):
         It's the opposite of the old "passed" field.
         """
         for certificate in self:
-            if certificate.type == "E":
-                certificate.active = True
-                return
+            # if certificate.type == "E":
+            #     certificate.active = True
+            #     return
             certificate_dates = [
                 c.issue_date
                 for c in certificate.gs_worker_id.gs_worker_certificate_ids
-                if c.gs_certificate_type_id.satisfies(
-                    certificate.gs_certificate_type_id
+                if (
+                    c.gs_training_certificate_type_id
+                    in certificate.gs_training_certificate_type_id.weaker_certificates()
                 )
                 and c.issue_date is not False
                 and c.type == "C"
             ]
             if certificate_dates and certificate.issue_date is not False:
+                # a certificate is active if its date is the biggest among the
+                # certificates of the same type
                 certificate.active = certificate.issue_date == max(certificate_dates)
             else:
                 certificate.active = True
 
-    is_update = fields.Boolean(string="Aggiornabile")
+    is_update = fields.Boolean(string="Aggiornabile", tracking=True)
+
+    expiry_date = fields.Date(string="Data scadenza (sawgest)")
 
     expiration_date = fields.Date(
         string="Data scadenza",
         compute="_compute_expiration_date",
         index=True,
         store=True,
+        tracking=True,
     )
 
-    @api.depends("issue_date", "gs_certificate_type_id.validity_interval")
+    @api.depends("issue_date", "gs_training_certificate_type_id.validity_interval")
     def _compute_expiration_date(self):
         """
         Computes the expiration date of the certificate.
@@ -107,15 +204,19 @@ class GSWorkerCertificate(models.Model):
         più l'intervallo di validità alla situazione legale attuale.
         """
         for record in self:
-            if (
+            if record.type == "E":
+                record.expiration_date = record.issue_date
+            elif (
                 record.issue_date is not False
-                and record.gs_certificate_type_id is not False
+                and record.gs_training_certificate_type_id is not False
             ):
-                record.expiration_date = record.issue_date + relativedelta(
-                    years=record.gs_certificate_type_id.validity_interval
-                )
-
-    note = fields.Char(string="Note")
+                if record.gs_training_certificate_type_id.validity_interval != 0:
+                    record.expiration_date = record.issue_date + relativedelta(
+                        years=record.gs_training_certificate_type_id.validity_interval
+                    )
+                else:
+                    # record.gs_training_certificate_type_id.validity_interval = 99
+                    record.expiration_date = record.issue_date + relativedelta(years=99)
 
     state = fields.Selection(
         string="Validità",
@@ -134,10 +235,12 @@ class GSWorkerCertificate(models.Model):
     def _compute_state(self):
         today = datetime.now().date()
         for certificate in self:
-            if certificate.expiration_date is not False:
-                if certificate.expiration_date < today:
+            if certificate.type == "E":
+                certificate.state = "expired"
+            elif certificate.expiration_date is not False:
+                if certificate.expiration_date <= today:
                     certificate.state = "expired"
-                elif certificate.expiration_date < today + relativedelta(months=2):
+                elif certificate.expiration_date <= today + relativedelta(months=2):
                     certificate.state = "expiring"
                 else:
                     certificate.state = "valid"
@@ -161,7 +264,7 @@ class GSWorkerCertificate(models.Model):
             domain.extend([(field, ">=", datefrom), (field, "<=", dateto)])
             return domain
 
-        logging.info("Recomputing certificates state")
+        # logging.info("Recomputing certificates state")
 
         today = datetime.now().date()
         two_days = relativedelta(days=2)
@@ -182,7 +285,8 @@ class GSWorkerCertificate(models.Model):
         string="Richiesto", compute="_compute_is_required", store=True, index=True
     )
 
-    @api.depends("gs_worker_id", "gs_certificate_type_id")
+    # LOW depends
+    @api.depends("gs_worker_id", "gs_training_certificate_type_id")
     def _compute_is_required(self):
         for certificate in self:
             active_jobs = [
@@ -192,14 +296,63 @@ class GSWorkerCertificate(models.Model):
             ]
             certificate.is_required = False
             for job in active_jobs:
-                for req in job.gs_certificate_type_ids:
-                    if certificate.gs_certificate_type_id.satisfies(req):
+                for req in job.gs_training_certificate_type_ids:
+                    if (
+                        req
+                        in certificate.gs_training_certificate_type_id.weaker_certificates()
+                    ):
                         certificate.is_required = True
                         return
 
+    test_id = fields.Many2one(
+        comodel_name="gs_lesson_enrollment", string="Iscrizione al test", tracking=True
+    )
+
+    duration = fields.Float(
+        string="Durata", related="test_id.gs_course_id.duration", tracking=True
+    )
+    min_attendance = fields.Float(
+        string="Partecipazione minima",
+        related="test_id.gs_course_id.min_attendance",
+        tracking=True,
+    )
+    attended_hours = fields.Float(string="Ore frequentate", tracking=True)
+    attendance_percentage = fields.Float(
+        string="Frequenza", compute="_compute_attendance_percentage"
+    )
+
+    @api.depends("attended_hours", "duration")
+    def _compute_attendance_percentage(self):
+        self.attendance_percentage = (
+            (self.attended_hours / self.duration) if self.duration > 0 else 1
+        )
+
+    enrollments = fields.One2many(
+        comodel_name="gs_lesson_enrollment",
+        string="Lezioni seguite",
+        compute="_compute_enrollment_field",
+    )
+
+    def _compute_enrollment_field(self):
+        enrollments = [e.id for e in self.compute_enrollments()]
+        self.enrollments = enrollments if enrollments else False
+
+    def compute_enrollments(self):
+        """
+        Compute the list of lesson enrollments that satisfies this certificate's requirements.
+        """
+        self.ensure_one()
+        enrollments = []
+        prev = self.test_id
+        while prev.id:
+            enrollments.append(prev)
+            prev = prev.previous_enrollment_id
+
+        return list(reversed(enrollments))
+
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
-    sg_synched_at = fields.Datetime(string="Data ultima Syncronizzazione sawgest")
+    sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
 
     sg_url = fields.Char(
         string="Vedi in sawgest", compute="_compute_sg_url", store=False
@@ -212,9 +365,6 @@ class GSWorkerCertificate(models.Model):
             for record in self:
                 if record.sg_id and record.sg_id > 0:
                     record.sg_url = f"{base_url}training_timetables/{record.sg_id}"
-                    # record.sg_url = base_url + "training_timetables/{}".format(
-                    #     record.sg_id
-                    # )
                 else:
                     record.sg_url = False
 
@@ -235,11 +385,12 @@ class GSWorker(models.Model):
         string="Attestati attenzionabili",
         groups="gscudo-training.group_training_backoffice",
         domain=[
+            ("active", "=", True),
             "|",
             ("state", "=", "expiring"),
-            "&",
+            # "&",
             ("state", "=", "expired"),
-            ("is_required", "=", True),
+            # ("is_required", "=", True),
         ],
     )
 

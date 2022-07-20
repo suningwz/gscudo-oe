@@ -9,7 +9,7 @@
                     <group>
                         <field name="gs_worker_id" />
                         <field name="contract_partner_id" />
-                        <field name="gs_certificate_type_id" />
+                        <field name="gs_training_certificate_type_id" />
                         <field name="name" />
                         <field name="type" />
                         <field name="issue_date" />
@@ -19,10 +19,14 @@
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
+                        <field name="attended_hours" widget="float_time" />
+                        <field name="attendance_percentage" widget="percentage" />
                         <field name="note" />
+                        <field name="enrollments" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
                     <field name="message_follower_ids" widget="mail_followers" />
                     <field name="message_ids" widget="mail_thread" />
                 </div>
@@ -34,15 +38,16 @@
         <field name="name">gs_worker_certificate_view_tree</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <tree create="0" delete="0" default_order="expiration_date desc">
+            <tree default_order="expiration_date desc" multi_edit="1">
                 <field name="contract_partner_id" />
                 <field name="gs_worker_id" />
-                <field name="gs_certificate_type_id" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="type" />
                 <field name="issue_date" />
                 <field name="expiration_date" />
                 <field name="issue_serial" />
                 <field name="is_update" />
+                <field name="active" optional="hide" string="Attivo" />
                 <field
                     name="state"
                     options="{'bg_color':
@@ -55,8 +60,7 @@
         </field>
     </record>
 
-    <!-- TODO Odoo can't manage all data in a pivot table -->
-    <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
+    <!-- <record id="gs_worker_certificate_view_pivot" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_pivot</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
@@ -64,21 +68,21 @@
                 <field name="contract_partner_id" type="row" />
                 <field name="gs_worker_id" type="row" />
                 <field name="type" type="col" />
-                <field name="gs_certificate_type_id" type="col" />
+                <field name="gs_training_certificate_type_id" type="col" />
                 <field name="expiration_date" interval="month" type="col" />
             </pivot>
         </field>
-    </record>
+    </record> -->
 
     <record id="gs_worker_certificate_view_search" model="ir.ui.view">
         <field name="name">gs_worker_certificate_view_search</field>
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
-            <search string="">
+            <search>
                 <!-- Search fields -->
                 <field name="gs_worker_id" />
                 <field name="contract_partner_id" />
-                <field name="gs_certificate_type_id" />
+                <field name="gs_training_certificate_type_id" />
                 <field name="expiration_date" />
                 <field name="note" />
                 <field name="state" />
@@ -92,13 +96,22 @@
                 <filter name="filter_type_E" domain="[('type','=','E')]" string="Esigenza formativa" />
                 <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
                 <separator />
-                <filter name="filter_archived" domain="[('active','=',0)]" string="Superati" />
+                <filter
+                    name="filter_ours"
+                    domain="['|', ('has_training_manager','=',True),('has_safety','=',True)]"
+                    string="Nostri clienti"
+                />
+                <filter
+                    name="filter_all"
+                    domain="['|', ('active','=',True), ('active','=',False)]"
+                    string="Tutti"
+                />
                 
                 <!-- Grouping -->
                 <group expand="1" string="Group By">
                     <filter string="Azienda" name="contract_partner_id" context="{'group_by':'contract_partner_id'}" />
                     <filter string="Lavoratore" name="gs_worker_id" context="{'group_by':'gs_worker_id'}" />
-                    <filter string="Tipologia" name="gs_certificate_type_id" context="{'group_by':'gs_certificate_type_id'}" />
+                    <filter string="Tipologia" name="gs_training_certificate_type_id" context="{'group_by':'gs_training_certificate_type_id'}" />
                     <filter string="Scadenza" name="expiration_date" context="{'group_by':'expiration_date'}" />
                 </group>
             </search>
@@ -110,13 +123,15 @@
         <field name="name">Certificati/Attestati</field>
         <field name="res_model">gs_worker_certificate</field>
         <field name="domain"></field>
-        <field name="view_mode">tree,form,pivot</field>
+        <!-- <field name="view_mode">tree,form,pivot</field> -->
+        <field name="view_mode">tree,form</field>
+        <field name="context">{'search_default_filter_ours':1}</field>
         <field name="view_id" ref="gs_worker_certificate_view_tree" />
     </record>
 
     <menuitem
         id="gs_worker_certificate_menu"
-        name="Certificati/Attestati"
+        name="Certificati/Esigenze"
         parent="gs_training_menu_backoffice"
         sequence="80"
         action="gs_worker_certificate_action_view_tree"

@@ -29,14 +29,15 @@
         </field>
     </record>
 
-    <!-- <record id="project_view_project_inherit_gscudo" model="ir.ui.view">
+    <record id="project_view_project_inherit_gscudo" model="ir.ui.view">
         <field name="name">project_view_tree_inherit_gscudo</field>
         <field name="model">project.project</field>
         <field name="inherit_id" ref="project.view_project" />
         <field name="arch" type="xml">
-            <xpath expr="//field[@name='allowed_internal_user_ids']" position="replace">
-                <field name="allowed_internal_user_ids" optional="hide" widget="many2many_tags" />
-            </xpath>
+            <field name="user_id" position="after">
+                <field name="date_start" optional="hide" />
+            </field>
         </field>
-    </record> -->
+    </record>
+
 </odoo>

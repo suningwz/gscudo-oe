@@ -7,16 +7,21 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="gs_course_type_id" />
                         <field name="name" />
                         <field name="content" />
-                        <field name="duration" />
+                        <field name="duration" widget="float_time" />
                         <field name="generate_certificate" />
                         <field name="elearning" />
                         <field name="note" />
-                        <field name="module_required_ids" />
+                        <field name="gs_course_type_id" />
+                        <!-- <field name="module_required_ids" /> -->
                     </group>
                 </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
             </form>
         </field>
     </record>
@@ -25,13 +30,13 @@
         <field name="name">gs_course_type_module_view_tree</field>
         <field name="model">gs_course_type_module</field>
         <field name="arch" type="xml">
-            <tree default_order="gs_course_type_id,sequence,name">
-                <field name="gs_course_type_id" />
+            <tree default_order="sequence,name" multi_edit="1">
+                <!-- <field name="gs_course_type_id" widget="many2many_tags" /> -->
                 <field name="name" />
-                <field name="duration" />
+                <field name="duration" widget="float_time" />
                 <field name="generate_certificate" />
                 <field name="elearning" />
-                <field name="module_required_ids" widget="many2many_tags" />
+                <!-- <field name="module_required_ids" widget="many2many_tags" /> -->
             </tree>
         </field>
     </record>
@@ -54,7 +59,7 @@
 
     <!-- gs_course_type_module action -->
     <record id="gs_course_type_module_action_view_tree" model="ir.actions.act_window">
-        <field name="name">Tipologie di corso</field>
+        <field name="name">Moduli corsi</field>
         <field name="res_model">gs_course_type_module</field>
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>

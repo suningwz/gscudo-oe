@@ -5,11 +5,11 @@ class WorkerJobType(models.Model):
     _name = "gs_worker_job_type"
     _description = "Tipi Mansione/Delega"
 
-    name = fields.Char(string="Name")
+    name = fields.Char(string="Nome")
     active = fields.Boolean(string="Attivo", default=True)
     note = fields.Char(string="Note")
     partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Cliente/sede di riferimento"
+        comodel_name="res.partner", string="Cliente/Sede di riferimento"
     )
     gs_worker_job_type = fields.Many2one(
         comodel_name="gs_worker_job_type",

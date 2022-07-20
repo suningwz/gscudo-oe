@@ -1,4 +1,4 @@
-import logging # pylint: disable=unused-import
+import logging  # pylint: disable=unused-import
 from odoo import models, fields, api
 
 

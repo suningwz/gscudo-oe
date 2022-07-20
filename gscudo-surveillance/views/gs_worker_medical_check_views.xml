@@ -29,6 +29,12 @@
                             <field name="expiry_date" />
                             <field name="schedule_time" />
                         </group>
+                        <group string="Annotazioni">
+
+                            <field name="note" />
+                            
+                        </group>
+
                     </group>
                 </sheet>
             </form>
