@@ -52,7 +52,7 @@ class GSCourseSingleEnrollmentWizard(models.TransientModel):
             "name": f"Iscrizione per {self.gs_worker_id.name}",
             "gs_course_id": self.env.context.get("active_id"),
             "gs_worker_id": self.gs_worker_id.id,
-            "state": "P",
+            "state": "C",
         }
         if model.search(
             [

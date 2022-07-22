@@ -9,7 +9,7 @@
                 <field name="gs_training_certificate_type_ids" widget="many2many_tags" />
             </xpath>
             <xpath expr="//page[@name='sawgest_data']" position="before">
-                <page name="training_certificate" string="Attestati" groups="gscudo-training.group_training_backoffice">
+                <page name="training_certificate" string="Certificati formativi" groups="gscudo-training.group_training_backoffice">
                     <group>
                         <field name="is_attentionable" />
                         <field name="gs_worker_certificate_attentionable_ids">

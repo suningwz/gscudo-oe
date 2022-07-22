@@ -87,8 +87,10 @@ class GSWorkerCertificate(models.Model):
 
     note = fields.Char(string="Note")
 
-    issue_date = fields.Date(string="Data attestato", tracking=True, index=True)
-    issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True, index=True)
+    issue_date = fields.Date(string="Data certificato", tracking=True, index=True)
+    issue_serial = fields.Char(
+        string="Protocollo certificato", store=True, tracking=True, index=True
+    )
 
     @api.model
     def create(self, vals):
@@ -199,7 +201,7 @@ class GSWorkerCertificate(models.Model):
             else:
                 certificate.active = True
 
-    is_update = fields.Boolean(string="Aggiornabile", tracking=True)
+    is_update = fields.Boolean(string="Aggiornamento", tracking=True)
 
     expiry_date = fields.Date(string="Data scadenza (sawgest)")
 
@@ -510,14 +512,14 @@ class GSWorker(models.Model):
     gs_worker_certificate_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
-        string="Attestati",
+        string="Certificati",
         groups="gscudo-training.group_training_backoffice",
     )
 
     gs_worker_certificate_attentionable_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
-        string="Attestati attenzionabili",
+        string="Certificati attenzionabili",
         groups="gscudo-training.group_training_backoffice",
         domain=[
             ("active", "=", True),

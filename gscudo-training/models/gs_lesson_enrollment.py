@@ -142,6 +142,7 @@ class GSLessonEnrollment(models.Model):
                     {
                         "gs_worker_id": test.gs_worker_id.id,
                         "gs_training_certificate_type_id": certificate_type.id,
+                        "is_update": test.gs_course_id.gs_course_type_id.is_update,
                         "type": "C",
                         "issue_date": test.gs_course_lesson_id.start_time.date(),
                         "test_id": test.id,

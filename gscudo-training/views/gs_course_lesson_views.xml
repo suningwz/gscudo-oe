@@ -114,7 +114,7 @@
                 <filter name="filter_tentative" domain="[('state', '=', 'tentative')]" string="Provvisorie" />
                 <filter name="filter_final" domain="[('state', '=', 'final')]" string="Definitive" />
                 <separator />
-                <filter name="filter_not_aifos" domain="[('gs_course_type_id.code', 'ilike', 'aifos')]" string="Non AiFOS" />
+                <filter name="filter_not_aifos" domain="[('gs_course_type_id.code', 'not ilike', 'aifos')]" string="Non AiFOS" />
 
                 <!-- Groups -->
                 <group expand="1" string="Group By">
