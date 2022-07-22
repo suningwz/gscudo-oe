@@ -14,23 +14,23 @@ class GSLessonEnrollment(models.Model):
             enrollment.name = enrollment.gs_course_lesson_id.name
 
     gs_course_lesson_id = fields.Many2one(
-        comodel_name="gs_course_lesson", string="Lezione", tracking=True
+        comodel_name="gs_course_lesson", string="Lezione", tracking=True, index=True,
     )
     gs_course_id = fields.Many2one(
         comodel_name="gs_course",
         string="Corso",
         related="gs_course_lesson_id.gs_course_id",
         store=True,
-        tracking=True,
+        tracking=True, index=True,
     )
 
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", tracking=True
+        comodel_name="gs_worker", string="Lavoratore", tracking=True, index=True,
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Azienda",
-        related="gs_worker_id.contract_partner_id",
+        related="gs_worker_id.contract_partner_id", index=True,
     )
 
     state = fields.Selection(
@@ -73,18 +73,18 @@ class GSLessonEnrollment(models.Model):
 
     implicit = fields.Boolean(string="Iscrizione implicita", default=True)
     gs_course_enrollment_id = fields.Many2one(
-        comodel_name="gs_course_enrollment", string="Iscrizione al corso", tracking=True
+        comodel_name="gs_course_enrollment", string="Iscrizione al corso", tracking=True, index=True,
     )
 
     gs_course_type_module_id = fields.Many2one(
         comodel_name="gs_course_type_module",
         string="Modulo",
         related="gs_course_lesson_id.gs_course_type_module_id",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     previous_enrollment_id = fields.Many2one(
-        comodel_name="gs_lesson_enrollment", string="Lezione precedente", tracking=True
+        comodel_name="gs_lesson_enrollment", string="Lezione precedente", tracking=True, index=True,
     )
 
     def get_next_enrollment(self):

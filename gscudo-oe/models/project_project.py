@@ -4,9 +4,9 @@ from odoo import fields, models
 class ProjectProject(models.Model):
     _inherit = "project.project"
 
-    department_id = fields.Many2one(comodel_name="hr.department", string="Dipartimento")
+    department_id = fields.Many2one(comodel_name="hr.department", string="Dipartimento", index=True,)
     product_family_id = fields.Many2one(
-        comodel_name="gs_product_family", string="Famiglia"
+        comodel_name="gs_product_family", string="Famiglia", index=True,
     )
 
     sg_offer = fields.Char(string="Rif Offerta")

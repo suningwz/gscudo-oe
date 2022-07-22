@@ -9,7 +9,7 @@ class WorkerJobType(models.Model):
     active = fields.Boolean(string="Attivo", default=True)
     note = fields.Char(string="Note")
     partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Cliente/Sede di riferimento"
+        comodel_name="res.partner", string="Cliente/Sede di riferimento", index=True,
     )
     gs_worker_job_type = fields.Many2one(
         comodel_name="gs_worker_job_type",
