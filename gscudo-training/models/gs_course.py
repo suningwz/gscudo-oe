@@ -62,6 +62,12 @@ class GSCourse(models.Model):
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type", string="Tipo Corso", tracking=True
     )
+    # gs_training_certificate_type_id = fields.Many2one(
+    #     comodel_name="gs_training_certificate_type",
+    #     string="Tipo Certificato",
+    #     related="gs_course_type_id.gs_training_certificate_type_id",
+    # )
+
     mode = fields.Selection(
         string="Modalità",
         selection=[("P", "Presenza"), ("E", "E-learning"), ("M", "Misto")],

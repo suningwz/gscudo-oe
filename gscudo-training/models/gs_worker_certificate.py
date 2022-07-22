@@ -1,7 +1,7 @@
 import base64
 import logging  # pylint: disable=unused-import
 import datetime
-from datetime import date, datetime
+from datetime import datetime
 from tempfile import NamedTemporaryFile
 from dateutil.relativedelta import relativedelta
 
@@ -370,6 +370,32 @@ class GSWorkerCertificate(models.Model):
 
         return list(reversed(enrollments))
 
+    # FIXME One2one
+    gs_course_enrollment_ids = fields.One2many(
+        comodel_name="gs_course_enrollment",
+        inverse_name="gs_worker_certificate_id",
+        string="Iscrizione rinnovo",
+    )
+
+    gs_possible_course_ids = fields.One2many(
+        comodel_name="gs_course",
+        compute="_compute_gs_possible_course_ids",
+    )
+
+    # TODO test
+    def _compute_gs_possible_course_ids(self):
+        for record in self:
+            record.gs_possible_course_ids = self.env["gs_course"].search(
+                [
+                    (
+                        "gs_course_type_id.gs_training_certificate_type_id.id",
+                        "=",
+                        record.gs_training_certificate_type_id.id,
+                    ),
+                    ("start_date", ">", datetime.now().date()),
+                ]
+            )
+
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
@@ -397,6 +423,7 @@ class GSWorkerCertificate(models.Model):
         for certificate in certificates:
             certificate.generate_doc()
 
+    # FIXME location name
     def generate_doc(self):
         """
         Generates a docx/pdf document for the certificate.
@@ -407,6 +434,7 @@ class GSWorkerCertificate(models.Model):
             mins = int((time - hours) * 60)
             return f"{hours}:{mins:02}"
 
+        # FIXME partner name
         def address(partner) -> str:
             return f"{partner.street} {partner.zip} {partner.city} ({partner.state_id.code})"
 
@@ -493,7 +521,7 @@ class GSWorkerCertificate(models.Model):
                             f"{certificate.issue_date}"
                             ".docx"
                         ),
-                        "description": f"Generato il {date.today()}",
+                        "description": f"Generato il {datetime.now().date()}",
                         "res_model": "gs_worker_certificate",
                         "res_id": certificate.id,
                         "type": "binary",
@@ -516,6 +544,7 @@ class GSWorker(models.Model):
         groups="gscudo-training.group_training_backoffice",
     )
 
+    # FIXME attentionable filter on certificates view
     gs_worker_certificate_attentionable_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
@@ -523,6 +552,7 @@ class GSWorker(models.Model):
         groups="gscudo-training.group_training_backoffice",
         domain=[
             ("active", "=", True),
+            ("gs_course_enrollment_ids", "=", False),
             "|",
             "|",
             ("type", "=", "E"),
@@ -545,4 +575,5 @@ class GSWorker(models.Model):
         for worker in self:
             worker.is_attentionable = (
                 len(worker.gs_worker_certificate_attentionable_ids) > 0
+                or len(worker.gs_worker_certificate_ids) == 0
             )

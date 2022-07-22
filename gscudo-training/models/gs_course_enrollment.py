@@ -20,6 +20,7 @@ class GSCourseEnrollment(models.Model):
         string="Azienda",
         related="gs_worker_id.contract_partner_id",
     )
+    # FIXME depends on
     state = fields.Selection(
         string="Stato",
         selection=[
@@ -52,6 +53,10 @@ class GSCourseEnrollment(models.Model):
         Set the enrollment state as canceled.
         """
         self.state = "X"
+
+    gs_worker_certificate_id = fields.Many2one(
+        comodel_name="gs_worker_certificate", string="Esigenza collegata"
+    )
 
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
     expiration_date = fields.Date(string="Scadenza iscrizione")
