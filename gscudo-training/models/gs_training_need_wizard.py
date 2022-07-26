@@ -19,6 +19,7 @@ class GSTrainingNeedMassWizard(models.TransientModel):
         """
         for worker in self.env.context.get("active_ids"):
             # TODO check if there already is a training need
+            # TODO return the created stuff
             self.env["gs_worker_certificate"].create(
                 {
                     "gs_worker_id": worker,

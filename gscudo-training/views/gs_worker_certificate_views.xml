@@ -16,6 +16,7 @@
                         <field name="issue_serial" />
                         <field name="expiration_date" />
                         <field name="state" />
+                        <field name="gs_course_enrollment_id" />
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
@@ -51,6 +52,7 @@
                 <field name="issue_serial" />
                 <field name="is_update" />
                 <field name="active" optional="hide" string="Attivo" />
+                <field name="is_renewed" optional="hide" />
                 <field
                     name="state"
                     options="{'bg_color':

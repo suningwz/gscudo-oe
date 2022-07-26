@@ -20,7 +20,7 @@ class GSCourseEnrollment(models.Model):
         string="Azienda",
         related="gs_worker_id.contract_partner_id",
     )
-    # FIXME depends on
+
     state = fields.Selection(
         string="Stato",
         selection=[
@@ -55,8 +55,17 @@ class GSCourseEnrollment(models.Model):
         self.state = "X"
 
     gs_worker_certificate_id = fields.Many2one(
-        comodel_name="gs_worker_certificate", string="Esigenza collegata"
+        comodel_name="gs_worker_certificate",
+        string="Esigenza collegata",
+        compute="_compute_gs_worker_certificate_id",
+        store=True,
     )
+
+    @api.depends("state")
+    def _compute_gs_worker_certificate_id(self):
+        for record in self:
+            if record.state == "X":
+                record.gs_worker_certificate_id = False
 
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
     expiration_date = fields.Date(string="Scadenza iscrizione")
@@ -119,7 +128,7 @@ class GSCourseEnrollment(models.Model):
     def unlink(self):
         """
         When you delete a course enrollment, also delete all linked lessons enrollments.
-        Also, check there are no attendants before deleting a lesson.
+        Also, check there are no attendances before deleting lesson enrollments.
         """
         for lesson_enrollment in self.gs_lesson_enrollment_ids:
             if lesson_enrollment.is_attendant is True:

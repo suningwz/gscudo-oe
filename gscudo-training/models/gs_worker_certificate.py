@@ -104,6 +104,7 @@ class GSWorkerCertificate(models.Model):
             )
             certificate_type.ensure_one()
 
+            # FIXME look at training need
             if certificate_type.is_multicert:
                 domain_tail = []
                 for implied_cert in certificate_type.weaker_certificate_ids:
@@ -370,19 +371,36 @@ class GSWorkerCertificate(models.Model):
 
         return list(reversed(enrollments))
 
-    # FIXME One2one
     gs_course_enrollment_ids = fields.One2many(
         comodel_name="gs_course_enrollment",
         inverse_name="gs_worker_certificate_id",
-        string="Iscrizione rinnovo",
+        string="Iscrizioni rinnovo",
     )
+    gs_course_enrollment_id = fields.Many2one(
+        comodel_name="gs_course_enrollment",
+        string="Iscrizione rinnovo",
+        compute="_compute_gs_course_enrollment_id",
+    )
+
+    def _compute_gs_course_enrollment_id(self):
+        for record in self:
+            if record.gs_course_enrollment_ids:
+                record.gs_course_enrollment_id = record.gs_course_enrollment_ids[0].id
+            else:
+                record.gs_course_enrollment_id = False
+
+    is_renewed = fields.Boolean(string="Rinnovato", compute="_compute_is_renewed")
+
+    def _compute_is_renewed(self):
+        for record in self:
+            record.is_renewed = bool(record.gs_course_enrollment_id)
 
     gs_possible_course_ids = fields.One2many(
         comodel_name="gs_course",
+        string="Corsi possibili per rinnovo",
         compute="_compute_gs_possible_course_ids",
     )
 
-    # TODO test
     def _compute_gs_possible_course_ids(self):
         for record in self:
             record.gs_possible_course_ids = self.env["gs_course"].search(
@@ -395,6 +413,39 @@ class GSWorkerCertificate(models.Model):
                     ("start_date", ">", datetime.now().date()),
                 ]
             )
+
+    def enrollment_wizard(self):
+        """
+        Given one or more training needs, call the enrollment wizard
+        on the selected worker(s) for courses of the right type.
+        """
+        cert_types = set(record.gs_training_certificate_type_id for record in self)
+        if len(cert_types) != 1:
+            raise UserError(
+                "Tutte le esigenze devono essere per lo stesso tipo di certificato."
+            )
+        cert_type_id = cert_types.pop().id
+
+        if any(
+            requirement.gs_course_enrollment_ids.id is not False
+            for requirement in cert_types
+        ):
+            raise UserError("Esigenza formativa già risolta")
+
+        action = {
+            "name": "Iscrivi a un corso...",
+            "view_mode": "form",
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_model": "gs_course_certificate_enrollment_wizard",
+            "context": {
+                "default_gs_training_certificate_type_id": cert_type_id,
+                # "active_id": self.env.context.get("active_id"),
+                "active_ids": self.env.context.get("active_ids"),
+            },
+        }
+
+        return action
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
@@ -423,7 +474,6 @@ class GSWorkerCertificate(models.Model):
         for certificate in certificates:
             certificate.generate_doc()
 
-    # FIXME location name
     def generate_doc(self):
         """
         Generates a docx/pdf document for the certificate.
@@ -492,6 +542,7 @@ class GSWorkerCertificate(models.Model):
 
             # pylint: disable-next=consider-using-dict-items
             for key in data:
+                # FIXME custom check for lessons
                 if data[key] is False:
                     raise UserError(
                         f"Missing parameter '{key}' for certificate {certificate.issue_serial}"
