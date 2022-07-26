@@ -179,6 +179,24 @@ class GSCourseLesson(models.Model):
             False,
         )
 
+        # if all(l.start_time is not False for l in vals):
+        #     sort_function = lambda x, y: -1 if x.start_date < y.start_date else 1
+        # else:
+        #     sort_function = lambda x, y: (
+        #         -1
+        #         if (
+        #             y.gs_course_type_module_id.generate_certificate
+        #             and not x.gs_course_type_module_id.generate_certificate
+        #         )
+        #         or x.name.lower() < y.name.lower()
+        #         else 1
+        #     )
+        # return sorted(
+        #     vals,
+        #     key=functools.cmp_to_key(sort_function),
+        #     reverse=reverse,
+        # )
+
     def next_lesson(self):
         """
         Returns the next lesson in the course, or False if this is the last one.

@@ -1,4 +1,5 @@
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 
 class GSCourse(models.Model):
@@ -62,6 +63,12 @@ class GSCourse(models.Model):
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type", string="Tipo Corso", tracking=True
     )
+    # gs_training_certificate_type_id = fields.Many2one(
+    #     comodel_name="gs_training_certificate_type",
+    #     string="Tipo Certificato",
+    #     related="gs_course_type_id.gs_training_certificate_type_id",
+    # )
+
     mode = fields.Selection(
         string="Modalità",
         selection=[("P", "Presenza"), ("E", "E-learning"), ("M", "Misto")],
@@ -183,3 +190,30 @@ class GSCourse(models.Model):
             course.protocol = f"COUR-{course.id}"
 
         return course
+
+    def enrollment_wizard(self):
+        """
+        Given one or more training needs, call the enrollment wizard
+        on the selected worker(s) for courses of the right type.
+        """
+        if not self:
+            raise UserError("Nessun corso selezionato")
+
+        if len(self) > 1:
+            raise UserError("Azione disponibile per un corso alla volta")
+
+        cert_type_id = self.gs_course_type_id.gs_training_certificate_type_id
+
+        action = {
+            "name": "Iscrivi lavoratore",
+            "view_mode": "form",
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_model": "gs_course_enrollment_wizard",
+            "context": {
+                "default_gs_training_certificate_type_id": cert_type_id.id,
+                "active_id": self.env.context.get("active_id"),
+            },
+        }
+
+        return action

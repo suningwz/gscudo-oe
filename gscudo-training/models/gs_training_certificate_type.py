@@ -26,6 +26,14 @@ class GSTrainingCertificateType(models.Model):
         string="Certificati implicati",
     )
 
+    stronger_certificate_ids = fields.Many2many(
+        comodel_name="gs_training_certificate_type",
+        relation="gs_training_certificate_type_rel",
+        column1="weaker",
+        column2="stronger",
+        string="Implicato da",
+    )
+
     is_multicert = fields.Boolean(string="Multicertificato", default=False)
 
     def weaker_certificates(self):

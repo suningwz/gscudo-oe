@@ -1,7 +1,7 @@
 import base64
 import logging  # pylint: disable=unused-import
 import datetime
-from datetime import date, datetime
+from datetime import datetime
 from tempfile import NamedTemporaryFile
 from dateutil.relativedelta import relativedelta
 
@@ -87,8 +87,10 @@ class GSWorkerCertificate(models.Model):
 
     note = fields.Char(string="Note")
 
-    issue_date = fields.Date(string="Data attestato", tracking=True, index=True)
-    issue_serial = fields.Char(string="Protocollo attestato", store=True, tracking=True, index=True)
+    issue_date = fields.Date(string="Data certificato", tracking=True, index=True)
+    issue_serial = fields.Char(
+        string="Protocollo certificato", store=True, tracking=True, index=True
+    )
 
     @api.model
     def create(self, vals):
@@ -102,61 +104,65 @@ class GSWorkerCertificate(models.Model):
             )
             certificate_type.ensure_one()
 
-            if certificate_type.is_multicert:
-                domain_tail = []
-                for implied_cert in certificate_type.weaker_certificate_ids:
-                    domain_tail.append(
-                        (
-                            "gs_training_certificate_type_id",
-                            "=",
-                            implied_cert.id,
-                        )
-                    )
-                domain = [("gs_worker_id", "=", vals["gs_worker_id"])]
-                domain.extend(["|" for _ in range(len(domain_tail) - 1)])
-                domain.extend(domain_tail)
-
-                certificate_to_update = self.env["gs_worker_certificate"].search(
-                    domain, limit=1, order="issue_date desc"
+            if certificate_type.is_multicert and "test_id" in vals:
+                test = self.env["gs_worker_certificate"].browse([vals.get("test_id")])
+                course_type = (
+                    test.gs_course_id.gs_course_type_id.gs_training_certificate_type_id
                 )
 
-                # For now keep the multicertificate
-                if not certificate_to_update:
-                    certificate = super().create(vals)
-                    if certificate.type == "C":
-                        certificate.issue_serial = f"CERT-{certificate.id}"
-                    return certificate
+                # FIXME this guy
+                if course_type.code != "ASR-P-AGG":
+                    vals["gs_training_certificate_type_id"] = course_type.id
 
-                    # worker = self.env["gs_worker"].browse([vals["gs_worker_id"]])
-                    # worker.ensure_one()
-                    # raise UserError(
-                    #     f"{worker.fiscalcode} non può aggiornare un certificato che non ha."
-                    # )
+                # if certificate_type.is_multicert:
+                #     domain_tail = []
+                #     for implied_cert in certificate_type.weaker_certificate_ids:
+                #         domain_tail.append(
+                #             (
+                #                 "gs_training_certificate_type_id",
+                #                 "=",
+                #                 implied_cert.id,
+                #             )
+                #         )
+                #     domain = [("gs_worker_id", "=", vals["gs_worker_id"])]
+                #     domain.extend(["|" for _ in range(len(domain_tail) - 1)])
+                #     domain.extend(domain_tail)
 
-                certificate_to_update.ensure_one()
+                #     certificate_to_update = self.env["gs_worker_certificate"].search(
+                #         domain, limit=1, order="issue_date desc"
+                #     )
 
-                new_certificate_type = (
-                    certificate_to_update.gs_training_certificate_type_id
-                )
+                #     # For now keep the multicertificate
+                #     if not certificate_to_update:
+                #         certificate = super().create(vals)
+                #         if certificate.type == "C":
+                #             certificate.issue_serial = f"CERT-{certificate.id}"
+                #         return certificate
+
+                #     certificate_to_update.ensure_one()
+
+                #     new_certificate_type = (
+                #         certificate_to_update.gs_training_certificate_type_id
+                #     )
 
                 # this is bad and fragile, but for now it is the only way we can do this
-                if certificate_type.code == "ASR-P-AGG":
-                    if self.env["gs_worker_certificate"].search(
-                        [
-                            ("gs_worker_id", "=", vals["gs_worker_id"]),
-                            ("gs_training_certificate_type_id.code", "=", "ASR-PR"),
-                        ]
-                    ):
-                        pr_type = self.env["gs_training_certificate_type"].search(
-                            [("code", "=", "ASR-PR")]
-                        )
-                        pr_type.ensure_one()
+                # if certificate_type.code == "ASR-P-AGG":
+                #     if self.env["gs_worker_certificate"].search(
+                #         [
+                #             ("gs_worker_id", "=", vals["gs_worker_id"]),
+                #             ("gs_training_certificate_type_id.code", "=", "ASR-PR"),
+                #         ]
+                #     ):
+                #         pr_type = self.env["gs_training_certificate_type"].search(
+                #             [("code", "=", "ASR-PR")]
+                #         )
+                #         pr_type.ensure_one()
 
-                        pr_vals = vals.copy()
-                        pr_vals["gs_training_certificate_type_id"] = pr_type.id
-                        self.env["gs_worker_certificate"].create(pr_vals)
+                #         pr_vals = vals.copy()
+                #         pr_vals["gs_training_certificate_type_id"] = pr_type.id
+                #         self.env["gs_worker_certificate"].create(pr_vals)
 
-                vals["gs_training_certificate_type_id"] = new_certificate_type.id
+                # vals["gs_training_certificate_type_id"] = new_certificate_type.id
 
         certificate = super().create(vals)
         if certificate.type == "C":
@@ -199,7 +205,7 @@ class GSWorkerCertificate(models.Model):
             else:
                 certificate.active = True
 
-    is_update = fields.Boolean(string="Aggiornabile", tracking=True)
+    is_update = fields.Boolean(string="Aggiornamento", tracking=True)
 
     expiry_date = fields.Date(string="Data scadenza (sawgest)")
 
@@ -368,6 +374,95 @@ class GSWorkerCertificate(models.Model):
 
         return list(reversed(enrollments))
 
+    gs_course_enrollment_ids = fields.One2many(
+        comodel_name="gs_course_enrollment",
+        inverse_name="gs_worker_certificate_id",
+        string="Iscrizioni rinnovo",
+    )
+    gs_course_enrollment_id = fields.Many2one(
+        comodel_name="gs_course_enrollment",
+        string="Iscrizione rinnovo",
+        compute="_compute_gs_course_enrollment_id",
+    )
+
+    def _compute_gs_course_enrollment_id(self):
+        for record in self:
+            if record.gs_course_enrollment_ids:
+                record.gs_course_enrollment_id = record.gs_course_enrollment_ids[0].id
+            else:
+                record.gs_course_enrollment_id = False
+
+    is_renewed = fields.Boolean(string="In rinnovo", compute="_compute_is_renewed")
+
+    def _compute_is_renewed(self):
+        for record in self:
+            record.is_renewed = bool(record.gs_course_enrollment_id)
+
+    gs_possible_course_ids = fields.One2many(
+        comodel_name="gs_course",
+        string="Corsi possibili per rinnovo",
+        compute="_compute_gs_possible_course_ids",
+    )
+
+    def _compute_gs_possible_course_ids(self):
+        for record in self:
+            record.gs_possible_course_ids = self.env["gs_course"].search(
+                [
+                    ("start_date", ">", datetime.now().date()),
+                    "|",
+                    "|",
+                    (
+                        "gs_course_type_id.gs_training_certificate_type_id.id",
+                        "=",
+                        record.gs_training_certificate_type_id.id,
+                    ),
+                    (
+                        "gs_course_type_id.gs_training_certificate_type_id.weaker_certificate_ids",
+                        "in",
+                        [record.gs_training_certificate_type_id.id],
+                    ),
+                    (
+                        # pylint: disable-next=line-too-long
+                        "gs_course_type_id.gs_training_certificate_type_id.stronger_certificate_ids",
+                        "in",
+                        [record.gs_training_certificate_type_id.id],
+                    ),
+                ]
+            )
+
+    def enrollment_wizard(self):
+        """
+        Given one or more training needs, call the enrollment wizard
+        on the selected worker(s) for courses of the right type.
+        """
+        cert_types = set(record.gs_training_certificate_type_id for record in self)
+        if len(cert_types) != 1:
+            raise UserError(
+                "Tutte le esigenze devono essere per lo stesso tipo di certificato."
+            )
+        cert_type_id = cert_types.pop().id
+
+        if any(
+            requirement.gs_course_enrollment_ids.id is not False
+            for requirement in cert_types
+        ):
+            raise UserError("Esigenza formativa già risolta")
+
+        action = {
+            "name": "Iscrivi a un corso...",
+            "view_mode": "form",
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_model": "gs_course_certificate_enrollment_wizard",
+            "context": {
+                "default_gs_training_certificate_type_id": cert_type_id,
+                # "active_id": self.env.context.get("active_id"),
+                "active_ids": self.env.context.get("active_ids"),
+            },
+        }
+
+        return action
+
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
@@ -400,14 +495,31 @@ class GSWorkerCertificate(models.Model):
         Generates a docx/pdf document for the certificate.
         """
 
-        def hours(time: int) -> str:
+        def hours(time: int):
+            if time is False:
+                return False
             hours = int(time)
             mins = int((time - hours) * 60)
             return f"{hours}:{mins:02}"
 
-        def address(partner) -> str:
-            return f"{partner.street} {partner.zip} {partner.city} ({partner.state_id.code})"
+        def address(partner):
+            if any(
+                key is False
+                for key in [
+                    partner.name,
+                    partner.street,
+                    partner.zip,
+                    partner.city,
+                    partner.state_id.code,
+                ]
+            ):
+                return False
+            return (
+                f"{partner.name} {partner.street} {partner.zip} "
+                f"{partner.city} ({partner.state_id.code})"
+            )
 
+        count = 0
         for certificate in self:
             if self.env["ir.attachment"].search(
                 [
@@ -419,13 +531,17 @@ class GSWorkerCertificate(models.Model):
 
             doc_template = certificate.test_id.gs_course_id.document_template_id
             if not doc_template:
-                raise UserError("Template mancante.")
+                raise UserError(f"Template mancante ({count} attestati generati)")
+
+            if certificate.gs_worker_id.birth_date is False:
+                raise UserError(
+                    f"Data di nascita lavoratore mancante ({count} attestati generati)"
+                )
 
             # select the data
             data = {
                 "name": certificate.gs_worker_id.name,
-                "birth_date": certificate.gs_worker_id.birth_date,
-                # FIXME
+                "birth_date": certificate.gs_worker_id.birth_date.strftime("%d/%m/%Y"),
                 "birth_place": (
                     certificate.gs_worker_id.birth_place
                     if certificate.gs_worker_id.birth_place
@@ -460,12 +576,21 @@ class GSWorkerCertificate(models.Model):
                 "issue_serial": certificate.issue_serial,
             }
 
-            # pylint: disable-next=consider-using-dict-items
-            for key in data:
-                if data[key] is False:
+            for key, value in data.items():
+                if value is False:
                     raise UserError(
-                        f"Missing parameter '{key}' for certificate {certificate.issue_serial}"
+                        f"Parametro '{key}' mancante per certificato {certificate.issue_serial} "
+                        f"({count} attestati generati)"
                     )
+
+            for lesson in data["lessons"]:
+                for key, value in lesson.items():
+                    if value is False:
+                        raise UserError(
+                            f"Parametro lezione '{key}' mancante "
+                            f"per certificato {certificate.issue_serial} "
+                            f"({count} attestati generati)"
+                        )
 
             # create the document
             with NamedTemporaryFile("w+b") as f:
@@ -491,7 +616,7 @@ class GSWorkerCertificate(models.Model):
                             f"{certificate.issue_date}"
                             ".docx"
                         ),
-                        "description": f"Generato il {date.today()}",
+                        "description": f"Generato il {datetime.now().date()}",
                         "res_model": "gs_worker_certificate",
                         "res_id": certificate.id,
                         "type": "binary",
@@ -503,6 +628,18 @@ class GSWorkerCertificate(models.Model):
                     }
                 )
 
+                count += 1
+
+        return {
+            "value": {},
+            "warning": {
+                "title": "Fatto!",
+                "message": f"{count} attestati generati."
+                if count != 1
+                else "Attestato generato.",
+            },
+        }
+
 
 class GSWorker(models.Model):
     _inherit = "gs_worker"
@@ -510,17 +647,19 @@ class GSWorker(models.Model):
     gs_worker_certificate_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
-        string="Attestati",
+        string="Certificati",
         groups="gscudo-training.group_training_backoffice",
     )
 
     gs_worker_certificate_attentionable_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
-        string="Attestati attenzionabili",
+        string="Certificati attenzionabili",
         groups="gscudo-training.group_training_backoffice",
         domain=[
             ("active", "=", True),
+            ("is_renewed", "=", False),
+            ("gs_course_enrollment_ids", "=", False),
             "|",
             "|",
             ("type", "=", "E"),
@@ -543,4 +682,5 @@ class GSWorker(models.Model):
         for worker in self:
             worker.is_attentionable = (
                 len(worker.gs_worker_certificate_attentionable_ids) > 0
+                or len(worker.gs_worker_certificate_ids) == 0
             )

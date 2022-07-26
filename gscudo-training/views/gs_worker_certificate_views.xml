@@ -16,6 +16,7 @@
                         <field name="issue_serial" />
                         <field name="expiration_date" />
                         <field name="state" />
+                        <field name="gs_course_enrollment_id" />
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
@@ -23,6 +24,7 @@
                         <field name="attendance_percentage" widget="percentage" />
                         <field name="sg_url" widget="url" />
                         <field name="note" />
+                        <field name="gs_possible_course_ids" />
                         <field name="enrollments" />
                     </group>
                 </sheet>
@@ -49,6 +51,7 @@
                 <field name="issue_serial" />
                 <field name="is_update" />
                 <field name="active" optional="hide" string="Attivo" />
+                <field name="is_renewed" optional="hide" />
                 <field
                     name="state"
                     options="{'bg_color':
@@ -96,7 +99,7 @@
                 <filter name="expiration_date" date="expiration_date" string="Data scadenza" />
                 <separator />
                 <filter name="filter_type_E" domain="[('type','=','E')]" string="Esigenza formativa" />
-                <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
+                <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato" />
                 <separator />
                 <filter
                     name="filter_ours"
@@ -122,7 +125,7 @@
 
     <!-- gs_worker_certificate action -->
     <record id="gs_worker_certificate_action_view_tree" model="ir.actions.act_window">
-        <field name="name">Certificati/Attestati</field>
+        <field name="name">Certificati</field>
         <field name="res_model">gs_worker_certificate</field>
         <field name="domain"></field>
         <!-- <field name="view_mode">tree,form,pivot</field> -->
@@ -132,7 +135,7 @@
     </record>
 
     <record id="gs_worker_certificate_action_generate_docs" model="ir.actions.server">
-        <field name="name">Genera Attestato</field>
+        <field name="name">Genera Attestati</field>
         <field name="model_id" ref="model_gs_worker_certificate" />
         <field name="state">code</field>
         <field name="code">model.generate_docs()</field>

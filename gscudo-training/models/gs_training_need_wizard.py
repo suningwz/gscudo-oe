@@ -1,5 +1,5 @@
 from datetime import date
-from odoo import fields, models
+from odoo import fields, models, api
 
 
 class GSTrainingNeedMassWizard(models.TransientModel):
@@ -12,14 +12,54 @@ class GSTrainingNeedMassWizard(models.TransientModel):
         required=True,
     )
 
+    @api.onchange("gs_training_certificate_type_id")
+    def _onchange_check_existence(self):
+        certs = self.env["gs_worker_certificate"].search(
+            [
+                ("gs_worker_id", "in", self.env.context.get("active_ids")),
+                (
+                    "gs_training_certificate_type_id",
+                    "=",
+                    self.gs_training_certificate_type_id.id,
+                ),
+            ]
+        )
+
+        if certs:
+            return {
+                "value": {},
+                "warning": {
+                    "title": "Attenzione!",
+                    "message": "Un lavoratore ha già questa esigenza."
+                    if len(certs) == 1
+                    else f"{len(certs)} lavoratori hanno già questa esigenza.",
+                },
+            }
+
     def create_training_needs(self):
         """
         Create a training need of the selected type for each
         selected worker.
         """
-        for worker in self.env.context.get("active_ids"):
-            # TODO check if there already is a training need
-            self.env["gs_worker_certificate"].create(
+        model = self.env["gs_worker_certificate"]
+        active_ids = self.env.context.get("active_ids")
+
+        count = 0
+
+        for worker in active_ids:
+            if model.search(
+                [
+                    ("gs_worker_id", "=", worker),
+                    (
+                        "gs_training_certificate_type_id",
+                        "=",
+                        self.gs_training_certificate_type_id.id,
+                    ),
+                ]
+            ):
+                continue
+
+            model.create(
                 {
                     "gs_worker_id": worker,
                     "type": "E",
@@ -27,3 +67,14 @@ class GSTrainingNeedMassWizard(models.TransientModel):
                     "issue_date": date.today(),
                 }
             )
+            count += 1
+
+        return {
+            "value": {},
+            "warning": {
+                "title": "Fatto!",
+                "message": f"{count} esigenze create."
+                if count != 1
+                else "Esigenza creata.",
+            },
+        }
