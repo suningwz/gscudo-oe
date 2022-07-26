@@ -110,6 +110,7 @@ class GSWorkerCertificate(models.Model):
                     test.gs_course_id.gs_course_type_id.gs_training_certificate_type_id
                 )
 
+                # FIXME this guy
                 if course_type.code != "ASR-P-AGG":
                     vals["gs_training_certificate_type_id"] = course_type.id
 
