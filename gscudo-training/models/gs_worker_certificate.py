@@ -421,6 +421,7 @@ class GSWorkerCertificate(models.Model):
                         [record.gs_training_certificate_type_id.id],
                     ),
                     (
+                        # pylint: disable-next=line-too-long
                         "gs_course_type_id.gs_training_certificate_type_id.stronger_certificate_ids",
                         "in",
                         [record.gs_training_certificate_type_id.id],
@@ -493,15 +494,31 @@ class GSWorkerCertificate(models.Model):
         Generates a docx/pdf document for the certificate.
         """
 
-        def hours(time: int) -> str:
+        def hours(time: int):
+            if time is False:
+                return False
             hours = int(time)
             mins = int((time - hours) * 60)
             return f"{hours}:{mins:02}"
 
-        # FIXME partner name
-        def address(partner) -> str:
-            return f"{partner.street} {partner.zip} {partner.city} ({partner.state_id.code})"
+        def address(partner):
+            if any(
+                key is False
+                for key in [
+                    partner.name,
+                    partner.street,
+                    partner.zip,
+                    partner.city,
+                    partner.state_id.code,
+                ]
+            ):
+                return False
+            return (
+                f"{partner.name} {partner.street} {partner.zip} "
+                f"{partner.city} ({partner.state_id.code})"
+            )
 
+        count = 0
         for certificate in self:
             if self.env["ir.attachment"].search(
                 [
@@ -513,16 +530,17 @@ class GSWorkerCertificate(models.Model):
 
             doc_template = certificate.test_id.gs_course_id.document_template_id
             if not doc_template:
-                raise UserError("Template mancante.")
+                raise UserError(f"Template mancante ({count} attestati generati)")
 
             if certificate.gs_worker_id.birth_date is False:
-                raise UserError("Data di nascita lavoratore mancante")
+                raise UserError(
+                    f"Data di nascita lavoratore mancante ({count} attestati generati)"
+                )
 
             # select the data
             data = {
                 "name": certificate.gs_worker_id.name,
                 "birth_date": certificate.gs_worker_id.birth_date.strftime("%d/%m/%Y"),
-                # FIXME
                 "birth_place": (
                     certificate.gs_worker_id.birth_place
                     if certificate.gs_worker_id.birth_place
@@ -557,13 +575,21 @@ class GSWorkerCertificate(models.Model):
                 "issue_serial": certificate.issue_serial,
             }
 
-            # pylint: disable-next=consider-using-dict-items
-            for key in data:
-                # FIXME custom check for lessons
-                if data[key] is False:
+            for key, value in data.items():
+                if value is False:
                     raise UserError(
-                        f"Missing parameter '{key}' for certificate {certificate.issue_serial}"
+                        f"Parametro '{key}' mancante per certificato {certificate.issue_serial} "
+                        f"({count} attestati generati)"
                     )
+
+            for lesson in data["lessons"]:
+                for key, value in lesson.items():
+                    if value is False:
+                        raise UserError(
+                            f"Parametro lezione '{key}' mancante "
+                            f"per certificato {certificate.issue_serial} "
+                            f"({count} attestati generati)"
+                        )
 
             # create the document
             with NamedTemporaryFile("w+b") as f:
@@ -601,6 +627,18 @@ class GSWorkerCertificate(models.Model):
                     }
                 )
 
+                count += 1
+
+        return {
+            "value": {},
+            "warning": {
+                "title": "Fatto!",
+                "message": f"{count} attestati generati."
+                if count != 1
+                else "Attestato generato.",
+            },
+        }
+
 
 class GSWorker(models.Model):
     _inherit = "gs_worker"
@@ -612,7 +650,6 @@ class GSWorker(models.Model):
         groups="gscudo-training.group_training_backoffice",
     )
 
-    # FIXME attentionable filter on certificates view
     gs_worker_certificate_attentionable_ids = fields.One2many(
         comodel_name="gs_worker_certificate",
         inverse_name="gs_worker_id",
@@ -620,6 +657,7 @@ class GSWorker(models.Model):
         groups="gscudo-training.group_training_backoffice",
         domain=[
             ("active", "=", True),
+            ("is_renewed", "=", False),
             ("gs_course_enrollment_ids", "=", False),
             "|",
             "|",

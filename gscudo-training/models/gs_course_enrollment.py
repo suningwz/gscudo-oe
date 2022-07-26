@@ -120,10 +120,16 @@ class GSCourseEnrollment(models.Model):
 
         return enrollment
 
-    @api.onchange("state")
-    def _onchange_state(self):
-        for l in self.gs_lesson_enrollment_ids:
-            l.state = self.state
+    def write(self, vals):
+        """
+        On state update, also update the state of each lesson enrollment.
+        """
+        if "state" in vals:
+            for e in self:
+                for l in e.gs_lesson_enrollment_ids:
+                    l.state = vals.get("state")
+
+        return super().write(vals)
 
     def unlink(self):
         """

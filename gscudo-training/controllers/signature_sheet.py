@@ -33,7 +33,7 @@ class SignatureSheetGenerator(http.Controller):
             [("code", "ilike", template_code)]
         )
         if not doc_template_ids:
-            return http.request.not_found()
+            return "Template non trovato"
         doc_template = doc_template_ids[0]
 
         courses = http.request.env["gs_course"].search([("id", "=", course_id)])
@@ -41,11 +41,26 @@ class SignatureSheetGenerator(http.Controller):
             return http.request.not_found()
         course = courses[0]
 
-        # FIXME partner name
-        def address(partner) -> str:
-            return f"{partner.street} {partner.zip} {partner.city} ({partner.state_id.code})"
+        def address(partner):
+            if any(
+                key is False
+                for key in [
+                    partner.name,
+                    partner.street,
+                    partner.zip,
+                    partner.city,
+                    partner.state_id.code,
+                ]
+            ):
+                return False
+            return (
+                f"{partner.name} {partner.street} {partner.zip} "
+                f"{partner.city} ({partner.state_id.code})"
+            )
 
-        def hours(time: int) -> str:
+        def hours(time: int):
+            if time is False:
+                return False
             hours = int(time)
             mins = int((time - hours) * 60)
             return f"{hours}:{mins:02}"
@@ -53,7 +68,6 @@ class SignatureSheetGenerator(http.Controller):
         user_tz = http.request.env.user.tz or "Europe/Rome"
         local = pytz.timezone(user_tz)
 
-        # FIXME blocking requirements
         if any(l.start_time is False for l in course.gs_course_lesson_ids):
             return "Start time required for all lessons"
 
@@ -75,26 +89,18 @@ class SignatureSheetGenerator(http.Controller):
                         if l.coteacher_partner_id.name is not False
                         else ""
                     ),
-                    # FIXME order?
                     "workers": [
                         {
                             "name": e.gs_worker_id.name,
                             "fiscalcode": e.gs_worker_id.fiscalcode,
-                            "job_description": (
-                                e.gs_worker_id.contract_job_description
-                                if e.gs_worker_id.contract_job_description is not False
-                                else ""
-                            ),
+                            "job_description": e.gs_worker_id.contract_job_description,
                             "partner": e.gs_worker_id.contract_partner_id.name,
-                            "ateco": (
-                                e.gs_worker_id.contract_partner_id.main_ateco_id.code
-                                if e.gs_worker_id.contract_partner_id.main_ateco_id.code
-                                is not False
-                                else ""
-                            ),
+                            "ateco": e.gs_worker_id.contract_partner_id.main_ateco_id.code,
                         }
-                        for e in l.gs_worker_ids
-                        if e.state != "X"
+                        for e in sorted(
+                            l.gs_worker_ids, key=lambda e: e.gs_worker_id.name.lower()
+                        )
+                        if e.state in ["A", "C"]
                     ],
                 }
                 for l in sorted(course.gs_course_lesson_ids, key=lambda l: l.start_time)
@@ -102,11 +108,22 @@ class SignatureSheetGenerator(http.Controller):
             ],
         }
 
-        # pylint: disable-next=consider-using-dict-items
-        for key in data:
-            # FIXME custom check tor lessons and workers
-            if data[key] is False:
-                return f"Missing data: {key}"
+        for key, value in data.items():
+            if value is False:
+                return f"ERRORE: Parametro '{key}' mancante"
+
+        for lesson in data["lessons"]:
+            for key, value in lesson.items():
+                if value is False:
+                    return (
+                        f"ERRORE: Parametro lezione '{key}' mancante "
+                        f"per lezione del {lesson['date']} {lesson['start_time']}"
+                    )
+
+            for worker in lesson["workers"]:
+                for key, value in worker.items():
+                    if value is False:
+                        return f"ERRORE: Parametro lavoratore '{key}' mancante per {worker['name']}"
 
         # pylint: disable-next=consider-using-with
         f = NamedTemporaryFile()

@@ -24,7 +24,6 @@
                         <field name="attendance_percentage" widget="percentage" />
                         <field name="sg_url" widget="url" />
                         <field name="note" />
-                        <!-- FIXME fields in tree -->
                         <field name="gs_possible_course_ids" />
                         <field name="enrollments" />
                     </group>
