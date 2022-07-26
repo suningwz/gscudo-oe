@@ -9,10 +9,25 @@
                     <group>
                         <field
                             name="gs_course_id"
-                            domain="[(
-                                'gs_course_type_id.gs_training_certificate_type_id.id',
-                                '=',
-                                gs_training_certificate_type_id)]"
+                            domain="[
+                                '|',
+                                '|',
+                                (
+                                    'gs_course_type_id.gs_training_certificate_type_id.id',
+                                    '=',
+                                    gs_training_certificate_type_id
+                                ),
+                                (
+                                    'gs_course_type_id.gs_training_certificate_type_id.weaker_certificate_ids',
+                                    'in',
+                                    [gs_training_certificate_type_id]
+                                ),
+                                (
+                                    'gs_course_type_id.gs_training_certificate_type_id.stronger_certificate_ids',
+                                    'in',
+                                    [gs_training_certificate_type_id]
+                                ),
+                                ]"
                             />
                         <field name="gs_training_certificate_type_id" invisible="1" />
                     </group>
@@ -45,12 +60,24 @@
                         <field
                             name="gs_worker_certificate_id"
                             domain="[
+                                ('gs_course_enrollment_ids', '=', False),
+                                '|',
+                                '|',
                                 (
                                     'gs_training_certificate_type_id.id',
                                     '=',
                                     gs_training_certificate_type_id
                                 ),
-                                ('gs_course_enrollment_ids', '=', False),
+                                (
+                                    'gs_training_certificate_type_id.weaker_certificate_ids',
+                                    'in',
+                                    [gs_training_certificate_type_id]
+                                ),
+                                (
+                                    'gs_training_certificate_type_id.stronger_certificate_ids',
+                                    'in',
+                                    [gs_training_certificate_type_id]
+                                ),
                             ]"
                         />
                         <field name="gs_training_certificate_type_id" invisible="1" />

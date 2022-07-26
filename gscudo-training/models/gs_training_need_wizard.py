@@ -17,10 +17,26 @@ class GSTrainingNeedMassWizard(models.TransientModel):
         Create a training need of the selected type for each
         selected worker.
         """
-        for worker in self.env.context.get("active_ids"):
-            # TODO check if there already is a training need
+        model = self.env["gs_worker_certificate"]
+        active_ids = self.env.context.get("active_ids")
+
+        # FIXME how to manage this?
+        if model.search(
+            [
+                ("gs_worker_id", "in", active_ids),
+                (
+                    "gs_training_certificate_type_id",
+                    "=",
+                    self.gs_training_certificate_type_id.id,
+                ),
+            ]
+        ):
+            # raise UserError("Esigenza formativa già presente")
+            pass
+
+        for worker in active_ids:
             # TODO return the created stuff
-            self.env["gs_worker_certificate"].create(
+            model.create(
                 {
                     "gs_worker_id": worker,
                     "type": "E",
