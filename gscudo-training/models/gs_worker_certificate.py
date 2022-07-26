@@ -423,7 +423,7 @@ class GSWorkerCertificate(models.Model):
                     (
                         "gs_course_type_id.gs_training_certificate_type_id.stronger_certificate_ids",
                         "in",
-                        [record.gs_training_certificate_type_id],
+                        [record.gs_training_certificate_type_id.id],
                     ),
                 ]
             )
