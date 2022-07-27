@@ -63,7 +63,7 @@ class GSCourseCertificateEnrollmentWizard(models.TransientModel):
         # ):
         #     raise UserError("Esigenza formativa già risolta")
 
-        count = 0
+        # count = 0
         for requirement in active_requirements:
             if model.search(
                 [
@@ -82,17 +82,17 @@ class GSCourseCertificateEnrollmentWizard(models.TransientModel):
             }
 
             model.create(data)
-            count += 1
+            # count += 1
 
-        return {
-            "value": {},
-            "warning": {
-                "title": "Fatto!",
-                "message": "Lavoratore iscritto al corso."
-                if count == 1
-                else f"{count} lavoratori iscritti al corso.",
-            },
-        }
+        # return {
+        #     "value": {},
+        #     "warning": {
+        #         "title": "Fatto!",
+        #         "message": "Lavoratore iscritto al corso."
+        #         if count == 1
+        #         else f"{count} lavoratori iscritti al corso.",
+        #     },
+        # }
 
 
 class GSCourseEnrollmentWizard(models.TransientModel):
@@ -172,10 +172,10 @@ class GSCourseEnrollmentWizard(models.TransientModel):
 
         model.create(data)
 
-        return {
-            "value": {},
-            "warning": {
-                "title": "Fatto!",
-                "message": "Lavoratore iscritto al corso.",
-            },
-        }
+        # return {
+        #     "value": {},
+        #     "warning": {
+        #         "title": "Fatto!",
+        #         "message": "Lavoratore iscritto al corso.",
+        #     },
+        # }

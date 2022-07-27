@@ -35,6 +35,7 @@ class GSTrainingCertificateType(models.Model):
     )
 
     is_multicert = fields.Boolean(string="Multicertificato", default=False)
+    generates_multicert = fields.Boolean(string="Genera più certificati", default=False)
 
     def weaker_certificates(self):
         """

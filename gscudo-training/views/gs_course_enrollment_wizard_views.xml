@@ -92,7 +92,7 @@
     </record>
 
     <record id="gs_course_enrollment_wizard_action" model="ir.actions.server">
-        <field name="name">Iscrivi lavoratori</field>
+        <field name="name">Iscrivi lavoratore</field>
         <field name="model_id" ref="model_gs_course"/>
         <field name="type">ir.actions.server</field>
         <field name="state">code</field>

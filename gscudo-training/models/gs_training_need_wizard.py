@@ -44,7 +44,7 @@ class GSTrainingNeedMassWizard(models.TransientModel):
         model = self.env["gs_worker_certificate"]
         active_ids = self.env.context.get("active_ids")
 
-        count = 0
+        # count = 0
 
         for worker in active_ids:
             if model.search(
@@ -67,14 +67,14 @@ class GSTrainingNeedMassWizard(models.TransientModel):
                     "issue_date": date.today(),
                 }
             )
-            count += 1
+            # count += 1
 
-        return {
-            "value": {},
-            "warning": {
-                "title": "Fatto!",
-                "message": f"{count} esigenze create."
-                if count != 1
-                else "Esigenza creata.",
-            },
-        }
+        # return {
+        #     "value": {},
+        #     "warning": {
+        #         "title": "Fatto!",
+        #         "message": f"{count} esigenze create."
+        #         if count != 1
+        #         else "Esigenza creata.",
+        #     },
+        # }

@@ -9,10 +9,10 @@
                     <group>
                         <field name="gs_worker_id" />
                         <field name="contract_partner_id" />
-                        <field name="gs_training_certificate_type_id" />
+                        <field name="gs_training_certificate_type_id" required="1" />
                         <field name="name" />
                         <field name="type" />
-                        <field name="issue_date" />
+                        <field name="issue_date" required="1" />
                         <field name="issue_serial" />
                         <field name="expiration_date" />
                         <field name="state" />
