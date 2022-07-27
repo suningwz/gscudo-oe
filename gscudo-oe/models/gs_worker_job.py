@@ -20,12 +20,12 @@ class WorkerJob(models.Model):
 
     active = fields.Boolean(string="Attivo", default=True)
     gs_worker_contract_id = fields.Many2one(
-        comodel_name="gs_worker_contract", string="Contratto"
+        comodel_name="gs_worker_contract", string="Contratto", index=True,
     )
     gs_worker_id = fields.Many2one(
         related="gs_worker_contract_id.gs_worker_id",
         comodel_name="gs_worker",
-        string="Lavoratore",
+        string="Lavoratore", index=True,
     )
 
     gs_worker_job_type_id = fields.Many2one(

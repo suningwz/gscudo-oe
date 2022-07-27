@@ -17,8 +17,8 @@ class WorkerMedicalCheck(models.Model):
     name = fields.Char(string='Descrizione visita', readonly=True)
 
     active = fields.Boolean(string='Attivo', default = True)
-    gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore')
-    contract_partner_id = fields.Many2one(related='gs_worker_id.contract_partner_id', string='Azienda')
+    gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore', index=True,)
+    contract_partner_id = fields.Many2one(related='gs_worker_id.contract_partner_id', string='Azienda', index=True,)
     company_doctor = fields.Char(related='contract_partner_id.doctor', string='Medico competente')
     medical_locum = fields.Char(string='Medico sostituto')
     medical_supplier = fields.Char(related='contract_partner_id.medical_supplier', string='Fornitore assegnato')

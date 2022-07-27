@@ -34,17 +34,17 @@ class ResPartner(models.Model):
                     record.sg_url = False
 
     tmk_user_id = fields.Many2one(
-        comodel_name="res.users", string="Telemarketing operator"
+        comodel_name="res.users", string="Telemarketing operator", index=True,
     )
     gs_partner_division_id = fields.Many2one(
-        comodel_name="gs_partner_division", string="Division"
+        comodel_name="gs_partner_division", string="Division", index=True,
     )
 
     revenue = fields.Integer(string="Fatturato")
     balance_year = fields.Integer(string="Anno bilancio", default="")
     employee_qty = fields.Integer(string="Addetti")
     main_ateco_id = fields.Many2one(
-        comodel_name="ateco.category", string="Descrizione ATECO 2007"
+        comodel_name="ateco.category", string="Descrizione ATECO 2007", index=True,
     )
     rating = fields.Integer(string="Rating")
     share_capital = fields.Float(string="Capitale Sociale")
@@ -114,7 +114,7 @@ class ResPartner(models.Model):
         string="Conc. Sicurezza",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     training_competitor_type = fields.Selection(
@@ -128,7 +128,7 @@ class ResPartner(models.Model):
         string="Conc. Formazione",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     food_competitor_type = fields.Selection(
@@ -142,7 +142,7 @@ class ResPartner(models.Model):
         string="Conc. Alimentare",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     machdir_competitor_type = fields.Selection(
@@ -157,6 +157,7 @@ class ResPartner(models.Model):
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
         tracking=True,
+        index=True,
     )
 
     healthsurv_competitor_type = fields.Selection(
@@ -170,7 +171,7 @@ class ResPartner(models.Model):
         string="Conc. Sorv. Sanit.",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     environment_competitor_type = fields.Selection(
@@ -184,7 +185,7 @@ class ResPartner(models.Model):
         string="Conc. Ambientale",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     management_competitor_type = fields.Selection(
@@ -198,7 +199,7 @@ class ResPartner(models.Model):
         string="Conc. Sistemi Gest.",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     has_competitors = fields.Boolean(

@@ -12,9 +12,9 @@ class WorkerContract(models.Model):
     name = fields.Char(string="Nome", compute="_compute_name", store=True)
     active = fields.Boolean(string="Attivo", default=True)
     note = fields.Char(string="Note")
-    gs_worker_id = fields.Many2one(comodel_name="gs_worker", string="Lavoratore")
+    gs_worker_id = fields.Many2one(comodel_name="gs_worker", string="Lavoratore" , required=True, index=True)
     partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Azienda/Sede", required=True
+        comodel_name="res.partner", string="Azienda/Sede", required=True, index=True
     )
     is_owner = fields.Boolean(string="È Titolare")
     is_dependent = fields.Boolean(string="È dipendente")
@@ -66,12 +66,14 @@ class GSWorker(models.Model):
         comodel_name="gs_worker_contract",
         string="Impiego attuale",
         # domain="[('gs_worker_id'),'=',id]"
+        index=True,
     )
     contract_partner_id = fields.Many2one(
         related="gs_worker_contract_id.partner_id",
         comodel_name="res.partner",
         string="Azienda/Sede",
         store=True,
+        index=True,
     )
     contract_employee_serial = fields.Char(
         related="gs_worker_contract_id.employee_serial",

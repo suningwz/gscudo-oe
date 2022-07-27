@@ -5,9 +5,11 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     product_family_id = fields.Many2one(
-        comodel_name="gs_product_family", string="Famiglia"
+        comodel_name="gs_product_family", string="Famiglia", index=True,
     )
     law_reference = fields.Char(string="Riferimento normativo")
+    project_template_id = fields.Many2one(string="Modello Progetto", comodel_name= "project.project", )
+    task_template_id = fields.Many2one(string="Modello Attività", comodel_name= "project.task", )
 
     sg_product_id = fields.Integer(string="ID prodotto SaWGest")
     sg_product_url = fields.Char(

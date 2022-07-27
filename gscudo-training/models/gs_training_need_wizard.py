@@ -9,7 +9,7 @@ class GSTrainingNeedMassWizard(models.TransientModel):
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
         string="Tipo di certificato",
-        required=True,
+        required=True, index=True,
     )
 
     def create_training_needs(self):

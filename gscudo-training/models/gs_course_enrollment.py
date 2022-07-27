@@ -10,15 +10,15 @@ class GSCourseEnrollment(models.Model):
 
     name = fields.Char(string="Nome")
     gs_course_id = fields.Many2one(
-        comodel_name="gs_course", string="Corso", required=True, tracking=True
+        comodel_name="gs_course", string="Corso", required=True, tracking=True, index=True,
     )
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", required=True, tracking=True
+        comodel_name="gs_worker", string="Lavoratore", required=True, tracking=True, index=True,
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Azienda",
-        related="gs_worker_id.contract_partner_id",
+        related="gs_worker_id.contract_partner_id", 
     )
     state = fields.Selection(
         string="Stato",

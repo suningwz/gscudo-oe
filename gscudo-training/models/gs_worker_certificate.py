@@ -36,7 +36,7 @@ class GSWorkerCertificate(models.Model):
             )
 
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True
+        comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True,
     )
     contract_partner_id = fields.Many2one(
         related="gs_worker_id.contract_partner_id",

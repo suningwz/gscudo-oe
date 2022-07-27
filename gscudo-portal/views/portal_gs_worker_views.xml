@@ -44,6 +44,7 @@
         <field name="domain"></field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gscudo-portal.gs_worker_portal_view_tree" />
+        <field name="groups" ref="base.group_portal"/>
     </record>
     <menuitem id="portal_gs_worker_menu" name="Portal Lavoratori" parent="gscudo-oe.gs_worker_main_menu" sequence="99" action="portal_view_gs_worker_action" groups="gscudo-oe.group_manager" />
 
