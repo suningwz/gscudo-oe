@@ -35,13 +35,14 @@
                         <field name="elearning" />
                         <field name="note" />
                         <field name="id_sawgest" />
+                        <field name="url_sawgest" widget="url" />
                     </group>
                     <group>
                         <field name="teacher_partner_id" />
                         <field name="is_teacher_remote" />
                         <field name="coteacher_partner_id" />
                         <field name="is_coteacher_remote" />
-                        <field name="meeting_url" />
+                        <field name="meeting_url" widget="url" />
                     </group>
                     <group>
                         <field name="gs_worker_ids">
@@ -85,6 +86,46 @@
         </field>
     </record>
 
+    <record id="gs_course_lesson_view_calendar" model="ir.ui.view">
+        <field name="name">gs_course_lesson_view_calendar</field>
+        <field name="model">gs_course_lesson</field>
+        <field name="arch" type="xml">
+            <calendar
+                date_start="start_time"
+                date_stop="end_time"
+                color="state"
+                mode="week"
+                quick_add="0"
+            />
+        </field>
+    </record>
+
+    <record id="gs_course_lesson_view_search" model="ir.ui.view">
+        <field name="name">gs_course_lesson_view_search</field>
+        <field name="model">gs_course_lesson</field>
+        <field name="arch" type="xml">
+            <search>
+                <!-- Search fields -->
+                <field name="gs_course_id" />
+                <field name="start_time" />
+                <field name="id_sawgest" />
+
+                <!-- Filters -->
+                <filter name="filter_tentative" domain="[('state', '=', 'tentative')]" string="Provvisorie" />
+                <filter name="filter_final" domain="[('state', '=', 'final')]" string="Definitive" />
+                <separator />
+                <filter name="filter_not_aifos" domain="[('gs_course_type_id.code', 'not ilike', 'aifos')]" string="Non AiFOS" />
+
+                <!-- Groups -->
+                <group expand="1" string="Group By">
+                    <filter string="Stato" name="state" context="{'group_by':'state'}" />
+                    <filter string="Inizio" name="start_time" context="{'group_by':'start_time'}" />
+                    <filter string="Corso" name="gs_course_id" context="{'group_by':'gs_course_id'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
     <record id="gs_course_lesson_action_generate_certificates" model="ir.actions.server">
         <field name="name">Genera Certificati</field>
         <field name="model_id" ref="model_gs_course_lesson" />
@@ -110,7 +151,7 @@ action = {
         <field name="name">Lezioni</field>
         <field name="res_model">gs_course_lesson</field>
         <field name="domain"></field>
-        <field name="view_mode">tree,form</field>
+        <field name="view_mode">tree,form,calendar</field>
         <field name="view_id" ref="gs_course_lesson_view_tree" />
     </record>
 

@@ -9,9 +9,9 @@
     "license": "Other proprietary",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.18",
+    "version": "14.0.1.20",
     "depends": ["base"],
-    #"external_dependencies": {"python": ["docxtpl"]},
+    "external_dependencies": {"python": ["docxtpl"]},
     "data": [
         "security/ir.model.access.csv",
         "views/word_template_views.xml",

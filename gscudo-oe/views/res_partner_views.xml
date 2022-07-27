@@ -160,4 +160,31 @@
             </xpath>
         </field>
     </record>
+
+    <record id="view_partner_tree" model="ir.ui.view">
+        <field name="name">view_partner_tree_inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_partner_tree" />
+        <field name="arch" type="xml">
+            <xpath expr="//field[last()]" position="after">
+                <field name="is_customer" optional="hide" />
+                <field name="has_safety" optional="hide" />
+                <field name="has_training_manager" optional="hide" />
+                <field name="has_healthsurv" optional="hide" />
+            </xpath>
+        </field>
+    </record>
+
+    <!-- Search view -->
+    <record id="view_res_partner_filter" model="ir.ui.view">
+        <field name="name">view_res_partner_filter_inherited</field>
+        <field name="model">res.partner</field>
+        <field name="inherit_id" ref="base.view_res_partner_filter" />
+        <field name="arch" type="xml">
+            <xpath expr="(//filter)[1]" position="before">
+                <filter string="Sede principale" name="main_branch" domain="[('child_ids', '=', False)]"/>
+                <separator />
+            </xpath>
+        </field>
+    </record>
 </odoo>
