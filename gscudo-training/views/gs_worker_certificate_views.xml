@@ -106,6 +106,7 @@
                     domain="['|', ('has_training_manager','=',True),('has_safety','=',True)]"
                     string="Nostri clienti"
                 />
+                <separator />
                 <filter
                     name="filter_all"
                     domain="['|', ('active','=',True), ('active','=',False)]"
