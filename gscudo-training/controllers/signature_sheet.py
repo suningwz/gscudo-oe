@@ -146,3 +146,12 @@ class SignatureSheetGenerator(http.Controller):
             )
             logger.error(e)
             return "Error in the template"
+
+
+class EchoController(http.Controller):
+    @http.route(
+        "/echo/<string:msg>",
+        auth="user",
+    )
+    def echo_controller(self, **kw):
+        return json.dumps({"msg": kw["msg"]})
