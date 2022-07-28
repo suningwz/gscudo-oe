@@ -1,4 +1,5 @@
 import base64
+import json
 import logging
 from tempfile import NamedTemporaryFile
 import pytz
@@ -109,6 +110,7 @@ class SignatureSheetGenerator(http.Controller):
         }
 
         logger.info("creating signature sheet with data = %s", data)
+        return json.dumps(data)
 
         for key, value in data.items():
             if value is False:
