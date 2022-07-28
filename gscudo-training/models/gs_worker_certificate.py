@@ -539,6 +539,12 @@ class GSWorkerCertificate(models.Model):
 
         # here self should always be a single certificate, so we could remove this loop
         for certificate in self:
+            # FIXME test this
+            if certificate.test_id and not certificate.test_id.gs_course_id.is_internal:
+                raise UserError(
+                    "Impossibile generare certificati per corsi non gestiti."
+                )
+
             if self.env["ir.attachment"].search(
                 [
                     ("res_model", "=", "gs_worker_certificate"),
