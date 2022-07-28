@@ -60,11 +60,13 @@ class GSWorkerCertificate(models.Model):
     has_training_manager = fields.Boolean(
         string="Manager Formativo",
         related="gs_worker_id.contract_partner_id.has_training_manager",
+        index=True,
     )
 
     has_safety = fields.Boolean(
         string="RSPP/Supporto RSPP",
         related="gs_worker_id.contract_partner_id.has_safety",
+        index=True,
     )
 
     gs_training_certificate_type_id = fields.Many2one(
@@ -120,6 +122,7 @@ class GSWorkerCertificate(models.Model):
                 domain = [
                     ("active", "=", True),
                     ("gs_worker_id", "=", vals["gs_worker_id"]),
+                    ("issue_date", "<=", vals["issue_date"]),
                 ]
                 domain.extend(["|" for _ in range(len(domain_tail) - 1)])
                 domain.extend(domain_tail)
@@ -203,11 +206,9 @@ class GSWorkerCertificate(models.Model):
                 if certificate_dates and certificate.issue_date is not False:
                     # a certificate is active if its date is the biggest among the
                     # certificates of the same type
-                    certificate.active = certificate.issue_date == max(
+                    certificate.active = certificate.issue_date >= max(
                         certificate_dates
                     )
-                # else:
-                #     certificate.active = True
 
     is_update = fields.Boolean(string="Aggiornamento", tracking=True)
 
