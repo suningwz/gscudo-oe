@@ -109,9 +109,6 @@ class SignatureSheetGenerator(http.Controller):
             ],
         }
 
-        logger.info("creating signature sheet with data = %s", data)
-        return json.dumps(data)
-
         for key, value in data.items():
             if value is False:
                 return f"ERRORE: Parametro '{key}' mancante"
@@ -154,4 +151,7 @@ class EchoController(http.Controller):
         auth="user",
     )
     def echo_controller(self, **kw):
+        """
+        An echo test.
+        """
         return json.dumps({"msg": kw["msg"]})

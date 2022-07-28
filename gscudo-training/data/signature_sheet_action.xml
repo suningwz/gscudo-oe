@@ -7,7 +7,7 @@
         <field name="state">code</field>
         <field name="code">action = {
     'type': 'ir.actions.act_url',
-    'url': '/gscudo-training/doc/signature_sheet/signature_sheet_template/' + str(record.id),
+    'url': '/gscudo-training/doc/signature_sheet/signature_sheet_template/' + str(record.id) + '?' + model.rand(),
     'target': 'new'
 }
         </field>

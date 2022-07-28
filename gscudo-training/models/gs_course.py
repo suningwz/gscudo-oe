@@ -1,3 +1,4 @@
+import random
 from odoo import fields, models, api
 from odoo.exceptions import UserError
 
@@ -217,3 +218,10 @@ class GSCourse(models.Model):
         }
 
         return action
+
+    @staticmethod
+    def rand():
+        """
+        Return a random 6 character string.
+        """
+        return str(random.randint(100000, 999999))
