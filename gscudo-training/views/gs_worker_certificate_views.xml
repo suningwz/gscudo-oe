@@ -7,16 +7,16 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="gs_worker_id" />
-                        <field name="contract_partner_id" />
-                        <field name="gs_training_certificate_type_id" required="1" />
+                        <field name="gs_worker_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="contract_partner_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="gs_training_certificate_type_id" required="1" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="name" />
                         <field name="type" />
                         <field name="issue_date" required="1" />
                         <field name="issue_serial" />
                         <field name="expiration_date" />
                         <field name="state" />
-                        <field name="gs_course_enrollment_id" />
+                        <field name="gs_course_enrollment_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
@@ -24,7 +24,7 @@
                         <field name="attendance_percentage" widget="percentage" />
                         <field name="sg_url" widget="url" />
                         <field name="note" />
-                        <field name="gs_possible_course_ids" />
+                        <field name="gs_possible_course_ids" readonly="1" />
                         <field name="enrollments" />
                     </group>
                 </sheet>
