@@ -8,6 +8,19 @@
         <field name="priority">99</field>
         <field name="arch" type="xml">
             <!-- Add your xpath here -->
+            <xpath expr="//div[@id='probability']" position="replace">
+                <div id="probability" class="o_row d-flex">
+                    <field name="is_automated_probability" invisible="1"/>
+                    <field name="probability" widget="float" class="oe_inline" invisible="1"/>
+                    <field name="customer_status" class="oe_inline" />
+                </div>
+            </xpath>
+             <xpath expr="//label[@for='probability']" position="attributes">
+                <attribute name='string'>Status</attribute>
+                <attribute name='attrs'>
+                  {'invisible': [('type','=','opportunity')]}
+                </attribute>
+            </xpath>
             <field name="partner_id" position="after">
                 <field name="fiscalcode" />
                 <field name="cciaa" />
@@ -16,17 +29,14 @@
             <field name="user_id" position="replace">
                 <field name="user_id" domain="[('is_saleagent','=',True)]" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
                 <field name="tmk_user_id" domain="[('is_telemarketer','=',True)]" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
-                <field name="gs_partner_division_id" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
-                <field name="sg_branches_id" readonly="1" />
-                <field name="sg_updated_at" readonly="1" />
-                <field name="sg_synched_at" readonly="1" />
-                <field name="sg_url" widget="url" readonly="1" text="link" />
-                <field name="sg_offers_url" widget="url" readonly="1" text="link" />
-            </field>
-            <field name="tag_ids" position="after">
                 <field name="has_competitors" />
-                <field name="is_customer" />
+                <!-- <field name="is_customer" /> -->
+                <field name="last_accepted_offer"/>
+                <field name="next_expiring_offer"/>
+                <field name="customer_status"/>
+                
             </field>
+            
             <notebook position="inside">
                 <page name="analysis" string="Dati Attività">
                     <group>
@@ -97,6 +107,39 @@
                         </group>
                     </group>
                 </page>
+                <page name="sawgest" string="SawGest">
+                    <group>
+                    <field name="gs_partner_division_id" options="{'no_create':True, 'no_edit':True, 'no_open':True}" />
+                    <field name="sg_branches_id" readonly="1" />
+                    <field name="sg_updated_at" readonly="1" />
+                    <field name="sg_synched_at" readonly="1" />
+                    <field name="sg_url" widget="url" readonly="1" text="link" />
+                    <field name="sg_offers_url" widget="url" readonly="1" text="link" />
+                    </group>
+                </page>
+                <page name="additional_contacts" string="Contatti Aggiuntivi">
+                    <group col="2">
+                        <group>
+                        <field name="add_contact_name1"/>
+                        <field name="add_position_1"/>
+                        <field name="add_email_1" widget="email"/>
+                        <field name="add_phone_1" widget="phone"/>
+                        </group>
+                        <group>
+                        <field name="add_contact_name2"/>
+                        <field name="add_position_2"/>
+                        <field name="add_email_2" widget="email"/>
+                        <field name="add_phone_2" widget="phone"/>
+                        </group>
+                    
+                        <group>
+                        <field name="add_contact_name3"/>
+                        <field name="add_position_3"/>
+                        <field name="add_email_3" widget="email"/>
+                        <field name="add_phone_3" widget="phone"/>
+                        </group>
+                    </group>
+                </page>
             </notebook>
         </field>
     </record>
@@ -124,10 +167,18 @@
         <field name="model">crm.lead</field>
         <field name="inherit_id" ref="crm.crm_case_tree_view_leads" />
         <field name="arch" type="xml">
+            
+            <xpath expr="//tree" position="attributes">
+                <attribute name="decoration-success">customer_status == 'Cliente'</attribute>
+                <attribute name="decoration-bf">customer_status == 'Cliente'</attribute>
+                <attribute name="decoration-warning">customer_status == 'Dormiente'</attribute>
+            </xpath>
             <field name="user_id" position="after">
                 <field name="tmk_user_id" widget="many2one_avatar_user" />
+            <field name="customer_status" optional="hide"/>
             </field>
         </field>
+        
     </record>
-
+   
 </odoo>

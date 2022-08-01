@@ -1,7 +1,10 @@
 # from datetime import datetime
+from calendar import month
 import re
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
+from datetime import date, timedelta
+
 
 COMPETITOR_TYPE = [
     ("", "Non definito"),
@@ -78,6 +81,21 @@ class CrmLead(models.Model):
     share_capital = fields.Float(string="Capitale Sociale")
     credit_limit = fields.Float(string="Fido")
     prejudicials = fields.Boolean(string="Pregiudizievoli")
+
+    add_contact_name1 = fields.Char(string='Nome contatto 1')
+    add_position_1  = fields.Char(string='Ruolo 1')
+    add_email_1 = fields.Char(string='Email 1')
+    add_phone_1  = fields.Char(string='Telefono 1')
+
+    add_contact_name2 = fields.Char(string='Nome contatto 2')
+    add_position_2  = fields.Char(string='Ruolo 2')
+    add_email_2 = fields.Char(string='Email 2')
+    add_phone_2  = fields.Char(string='Telefono 2')
+    
+    add_contact_name3 = fields.Char(string='Nome contatto 3')
+    add_position_3  = fields.Char(string='Ruolo 3')
+    add_email_3 = fields.Char(string='Email 3')
+    add_phone_3  = fields.Char(string='Telefono 3')
 
     ##### Competitors
     # def COMPETITOR_TYPE(self):
@@ -193,6 +211,9 @@ class CrmLead(models.Model):
         string="È cliente", compute="_compute_has_competitor", store=True
     )
 
+
+   
+   
     @api.depends(
         "safety_competitor_type",
         "training_competitor_type",
@@ -225,6 +246,22 @@ class CrmLead(models.Model):
                 or record.environment_competitor_type == "cli"
             ):
                 record.is_customer = True
+
+    last_accepted_offer = fields.Date(string='Ultima offerta accettata')
+    next_expiring_offer = fields.Date(string='Prossima offerta in scadenza')
+    customer_status = fields.Char(string='Status', compute='_compute_customer_status', store=True)
+    
+   
+    @api.depends("last_accepted_offer")
+    def _compute_customer_status(self):
+        for record in self:
+            if record.last_accepted_offer:
+                if record.last_accepted_offer > date.today() - timedelta(days = 365):
+                    record.customer_status = 'Cliente'
+                else:
+                    record.customer_status = 'Dormiente'
+            else:
+                record.customer_status = 'Potenziale'
 
     @api.constrains("vat", "country_id")
     def _check_vat_ita(self):
