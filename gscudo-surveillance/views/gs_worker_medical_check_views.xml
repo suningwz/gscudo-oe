@@ -15,7 +15,8 @@
                             <field name="birth_date"/>
                         </group>
                         <group string="Dati Azienda">
-                            <field name="contract_partner_id"/>
+                            <!-- <field name="contract_partner_id"/> -->
+                            <field name="contract_partner_name"/>
                             <field name="company_doctor"/>
                             <field name="medical_supplier"/>
                         </group>
@@ -46,15 +47,17 @@
         <field name="model">gs_worker_medical_check</field>
         <field name="arch" type="xml">
             <tree default_order="name,execution_date">
-                <field name="name" />
-                <field name="contract_partner_id"/>
-                <field name="company_doctor"/>
-                <field name="gs_worker_id" />
-                <field name="execution_date" />
-                <field name="gs_medical_check_type_id" />
-                <field name="gs_medical_check_frequency_id" />
-                <field name="expiry_date" />
-                <field name="schedule_time" />
+                <field name="name" optional="show"/>
+                <field name="contract_partner_name" optional="show"/>
+                <field name="company_doctor" optional="show"/>
+                <field name="gs_worker_id" optional="show"/>
+                <field name="execution_date" optional="show"/>
+                <field name="gs_medical_check_type_id" optional="show"/>
+                <field name="gs_medical_check_frequency_id" optional="show"/>
+                <field name="expiry_date" optional="show"/>
+                <field name="schedule_time" optional="show"/>
+                <field name="expiring" optional="show"/>
+                <field name="expired" optional="show"/>
             </tree>
         </field>
     </record>
