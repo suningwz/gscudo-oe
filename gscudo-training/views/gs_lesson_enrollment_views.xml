@@ -8,15 +8,15 @@
                 <sheet>
                     <group>
                         <field name="name" />
-                        <field name="gs_course_id" />
-                        <field name="gs_worker_id" />
+                        <field name="gs_course_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="gs_worker_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="state" />
                         <field name="enrollment_date" />
-                        <field name="gs_course_lesson_id" />
+                        <field name="gs_course_lesson_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="is_attendant" />
                         <field name="attended_hours" widget="float_time" />
                         <field name="implicit" />
-                        <field name="previous_enrollment_id" />
+                        <field name="previous_enrollment_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">

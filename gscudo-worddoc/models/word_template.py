@@ -5,15 +5,15 @@ from odoo import fields, models
 _logger = logging.getLogger(__name__)
 
 
-class ModuleName(models.Model):
+class WordTemplate(models.Model):
     _name = "word_template"
     _description = "Word Template"
 
-    name = fields.Char(string="Nome modello", required=True)
+    name = fields.Char(string="Nome template", required=True)
     code = fields.Char(
-        string="Codice del modello",
+        string="Codice del template",
         required=True,
-        help="codice del modello, usa solo lettere,numeri e _  senza spazi",
+        help="Usare solo lettere, numeri e _ senza spazi",
     )
     _sql_constraints = [
         (

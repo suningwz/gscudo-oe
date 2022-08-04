@@ -1,4 +1,6 @@
+import random
 from odoo import fields, models, api
+from odoo.exceptions import UserError
 
 
 class GSCourse(models.Model):
@@ -6,10 +8,20 @@ class GSCourse(models.Model):
     _description = "Corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Corso")
+    def _get_document_folder(self):
+        return self.env["documents.folder"].search([("name", "=", "Formazione")])
+
+    def _get_document_tags(self):
+        # pylint: disable-next=no-else-return
+        if self.generate_certificate:
+            return self.env["documents.tag"].search([("name", "=", "Test finale")])
+        else:
+            return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
+
+    name = fields.Char(string="Corso", index=True)
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
-    protocol = fields.Char(string="Protocollo")
+    protocol = fields.Char(string="Protocollo", index=True)
     partner_id = fields.Many2one(comodel_name="res.partner", string="Cliente")
 
     state = fields.Selection(
@@ -34,8 +46,13 @@ class GSCourse(models.Model):
     location_partner_id = fields.Many2one(
         comodel_name="res.partner", string="Sede", tracking=True
     )
-    start_date = fields.Date(string="Data inizio", tracking=True)
-    end_date = fields.Date(string="Data termine", tracking=True)
+
+    teacher_partner_id = fields.Many2one(
+        comodel_name="res.partner", string="Docente", tracking=True
+    )
+
+    start_date = fields.Date(string="Data inizio", tracking=True, index=True)
+    end_date = fields.Date(string="Data termine", tracking=True, index=True)
 
     duration = fields.Float(
         string="Durata in ore", default=2, required=True, tracking=True
@@ -47,6 +64,12 @@ class GSCourse(models.Model):
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type", string="Tipo Corso", tracking=True
     )
+    # gs_training_certificate_type_id = fields.Many2one(
+    #     comodel_name="gs_training_certificate_type",
+    #     string="Tipo Certificato",
+    #     related="gs_course_type_id.gs_training_certificate_type_id",
+    # )
+
     mode = fields.Selection(
         string="Modalità",
         selection=[("P", "Presenza"), ("E", "E-learning"), ("M", "Misto")],
@@ -61,8 +84,33 @@ class GSCourse(models.Model):
         self.duration = self.gs_course_type_id.duration
         self.min_attendance = self.gs_course_type_id.min_attendance
         self.max_workers = self.gs_course_type_id.max_workers
+        self.is_internal = self.gs_course_type_id.is_internal
+        self.document_template_id = self.gs_course_type_id.document_template_id
 
     is_multicompany = fields.Boolean(string="Multiazendale")
+
+    is_internal = fields.Boolean(
+        string="Corso gestito",
+        help=(
+            "Decide se l'attestato è generato da Odoo o importato esternamente. "
+            "Esempi di corsi non interni sono i corsi AiFOS e quelli organizzati da "
+            "Officina del Carrello."
+        ),
+        default=True,
+    )
+
+    document_template_id = fields.Many2one(
+        comodel_name="word_template",
+        string="Modello attestato",
+        default=lambda self: (
+            self.env["word_template"].search(
+                [("code", "ilike", "default_certificate_template")],
+                limit=1,
+            )
+            or False
+        ),
+        domain=[("model.model", "=", "gs_worker_certificate")],
+    )
 
     parent_course_id = fields.Many2one(
         comodel_name="gs_course", string="Corso padre", tracking=True
@@ -81,7 +129,6 @@ class GSCourse(models.Model):
             self.start_date = self.parent_course_id.start_date
             self.end_date = self.parent_course_id.end_date
             self.duration = self.parent_course_id.duration
-            # course.gs_course_type_id = parent.gs_course_type_id
 
     is_child = fields.Boolean(
         string="Figlio",
@@ -113,9 +160,24 @@ class GSCourse(models.Model):
                 )
             course.total_enrolled = len(enrolled)
 
-    external_url = fields.Char(string="URL esterno")
+    external_url = fields.Char(
+        string="URL esterno", compute="_compute_external_url", store=True
+    )
 
-    id_sawgest = fields.Integer(string="Id Sawgest")
+    id_sawgest = fields.Integer(string="Id Sawgest", index=True)
+
+    @api.depends("id_sawgest")
+    def _compute_external_url(self):
+        for course in self:
+            if (
+                course.id_sawgest is not False
+                and course.id_sawgest > 0
+                and course.external_url is False
+            ):
+                course.external_url = (
+                    "https://gestionale.grupposcudo.it/#/app/training_timetables/"
+                    f"training_class_course/{course.id_sawgest}/1/1/"
+                )
 
     @api.model
     def create(self, vals):
@@ -125,7 +187,41 @@ class GSCourse(models.Model):
         """
         course = super().create(vals)
 
-        if "protocol" not in vals:
-            vals["protocol"] = f"COUR-{course.id}"
+        if vals.get("protocol", False) is False:
+            course.protocol = f"COUR-{course.id}"
 
         return course
+
+    def enrollment_wizard(self):
+        """
+        Given one or more training needs, call the enrollment wizard
+        on the selected worker(s) for courses of the right type.
+        """
+        if not self:
+            raise UserError("Nessun corso selezionato")
+
+        if len(self) > 1:
+            raise UserError("Azione disponibile per un corso alla volta")
+
+        cert_type_id = self.gs_course_type_id.gs_training_certificate_type_id
+
+        action = {
+            "name": "Iscrivi lavoratore",
+            "view_mode": "form",
+            "type": "ir.actions.act_window",
+            "target": "new",
+            "res_model": "gs_course_enrollment_wizard",
+            "context": {
+                "default_gs_training_certificate_type_id": cert_type_id.id,
+                "active_id": self.env.context.get("active_id"),
+            },
+        }
+
+        return action
+
+    @staticmethod
+    def rand():
+        """
+        Return a random 6 character string.
+        """
+        return str(random.randint(100000, 999999))

@@ -209,7 +209,7 @@ class ResPartner(models.Model):
         string="È cliente", compute="_compute_has_competitor", store=True
     )
 
-    has_safety = fields.Boolean(string="RSPP / Suporto RSPP", default=False)
+    has_safety = fields.Boolean(string="RSPP/Supporto RSPP", default=False)
     has_training_manager = fields.Boolean(string="Manager Formativo", default=False)
     has_healthsurv = fields.Boolean(string="Sorveglianza Sanitaria", default=False)
 

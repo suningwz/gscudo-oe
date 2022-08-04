@@ -7,21 +7,24 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="gs_worker_id" />
-                        <field name="contract_partner_id" />
-                        <field name="gs_training_certificate_type_id" />
+                        <field name="gs_worker_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="contract_partner_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="gs_training_certificate_type_id" required="1" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="name" />
                         <field name="type" />
-                        <field name="issue_date" />
+                        <field name="issue_date" required="1" />
                         <field name="issue_serial" />
                         <field name="expiration_date" />
                         <field name="state" />
+                        <field name="gs_course_enrollment_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="active" />
                         <field name="is_update"/>
                         <field name="is_required"/>
                         <field name="attended_hours" widget="float_time" />
                         <field name="attendance_percentage" widget="percentage" />
+                        <field name="sg_url" widget="url" />
                         <field name="note" />
+                        <field name="gs_possible_course_ids" readonly="1" />
                         <field name="enrollments" />
                     </group>
                 </sheet>
@@ -39,15 +42,16 @@
         <field name="model">gs_worker_certificate</field>
         <field name="arch" type="xml">
             <tree default_order="expiration_date desc" multi_edit="1">
-                <field name="contract_partner_id" />
+                <field name="contract_partner_id" optional="show" />
                 <field name="gs_worker_id" />
                 <field name="gs_training_certificate_type_id" />
-                <field name="type" />
+                <field name="type" optional="show" />
                 <field name="issue_date" />
                 <field name="expiration_date" />
-                <field name="issue_serial" />
-                <field name="is_update" />
+                <field name="issue_serial" optional="show" />
+                <field name="is_update" optional="show" />
                 <field name="active" optional="hide" string="Attivo" />
+                <field name="is_renewed" optional="hide" />
                 <field
                     name="state"
                     options="{'bg_color':
@@ -86,6 +90,7 @@
                 <field name="expiration_date" />
                 <field name="note" />
                 <field name="state" />
+                <field name="sg_id" />
 
                 <!-- Filters -->
                 <filter name="filter_expiring" string="In scadenza" domain="[('state', '=', 'expiring')]" />
@@ -94,13 +99,14 @@
                 <filter name="expiration_date" date="expiration_date" string="Data scadenza" />
                 <separator />
                 <filter name="filter_type_E" domain="[('type','=','E')]" string="Esigenza formativa" />
-                <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato/Attestato" />
+                <filter name="filter_type_C" domain="[('type','=','C')]" string="Certificato" />
                 <separator />
                 <filter
                     name="filter_ours"
                     domain="['|', ('has_training_manager','=',True),('has_safety','=',True)]"
                     string="Nostri clienti"
                 />
+                <separator />
                 <filter
                     name="filter_all"
                     domain="['|', ('active','=',True), ('active','=',False)]"
@@ -120,13 +126,22 @@
 
     <!-- gs_worker_certificate action -->
     <record id="gs_worker_certificate_action_view_tree" model="ir.actions.act_window">
-        <field name="name">Certificati/Attestati</field>
+        <field name="name">Certificati</field>
         <field name="res_model">gs_worker_certificate</field>
         <field name="domain"></field>
-        <!-- <field name="view_mode">tree,form,pivot</field> -->
         <field name="view_mode">tree,form</field>
-        <field name="context">{'search_default_filter_ours':1}</field>
+        <field name="context"></field>
+        <!-- <field name="context">{'search_default_filter_ours':1}</field> -->
         <field name="view_id" ref="gs_worker_certificate_view_tree" />
+    </record>
+
+    <record id="gs_worker_certificate_action_generate_docs" model="ir.actions.server">
+        <field name="name">Genera Attestati</field>
+        <field name="model_id" ref="model_gs_worker_certificate" />
+        <field name="state">code</field>
+        <field name="code">model.generate_docs()</field>
+        <!-- 'search_default_gs_training_certificate_type_id': 1, -->
+        <field name="binding_model_id" ref="model_gs_worker_certificate" />
     </record>
 
     <menuitem
