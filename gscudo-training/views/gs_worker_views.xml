@@ -18,6 +18,7 @@
                                 <field name="gs_training_certificate_type_id" />
                                 <field name="issue_date" />
                                 <field name="expiration_date" />
+                                <field name="is_update" />
                                 <field
                                     name="state"
                                     options="{'bg_color': '#ff8f8f: state == \'expired\'; #fbff8f: state == \'expiring\'; #8fff93: state == \'valid\';'}"
@@ -30,6 +31,7 @@
                                 <field name="gs_training_certificate_type_id" />
                                 <field name="issue_date" />
                                 <field name="expiration_date" />
+                                <field name="is_update" />
                                 <field
                                     name="state"
                                     options="{'bg_color': '#ff8f8f: state == \'expired\'; #fbff8f: state == \'expiring\'; #8fff93: state == \'valid\';' }"
