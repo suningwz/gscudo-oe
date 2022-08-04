@@ -8,7 +8,7 @@
             <xpath expr="//field[@name='validity_date']" position="before">
               <field name="create_date"/>
             </xpath>
-            <xpath expr="//field[@name='state']" position="after">
+            <xpath expr="//field[@name='name']" position="after">
               <field name="product_family_id"/>
               <field name="sg_url"  widget="url" readonly="1" />
             </xpath>
