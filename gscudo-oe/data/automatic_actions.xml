@@ -1,0 +1,16 @@
+<?xml version="1.0" ?>
+<odoo noupdate="1">
+    <record id="ir_cron_detach_worker_expired_contract" model="ir.cron">
+        <field name="name">Rimuove i contratti scaduti</field>
+        <field name="interval_number" eval="1"/>
+        <field name="interval_type">days</field>
+        <field name="numbercall" eval="-1"/>
+        <field name="doall" eval="1"/>
+        <field name="model_id" ref="gscudo-training.model_gs_worker_certificate"/>
+        <field name="code">model.detach_worker_expired_contract()</field>
+        <field name="nextcall">2022-01-01 02:42:00</field>
+        <field name="active" eval="1" />
+        <field name="user_id" ref="base.user_admin"/>
+    </record>
+
+</odoo>

@@ -105,6 +105,12 @@ class GSWorker(models.Model):
         string="Contratti/Posizioni",
     )
 
+    def detach_worker_expired_contract(self):
+        ### Stacca i contratti Scaduti
+        workers = self.env["gs_worker"].search([("contract_end_date","<",datetime.now())])
+        for worker in workers:
+            worker.gs_worker_contract_id=False
+
 
 class ResPartner(models.Model):
     _inherit = "res.partner"
