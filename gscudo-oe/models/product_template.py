@@ -5,10 +5,22 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     product_family_id = fields.Many2one(
-        comodel_name="gs_product_family", string="Famiglia"
+        comodel_name="gs_product_family", string="Famiglia", index=True,
     )
     law_reference = fields.Char(string="Riferimento normativo")
 
+    # tempate for generating project / task on sale event
+    # project_template_id = fields.Many2one(string="Modello Progetto", comodel_name= "project.project", )
+    task_template_id = fields.Many2one(string="Modello Attività", comodel_name= "project.task", )
+
+    task_template_planned_hours = fields.Float(string="Ore previste", related="task_template_id.planned_hours")
+
+    is_recurring_fee = fields.Boolean(string="Canone ricorrente", default=False)
+    is_repeating = fields.Boolean(string="Attività ricorrente", default=False)
+    periodicity = fields.Integer(string="Periodicità (mesi, 0=nessuna)", default=0)
+
+
+    # Sawgest link fields
     sg_product_id = fields.Integer(string="ID prodotto SaWGest")
     sg_product_url = fields.Char(
         string="Vedi prodotto in SaWGest",

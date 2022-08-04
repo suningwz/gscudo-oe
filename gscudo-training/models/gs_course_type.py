@@ -10,7 +10,7 @@ class GSCourseType(models.Model):
     code = fields.Char(string="Codice", tracking=True)
 
     product_id = fields.Many2one(
-        comodel_name="product.product", string="Prodotto", tracking=True
+        comodel_name="product.product", string="Prodotto", tracking=True, index=True,
     )
 
     mode = fields.Selection(
@@ -32,7 +32,7 @@ class GSCourseType(models.Model):
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
         string="Certificato formativo",
-        tracking=True,
+        tracking=True, index=True,
     )
 
     is_update = fields.Boolean(
