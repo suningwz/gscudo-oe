@@ -14,12 +14,14 @@ class WorkerMedicalCheck(models.Model):
                 'mail.activity.mixin']
 
 
-    name = fields.Char(string='Descrizione visita', readonly=True)
+    name = fields.Char(string='Descrizione visita')
 
     active = fields.Boolean(string='Attivo', default = True)
-    gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore', index=True,)
-    contract_partner_id = fields.Many2one(related='gs_worker_id.contract_partner_id', string='Azienda', index=True,)
-    company_doctor = fields.Char(related='contract_partner_id.doctor', string='Medico competente')
+    gs_worker_id = fields.Many2one(comodel_name='gs_worker', string='Lavoratore', index=True)
+    contract_partner_id = fields.Many2one(related='gs_worker_id.contract_partner_id', string='Partner_id')
+    contract_partner_name = fields.Char(compute='_compute_worker_data', string='Azienda',store = True)
+    
+    company_doctor = fields.Char(compute='_compute_worker_data', string='Medico competente', store = True)
     medical_locum = fields.Char(string='Medico sostituto')
     medical_supplier = fields.Char(related='contract_partner_id.medical_supplier', string='Fornitore assegnato')
     
@@ -73,8 +75,11 @@ class WorkerMedicalCheck(models.Model):
                     record.expired=False
                     record.expiring = True
 
-
-
+    @api.depends('gs_worker_id')
+    def _compute_worker_data(self):
+        for record in self:
+            record.contract_partner_name = record.contract_partner_id.name
+            record.company_doctor = record.contract_partner_id.doctor
 
 
 
