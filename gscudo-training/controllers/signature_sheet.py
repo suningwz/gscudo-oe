@@ -1,4 +1,5 @@
 import base64
+import json
 import logging
 from tempfile import NamedTemporaryFile
 import pytz
@@ -142,3 +143,15 @@ class SignatureSheetGenerator(http.Controller):
             )
             logger.error(e)
             return "Error in the template"
+
+
+class EchoController(http.Controller):
+    @http.route(
+        "/echo/<string:msg>",
+        auth="user",
+    )
+    def echo_controller(self, **kw):
+        """
+        An echo test.
+        """
+        return json.dumps({"msg": kw["msg"]})

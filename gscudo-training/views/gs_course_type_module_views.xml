@@ -13,7 +13,7 @@
                         <field name="generate_certificate" />
                         <field name="elearning" />
                         <field name="note" />
-                        <field name="gs_course_type_id" />
+                        <field name="gs_course_type_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <!-- <field name="module_required_ids" /> -->
                     </group>
                 </sheet>

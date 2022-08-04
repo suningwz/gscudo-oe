@@ -132,10 +132,10 @@ class GSCourseLesson(models.Model):
         for enrollment in test.gs_worker_ids:
             enrollment.generate_certificate()
 
-    # @staticmethod
-    # def sorted(vals, reverse=False):
-    @api.model
-    def sorted(self, vals, reverse=False):
+    @staticmethod
+    def sorted(vals, reverse=False):
+    # @api.model
+    # def sorted(self, vals, reverse=False):
         """
         Takes an array of lessons and returns it ordered.
         """
@@ -171,7 +171,10 @@ class GSCourseLesson(models.Model):
                         l
                         for l in self.gs_course_id.gs_course_lesson_ids
                         if not l.gs_course_type_module_id.generate_certificate
-                        and self.name.lower() > l.name.lower()
+                        and (
+                            self.name.lower() > l.name.lower()
+                            or self.gs_course_type_module_id.generate_certificate
+                        )
                     ],
                     reverse=True,
                 )

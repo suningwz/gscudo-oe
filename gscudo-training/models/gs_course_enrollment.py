@@ -64,7 +64,7 @@ class GSCourseEnrollment(models.Model):
     @api.depends("state")
     def _compute_gs_worker_certificate_id(self):
         for record in self:
-            if record.state == "X":
+            if record.state in ["X", "S"]:
                 record.gs_worker_certificate_id = False
 
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())

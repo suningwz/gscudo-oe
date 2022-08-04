@@ -7,7 +7,7 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="gs_training_certificate_type_id" />
+                        <field name="gs_training_certificate_type_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                     </group>
                 </sheet>
                 <footer>

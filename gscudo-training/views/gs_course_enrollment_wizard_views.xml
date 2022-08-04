@@ -28,6 +28,7 @@
                                     [gs_training_certificate_type_id]
                                 ),
                                 ]"
+                            options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}"
                             />
                         <field name="gs_training_certificate_type_id" invisible="1" />
                     </group>
