@@ -7,6 +7,11 @@ class SaleOrder(models.Model):
     product_family_id = fields.Many2one(
         comodel_name="gs_product_family", string="Famiglia"
     )
+
+    internal_note = fields.Text(string="Note interne")
+    subject = fields.Char(string="Oggetto",)
+
+
     sg_offer_id = fields.Integer(string="ID Offerta SaWGest")
     sg_url = fields.Char(
         string="Vedi in SaWGest", compute="_compute_sg_url", store=False
