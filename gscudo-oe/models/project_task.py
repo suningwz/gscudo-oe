@@ -6,13 +6,11 @@ class ProjectTask(models.Model):
 
     sg_offer = fields.Char(string="Rif Offerta")
     sg_offer_id = fields.Integer(string="ID Offerta SaWGest")
-    sg_offer_items_id = fields.Integer(string="ID Riga Offerta SaWGest")
+    sg_offer_item_id = fields.Integer(string="ID Riga Offerta SaWGest")
     sg_task_id = fields.Integer(string="ID Attività SaWGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
-    sg_url = fields.Char(
-        string="Vedi in SaWGest", compute="_compute_sg_url", store=False
-    )
+    sg_url = fields.Char(string="Vedi in SaWGest", compute="_compute_sg_url", store=False)
 
     def _compute_sg_url(self):
         irconfigparam = self.env["ir.config_parameter"]

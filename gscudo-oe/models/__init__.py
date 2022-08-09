@@ -14,3 +14,4 @@ from . import gs_worker_job_type
 from . import gs_worker_job
 from . import sale_order_line
 from . import sale_order
+from . import res_users

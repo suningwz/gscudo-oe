@@ -1,0 +1,14 @@
+<?xml version='1.0' encoding='utf-8'?>
+<odoo noupdate="1">
+
+
+    <record id="rewo_api_server" model="ir.config_parameter">
+        <field name="key">rewo_api_server</field>
+        <field name="value">portal.rewo.it</field>
+    </record>
+
+    <!-- <record id="rewo_api_url" model="ir.config_parameter">
+        <field name="key">rewo_api_url</field>
+        <field name="value"></field>
+    </record> -->
+</odoo>
