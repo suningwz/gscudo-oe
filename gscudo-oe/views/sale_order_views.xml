@@ -10,7 +10,7 @@
       </xpath>
       <xpath expr="//field[@name='partner_id']" position="after">
         <field name="product_family_id" />
-        <field name="sg_url" widget="url" readonly="1" text="vedi in sawgest"/>
+        <field name="sg_url" widget="url" readonly="1" text="link"/>
       </xpath>
 
     </field>

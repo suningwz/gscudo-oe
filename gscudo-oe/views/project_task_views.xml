@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <record id="project_task_form_custom_view" model="ir.ui.view">
+        <field name="mode">extension</field>
+        <field name="model">project.task</field>
+        <field name="name">GS:project.task.form customization</field>
+        <field name="priority">99</field>
+        <field name="inherit_id" ref="project.view_task_form2" />
+        <field name="arch" type="xml">
+            <data>
+                <xpath expr="//field[@name='date_deadline']" position="attributes">
+                    <attribute name="attrs">{}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='type_id']" position="after">
+                    <field name="sg_url" widget="url" text="link" />
+                </xpath>
+                <xpath expr="//notebook" position="inside">
+                    <page string="Gruppo Scudo" name="gruppo_scudo_page">
+                        <group string="SAWGest">
+                            <group>
+                                <field name="sg_task_id" />
+                                <field name="sg_offer_id" />
+                                <field name="sg_offer_item_id" />
+                            </group>
+                            <group >
+                                <field name="sg_synched_at" />
+                                <field name="sg_updated_at" />
+                            </group>
+                        </group>
+                    </page>
+                </xpath>
+            </data>
+        </field>
+    </record>
+</odoo>

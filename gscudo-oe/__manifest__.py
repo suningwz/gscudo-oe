@@ -38,6 +38,7 @@
         "views/hr_department_views.xml",
         "views/gs_product_family_views.xml",
         "views/project_project_views.xml",
+        "views/project_task_views.xml",
         "views/crm_tag_views.xml",
         "views/crm_lead_views.xml",
         "views/crm_activity_report_views.xml",

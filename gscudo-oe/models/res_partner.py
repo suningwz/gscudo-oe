@@ -11,12 +11,12 @@ COMPETITOR_TYPE = [
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
-    sg_clients_id = fields.Integer(string="ID Cliente SaWGest")
-    sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ")
-    sg_employee_id = fields.Integer(string="ID Impiegato SaWGest")
-    sg_esolver_id = fields.Integer(string="ID ESolver")
-    cartsan_uo_id = fields.Integer(string="ID Cartsan Un. Operativa")
-    cartsan_doc_id = fields.Integer(string="ID Cartsan Medico")
+    sg_clients_id = fields.Integer(string="ID Cliente SaWGest", index=True)
+    sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ",index=True) 
+    sg_employee_id = fields.Integer(string="ID Impiegato SaWGest", index=True)
+    sg_esolver_id = fields.Integer(string="ID ESolver", index=True)
+    cartsan_uo_id = fields.Integer(string="ID Cartsan Un. Operativa", index=True)
+    cartsan_doc_id = fields.Integer(string="ID Cartsan Medico", index=True)
     sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
     sg_synched_at = fields.Datetime(string="Data ultima Syncronizzazione SaWGest")
     sg_url = fields.Char(

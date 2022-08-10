@@ -4,6 +4,7 @@ from . import res_partner_category
 from . import hr_department
 from . import gs_product_family
 from . import project_project
+from . import project_task
 from . import product_template
 from . import crm_tag
 from . import crm_lead

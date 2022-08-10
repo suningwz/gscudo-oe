@@ -37,7 +37,7 @@ class WorkerJob(models.Model):
     job_description = fields.Char(string="Mansione")
     department = fields.Char(string="Reparto/ufficio")
     note = fields.Char(string="Note")
-    sg_job_careers_id = fields.Integer(string="ID SaWGest")
+    sg_job_careers_id = fields.Integer(string="ID SaWGest", index=True)
     sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
 
