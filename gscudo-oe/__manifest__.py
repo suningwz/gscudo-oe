@@ -23,6 +23,7 @@
         "l10n_it_ateco",
         "sale",
         "gscudo-worddoc",
+        "industry_fsm",
     ],
     "data": [
         "security/security_groups.xml",
