@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates>
+    <!-- <t t-name="OWLRewoDial" owl="1">
+        <span 
+            t-attf-class="" 
+            t-on-click="dialClicked" 
+            t-attf-title="Click 2 dial" 
+            t-esc="_formatValue(value)"
+           >
+            <button string="chiama" name="action_name" />
+        </span>
+    </t> -->
+    <span t-name="OWLFieldDial" owl="1"
+        class=""
+         t-esc="_formatValue(value)"
+        ><button string="chiama" name="action_name" /></span>
+
+</templates>
