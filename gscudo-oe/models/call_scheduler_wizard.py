@@ -13,32 +13,36 @@ class CallScheduler(models.TransientModel):
     call_per_day = fields.Integer(
         string="Chiamate al giorno", default=10, required=True
     )
-    res_model_id = fields.Integer(
-        default=lambda self: self.env["ir.model"]
-        .search([("model", "=", "crm.lead")])
-        .id
+    res_model = fields.Char(string="Model", default = lambda self:self._context.get("active_model"))
+    res_model_id = fields.Integer(string="res_model_id")
+    user_id=fields.Many2one('res.users', string='User', default=lambda self: self.env.user)
+
+    activity_type_id = fields.Many2one(
+        comodel_name="mail.activity.type", string="Tipo attività"
     )
 
-    # activity_type_id = fields.Many2one(
-    #     comodel_name="mail.activity.type", string="Tipo attività"
-    # )
+    activity_type_id_visible = fields.Boolean("Tipo attività visibile", default=True)
+    user_id_visible = fields.Boolean("User_id visibile", default=True)
 
     summary = fields.Char(string="Summary")
 
-    # def _get_model_id(self):
-    # return self.env["ir.model"].search([("model", "=", "crm.lead")])
+
 
     def schedule_call(self):
         """
-        Schedule calls for the selected leads.
+        Schedule calls for the selected records.
         """
-        # get all selected leads
-        leads = self.env["crm.lead"].browse(self._context.get("active_ids"))
+        active_model = self._context.get("active_model")
+        res_model_id = self.env["ir.model"].search([("model", "=", active_model)])
+
+
+        # get all selected records
+        records = self.env[active_model].browse(self._context.get("active_ids"))
 
         call_schedule = 0
         call_date = self.date_from
-        for lead in leads:
-            # lead.createcall(call_date)
+        for record in records:
+            # record.createcall(call_date)
             call_schedule += 1
             if call_schedule > self.call_per_day:
                 call_date += datetime.timedelta(days=1)
@@ -48,17 +52,20 @@ class CallScheduler(models.TransientModel):
                     break
                 call_schedule = 0
 
-            lead.message_subscribe(
-                [lead.tmk_user_id.id or lead.user_id.id or self.env.user.id], None
-            )
+            # record.message_subscribe(
+            #     [record.tmk_user_id.id or record.user_id.id or self.env.user.id], None
+            # )
+
+            ### Identifica lo User_id
+            ### se è un lead usa il tmk altrimente cerca il tmk associato al partner o all'oggetto
+
+
             activity_data = {
-                "activity_type_id": 2,
-                "res_model": "crm.lead",
-                "res_model_id": self.env["ir.model"]
-                .search([("model", "=", "crm.lead")])
-                .id,
-                "res_id": lead.id,
-                "user_id": lead.tmk_user_id.id or lead.user_id.id or self.env.user.id,
+                "activity_type_id": record.activity_type_id or 2,
+                "res_model": active_model,
+                "res_model_id": res_model_id.id,
+                "res_id": record.id,
+                "user_id": record.user_id.id or record.tmk_user_id.id or self.env.user.id,
                 "date_deadline": call_date,
                 "summary": self.summary,
                 "activity_category": "default",

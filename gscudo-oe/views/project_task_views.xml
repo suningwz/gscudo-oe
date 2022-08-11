@@ -72,4 +72,19 @@
         </field>
     </record>
 
+    <record id="task_call_scheduler_action" model="ir.actions.act_window">
+        <field name="name">Pianifica Telefonate</field>
+        <field name="type">ir.actions.act_window</field>
+        <field name="res_model">call_scheduler</field>
+        <field name="view_mode">form</field>
+        <field name="target">new</field>
+        <field name="view_id" ref="call_scheduler_view_form" />
+        <field name="binding_model_id" ref="model_project_task" />
+        <field name="context" >{
+            'user_id_visible':False, 
+            'default_user_id':False , 
+            'default_activity_type_id':2
+            }</field>
+    </record>
+
 </odoo>

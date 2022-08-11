@@ -22,3 +22,13 @@ class ProjectTask(models.Model):
                     record.sg_url = f"{base_url}tasks/{record.sg_task_id}"
                 else:
                     record.sg_url = False
+
+    tmk_user_id = fields.Many2one(
+        comodel_name="res.users", string="Telemarketing operator", compute="_compute_tmk_user_id", store=False)
+    def _compute_tmk_user_id(self):
+        for record in self:
+            if record.partner_id:
+                record.tmk_user_id = record.partner_id.tmk_user_id.id
+            else:
+                record.tmk_user_id = record.project_id.partner_id.tmk_user_id.id
+            

@@ -9,15 +9,21 @@
                 <sheet>
                     <group>
                         <field name="res_model_id" invisible="1" />
+                        <field name="res_model" invisible="1" />   
+                        <field name="user_id_visible" invisible="1" />
+                        <field name="activity_type_id_visible" invisible="1"/>
                         <field name="date_from" />
                         <field name="date_to" />
                         <field name="call_per_day" />
-                        <!-- <field
+                        <field
                             name="activity_type_id"
-                            required="1"
                             options="{'no_create': True, 'no_open': True}"
                             domain="['|' , ('res_model_id','=', False),('res_model_id','=', res_model_id)]"
-                        /> -->
+                            attrs="{'invisible':[('activity_type_id_visible','=',False)] }"
+                        />
+                        <field name="user_id" 
+                             options="{'no_create': True, 'no_open': True}"
+                             attrs="{'invisible':[('user_id_visible','=',False)] }"/>
                         <field name="summary" string="Oggetto"/>
                     </group>
                 </sheet>
@@ -38,5 +44,11 @@
         <field name="target">new</field>
         <field name="view_id" ref="call_scheduler_view_form"/>
         <field name="binding_model_id" ref="model_crm_lead"/>
+        <field name="context" >{
+            'activity_type_id_visible':False, 
+            'user_id_visible':False, 
+            'default_user_id':False , 
+            'default_activity_type_id':2
+            }</field>
     </record>
 </odoo>
