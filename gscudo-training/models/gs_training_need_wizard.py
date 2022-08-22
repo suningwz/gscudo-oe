@@ -30,9 +30,15 @@ class GSTrainingNeedMassWizard(models.TransientModel):
                 "value": {},
                 "warning": {
                     "title": "Attenzione!",
-                    "message": "Un lavoratore ha già questa esigenza."
-                    if len(certs) == 1
-                    else f"{len(certs)} lavoratori hanno già questa esigenza.",
+                    "message": (
+                        f"Un lavoratore ha già questa esigenza: {certs.gs_worker_id.name}"
+                        if len(certs) == 1
+                        else (
+                            f"{len(certs)} lavoratori hanno già questa esigenza: "
+                            + ", ".join(map(lambda c: c.gs_worker_id.name, certs))
+                        )
+                    )
+                    + ".\nQuesti lavoratori verranno ignorati per la creazione di questa esigenza.",
                 },
             }
 
