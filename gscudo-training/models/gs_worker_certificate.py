@@ -46,7 +46,11 @@ class GSWorkerCertificate(models.Model):
             )
 
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", index=True, tracking=True
+        comodel_name="gs_worker",
+        string="Lavoratore",
+        required=True,
+        index=True,
+        tracking=True,
     )
     contract_partner_id = fields.Many2one(
         related="gs_worker_id.contract_partner_id",
@@ -666,7 +670,7 @@ class GSWorker(models.Model):
         groups="gscudo-training.group_training_backoffice",
         domain=[
             ("active", "=", True),
-            ("is_renewed", "=", False),
+            ("gs_course_enrollment_id", "!=", False),
             ("gs_course_enrollment_ids", "=", False),
             "|",
             "|",

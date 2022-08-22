@@ -7,7 +7,7 @@
             <form>
                 <sheet>
                     <group>
-                        <field name="gs_worker_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="gs_worker_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" required="1" />
                         <field name="contract_partner_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="gs_training_certificate_type_id" required="1" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
                         <field name="name" />
@@ -24,7 +24,7 @@
                         <field name="attendance_percentage" widget="percentage" />
                         <field name="sg_url" widget="url" />
                         <field name="note" />
-                        <field name="gs_possible_course_ids" readonly="1" />
+                        <!-- <field name="gs_possible_course_ids" readonly="1" /> -->
                         <field name="enrollments" />
                     </group>
                 </sheet>
@@ -87,8 +87,8 @@
                 <field name="gs_worker_id" />
                 <field name="contract_partner_id" />
                 <field name="gs_training_certificate_type_id" />
+                <field name="issue_serial" />
                 <field name="expiration_date" />
-                <field name="note" />
                 <field name="state" />
                 <field name="sg_id" />
 
