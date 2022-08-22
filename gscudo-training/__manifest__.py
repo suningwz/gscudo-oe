@@ -10,9 +10,9 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.20g",
+    "version": "14.0.1.20h",
     "depends": ["base", "sale", "gscudo-oe", "documents", "gscudo-worddoc"],
-    #"external_dependencies": {"python": ["docxtpl"]},
+    # "external_dependencies": {"python": ["docxtpl"]},
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",
