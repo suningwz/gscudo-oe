@@ -114,6 +114,9 @@ class GSCourseLesson(models.Model):
         Set all workers enrolled in the lesson as "have attended".
         """
         self.ensure_one()
+        if self.is_closed:
+            raise UserError("Lezione chiusa.")
+
         for enrollment in self.gs_worker_ids:
             if enrollment.is_attendant is False:
                 enrollment.is_attendant = True

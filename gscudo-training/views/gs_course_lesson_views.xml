@@ -50,7 +50,11 @@
                                 <field name="gs_worker_id" />
                                 <field name="partner_id" />
                                 <field name="state" />
-                                <field name="is_attendant" widget="boolean_toggle" />
+                                <field
+                                    name="is_attendant"
+                                    widget="boolean_toggle"
+                                    attrs="{'readonly':[('parent.is_closed', '=', True)]}"
+                                />
                                 <field name="attended_hours" widget="float_time" />
                                 <button
                                     type="object"
