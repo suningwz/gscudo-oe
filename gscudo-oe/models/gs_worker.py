@@ -39,7 +39,7 @@ class GSWorker(models.Model):
 
     cartsan_id = fields.Char(string="ID CartSan")
 
-    sg_worker_id = fields.Integer(string="ID SawGest")
+    sg_worker_id = fields.Integer(string="ID SawGest", index=True)
     sg_updated_at = fields.Datetime(string="Data Aggiornamento SaWGest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SaWGest")
 

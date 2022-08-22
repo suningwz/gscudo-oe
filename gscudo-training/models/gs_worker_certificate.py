@@ -181,6 +181,7 @@ class GSWorkerCertificate(models.Model):
 
     @api.depends(
         "gs_worker_id.gs_worker_certificate_ids",
+        "gs_worker_id.gs_worker_certificate_ids.gs_training_certificate_type_id",
         "gs_worker_id.gs_worker_certificate_ids.issue_date",
         "gs_training_certificate_type_id",
         "issue_date",
@@ -539,7 +540,6 @@ class GSWorkerCertificate(models.Model):
 
         # here self should always be a single certificate, so we could remove this loop
         for certificate in self:
-            # FIXME test this
             if certificate.test_id and not certificate.test_id.gs_course_id.is_internal:
                 raise UserError(
                     "Impossibile generare certificati per corsi non gestiti."

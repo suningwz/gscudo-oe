@@ -129,13 +129,15 @@ class GSCourseLesson(models.Model):
         if not test.gs_course_type_module_id.generate_certificate:
             raise UserError("Questo non è un test finale.")
 
+        # TODO check if all lessons have start_time set and if they are closed
+        if not test.start_time:
+            raise UserError("Data non impostata su tutte le lezioni.")
+
         for enrollment in test.gs_worker_ids:
             enrollment.generate_certificate()
 
     @staticmethod
     def sorted(vals, reverse=False):
-    # @api.model
-    # def sorted(self, vals, reverse=False):
         """
         Takes an array of lessons and returns it ordered.
         """

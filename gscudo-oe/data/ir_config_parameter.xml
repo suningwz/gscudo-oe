@@ -19,4 +19,5 @@
         <field name="key">sawgest_document_url</field>
         <field name="value">https://gestionale.grupposcudo.it/documents/</field>
     </record>
+
 </odoo>
