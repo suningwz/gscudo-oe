@@ -10,7 +10,7 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.20h",
+    "version": "14.0.1.20i",
     "depends": ["base", "web", "hr"],
     "data": [
         "security/security_groups.xml",
