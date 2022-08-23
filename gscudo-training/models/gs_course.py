@@ -18,7 +18,17 @@ class GSCourse(models.Model):
         else:
             return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
 
-    name = fields.Char(string="Corso", index=True)
+    name = fields.Char(string="Corso", index=True, compute="_compute_name", store=True)
+
+    @api.depends("gs_course_type_id", "protocol", "start_date")
+    def _compute_name(self):
+        for course in self:
+            course.name = (
+                f"{course.gs_course_type_id.name} - "
+                f"{course.protocol} - "
+                f"{course.start_date.strftime('%d/%m/%Y') if course.start_date else 'data da definire'}"
+            )
+
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
 
     protocol = fields.Char(string="Protocollo", index=True)
@@ -64,11 +74,6 @@ class GSCourse(models.Model):
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type", string="Tipo Corso", tracking=True
     )
-    # gs_training_certificate_type_id = fields.Many2one(
-    #     comodel_name="gs_training_certificate_type",
-    #     string="Tipo Certificato",
-    #     related="gs_course_type_id.gs_training_certificate_type_id",
-    # )
 
     mode = fields.Selection(
         string="Modalità",
@@ -79,13 +84,17 @@ class GSCourse(models.Model):
 
     @api.onchange("gs_course_type_id")
     def _onchange_gs_course_type_id(self):
-        self.name = self.gs_course_type_id.name
+        self._compute_name()
         self.mode = self.gs_course_type_id.mode
         self.duration = self.gs_course_type_id.duration
         self.min_attendance = self.gs_course_type_id.min_attendance
         self.max_workers = self.gs_course_type_id.max_workers
         self.is_internal = self.gs_course_type_id.is_internal
         self.document_template_id = self.gs_course_type_id.document_template_id
+
+    @api.onchange("start_date")
+    def _onchange_start_date(self):
+        self._compute_name()
 
     is_multicompany = fields.Boolean(string="Multiazendale")
 
@@ -189,6 +198,7 @@ class GSCourse(models.Model):
 
         if vals.get("protocol", False) is False:
             course.protocol = f"COUR-{course.id}"
+            self._compute_name()
 
         return course
 
