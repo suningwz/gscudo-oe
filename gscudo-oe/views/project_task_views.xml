@@ -54,11 +54,13 @@
                     <field name="sg_url" widget="url" text="link" attrs="{'invisible':[('sg_task_id', '!=', False)]}" />
                 </xpath>
                 <xpath expr="//notebook" position="inside">
-                    <page string="Gruppo Scudo" name="gruppo_scudo_page">
-                        <group string="SAWGest">
+                    <page name="SAWGest" string="SawGest">
+                        <group>
                             <group>
                                 <field name="sg_task_id" />
+                                <field name="sg_url" widget="url" readonly="1" text="link" />
                                 <field name="sg_offer_id" />
+                                <field name="sg_offer_url" widget="url" readonly="1" text="link" />
                                 <field name="sg_offer_item_id" />
                             </group>
                             <group >

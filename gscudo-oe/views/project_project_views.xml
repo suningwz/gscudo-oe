@@ -16,13 +16,18 @@
             </page>
             <page name="settings" position="after">
                 <page name="SAWGest" string="SawGest">
+
                     <group>
-                        <field name="product_family_id" options="{'no_create':1, 'no_edit':1, 'no_open':1}" />
-                        <field name="sg_offer" />
-                        <field name="sg_offer_id" />
-                        <field name="sg_updated_at" readonly="1" />
-                        <field name="sg_synched_at" readonly="1" />
-                        <field name="sg_url" widget="url" readonly="1" text="vedi in SAWGest" />
+                        <group>
+                            <field name="product_family_id" options="{'no_create':1, 'no_edit':1, 'no_open':1}" />
+                            <field name="sg_offer" />
+                            <field name="sg_offer_id" />
+                            <field name="sg_url" widget="url" readonly="1" text="link" />
+                        </group>
+                        <group>
+                            <field name="sg_updated_at" readonly="1" />
+                            <field name="sg_synched_at" readonly="1" />
+                        </group>
                     </group>
                 </page>
             </page>
