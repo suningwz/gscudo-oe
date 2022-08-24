@@ -50,5 +50,6 @@
         "views/gs_worker_job_views.xml",
         "views/product_template_views.xml",
         "views/sale_order_views.xml",
+        "views/gs_worker_transfer_wizard_views.xml",
     ],
 }
