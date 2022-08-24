@@ -64,3 +64,11 @@ class GSWorker(models.Model):
     gs_worker_job_ids = fields.One2many(
         comodel_name="gs_worker_job", inverse_name="gs_worker_id", string="Mansioni"
     )
+
+
+class WorkerContract(models.Model):
+    _inherit = "gs_worker_contract"
+
+    gs_worker_job_ids = fields.One2many(
+        comodel_name="gs_worker_job", inverse_name="gs_worker_contract_id", string="Mansioni"
+    )

@@ -79,7 +79,7 @@ class GSWorkerTransferWizard(models.TransientModel):
                     days=1
                 )
 
-                for job in worker.gs_worker_job_ids:
+                for job in worker.gs_worker_contract_id.gs_worker_job_ids:
                     if job.end_date is False or job.end_date > datetime.date.today():
                         job.copy(
                             default={
