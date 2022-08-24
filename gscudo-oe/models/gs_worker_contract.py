@@ -12,7 +12,9 @@ class WorkerContract(models.Model):
     name = fields.Char(string="Nome", compute="_compute_name", store=True)
     active = fields.Boolean(string="Attivo", default=True)
     note = fields.Char(string="Note")
-    gs_worker_id = fields.Many2one(comodel_name="gs_worker", string="Lavoratore" , required=True, index=True)
+    gs_worker_id = fields.Many2one(
+        comodel_name="gs_worker", string="Lavoratore", required=True, index=True
+    )
     partner_id = fields.Many2one(
         comodel_name="res.partner", string="Azienda/Sede", required=True, index=True
     )
@@ -40,22 +42,26 @@ class WorkerContract(models.Model):
     @api.constrains("start_date", "end_date")
     def _check_date(self):
         if self.start_date is not False:
-            if self.start_date < (datetime.now() - timedelta(days=40 * 365)).date():
+            if self.start_date < (datetime.now() - timedelta(days=70 * 365)).date():
                 raise ValidationError(
-                    "La data di inizio deve essere negli ultimi 40 anni"
+                    f"Lavoratore {self.gs_worker_id.id}: "
+                    "la data di inizio deve essere negli ultimi 70 anni"
                 )
             if self.start_date > (datetime.now() + timedelta(days=30)).date():
                 raise ValidationError(
-                    "La data di inizio deve essere entro i prossimi 30 giorni"
+                    f"Lavoratore {self.gs_worker_id.id}: "
+                    "la data di inizio deve essere entro i prossimi 30 giorni"
                 )
             if self.end_date is not False:
                 if self.start_date > self.end_date:
                     raise ValidationError(
-                        "La data di fine deve essere maggiore di quella di inizio"
+                        f"Lavoratore {self.gs_worker_id.id}: "
+                        "la data di fine deve essere maggiore di quella di inizio"
                     )
                 if self.end_date > (datetime.now() + timedelta(days=365)).date():
                     raise ValidationError(
-                        "La data di fine deve essere entro i prossimi 365 giorni"
+                        f"Lavoratore {self.gs_worker_id.id}: "
+                        "la data di fine deve essere entro i prossimi 365 giorni"
                     )
 
 
@@ -107,9 +113,11 @@ class GSWorker(models.Model):
 
     def detach_worker_expired_contract(self):
         ### Stacca i contratti Scaduti
-        workers = self.env["gs_worker"].search([("contract_end_date","<",datetime.now())])
+        workers = self.env["gs_worker"].search(
+            [("contract_end_date", "<", datetime.now())]
+        )
         for worker in workers:
-            worker.gs_worker_contract_id=False
+            worker.gs_worker_contract_id = False
 
 
 class ResPartner(models.Model):
