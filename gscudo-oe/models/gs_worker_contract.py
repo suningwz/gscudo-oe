@@ -8,6 +8,7 @@ from odoo.exceptions import ValidationError
 class WorkerContract(models.Model):
     _name = "gs_worker_contract"
     _description = "Relazione Worker Partner"
+    _inherit = ["mail.thread", "mail.activity.mixin"]
 
     name = fields.Char(string="Nome", compute="_compute_name", store=True)
     active = fields.Boolean(string="Attivo", default=True)
@@ -21,8 +22,8 @@ class WorkerContract(models.Model):
     is_owner = fields.Boolean(string="È Titolare")
     is_dependent = fields.Boolean(string="È dipendente")
     employee_serial = fields.Char(string="Matricola dip.")
-    start_date = fields.Date(string="Data inizio", required=True)
-    end_date = fields.Date(string="Data fine")
+    start_date = fields.Date(string="Data inizio", required=True, tracking=True)
+    end_date = fields.Date(string="Data fine", tracking=True)
     job_description = fields.Char(string="Mansione")
     department = fields.Char(string="Reparto/ufficio")
     sg_job_careers_id = fields.Integer(string="ID SaWGest")
@@ -111,8 +112,9 @@ class GSWorker(models.Model):
         string="Contratti/Posizioni",
     )
 
+    @api.model
     def detach_worker_expired_contract(self):
-        ### Stacca i contratti Scaduti
+        """Stacca i contratti Scaduti"""
         workers = self.env["gs_worker"].search(
             [("contract_end_date", "<", datetime.now())]
         )
