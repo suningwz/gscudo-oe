@@ -32,6 +32,7 @@
         "data/ir_config_parameter.xml",
         "data/gs_partner_division.xml",
         "data/gs_product_family.xml",
+        "data/automatic_actions.xml",
         "views/gs_oe_menus.xml",
         "views/gs_worker_views.xml",
         "views/res_partner_views.xml",
