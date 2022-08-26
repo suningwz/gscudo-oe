@@ -1,9 +1,18 @@
-import csv
+import logging
 from datetime import datetime, timedelta
 from base64 import b64decode
 
 from odoo import models, fields
 from odoo.exceptions import UserError
+
+_logger = logging.getLogger(__name__)
+
+try:
+    import pandas as pd
+except (ImportError, IOError) as err:
+    _logger.debug(err)
+    raise
+
 
 NEEDED_KEYS = (
     "nome",
@@ -23,89 +32,80 @@ OPTIONAL_KEYS = (
 )
 
 
-class DIALECT(csv.excel):
-    """Describes the right properties of the excel-generated csv file."""
-
-    delimiter = ";"
-
-
 class GSWorkerMassImportWizard(models.TransientModel):
     _name = "gs_worker_mass_import_wizard"
     _description = "Wizard importazione di massa anagrafiche"
 
-    csv_data = fields.Binary(string="File dipendenti")
+    data = fields.Binary(string="File dipendenti")
 
     partner_id = fields.Many2one(comodel_name="res.partner", string="Azienda")
 
     @staticmethod
-    def parse_csv(data):
+    def parse_file(data):
         """
-        Returns a list with the parsed lines of the csv
+        Returns a list with the parsed lines of the excel file
         and a list with parsing errors.
 
         Raises ValueError if there are missing columns.
         """
 
-        lines = list(csv.DictReader(data.split("\n"), dialect=DIALECT))
+        df = pd.read_excel(data, header=1, skipfooter=1)
+        df = df.rename(columns=lambda x: x.strip())
+        df = df.dropna(how="all")
+
+        if not set(NEEDED_KEYS + OPTIONAL_KEYS).issubset(set(df)):
+            raise ValueError("colonne mancanti")
+
+        if not pd.core.dtypes.common.is_datetime64_dtype(df["data_assunzione"]):
+            raise ValueError("data_assunzione contiene oggetti non data")
+
+        if not pd.core.dtypes.common.is_datetime64_dtype(df["data_nascita"]):
+            raise ValueError("data_nascita contiene oggetti non data")
+
+        df_obj = df.select_dtypes(["object"])
+        df[df_obj.columns] = df_obj.apply(lambda x: x.str.strip())
+
+        df["sesso"] = df["sesso"].str.upper()
+        df["codice_fiscale"] = df["codice_fiscale"].str.upper()
 
         parsed = []
         non_parsed = []
 
-        for i, line in enumerate(lines):
-            i += 1
+        for _, line in df.iterrows():
             line_errors = []
 
-            line = {k: v.strip() for k, v in line.items()}
+            for key in NEEDED_KEYS:
+                # empty strings?
+                if line.isna()[key]:
+                    line_errors.append(f"{key} mancante")
 
-            if not set(NEEDED_KEYS + OPTIONAL_KEYS).issubset(line.keys()):
-                raise ValueError("colonne mancanti")
-
-            for key in line:
-                if line[key] == "":
-                    line[key] = False
-                    if key in NEEDED_KEYS:
-                        line_errors.append(f"{key} mancante")
-                        continue
-
-                if key in ("data_nascita", "data_assunzione"):
-                    try:
-                        line[key] = datetime.strptime(line[key], "%d/%m/%Y")
-                    except ValueError:
-                        line_errors.append(f"errore {key}")
-                    continue
-
-                if key == "sesso":
-                    line[key] = line[key].upper()
-                    if line[key] not in ("M", "F"):
-                        line_errors.append(f"errore {key}")
-
-                if key == "codice_fiscale":
-                    line[key] = line[key].upper()
+            if line["sesso"] not in ("M", "F"):
+                line_errors.append(f"errore {key}")
 
             if (
-                line["data_nascita"] is not False
-                and line["data_assunzione"] is not False
-                and line["data_nascita"] + timedelta(days=365 * 10)
-                > line["data_assunzione"]
+                line.notna()["data_nascita"]
+                and line.notna()["data_assunzione"]
+                and line["data_nascita"].date() + timedelta(days=365 * 10)
+                > line["data_assunzione"].date()
             ):
                 line_errors.append("data di nascita e data di assunzione troppo vicine")
 
             # TODO check fiscal code
 
             if line_errors:
-                non_parsed.append((line, line_errors))
+                non_parsed.append((dict(line), line_errors))
             else:
-                parsed.append(line)
+                parsed.append(dict(line))
 
         return (parsed, non_parsed)
 
     def import_workers(self):
         """Reads the supplied file and creates the workers."""
         try:
-            data = b64decode(self.csv_data).decode("utf-8")
-            lines, errors = self.parse_csv(data)
+            data = b64decode(self.data)
+            lines, errors = self.parse_file(data)
         except ValueError as e:
-            raise UserError("Impossibile importare il file:\n" + "\n".join(e)) from e
+            raise UserError(f"File malformato: {e}") from e
 
         # TODO manage errors
 
@@ -113,7 +113,7 @@ class GSWorkerMassImportWizard(models.TransientModel):
         contract_model = self.env["gs_worker_contract"]
         job_model = self.env["gs_worker_job"]
 
-        for line in lines:
+        for line in lines[:]:
             is_wrong = False
 
             worker = worker_model.search([("fiscalcode", "=", line["codice_fiscale"])])
@@ -141,7 +141,6 @@ class GSWorkerMassImportWizard(models.TransientModel):
             if not worker:
                 worker = worker_model.create(worker_data)
             else:
-                # TODO check this
                 worker.write(worker_data)
 
             current_contract = None
@@ -155,18 +154,21 @@ class GSWorkerMassImportWizard(models.TransientModel):
                     current_contract = contract
                     continue
 
-                if contract.start_date > line["data_assunzione"]:
+                if contract.start_date >= line["data_assunzione"].date():
                     is_wrong = True
-                    errors.append((line, ["discrepanza date contratti"]))
+                    errors.append(
+                        (line, ["contratto aperto in data successiva presente"])
+                    )
                     break
 
             if is_wrong:
+                lines.remove(line)
                 continue
 
             contract_data = {
                 "gs_worker_id": worker.id,
                 "partner_id": self.partner_id.id,
-                "start_date": line["data_assunzione"],
+                "start_date": line["data_assunzione"].date(),
                 "job_description": line["mansione"],
             }
             if current_contract is None:
@@ -176,12 +178,15 @@ class GSWorkerMassImportWizard(models.TransientModel):
 
             for contract in worker.gs_worker_contract_ids:
                 if contract != current_contract and contract.end_date is False:
-                    contract.end_date = line["data_assunzione"] - timedelta(days=1)
-                    contract.note = " ".join(
-                        (
-                            contract.note,
-                            f"Chiuso da importazione {self.partner_id.name} del {datetime.today()}",
-                        )
+                    contract.end_date = line["data_assunzione"].date() - timedelta(
+                        days=1
+                    )
+                    # FIXME here
+                    note = f"Chiuso da importazione {self.partner_id.name} del {datetime.today()}"
+                    contract.note = (
+                        " ".join((contract.note, note))
+                        if contract.note
+                        else note
                     )
 
             worker.gs_worker_contract_id = current_contract.id
@@ -201,7 +206,7 @@ class GSWorkerMassImportWizard(models.TransientModel):
 
             job_data = {
                 "gs_worker_contract_id": current_contract.id,
-                "start_date": line["data_assunzione"],
+                "start_date": line["data_assunzione"].date(),
                 "job_description": line["mansione"],
             }
             if current_job is None:
@@ -211,14 +216,20 @@ class GSWorkerMassImportWizard(models.TransientModel):
 
         if errors:
             text = (
-                f"{len(lines)} lavoratori importati\n\n"
-                f"{len(errors)} lavoratori non importati:\n"
+                f"{len(lines)} lavoratori importati</br>"
+                f"{len(errors)} lavoratori non importati:</br>"
             )
 
-            text += "\n".join(
-                f"{e[0]['nome']} {e[0]['cognome']} {e[0]['codice_fiscale']} - "
-                f"{','.join(e[1])}"
-                for e in errors
+            text += (
+                "<ul>"
+                + "".join(
+                    f"<li><b>{e[0]['nome']} {e[0]['cognome']} ({e[0]['codice_fiscale']}) </b>: "
+                    + "<ul>"
+                    + "".join(f"<li>{x}</li>" for x in e[1])
+                    + "</ul></li>"
+                    for e in errors
+                )
+                + "</ul>"
             )
 
             message = self.env["gs_message_wizard"].create({"message": text})
@@ -245,4 +256,3 @@ class GSWorkerMassImportWizard(models.TransientModel):
                 "res_id": message.id,
                 "target": "new",
             }
-            # raise UserError(errors)

@@ -7,7 +7,7 @@
             <form>
                 <sheet>
                     <p>
-                        <field name="message" nolabel="1" readonly="1" />
+                        <field name="message" widget="html" nolabel="1" readonly="1" />
                     </p>
                 </sheet>
                 <footer>
