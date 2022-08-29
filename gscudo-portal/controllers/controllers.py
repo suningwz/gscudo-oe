@@ -21,13 +21,3 @@ class GsPortal(http.Controller):
         return http.request.render('gs_worker', {
             'object': obj
         })
-
-    @http.route('/gscudo-portal/get_data', type='http', auth="public")
-    def get_data(self, **kw):
-
-        
-        if "sql" in request.params:
-            sql = request.params["sql"]
-        request.env.cr.execute(sql)
-        res = request.env.cr.dictfetchall()
-        return Response(json.dumps(res, default=str), mimetype='application/json')
