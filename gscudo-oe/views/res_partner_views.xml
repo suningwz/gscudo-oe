@@ -9,6 +9,13 @@
         <field name="arch" type="xml">
             <xpath expr="//notebook" position="before">
                 <button
+                    name="%(gs_worker_mass_import_wizard_action)d"
+                    type="action"
+                    string="Importa lavoratori"
+                    context="{'default_partner_id': active_id}"
+                    class="oe_highlight"
+                />
+                <button
                     name="%(view_gs_worker_action)d"
                     type="action"
                     string="Vedi lavoratori"

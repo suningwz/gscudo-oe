@@ -91,5 +91,3 @@ class GSWorker(models.Model):
 
             record.surname = surname
             record.firstname = firstname
-
-   

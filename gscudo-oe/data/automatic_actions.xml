@@ -6,11 +6,10 @@
         <field name="interval_type">days</field>
         <field name="numbercall" eval="-1"/>
         <field name="doall" eval="1"/>
-        <field name="model_id" ref="gscudo-training.model_gs_worker_certificate"/>
+        <field name="model_id" ref="model_gs_worker"/>
         <field name="code">model.detach_worker_expired_contract()</field>
         <field name="nextcall">2022-01-01 02:42:00</field>
         <field name="active" eval="1" />
         <field name="user_id" ref="base.user_admin"/>
     </record>
-
 </odoo>

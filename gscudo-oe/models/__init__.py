@@ -16,3 +16,6 @@ from . import gs_worker_job
 from . import sale_order_line
 from . import sale_order
 from . import res_users
+from . import gs_worker_transfer_wizard
+from . import gs_worker_mass_import_wizard
+from . import gs_message_wizard

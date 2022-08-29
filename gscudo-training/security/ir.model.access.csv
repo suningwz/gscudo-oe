@@ -64,3 +64,6 @@ backoffice_gs_worker_job,backoffice_gs_worker_job,model_gs_worker_job,gscudo-tra
 
 manage_gs_worker_job_type,manage_gs_worker_job_type,model_gs_worker_job_type,gscudo-training.group_training_backoffice,1,1,1,1
 backoffice_gs_worker_job_type,backoffice_gs_worker_job_type,model_gs_worker_job_type,gscudo-training.group_training_backoffice,1,1,1,1
+
+training_backoffice_word_template,training_backoffice_word_template,gscudo-worddoc.model_word_template,gscudo-training.group_training_backoffice,1,0,0,0
+training_manage_word_template,training_manage_word_template,gscudo-worddoc.model_word_template,gscudo-training.group_training_manager,1,0,0,0

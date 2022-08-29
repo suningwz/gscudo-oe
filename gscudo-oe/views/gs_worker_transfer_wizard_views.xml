@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_worker_transfer_wizard_view_form" model="ir.ui.view">
+        <field name="name">gs_worker_transfer_wizard_view_form</field>
+        <field name="model">gs_worker_transfer_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field name="partner_id" />
+                        <field name="is_correction" />
+                        <field
+                            name="transfer_date"
+                            attrs="{
+                                'invisible': [('is_correction', '=', True)],
+                                'required': [('is_correction', '=', False)]
+                            }"
+                        />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="transfer" type="object" string="Trasferisci" class="oe_highlight" />
+                    <button special="cancel" string="Annulla" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_worker_transfer_wizard_action" model="ir.actions.server">
+        <field name="name">Trasferisci...</field>
+        <field name="model_id" ref="model_gs_worker"/>
+        <field name="type">ir.actions.server</field>
+        <field name="state">code</field>
+        <field name="code">action = records.transfer_wizard()</field>
+        <field name="binding_model_id" ref="model_gs_worker" />
+    </record>
+</odoo>
