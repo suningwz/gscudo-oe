@@ -1,9 +1,9 @@
 import logging
-from datetime import datetime, timedelta
+from datetime import date, datetime, timedelta
 from base64 import b64decode
 
-from odoo import models, fields
-from odoo.exceptions import UserError
+from odoo import models, fields, api
+from odoo.exceptions import UserError, ValidationError
 
 _logger = logging.getLogger(__name__)
 
@@ -99,15 +99,30 @@ class GSWorkerMassImportWizard(models.TransientModel):
 
         return (parsed, non_parsed)
 
+    @api.model
+    def update_chatter(self, res_model, res_id, body, datas):
+        """Adds the import data in the chatter, and attaches the import file."""
+        attachment = self.env["ir.attachment"].create(
+            {
+                "name": f"Importazione anagrafiche lavoratori {date.today()}",
+                "type": "binary",
+                "datas": datas,
+                "mimetype": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            }
+        )
+
+        res = self.env[res_model].search([("id", "=", res_id)])
+        if not res:
+            raise UserError("Can't update the chatter.")
+
+        res.message_post(body=body, attachment_ids=[attachment.id])
+
     def import_workers(self):
         """Reads the supplied file and creates the workers."""
         try:
-            data = b64decode(self.data)
-            lines, errors = self.parse_file(data)
+            lines, errors = self.parse_file(b64decode(self.data))
         except ValueError as e:
             raise UserError(f"File malformato: {e}") from e
-
-        # TODO manage errors
 
         worker_model = self.env["gs_worker"]
         contract_model = self.env["gs_worker_contract"]
@@ -171,21 +186,27 @@ class GSWorkerMassImportWizard(models.TransientModel):
                 "start_date": line["data_assunzione"].date(),
                 "job_description": line["mansione"],
             }
-            if current_contract is None:
-                current_contract = contract_model.create(contract_data)
-            else:
-                current_contract.write(contract_data)
+            try:
+                if current_contract is None:
+                    current_contract = contract_model.create(contract_data)
+                else:
+                    current_contract.write(contract_data)
+            except ValidationError as e:
+                e = str(e)
+                error_data = e if len(e.split(": ")) == 1 else e.split(": ")[1]
+                errors.append((line, [error_data]))
+                lines.remove(line)
+                continue
 
             for contract in worker.gs_worker_contract_ids:
                 if contract != current_contract and contract.end_date is False:
                     contract.end_date = line["data_assunzione"].date() - timedelta(
                         days=1
                     )
-                    # FIXME here
                     note = f"Chiuso da importazione {self.partner_id.name} del {datetime.today()}"
                     contract.note = (
                         " ".join((contract.note, note))
-                        if contract.note
+                        if contract.note is not False
                         else note
                     )
 
@@ -214,10 +235,11 @@ class GSWorkerMassImportWizard(models.TransientModel):
             else:
                 current_job.write(job_data)
 
+        # pylint: disable-next=no-else-return
         if errors:
             text = (
-                f"{len(lines)} lavoratori importati</br>"
-                f"{len(errors)} lavoratori non importati:</br>"
+                f"<p>{len(lines)} lavoratori importati</p>"
+                f"<p>{len(errors)} lavoratori non importati:"
             )
 
             text += (
@@ -229,30 +251,27 @@ class GSWorkerMassImportWizard(models.TransientModel):
                     + "</ul></li>"
                     for e in errors
                 )
-                + "</ul>"
+                + "</ul></p>"
             )
 
             message = self.env["gs_message_wizard"].create({"message": text})
 
-            return {
-                "name": "Attenzione",
-                "type": "ir.actions.act_window",
-                "view_mode": "form",
-                "res_model": "gs_message_wizard",
-                "res_id": message.id,
-                "target": "new",
-            }
-
         else:
-            message = self.env["gs_message_wizard"].create(
-                {"message": f"{len(lines)} lavoratori importati"}
-            )
+            text = f"<p>{len(lines)} lavoratori importati</p>"
+            message = self.env["gs_message_wizard"].create({"message": text})
 
-            return {
-                "name": "Ok",
-                "type": "ir.actions.act_window",
-                "view_mode": "form",
-                "res_model": "gs_message_wizard",
-                "res_id": message.id,
-                "target": "new",
-            }
+        self.update_chatter(
+            res_model="res.partner",
+            res_id=self.partner_id.id,
+            body=text,
+            datas=self.data,
+        )
+
+        return {
+            "name": "Attenzione" if errors else "Ok",
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": "gs_message_wizard",
+            "res_id": message.id,
+            "target": "new",
+        }

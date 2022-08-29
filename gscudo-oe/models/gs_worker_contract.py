@@ -45,23 +45,23 @@ class WorkerContract(models.Model):
         if self.start_date is not False:
             if self.start_date < (datetime.now() - timedelta(days=70 * 365)).date():
                 raise ValidationError(
-                    f"Lavoratore {self.gs_worker_id.id}: "
+                    f"Lavoratore {self.gs_worker_id.fiscalcode}: "
                     "la data di inizio deve essere negli ultimi 70 anni"
                 )
             if self.start_date > (datetime.now() + timedelta(days=30)).date():
                 raise ValidationError(
-                    f"Lavoratore {self.gs_worker_id.id}: "
+                    f"Lavoratore {self.gs_worker_id.fiscalcode}: "
                     "la data di inizio deve essere entro i prossimi 30 giorni"
                 )
             if self.end_date is not False:
                 if self.start_date > self.end_date:
                     raise ValidationError(
-                        f"Lavoratore {self.gs_worker_id.id}: "
+                        f"Lavoratore {self.gs_worker_id.fiscalcode}: "
                         "la data di fine deve essere maggiore di quella di inizio"
                     )
                 if self.end_date > (datetime.now() + timedelta(days=365)).date():
                     raise ValidationError(
-                        f"Lavoratore {self.gs_worker_id.id}: "
+                        f"Lavoratore {self.gs_worker_id.fiscalcode}: "
                         "la data di fine deve essere entro i prossimi 365 giorni"
                     )
 
