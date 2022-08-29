@@ -23,3 +23,5 @@ access_gs_worker_mass_import_wizard,access_gs_worker_mass_import_wizard,model_gs
 manage_gs_worker_mass_import_wizard,manage_gs_worker_mass_import_wizard,model_gs_worker_mass_import_wizard,gscudo-oe.group_manager,1,1,1,1
 backoffice_gs_worker_mass_import_wizard,backoffice_gs_worker_mass_import_wizard,model_gs_worker_mass_import_wizard,gscudo-oe.group_manager,1,1,1,1
 access_gs_message_wizard,access_gs_message_wizard,model_gs_message_wizard,base.group_user,1,0,1,0
+manage_word_template,manage_word_template,gscudo-worddoc.model_word_template,gscudo-oe.group_manager,1,1,1,1
+backoffice_word_template,backoffice_word_template,gscudo-worddoc.model_word_template,gscudo-oe.group_manager,1,1,1,1
