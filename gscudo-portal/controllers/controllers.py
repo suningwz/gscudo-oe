@@ -1,6 +1,8 @@
 #-*- coding: utf-8 -*-
 from odoo import http
-
+from odoo.http import request
+from werkzeug.wrappers import Request, Response
+import json
 
 class GsPortal(http.Controller):
     @http.route('/gscudo-portal/gscudo-portal/', auth='public')
@@ -19,3 +21,13 @@ class GsPortal(http.Controller):
         return http.request.render('gs_worker', {
             'object': obj
         })
+
+    @http.route('/gscudo-portal/get_data', type='http', auth="public")
+    def get_data(self, **kw):
+
+        
+        if "sql" in request.params:
+            sql = request.params["sql"]
+        request.env.cr.execute(sql)
+        res = request.env.cr.dictfetchall()
+        return Response(json.dumps(res, default=str), mimetype='application/json')
