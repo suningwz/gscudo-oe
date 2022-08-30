@@ -52,6 +52,7 @@
                 <field name="is_update" optional="show" />
                 <field name="active" optional="hide" string="Attivo" />
                 <field name="is_renewed" optional="hide" />
+                <field name="attachment" widget="binary" optional="hide" />
                 <field
                     name="state"
                     options="{'bg_color':

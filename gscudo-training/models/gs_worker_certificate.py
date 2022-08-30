@@ -474,6 +474,21 @@ class GSWorkerCertificate(models.Model):
 
         return action
 
+    attachment = fields.Binary(string="Attestato", compute="_compute_attachment")
+
+    def _compute_attachment(self):
+        for record in self:
+            attachments = self.env["ir.attachment"].search(
+                [
+                    ("res_model", "=", "gs_worker_certificate"),
+                    ("res_id", "=", record.id),
+                ]
+            )
+            if not attachments:
+                record.attachment = False
+            else:
+                record.attachment = attachments[0].datas
+
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
