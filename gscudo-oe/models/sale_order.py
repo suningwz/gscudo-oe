@@ -9,7 +9,7 @@ class SaleOrder(models.Model):
     )
 
     internal_note = fields.Text(string="Note interne")
-    subject = fields.Char(string="Oggetto",)
+    subject = fields.Char(string="Oggetto")
 
 
     sg_offer_id = fields.Integer(string="ID Offerta SaWGest")

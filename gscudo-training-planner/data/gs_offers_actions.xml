@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_offer_create_planner_action_server" model="ir.actions.server">
+        <field name="name">Crea Planner Formazione</field>
+        <field name="model_id" ref="model_gs_offers" />
+        <field name="binding_model_id" ref="model_gs_offers" />
+        <field name="state">code</field>
+        <field name="code">action=records.generate_training_planner()</field>
+    </record>
+</odoo>

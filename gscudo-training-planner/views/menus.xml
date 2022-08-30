@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <menuitem
+        id="gstraining_menu_root"
+        name="Formazione"
+        web_icon="gscudo-sgtraining,static/description/elearning.jpg"
+        groups="group_training_user,group_training_manager"
+    />
+</odoo>

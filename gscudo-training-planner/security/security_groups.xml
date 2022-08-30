@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Gruppo Scudo  User Group -->
+    <record id="group_training_user" model="res.groups">
+        <field name="name">Training User</field>
+        <field name="category_id" ref="gscudo-oe.gscudo_category"/>
+        <field name="implied_ids" eval="[(4, ref('base.group_user'))]"/>
+    </record>
+
+    <!-- Gruppo Scudo  Manager Group -->
+    <record id="group_training_manager" model="res.groups">
+        <field name="name">Training Manager</field>
+        <field name="category_id" ref="gscudo-oe.gscudo_category"/>
+        <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')),(4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>

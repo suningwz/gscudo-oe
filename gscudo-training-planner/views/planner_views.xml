@@ -1,0 +1,173 @@
+<odoo>
+    <!-- gstraining_planner form view -->
+    <record id="gstraining_planner_view_form" model="ir.ui.view">
+        <field name="name">Pianificatore Corsi</field>
+        <field name="model">gstraining_planner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group col="2">
+                        <group colspan="2">
+                            <h1><field name="name" nolabel="True" /></h1>
+                        </group>
+                        <group>
+                            <field name="gs_client_id" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="gs_offer_id" domain="[('offer_state_id','in', [2,10]),('deleted_at','=',False)]" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="sawgest_offer_url" widget="url" attrs="{'invisible':[('sawgest_offer_url', '=', False)]}" />
+                            <field name="gs_offer_issue_date" />
+                            <field name="gs_offer_confirm_date" />
+                            <field name="gs_article_id" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="gs_offer_article_quantity" />
+                            <field name="gs_offer_article_price" />
+                            <field name="gs_offer_article_discount" />
+                            <field name="course_total_price" />
+                            <field name="place" />
+                        </group>
+                        <group>
+                            <field name="course_date" />
+                            <field name="gs_training_class_course_id" domain="[('article_id','=', gs_article_id),('deleted_at','=',False)]" options="{'no_create': True, 'no_create_edit':True}" />
+                            <field name="gs_training_article_id" />
+                            <field name="course_attendants" />
+                            <field name="lesson_dates" />
+                            <field name="lesson_times" />
+                            <field name="tot_hours" />
+                            <field name="status" />
+                            <field name="is_multicompany" />
+                            <field name="is_online" />
+                            <field name="is_atcustomer" />
+                            <field name="sawgest_url" widget="url" attrs="{'invisible':[('sawgest_url', '=', False)]}" />
+                        </group>
+                    </group>
+                    <group string="Dati economici">
+                        <group col="2">
+                            <field name="invoice_ref" />
+                            <field name="creditnote_ref" />
+                        </group>
+                        <group>
+                            <field name="tutor" />
+                            <field name="tutor_price" />
+                            <field name="tutor_order_ref" />
+
+                        </group>
+                        <group>
+                            <field name="place_supplier" />
+                            <field name="place_price" />
+                            <field name="place_order_ref" />
+                        </group>
+                        <group>
+                            <field name="material_supplier" />
+                            <field name="material_price" />
+                            <field name="material_order_ref" />
+                        </group>
+                    </group>
+                    <group><field name="note" /></group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity" />
+                    <field name="message_follower_ids" widget="mail_followers" />
+                    <field name="message_ids" widget="mail_thread" />
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- gstraining_planner tree view -->
+    <record id="gstraining_planner_view_search" model="ir.ui.view">
+        <field name="name">gstraining_planner.view.search</field>
+        <field name="model">gstraining_planner</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="gs_training_class_course_id" />
+                <field name="gs_client_id" />
+                <field name="gs_offer_id" />
+                <field name="gs_article_id" />
+                <field name="course_date" />
+                
+                <separator />
+
+                <filter string="Senza Fatture" name="no_invoice" domain="[('invoice_ref', '=', False)]" />
+                <filter string="Senza Corso" name="no_course" domain="[('gs_training_class_course_id', '=', False)]" />
+                <filter string="Proposti" name="status" domain="[('status', '=', '2-proposto')]" />
+                <filter string="Last Month" name="last_month" domain="[('course_date', '>=', (context_today() - relativedelta(months=1)).strftime('%%Y-%%m-01')), ('course_date', '<', context_today().strftime('%%Y-%%m-01'))]" />
+                <filter string="Creati oggi" name="created_today" domain="[('creation_date','=',((context_today()).strftime('%%Y-%%m-%%d')))]" />
+                
+                <separator />
+                
+                <group expand="1" string="Group By">
+                    <filter name="group_course_date" string="Data" context="{'group_by': 'course_date'}" />
+                    <filter name="group_gs_client_id" string="Cliente" context="{'group_by': 'gs_client_id'}" />
+                    <filter name="group_gs_offer_id" string="Offerta" context="{'group_by': 'gs_offer_id'}" />
+                    <filter name="group_gs_article_id" string="Articolo" context="{'group_by': 'gs_article_id'}" />
+                    <filter name="group_gs_training_class_course_id" string="Corso" context="{'group_by': 'gs_training_class_course_id'}" />
+                    <filter name="group_place" string="Luogo" context="{'group_by': 'place'}" />
+                    <filter name="group_status" string="Stato" context="{'group_by': 'status'}" />
+                </group>
+            </search>
+        </field>
+    </record>
+
+    <record id="gstraining_planner_view_tree" model="ir.ui.view">
+        <field name="name">Pianificatore Corsi</field>
+        <field name="model">gstraining_planner</field>
+        <field name="arch" type="xml">
+            <tree default_order="course_date desc" multi_edit="1">
+                <field name="course_date" optional="show"/>
+                <field name="gs_training_class_course_id" optional="show"/>
+                <field name="gs_client_id" optional="show" />
+                <field name="gs_offer_id" optional="show" />
+                <field name="gs_offer_issue_date" optional="hide" />
+                <field name="gs_offer_confirm_date" optional="show" />
+                <field name="gs_article_id" optional="show" />
+                <field name="gs_offer_article_quantity" optional="hide" />
+                <field name="gs_offer_article_price" optional="hide" />
+                <field name="course_attendants" optional="hide" />
+                <field name="status" optional="show" />
+                <field name="is_multicompany" optional="hide" />
+                <field name="is_online" optional="hide" />
+                <field name="is_atcustomer" optional="hide" />
+                <field name="place" optional="hide" />
+                <field name="lesson_dates" optional="hide" />
+                <field name="lesson_times" optional="hide" />
+                <field name="invoice_ref" optional="hide" />
+                <field name="creditnote_ref" optional="hide" />
+                <field name="tutor" optional="hide" />
+                <field name="tutor_price" optional="hide" />
+                <field name="tutor_order_ref" optional="hide" />
+                <field name="place_supplier" optional="hide" />
+                <field name="place_price" optional="hide" />
+                <field name="place_order_ref" optional="hide" />
+                <field name="material_supplier" optional="hide" />
+                <field name="material_price" optional="hide" />
+                <field name="material_order_ref" optional="hide" />
+                <field name="note" optional="hide" />
+            </tree>
+        </field>
+    </record>
+
+    <record id="gstraining_planner_view_calendar" model="ir.ui.view">
+        <field name="name">Calendario Pianif</field>
+        <field name="model">gstraining_planner</field>
+        <field name="arch" type="xml">
+            <calendar date_start="course_date" color="place" quick_add="False" mode="month">
+                <field name="name" />
+                <field name="place" />
+            </calendar>
+        </field>
+    </record>
+
+    <!-- actions opening views on models -->
+    <record model="ir.actions.act_window" id="gstraining_planner_action_window">
+        <field name="name">Pianificatore</field>
+        <field name="res_model">gstraining_planner</field>
+        <field name="view_mode">tree,form,calendar</field>
+    </record>
+
+
+    <!-- actions -->
+    <menuitem
+        name="Pianificatore"
+        id="gscudo-sgtraining.menu_1_list"
+        parent="gscudo-sgtraining.gstraining_menu_root"
+        action="gstraining_planner_action_window"
+    />
+</odoo>

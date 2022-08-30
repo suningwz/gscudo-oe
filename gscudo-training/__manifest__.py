@@ -1,10 +1,10 @@
 {
-    "name": "Gruppo Scudo Formazione ",
+    "name": "Gruppo Scudo Formazione",
     "summary": """
         Gruppo Scudo Training Course Management
     """,
     "description": """
-      This module adds customizations to manage Training Courses.
+        This module adds customizations to manage Training Courses.
     """,
     "license": "Other proprietary",
     "author": "Gruppo Scudo Srl / LGIT",
@@ -12,7 +12,6 @@
     "category": "GruppoScudo",
     "version": "14.0.1.21",
     "depends": ["base", "sale", "gscudo-oe", "documents", "gscudo-worddoc"],
-    # "external_dependencies": {"python": ["docxtpl"]},
     "data": [
         "security/security_groups.xml",
         "security/ir.model.access.csv",
