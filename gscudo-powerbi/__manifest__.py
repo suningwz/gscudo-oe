@@ -6,6 +6,14 @@
         """,
     "description": """
       This module allow user get data for analize with PowerBI
+
+      Usage:
+
+      - every user must create an own api key in the user form
+      - PowerBi manager can ceate a single query 
+      - Each query can be associated to some groups, if no groups query will be available for all users
+      - In query  you can use uid parameter to filter data for specific user (eg: select * from res_users where id = {uid} ; )
+      -
         
     """,
     "author": "Gruppo Scudo Srl / LGIT",
@@ -17,10 +25,12 @@
     "depends": ["base", ],
     # always loaded
     "data": [
-        #"security/ir.model.access.csv",
+        "security/security_groups.xml",
+        "security/ir.model.access.csv",
         # 'views/menus.xml',
         "views/views.xml",
         "views/templates.xml",
+        "views/gs_powerbi_query_views.xml",
        
     ],
     # only loaded in demonstration mode
