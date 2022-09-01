@@ -23,10 +23,14 @@ class GSCourse(models.Model):
     @api.depends("gs_course_type_id", "protocol", "start_date")
     def _compute_name(self):
         for course in self:
-            course.name = (
-                f"{course.gs_course_type_id.name} - "
-                f"{course.protocol} - "
-                f"{course.start_date.strftime('%d/%m/%Y') if course.start_date else 'data da definire'}"
+            course.name = " - ".join(
+                [
+                    course.gs_course_type_id.name,
+                    course.protocol,
+                    course.start_date.strftime("%d/%m/%Y")
+                    if course.start_date
+                    else "data da definire",
+                ]
             )
 
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
