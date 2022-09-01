@@ -474,6 +474,8 @@ class GSWorkerCertificate(models.Model):
 
         return action
 
+    attachment = fields.Binary(related="message_main_attachment_id.datas", string="Attestato")
+
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
     sg_synched_at = fields.Datetime(string="Data ultima sincronizzazione SawGest")
