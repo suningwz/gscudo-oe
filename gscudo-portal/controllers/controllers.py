@@ -1,6 +1,8 @@
 #-*- coding: utf-8 -*-
 from odoo import http
-
+from odoo.http import request
+from werkzeug.wrappers import Request, Response
+import json
 
 class GsPortal(http.Controller):
     @http.route('/gscudo-portal/gscudo-portal/', auth='public')

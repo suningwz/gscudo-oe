@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<odoo>
+    <!-- Gruppo Scudo Powerbi User Group -->
+    <record id="group_powerbi_user" model="res.groups">
+        <field name="name">Utente PowerBi</field>
+        <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
+      
+    </record>
+
+
+    <!-- Gruppo Scudo Powerbi Manager Group -->
+    <record id="group_powerbi_manager" model="res.groups">
+        <field name="name">Manager PowerBi</field>
+        <field name="implied_ids" eval="[(4, ref('gscudo-oe.group_manager'))]"/>
+        <field name="users" eval="[(4, ref('base.user_root')), (4, ref('base.user_admin'))]"/>
+    </record>
+</odoo>
