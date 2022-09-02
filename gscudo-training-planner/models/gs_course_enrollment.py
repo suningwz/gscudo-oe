@@ -1,4 +1,4 @@
-from odoo import models, fields
+from odoo import models, fields, api
 
 
 class GSCourseEnrollment(models.Model):
@@ -7,6 +7,25 @@ class GSCourseEnrollment(models.Model):
     gs_training_planner_id = fields.Many2one(
         comodel_name="gs_training_planner", string="Linea pianificatore"
     )
+
+    gs_course_id = fields.Many2one(
+        comodel_name="gs_course",
+        string="Corso",
+        required=True,
+        tracking=True,
+        index=True,
+        compute="_compute_gs_course_id",
+        inverse="_pass",  # pylint: disable=method-inverse
+    )
+
+    @api.depends("gs_training_planner_id")
+    def _compute_gs_course_id(self):
+        for record in self:
+            if record.gs_training_planner_id.gs_course_id:
+                record.gs_course_id = record.gs_training_planner_id.gs_course_id
+
+    def _pass(self):
+        pass
 
 
 class GSTrainingPlanner(models.Model):
@@ -23,6 +42,7 @@ class GSTrainingPlanner(models.Model):
         compute="_compute_gs_course_enrollment_count",
     )
 
+    @api.depends("gs_course_enrollment_ids")
     def _compute_gs_course_enrollment_count(self):
         for record in self:
             record.gs_course_enrollment_count = len(record.gs_course_enrollment_ids)

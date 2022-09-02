@@ -50,6 +50,7 @@
                             </div>
                             <field name="gs_course_type_id" options="{'no_create': True, 'no_create_edit':True}" />
                             <field name="gs_course_id" />
+                            <field name="gs_training_certificate_type_id" invisible="1" />
                             <field name="course_attendants" />
                             <field name="gs_course_enrollment_count" />
                             <!-- <field name="lesson_dates" /> -->
@@ -62,10 +63,24 @@
                             <field name="external_url" widget="url" attrs="{'invisible':[('external_url', '=', False)]}" />
                         </group>
                     </group>
-                    <group>
-                        <field name="gs_course_enrollment_ids">
-                            <tree>
-                                <field name="gs_worker_id" />
+                    <group colspan="2" string="Iscrizioni collegate">
+                        <field
+                            name="gs_course_enrollment_ids"
+                            nolabel="1"
+                            mode="tree"
+                            context="{'default_gs_training_planner_id': active_id, 'default_gs_course_id': gs_course_id, 'default_state': 'C'}"
+                        >
+                            <tree editable="bottom">
+                                <field name="gs_course_id" invisible="1" />
+                                <field
+                                    name="gs_worker_certificate_id"
+                                    domain="[
+                                        ('gs_worker_id.contract_partner_id', '=', parent.partner_id),
+                                        ('gs_training_certificate_type_id', '=', parent.gs_training_certificate_type_id),
+                                        ('gs_course_enrollment_id', '=', False)
+                                    ]"
+                                />
+                                <field name="gs_worker_id" readonly="1" />
                                 <field name="state" />
                                 <field name="note" />
                             </tree>

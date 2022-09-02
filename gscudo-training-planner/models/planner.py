@@ -58,17 +58,10 @@ class GSTrainingPlanner(models.Model):
         domain="[('gs_course_type_id', '=', gs_course_type_id)]",
         tracking=True,
     )
-
-    # gs_training_class_id = fields.Many2one(
-    #     related="gs_training_class_course_id.training_class_id",
-    #     comodel_name="gs_training_classes",
-    #     string="Classe",
-    # )
-    # gs_training_article_id = fields.Many2one(
-    #     related="gs_training_class_course_id.article_id",
-    #     comodel_name="gs_articles",
-    #     string="Argomento",
-    # )
+    gs_training_certificate_type_id = fields.Many2one(
+        related="gs_course_id.gs_course_type_id.gs_training_certificate_type_id",
+        string="Tipo di certificato formativo",
+    )
 
     sale_order_create_date = fields.Datetime(
         related="sale_order_id.create_date", string="Data Offerta"
@@ -92,11 +85,9 @@ class GSTrainingPlanner(models.Model):
         related="sale_order_line_id.price_subtotal", string="Totale"
     )
 
-    # fields for administrations teams
     invoice_ref = fields.Char(string="Fatture", tracking=True)
     creditnote_ref = fields.Char(string="Note Accredito", tracking=True)
 
-    # fields for training staff teams
     place = fields.Char(string="Luogo", tracking=True)
     is_multicompany = fields.Boolean(
         related="gs_course_id.is_multicompany",
@@ -112,11 +103,6 @@ class GSTrainingPlanner(models.Model):
     is_atcustomer = fields.Boolean(
         string="Presso cliente", tracking=True, default=False
     )
-
-    # def _compute_is_atcustomer(self):
-    #     for _ in self:
-    #         pass
-    #         # record.is_atcustomer =
 
     tutor = fields.Char(string="Fornitore", tracking=True)
     tutor_price = fields.Float(string="Docenza prezzo", tracking=True)
@@ -144,7 +130,9 @@ class GSTrainingPlanner(models.Model):
             record.lesson_times = "\n".join(
                 [
                     f"{l.name}: {lesson_time(l)}"
-                    for l in record.gs_course_id.gs_course_lesson_ids
+                    for l in self.env["gs_course_lesson"].sorted(
+                        record.gs_course_id.gs_course_lesson_ids
+                    )
                     if l.generate_certificate is False
                 ]
             )
@@ -183,52 +171,32 @@ class GSTrainingPlanner(models.Model):
         string="Status",
     )
 
-    # FIXME article?
-    @api.depends("gs_course_type_id", "course_start_date", "partner_id")
+    @api.depends(
+        "sale_order_id.name",
+        "gs_course_type_id.name",
+        "gs_course_id.protocol",
+        "course_start_date",
+        "partner_id.name",
+    )
     def _compute_name(self):
         for record in self:
-            record.name = " ".join(
+            record.name = " - ".join(
                 [
+                    record.sale_order_id.name or "",
                     record.gs_course_type_id.name or "",
+                    record.gs_course_id.protocol if record.gs_course_id else "",
                     record.course_start_date.strftime("%d/%m/%Y")
                     if record.course_start_date
-                    else "",
+                    else "data da definire",
                     record.partner_id.name or "",
                 ]
-            ).strip()
+            ).strip(" -")
 
     @api.onchange("partner_id")
     def _onchange_partner_id(self):
         self.sale_order_id = False
         self._onchange_sale_order_id()
-        # if rec.gs_client_id.id is not False:
-        #     if rec.gs_offer_id.client_id.id != rec.gs_client_id.id:
-        #         rec.gs_offer_id = False
-        # return {
-        #     "domain": {
-        #         "gs_offer_id": [
-        #             ("offer_state_id", "in", [2, 10]),
-        #             ("deleted_at", "=", False),
-        #             ("client_id", "=", rec.gs_client_id.id),
-        #         ]
-        #     }
-        # }
 
     @api.onchange("sale_order_id")
     def _onchange_sale_order_id(self):
         self.sale_order_line_id = False
-        # if rec.gs_offer_id.id is not False:
-        #     if rec.gs_offer_id.client_id.id != rec.gs_client_id.id:
-        #         rec.gs_client_id = rec.gs_offer_id.client_id
-        #     rec.gs_article_id = False
-        # return {
-        #     "domain": {
-        #         "gs_article_id": [
-        #             (
-        #                 "id",
-        #                 "in",
-        #                 list(x.id for x in rec.gs_offer_id.article_ids),
-        #             )
-        #         ]
-        #     }
-        # }

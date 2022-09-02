@@ -393,8 +393,10 @@ class GSWorkerCertificate(models.Model):
         comodel_name="gs_course_enrollment",
         string="Iscrizione rinnovo",
         compute="_compute_gs_course_enrollment_id",
+        store=True,
     )
 
+    @api.depends("gs_course_enrollment_ids")
     def _compute_gs_course_enrollment_id(self):
         for record in self:
             if record.gs_course_enrollment_ids:

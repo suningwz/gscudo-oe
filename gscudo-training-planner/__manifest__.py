@@ -24,6 +24,8 @@
         "views/menus.xml",
         "views/planner_views.xml",
         "views/gs_course_enrollment_views.xml",
+        "views/gs_course_views.xml",
+        "views/gs_enrollment_wizard_views.xml",
         "data/sale_order_actions.xml",
     ],
     "demo": [],

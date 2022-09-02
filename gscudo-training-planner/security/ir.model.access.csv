@@ -2,3 +2,4 @@ id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_gs_training_planner,access_gs_training_planner,model_gs_training_planner,base.group_user,1,0,0,0
 backoffice_gs_training_planner,backoffice_gs_training_planner,model_gs_training_planner,gscudo-training.group_training_backoffice,1,0,0,0
 manage_gs_training_planner,manage_gs_training_planner,model_gs_training_planner,gscudo-training.group_training_manager,1,1,1,1
+access_gs_planner_certificate_enrollment_wizard,access_gs_planner_certificate_enrollment_wizard,model_gs_planner_certificate_enrollment_wizard,base.group_user,1,1,1,1
