@@ -120,6 +120,7 @@
                 <field name="is_multicompany" />
                 <field name="state" />
                 <field name="is_child" />
+                <field name="note" optional="hide" />
             </tree>
         </field>
     </record>
