@@ -11,6 +11,7 @@
                         <field name="code" />
                         <field name="query" />
                         <field name="description" />
+                        <field name="link" widget="url" />
                         <field name="groups_id" />
                     </group>
                 </sheet>

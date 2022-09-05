@@ -20,7 +20,7 @@
     "website": "http://www.grupposcudo.it",
    
     "category": "GruppoScudo",
-    "version": "14.0.1.20h",
+    "version": "14.0.1.21",
     # any module necessary for this one to work correctly
     "depends": ["base", ],
     # always loaded
