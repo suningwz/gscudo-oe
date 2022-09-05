@@ -17,7 +17,6 @@ class GSTrainingPlanner(models.Model):
 
     # creation_date = fields.Date(string="Data creazione")
 
-    # field connected to Sawgest data
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Cliente",
@@ -43,9 +42,8 @@ class GSTrainingPlanner(models.Model):
         # tracking=True,
     )
 
-    # FIXME sale_order_state
+    sale_state = fields.Selection(related="sale_order_id.state", string="Stato offerta")
 
-    # TODO domain from product_id
     gs_course_type_id = fields.Many2one(
         comodel_name="gs_course_type",
         string="Tipo di corso",
