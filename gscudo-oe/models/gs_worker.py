@@ -91,3 +91,20 @@ class GSWorker(models.Model):
 
             record.surname = surname
             record.firstname = firstname
+
+    def _onchange_fiscalcode(self):
+        duplicate_workers = self.search(
+            [
+                ("fiscalcode", "=", self.fiscalcode),
+                ("id", "!=", self.id if self.id else 0),
+            ]
+        )
+
+        if duplicate_workers:
+            return {
+                "value": {},
+                "warning": {
+                    "title": "Attenzione!",
+                    "message": ("Questo codice fiscale è già presente nel sistema."),
+                },
+            }

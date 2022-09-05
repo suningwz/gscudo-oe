@@ -23,12 +23,12 @@ NEEDED_KEYS = (
     "sesso",
     "data_nascita",
     "comune_nascita",
-    "email",
 )
 
 OPTIONAL_KEYS = (
     "provincia_nascita",
     "telefono",
+    "email",
 )
 
 
