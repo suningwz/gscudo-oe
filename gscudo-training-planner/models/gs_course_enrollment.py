@@ -14,8 +14,9 @@ class GSCourseEnrollment(models.Model):
         required=True,
         tracking=True,
         index=True,
+        store=True,
         compute="_compute_gs_course_id",
-        inverse="_pass",  # pylint: disable=method-inverse
+        inverse="_pass", # pylint: disable=method-inverse
     )
 
     @api.depends("gs_training_planner_id")
@@ -26,6 +27,11 @@ class GSCourseEnrollment(models.Model):
 
     def _pass(self):
         pass
+
+    # def _inverse_gs_course_id(self):
+    #     for record in self:
+    #         if record.gs_training_planner_id:
+    #             record.gs_training_planner_id = False
 
 
 class GSTrainingPlanner(models.Model):

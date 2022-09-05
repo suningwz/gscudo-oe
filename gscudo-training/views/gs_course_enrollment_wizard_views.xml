@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <record id="gs_course_certificate_enrollment_wizard_view_form" model="ir.ui.view">
+    <!-- <record id="gs_course_certificate_enrollment_wizard_view_form" model="ir.ui.view">
         <field name="name">gs_course_certificate_enrollment_wizard_view_form</field>
         <field name="model">gs_course_certificate_enrollment_wizard</field>
         <field name="arch" type="xml">
@@ -48,7 +48,7 @@
         <field name="state">code</field>
         <field name="code">action = records.enrollment_wizard()</field>
         <field name="binding_model_id" ref="model_gs_worker_certificate" />
-    </record>
+    </record> -->
 
 
     <record id="gs_course_enrollment_wizard_view_form" model="ir.ui.view">

@@ -7,7 +7,11 @@
             <form>
                 <sheet>
                     <group>
-                            <!-- domain="[
+                        <field
+                            name="gs_planner_id"
+                            options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}"
+                            domain="[
+                                ('partner_id.id', '=', partner_id),
                                 '|',
                                 '|',
                                 (
@@ -25,12 +29,10 @@
                                     'in',
                                     [gs_training_certificate_type_id]
                                 ),
-                                ]" -->
-                        <field
-                            name="gs_planner_id"
-                            options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}"
-                            />
+                            ]"
+                        />
                         <field name="gs_training_certificate_type_id" invisible="1" />
+                        <field name="partner_id" invisible="1" />
                     </group>
                 </sheet>
                 <footer>
@@ -41,32 +43,13 @@
         </field>
     </record>
 
-    <record id="gs_planner_certificate_enrollment_wizard_action" model="ir.actions.act_window">
+    <record id="gs_planner_certificate_enrollment_wizard_action" model="ir.actions.server">
         <field name="name">Iscrivi lavoratori</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">gs_planner_certificate_enrollment_wizard</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>
-        <field name="view_id" ref="gs_planner_certificate_enrollment_wizard_view_form"/>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="gscudo-training.model_gs_worker_certificate"/>
         <field name="binding_model_id" ref="gscudo-training.model_gs_worker_certificate"/>
+        <field name="state">code</field>
+        <field name="code">action = records.planner_enrollment_wizard()</field>
     </record>
 
-    <!-- <record id="gs_planner_certificate_enrollment_wizard_action" model="ir.actions.act_window">
-        <field name="name">Iscrivi lavoratori</field>
-        <field name="type">ir.actions.act_window</field>
-        <field name="res_model">gscudo-training.gs_worker_certificate</field>
-        <field name="view_mode">form</field>
-        <field name="target">new</field>     
-        <field name="view_id" ref="gs_planner_certificate_enrollment_wizard_view_form" />
-        <field name="binding_model_id" ref="gscudo-training.model_gs_worker_certificate" />
-    </record> -->
-
-    <!-- <record id="gs_course_certificate_enrollment_wizard_action" model="ir.actions.server">
-        <field name="name">Iscrivi a un corso</field>
-        <field name="model_id" ref="model_gs_worker_certificate"/>
-        <field name="type">ir.actions.server</field>
-        <field name="state">code</field>
-        <field name="code">action = records.enrollment_wizard()</field>
-        <field name="binding_model_id" ref="model_gs_worker_certificate" />
-    </record> -->
 </odoo>
