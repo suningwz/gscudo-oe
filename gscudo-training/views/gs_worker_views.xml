@@ -19,6 +19,7 @@
                                 <field name="issue_date" />
                                 <field name="expiration_date" />
                                 <field name="is_update" />
+                                <field name="attachment" widget="binary" optional="hide" />
                                 <field
                                     name="state"
                                     options="{'bg_color': '#ff8f8f: state == \'expired\'; #fbff8f: state == \'expiring\'; #8fff93: state == \'valid\';'}"
@@ -32,6 +33,7 @@
                                 <field name="issue_date" />
                                 <field name="expiration_date" />
                                 <field name="is_update" />
+                                <field name="attachment" widget="binary" optional="hide" />
                                 <field
                                     name="state"
                                     options="{'bg_color': '#ff8f8f: state == \'expired\'; #fbff8f: state == \'expiring\'; #8fff93: state == \'valid\';' }"
