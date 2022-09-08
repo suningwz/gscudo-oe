@@ -124,10 +124,6 @@ class GSPlannerCertificateEnrollmentWizard(models.TransientModel):
                 continue
 
             data = {
-                "name": (
-                    f"Iscrizione a {self.gs_planner_id.gs_course_id.name} "
-                    f"({self.gs_planner_id.gs_course_id.start_date})"
-                ),
                 "gs_course_id": self.gs_planner_id.gs_course_id.id,
                 "gs_training_planner_id": self.gs_planner_id.id,
                 "gs_worker_id": requirement.gs_worker_id.id,

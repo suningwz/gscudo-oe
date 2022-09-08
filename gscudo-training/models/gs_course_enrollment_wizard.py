@@ -74,7 +74,6 @@ class GSCourseCertificateEnrollmentWizard(models.TransientModel):
                 continue
 
             data = {
-                "name": f"Iscrizione a {self.gs_course_id.name} ({self.gs_course_id.start_date})",
                 "gs_course_id": self.gs_course_id.id,
                 "gs_worker_id": requirement.gs_worker_id.id,
                 "gs_worker_certificate_id": requirement.id,
@@ -163,7 +162,6 @@ class GSCourseEnrollmentWizard(models.TransientModel):
             raise UserError("Lavoratore già iscritto al corso.")
 
         data = {
-            "name": f"Iscrizione a {course.name} ({course.start_date})",
             "gs_course_id": course.id,
             "gs_worker_id": self.gs_worker_certificate_id.gs_worker_id.id,
             "gs_worker_certificate_id": self.gs_worker_certificate_id.id,

@@ -35,12 +35,19 @@ class GSTrainingPlanner(models.Model):
         tracking=True,
     )
     product_id = fields.Many2one(
-        related="sale_order_line_id.product_id",
         comodel_name="product.product",
         string="Prodotto",
-        # domain="[('product_family_id', '=', 'Formazione')]",
-        # tracking=True,
+        tracking=True,
     )
+
+    @api.onchange("sale_order_line_id")
+    def _onchange_sale_order_line_id(self):
+        if self.sale_order_line_id:
+            self.product_id = self.sale_order_line_id.product_id
+            self.price_unit = self.sale_order_line_id.price_unit
+            self.product_uom_qty = self.sale_order_line_id.product_uom_qty
+            self.discount = self.sale_order_line_id.discount
+            self.price_subtotal = self.sale_order_line_id.price_subtotal
 
     sale_state = fields.Selection(related="sale_order_id.state", string="Stato offerta")
 
@@ -69,34 +76,20 @@ class GSTrainingPlanner(models.Model):
     )
 
     currency_id = fields.Many2one(related="sale_order_id.currency_id")
-    price_unit = fields.Float(
-        related="sale_order_line_id.price_unit", string="Prezzo articolo"
-    )
-    product_uom_qty = fields.Float(
-        related="sale_order_line_id.product_uom_qty",
-        string="Quantità",
-        digits="Product Unit of Measure",
-    )
-    discount = fields.Float(related="sale_order_line_id.discount", string="Sconto")
+    price_unit = fields.Float(string="Prezzo articolo")
+    product_uom_qty = fields.Float(string="Quantità", digits="Product Unit of Measure")
+    discount = fields.Float(string="Sconto")
 
-    price_subtotal = fields.Monetary(
-        related="sale_order_line_id.price_subtotal", string="Totale"
-    )
+    price_subtotal = fields.Monetary(string="Totale")
 
     invoice_ref = fields.Char(string="Fatture", tracking=True)
     creditnote_ref = fields.Char(string="Note Accredito", tracking=True)
 
     place = fields.Char(string="Luogo", tracking=True)
     is_multicompany = fields.Boolean(
-        related="gs_course_id.is_multicompany",
-        string="Multiaziendale",
+        string="Multiaziendale", tracking=True, default=False
     )
-    is_online = fields.Boolean(string="Modalità FAD", compute="_compute_is_online")
-
-    @api.depends("gs_course_id", "gs_course_id.mode")
-    def _compute_is_online(self):
-        for record in self:
-            record.is_online = record.gs_course_id.mode == "E"
+    is_online = fields.Boolean(string="Modalità FAD", tracking=True, default=False)
 
     is_atcustomer = fields.Boolean(
         string="Presso cliente", tracking=True, default=False

@@ -8,7 +8,23 @@ class GSCourseEnrollment(models.Model):
     _description = "Registrazione corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Nome")
+    name = fields.Char(string="Nome", compute="_compute_name", store=True, index=True)
+
+    @api.depends(
+        "gs_course_id.name", "gs_course_id.protocol", "gs_course_id.start_date"
+    )
+    def _compute_name(self):
+        for record in self:
+            record.name = " ".join(
+                [
+                    "Iscrizione",
+                    f"{record.gs_course_id.name} [{record.gs_course_id.protocol}]",
+                    record.gs_course_id.start_date.strftime("(%d/%m/%Y)")
+                    if record.gs_course_id.start_date
+                    else "(data da definire)",
+                ]
+            )
+
     gs_course_id = fields.Many2one(
         comodel_name="gs_course",
         string="Corso",
@@ -129,17 +145,6 @@ class GSCourseEnrollment(models.Model):
 
         enrollment = super().create(values)
 
-        if enrollment.name is False:
-            enrollment.name = " ".join(
-                [
-                    "Iscrizione",
-                    enrollment.gs_course_id.name,
-                    enrollment.gs_course_id.start_date.strftime("(%d/%m/%Y)")
-                    if enrollment.gs_course_id.start_date
-                    else "(data da definire)",
-                ]
-            )
-
         if "expiration_date" not in values:
             enrollment.expiration_date = enrollment.gs_course_id.end_date
 
@@ -148,7 +153,6 @@ class GSCourseEnrollment(models.Model):
             lesson_enrollments.append(
                 self.env["gs_lesson_enrollment"].create(
                     {
-                        "name": enrollment.name,
                         "gs_worker_id": enrollment.gs_worker_id.id,
                         "gs_course_lesson_id": lesson.id,
                         "state": enrollment.state,

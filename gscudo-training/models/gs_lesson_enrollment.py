@@ -7,11 +7,28 @@ class GSLessonEnrollment(models.Model):
     _description = "Registrazione lezione"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Nome", compute="_compute_name")
+    name = fields.Char(string="Nome", compute="_compute_name", store=True, index=True)
 
+    @api.depends(
+        "gs_course_lesson_id.name",
+        "gs_course_id.start_date",
+        "gs_course_id.gs_course_type_id.name",
+        "gs_course_id.protocol",
+    )
     def _compute_name(self):
-        for enrollment in self:
-            enrollment.name = enrollment.gs_course_lesson_id.name
+        for record in self:
+            record.name = " ".join(
+                [
+                    "Iscrizione",
+                    record.gs_course_lesson_id.name,
+                    record.gs_course_id.start_date.strftime("(%d/%m/%Y)")
+                    if record.gs_course_id.start_date
+                    else "(data da definire)",
+                    "-",
+                    record.gs_course_id.gs_course_type_id.name,
+                    f"[{record.gs_course_id.protocol}]",
+                ]
+            )
 
     gs_course_lesson_id = fields.Many2one(
         comodel_name="gs_course_lesson",
