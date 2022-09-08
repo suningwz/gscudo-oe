@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <!-- <menuitem
+        id="gs_training_planner_menu_root"
+        name="Formazione"
+        web_icon="gscudo-training-planner,static/description/elearning.jpg"
+        groups="group_training_user,group_training_manager"
+    /> -->
+    <menuitem
+        id="gs_training_menu_planner"
+        name="Pianificatore"
+        parent="gscudo-training.gs_training_menu_root"
+        sequence="45"
+        groups="gscudo-training.group_training_backoffice"
+    />
+</odoo>

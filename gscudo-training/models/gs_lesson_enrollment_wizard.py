@@ -49,13 +49,15 @@ class GSLessonSingleEnrollmentWizard(models.TransientModel):
         comodel_name="gs_worker", string="Lavoratore", required=True
     )
 
-    # is_reenrollment = fields.Boolean(string="È una reiscrizione", default=False)
-    # removed_course_id = fields.Many2one(comodel_name="gs_course", string="Corso")
-    # removed_course_lesson_id = fields.Many2one(
-    #     comodel_name="gs_course_lesson",
-    #     string="Lezione",
-    #     domain=[("gs_course_id", "=", removed_course_id)],
-    # )
+    is_reenrollment = fields.Boolean(string="È una reiscrizione", default=True)
+    previous_course_id = fields.Many2one(comodel_name="gs_course", string="Corso")
+    previous_lesson_id = fields.Many2one(
+        comodel_name="gs_course_lesson",
+        string="Lezione",
+        domain=[("gs_course_id", "=", previous_course_id)],
+    )
+
+    gs_lesson_id = fields.Many2one(comodel_name="gs_course")
 
     def enroll_worker(self):
         """

@@ -22,15 +22,22 @@ class GSCourseLesson(models.Model):
     name = fields.Char(string="Nome")
     note = fields.Char(string="Note")
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
-    gs_course_id = fields.Many2one(comodel_name="gs_course", string="Corso", index=True,)
+    gs_course_id = fields.Many2one(
+        comodel_name="gs_course",
+        string="Corso",
+        index=True,
+    )
     gs_course_type_id = fields.Many2one(
         related="gs_course_id.gs_course_type_id",
         comodel_name="gs_course_type",
-        string="Tipo Corso", 
+        string="Tipo Corso",
     )
 
     parent_lesson_id = fields.Many2one(
-        comodel_name="gs_course_lesson", string="Lezione padre", tracking=True,  index=True,
+        comodel_name="gs_course_lesson",
+        string="Lezione padre",
+        tracking=True,
+        index=True,
     )
     children_lesson_ids = fields.One2many(
         comodel_name="gs_course_lesson",
@@ -72,17 +79,26 @@ class GSCourseLesson(models.Model):
                 lesson.end_time = lesson.start_time + timedelta(hours=lesson.duration)
 
     location_partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Sede", tracking=True, index=True,
+        comodel_name="res.partner",
+        string="Sede",
+        tracking=True,
+        index=True,
     )
     elearning = fields.Boolean(string="Modalità elearning", tracking=True)
 
     teacher_partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Docente", tracking=True, index=True,
+        comodel_name="res.partner",
+        string="Docente",
+        tracking=True,
+        index=True,
     )
     is_teacher_remote = fields.Boolean(string="Docente in videoconf.", tracking=True)
 
     coteacher_partner_id = fields.Many2one(
-        comodel_name="res.partner", string="Co-docente", tracking=True, index=True,
+        comodel_name="res.partner",
+        string="Co-docente",
+        tracking=True,
+        index=True,
     )
     is_coteacher_remote = fields.Boolean(
         string="Codocente in videoconf.", tracking=True

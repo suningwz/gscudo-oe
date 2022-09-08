@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="gs_planner_certificate_enrollment_wizard_view_form" model="ir.ui.view">
+        <field name="name">gs_planner_certificate_enrollment_wizard_view_form</field>
+        <field name="model">gs_planner_certificate_enrollment_wizard</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <group>
+                        <field
+                            name="gs_planner_id"
+                            options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}"
+                            domain="[
+                                ('partner_id.id', '=', partner_id),
+                                '|',
+                                '|',
+                                (
+                                    'gs_course_type_id.gs_training_certificate_type_id.id',
+                                    '=',
+                                    gs_training_certificate_type_id
+                                ),
+                                (
+                                    'gs_course_type_id.gs_training_certificate_type_id.weaker_certificate_ids',
+                                    'in',
+                                    [gs_training_certificate_type_id]
+                                ),
+                                (
+                                    'gs_course_type_id.gs_training_certificate_type_id.stronger_certificate_ids',
+                                    'in',
+                                    [gs_training_certificate_type_id]
+                                ),
+                            ]"
+                        />
+                        <field name="gs_training_certificate_type_id" invisible="1" />
+                        <field name="partner_id" invisible="1" />
+                    </group>
+                </sheet>
+                <footer>
+                    <button name="enroll" type="object" string="Iscrivi" class="oe_highlight" />
+                    <button special="cancel" string="Annulla" />
+                </footer>
+            </form>
+        </field>
+    </record>
+
+    <record id="gs_planner_certificate_enrollment_wizard_action" model="ir.actions.server">
+        <field name="name">Iscrivi lavoratori</field>
+        <field name="type">ir.actions.server</field>
+        <field name="model_id" ref="gscudo-training.model_gs_worker_certificate"/>
+        <field name="binding_model_id" ref="gscudo-training.model_gs_worker_certificate"/>
+        <field name="state">code</field>
+        <field name="code">action = records.planner_enrollment_wizard()</field>
+    </record>
+
+</odoo>

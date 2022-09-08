@@ -7,30 +7,55 @@ class GSLessonEnrollment(models.Model):
     _description = "Registrazione lezione"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Nome", compute="_compute_name")
+    name = fields.Char(string="Nome", compute="_compute_name", store=True, index=True)
 
+    @api.depends(
+        "gs_course_lesson_id.name",
+        "gs_course_id.start_date",
+        "gs_course_id.gs_course_type_id.name",
+        "gs_course_id.protocol",
+    )
     def _compute_name(self):
-        for enrollment in self:
-            enrollment.name = enrollment.gs_course_lesson_id.name
+        for record in self:
+            record.name = " ".join(
+                [
+                    "Iscrizione",
+                    record.gs_course_lesson_id.name,
+                    record.gs_course_id.start_date.strftime("(%d/%m/%Y)")
+                    if record.gs_course_id.start_date
+                    else "(data da definire)",
+                    "-",
+                    record.gs_course_id.gs_course_type_id.name,
+                    f"[{record.gs_course_id.protocol}]",
+                ]
+            )
 
     gs_course_lesson_id = fields.Many2one(
-        comodel_name="gs_course_lesson", string="Lezione", tracking=True, index=True,
+        comodel_name="gs_course_lesson",
+        string="Lezione",
+        tracking=True,
+        index=True,
     )
     gs_course_id = fields.Many2one(
         comodel_name="gs_course",
         string="Corso",
         related="gs_course_lesson_id.gs_course_id",
         store=True,
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", tracking=True, index=True,
+        comodel_name="gs_worker",
+        string="Lavoratore",
+        tracking=True,
+        index=True,
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Azienda",
-        related="gs_worker_id.contract_partner_id", index=True,
+        related="gs_worker_id.contract_partner_id",
+        index=True,
     )
 
     state = fields.Selection(
@@ -73,26 +98,67 @@ class GSLessonEnrollment(models.Model):
 
     implicit = fields.Boolean(string="Iscrizione implicita", default=True)
     gs_course_enrollment_id = fields.Many2one(
-        comodel_name="gs_course_enrollment", string="Iscrizione al corso", tracking=True, index=True,
+        comodel_name="gs_course_enrollment",
+        string="Iscrizione al corso",
+        tracking=True,
+        index=True,
     )
 
     gs_course_type_module_id = fields.Many2one(
         comodel_name="gs_course_type_module",
         string="Modulo",
         related="gs_course_lesson_id.gs_course_type_module_id",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     previous_enrollment_id = fields.Many2one(
-        comodel_name="gs_lesson_enrollment", string="Lezione precedente", tracking=True, index=True,
+        comodel_name="gs_lesson_enrollment",
+        string="Lezione precedente",
+        tracking=True,
+        index=True,
     )
 
     def get_next_enrollment(self):
         """
         Returns the next enrollment for the worker, or False if this is the last one.
         """
+        self.ensure_one()
         enrollment = self.search([("previous_enrollment_id", "=", self.id)])
         return enrollment if len(enrollment) > 0 else False
+
+    def get_possible_reenrollments(self):
+        """
+        Given a single enrollment, return all possible previous enrollments.
+        """
+        self.ensure_one()
+
+        non_attended_enrollments = self.search(
+            [
+                ("gs_worker_id", "=", self.gs_worker_id),
+                (
+                    "gs_course_id.gs_course_type_id.gs_certificate_type_id",
+                    "=",
+                    self.gs_course_id.gs_course_type_id.gs_certificate_type_id,
+                ),
+                ("is_attendant", "=", False),
+                ("previous_enrollment.is_attendant", "=", True),
+                ("gs_course_lesson_id.generate_certificate", "=", False),
+            ]
+        )
+
+        possible_enrollments = [
+            s.get_next_enrollment() for s in non_attended_enrollments
+        ]
+
+        # return sorted(
+        #     possible_enrollments,
+        #     key=functools.cmp_to_key(
+        #         lambda x, y: -1 if y is False or (x is not False and x < y) else 1
+        #     ),
+        # )
+
+        return possible_enrollments
 
     def generate_certificate(self):
         """

@@ -8,18 +8,50 @@ class GSCourseEnrollment(models.Model):
     _description = "Registrazione corso"
     _inherit = ["mail.thread", "mail.activity.mixin"]
 
-    name = fields.Char(string="Nome")
+    name = fields.Char(string="Nome", compute="_compute_name", store=True, index=True)
+
+    @api.depends(
+        "gs_course_id.name", "gs_course_id.protocol", "gs_course_id.start_date"
+    )
+    def _compute_name(self):
+        for record in self:
+            record.name = " ".join(
+                [
+                    "Iscrizione",
+                    f"{record.gs_course_id.name} [{record.gs_course_id.protocol}]",
+                    record.gs_course_id.start_date.strftime("(%d/%m/%Y)")
+                    if record.gs_course_id.start_date
+                    else "(data da definire)",
+                ]
+            )
+
     gs_course_id = fields.Many2one(
-        comodel_name="gs_course", string="Corso", required=True, tracking=True, index=True,
+        comodel_name="gs_course",
+        string="Corso",
+        required=True,
+        tracking=True,
+        index=True,
     )
     gs_worker_id = fields.Many2one(
-        comodel_name="gs_worker", string="Lavoratore", required=True, tracking=True, index=True,
+        comodel_name="gs_worker",
+        string="Lavoratore",
+        compute="_compute_gs_worker_id",
+        inverse="_pass",  # pylint: disable=method-inverse
+        store=True,
+        tracking=True,
+        index=True,
     )
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Azienda",
-        related="gs_worker_id.contract_partner_id", 
+        related="gs_worker_id.contract_partner_id",
     )
+
+    @api.depends("gs_worker_certificate_id")
+    def _compute_gs_worker_id(self):
+        for record in self:
+            if record.gs_worker_certificate_id:
+                record.gs_worker_id = record.gs_worker_certificate_id.gs_worker_id
 
     state = fields.Selection(
         string="Stato",
@@ -58,6 +90,7 @@ class GSCourseEnrollment(models.Model):
         comodel_name="gs_worker_certificate",
         string="Esigenza collegata",
         compute="_compute_gs_worker_certificate_id",
+        inverse="_pass",  # pylint: disable=method-inverse
         store=True,
     )
 
@@ -66,6 +99,9 @@ class GSCourseEnrollment(models.Model):
         for record in self:
             if record.state in ["X", "S"]:
                 record.gs_worker_certificate_id = False
+
+    def _pass(self):
+        pass
 
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
     expiration_date = fields.Date(string="Scadenza iscrizione")
@@ -78,11 +114,32 @@ class GSCourseEnrollment(models.Model):
         """
         At creation, add implicit lesson enrollment.
         """
-        if self.search(
-            [
-                ("gs_worker_id", "=", values.get("gs_worker_id")),
-                ("gs_course_id", "=", values.get("gs_course_id")),
-            ]
+
+        if (
+            values.get("gs_worker_id") not in (None, False)
+            and self.search(
+                [
+                    ("gs_worker_id", "=", values.get("gs_worker_id")),
+                    ("gs_course_id", "=", values.get("gs_course_id")),
+                ]
+            )
+            or (
+                values.get("gs_worker_certificate_id") not in (None, False)
+                and self.search(
+                    [
+                        (
+                            "gs_worker_id",
+                            "=",
+                            self.env["gs_worker_certificate"]
+                            .search(
+                                [("id", "=", values.get("gs_worker_certificate_id"))]
+                            )
+                            .gs_worker_id.id,
+                        ),
+                        ("gs_course_id", "=", values.get("gs_course_id")),
+                    ]
+                )
+            )
         ):
             raise UserError("Lavoratore già iscritto al corso.")
 
@@ -96,7 +153,6 @@ class GSCourseEnrollment(models.Model):
             lesson_enrollments.append(
                 self.env["gs_lesson_enrollment"].create(
                     {
-                        "name": enrollment.name,
                         "gs_worker_id": enrollment.gs_worker_id.id,
                         "gs_course_lesson_id": lesson.id,
                         "state": enrollment.state,
@@ -123,11 +179,17 @@ class GSCourseEnrollment(models.Model):
     def write(self, vals):
         """
         On state update, also update the state of each lesson enrollment.
+        On worker update, also update the worker id of each lesson enrollment.
         """
         if "state" in vals:
             for e in self:
                 for l in e.gs_lesson_enrollment_ids:
                     l.state = vals.get("state")
+
+        if "gs_worker_id" in vals:
+            for e in self:
+                for l in e.gs_lesson_enrollment_ids:
+                    l.gs_worker_id = vals.get("gs_worker_id")
 
         return super().write(vals)
 
