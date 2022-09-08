@@ -17,12 +17,14 @@
         
     """,
     "author": "Gruppo Scudo Srl / LGIT",
+    "license": "Other proprietary",
     "website": "http://www.grupposcudo.it",
-   
     "category": "GruppoScudo",
-    "version": "14.0.1.21",
+    "version": "14.0.1.22",
     # any module necessary for this one to work correctly
-    "depends": ["base", ],
+    "depends": [
+        "base",
+    ],
     # always loaded
     "data": [
         "security/security_groups.xml",
@@ -31,7 +33,6 @@
         "views/views.xml",
         "views/templates.xml",
         "views/gs_powerbi_query_views.xml",
-       
     ],
     # only loaded in demonstration mode
     "demo": [
