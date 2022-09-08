@@ -12,7 +12,7 @@
       - every user must create an own api key in the user form
       - PowerBi manager can ceate a single query 
       - Each query can be associated to some groups, if no groups query will be available for all users
-      - In query  you can use uid parameter to filter data for specific user (eg: select * from res_users where id = {uid} ; )
+      - In query  you can use uid parameter to filter data for specific user (eg: select * from res_users where id = %(uid)s ; )
       -
         
     """,
