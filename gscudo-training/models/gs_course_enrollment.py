@@ -44,8 +44,13 @@ class GSCourseEnrollment(models.Model):
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Azienda",
-        related="gs_worker_id.contract_partner_id",
+        compute="_compute_partner_id",
     )
+
+    def _compute_partner_id(self):
+        for record in self:
+            if record.gs_worker_id:
+                record.partner_id = record.gs_worker_id.partner_id
 
     @api.depends("gs_worker_certificate_id")
     def _compute_gs_worker_id(self):

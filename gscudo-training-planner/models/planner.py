@@ -158,6 +158,7 @@ class GSTrainingPlanner(models.Model):
             ("3-accettato", "Accettato"),
             ("4-in corso", "In corso"),
             ("5-concluso", "Concluso"),
+            ("X-annullato", "Annullato"),
         ],
         string="Status",
     )

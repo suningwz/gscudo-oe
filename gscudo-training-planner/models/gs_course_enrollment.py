@@ -7,7 +7,6 @@ class GSCourseEnrollment(models.Model):
     gs_training_planner_id = fields.Many2one(
         comodel_name="gs_training_planner", string="Linea pianificatore"
     )
-
     gs_course_id = fields.Many2one(
         comodel_name="gs_course",
         string="Corso",
@@ -16,8 +15,15 @@ class GSCourseEnrollment(models.Model):
         index=True,
         store=True,
         compute="_compute_gs_course_id",
-        inverse="_pass", # pylint: disable=method-inverse
+        inverse="_pass",  # pylint: disable=method-inverse
     )
+
+    def _compute_partner_id(self):
+        for record in self:
+            if record.gs_training_planner_id:
+                record.partner_id = record.gs_training_planner_id.partner_id
+            elif record.gs_worker_id:
+                record.partner_id = record.gs_worker_id.partner_id
 
     @api.depends("gs_training_planner_id")
     def _compute_gs_course_id(self):
