@@ -191,3 +191,5 @@ class GSTrainingPlanner(models.Model):
     @api.onchange("sale_order_id")
     def _onchange_sale_order_id(self):
         self.sale_order_line_id = False
+
+    old_id = fields.Integer(string="Vecchio ID")

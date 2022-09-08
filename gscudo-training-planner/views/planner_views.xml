@@ -109,7 +109,10 @@
                             <field name="material_order_ref" />
                         </group>
                     </group>
-                    <group><field name="note" /></group>
+                    <group>
+                        <field name="note" />
+                        <field name="old_id" readonly="1" attrs="{'invisible':['|', ('old_id', '=', 0), ('old_id', '=', False)]}" />
+                    </group>
                 </sheet>
                 <div class="oe_chatter">
                     <field name="activity_ids" widget="mail_activity" />
