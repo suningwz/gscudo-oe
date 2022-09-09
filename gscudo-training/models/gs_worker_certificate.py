@@ -414,7 +414,7 @@ class GSWorkerCertificate(models.Model):
                     "5-concluso",
                     "X-annullato",
                 ):
-                    record.gs_course_enrollment_id = record.potential_enrollment
+                    record.gs_course_enrollment_id = potential_enrollment
 
     is_renewed = fields.Boolean(string="In rinnovo", compute="_compute_is_renewed")
 
