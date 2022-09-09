@@ -396,13 +396,25 @@ class GSWorkerCertificate(models.Model):
         store=True,
     )
 
-    @api.depends("gs_course_enrollment_ids")
+    @api.depends(
+        "gs_course_enrollment_ids",
+        "gs_course_enrollment_id.state",
+        "gs_course_enrollment_id.gs_course_id.state",
+    )
     def _compute_gs_course_enrollment_id(self):
         for record in self:
+            record.gs_course_enrollment_id = False
+            if record.gs_course_enrollment_id.state == "X":
+                continue
             if record.gs_course_enrollment_ids:
-                record.gs_course_enrollment_id = record.gs_course_enrollment_ids[0].id
-            else:
-                record.gs_course_enrollment_id = False
+                potential_enrollment = max(
+                    record.gs_course_enrollment_ids, key=lambda e: e.enrollment_date
+                )
+                if potential_enrollment.gs_course_id.state not in (
+                    "5-concluso",
+                    "X-annullato",
+                ):
+                    record.gs_course_enrollment_id = record.potential_enrollment
 
     is_renewed = fields.Boolean(string="In rinnovo", compute="_compute_is_renewed")
 
@@ -476,7 +488,9 @@ class GSWorkerCertificate(models.Model):
 
         return action
 
-    attachment = fields.Binary(related="message_main_attachment_id.datas", string="Attestato")
+    attachment = fields.Binary(
+        related="message_main_attachment_id.datas", string="Attestato"
+    )
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")

@@ -25,8 +25,8 @@ class GSCourse(models.Model):
         for course in self:
             course.name = " - ".join(
                 [
-                    course.gs_course_type_id.name,
-                    course.protocol,
+                    course.gs_course_type_id.name or "",
+                    course.protocol or "",
                     course.start_date.strftime("%d/%m/%Y")
                     if course.start_date
                     else "data da definire",
@@ -45,6 +45,7 @@ class GSCourse(models.Model):
             ("3-accettato", "Accettato"),
             ("4-in corso", "In corso"),
             ("5-concluso", "Concluso"),
+            ("X-annullato", "Annullato"),
         ],
         string="Stato",
         default="1-nuovo",

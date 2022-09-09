@@ -20,12 +20,12 @@ class GSLessonEnrollment(models.Model):
             record.name = " ".join(
                 [
                     "Iscrizione",
-                    record.gs_course_lesson_id.name,
+                    record.gs_course_lesson_id.name or "",
                     record.gs_course_id.start_date.strftime("(%d/%m/%Y)")
                     if record.gs_course_id.start_date
                     else "(data da definire)",
                     "-",
-                    record.gs_course_id.gs_course_type_id.name,
+                    record.gs_course_id.gs_course_type_id.name or "",
                     f"[{record.gs_course_id.protocol}]",
                 ]
             )

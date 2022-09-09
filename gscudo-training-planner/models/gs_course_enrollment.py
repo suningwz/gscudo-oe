@@ -23,7 +23,7 @@ class GSCourseEnrollment(models.Model):
             if record.gs_training_planner_id:
                 record.partner_id = record.gs_training_planner_id.partner_id
             elif record.gs_worker_id:
-                record.partner_id = record.gs_worker_id.partner_id
+                record.partner_id = record.gs_worker_id.contract_partner_id
 
     @api.depends("gs_training_planner_id")
     def _compute_gs_course_id(self):

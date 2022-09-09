@@ -10,7 +10,7 @@
     "author": "Gruppo Scudo Srl / LGIT",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.22a",
+    "version": "14.0.1.22b",
     "depends": [
         "base",
         "contacts",
