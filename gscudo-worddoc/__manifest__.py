@@ -9,7 +9,7 @@
     "license": "Other proprietary",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.22",
+    "version": "14.0.1.22d",
     "depends": ["base"],
     "external_dependencies": {"python": ["docxtpl"]},
     "data": [
