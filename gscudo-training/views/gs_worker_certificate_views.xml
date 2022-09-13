@@ -52,9 +52,17 @@
                 <field name="is_update" optional="show" />
                 <field name="active" optional="hide" string="Attivo" />
                 <field name="is_renewed" optional="hide" />
-                <field
+                <!-- <field
                     name="attachment"
                     widget="binary"
+                    optional="hide"
+                    options="{'bg_color':
+                        '#ff8f8f: message_attachment_count > 1;'
+                    }"
+                /> -->
+                <field
+                    name="is_attachment_present"
+                    string="Attestato"
                     optional="hide"
                     options="{'bg_color':
                         '#ff8f8f: message_attachment_count > 1;'

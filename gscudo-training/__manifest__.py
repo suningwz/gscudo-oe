@@ -16,6 +16,7 @@
         "security/security_groups.xml",
         "security/ir.model.access.csv",
         "data/signature_sheet_action.xml",
+        "data/certificate_mass_download_action.xml",
         "views/gs_course_type_module_wizard_views.xml",
         "views/gs_course_enrollment_wizard_views.xml",
         "views/gs_lesson_enrollment_wizard_views.xml",

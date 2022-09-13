@@ -177,6 +177,7 @@ class GSCourse(models.Model):
     external_url = fields.Char(
         string="URL esterno", compute="_compute_external_url", store=True
     )
+    published = fields.Boolean(string="Pubblicato sul sito", default=False)
 
     id_sawgest = fields.Integer(string="Id Sawgest", index=True)
 

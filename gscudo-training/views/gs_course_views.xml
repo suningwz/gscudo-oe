@@ -29,6 +29,7 @@
                         <field name="max_workers" />
                         <field name="state" />
                         <field name="external_url" widget="url" />
+                        <field name="published" />
                         <field name="note" />
                         <field name="id_sawgest" />
                         <field name="parent_course_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
