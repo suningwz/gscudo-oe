@@ -11,7 +11,7 @@ class CertificateMassDownloader(http.Controller):
         "/gscudo-training/doc/certificate/<string:ids>",
         auth="user",
     )
-    def download_certificates(self, **kw):
+    def download_certificates(self, **kw):  # pylint: disable=no-self-use
         """
         Download the selected certificates.
         ids should be in the form id1,id2,id3,...,idn
@@ -26,6 +26,7 @@ class CertificateMassDownloader(http.Controller):
 
         certs = model.search([("id", "in", ids)])
 
+        # pylint: disable-next=consider-using-with
         f = NamedTemporaryFile("wb+")
         with zipfile.ZipFile(f, "w", zipfile.ZIP_DEFLATED) as archive:
             for cert in certs:

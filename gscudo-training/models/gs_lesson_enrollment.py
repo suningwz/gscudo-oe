@@ -36,6 +36,9 @@ class GSLessonEnrollment(models.Model):
         tracking=True,
         index=True,
     )
+    lesson_start_time = fields.Datetime(
+        string="Inizio lezione", related="gs_course_lesson_id.start_time"
+    )
     gs_course_id = fields.Many2one(
         comodel_name="gs_course",
         string="Corso",
@@ -44,7 +47,9 @@ class GSLessonEnrollment(models.Model):
         tracking=True,
         index=True,
     )
-
+    gs_course_type_id = fields.Many2one(
+        related="gs_course_id.gs_course_type_id", string="Tipo di corso"
+    )
     gs_worker_id = fields.Many2one(
         comodel_name="gs_worker",
         string="Lavoratore",
@@ -57,7 +62,6 @@ class GSLessonEnrollment(models.Model):
         related="gs_worker_id.contract_partner_id",
         index=True,
     )
-
     state = fields.Selection(
         string="Stato",
         selection=[
@@ -72,10 +76,8 @@ class GSLessonEnrollment(models.Model):
         default="I",
         tracking=True,
     )
-
     enrollment_date = fields.Date(string="Data di iscrizione", default=datetime.now())
     expiration_date = fields.Date(string="Scadenza iscrizione")
-
     active = fields.Boolean(string="Attivo", default=True, tracking=True)
     is_attendant = fields.Boolean(string="È presente", default=False, tracking=True)
     attended_hours = fields.Float(
@@ -103,7 +105,6 @@ class GSLessonEnrollment(models.Model):
         tracking=True,
         index=True,
     )
-
     gs_course_type_module_id = fields.Many2one(
         comodel_name="gs_course_type_module",
         string="Modulo",
@@ -111,13 +112,17 @@ class GSLessonEnrollment(models.Model):
         tracking=True,
         index=True,
     )
-
     previous_enrollment_id = fields.Many2one(
         comodel_name="gs_lesson_enrollment",
         string="Lezione precedente",
         tracking=True,
         index=True,
     )
+    is_in_certificate = fields.Boolean("Non parziale", default=False, index=True)
+
+    def set_as_in_certificate(self):
+        """A simple setter to call from the views."""
+        self.is_in_certificate = True
 
     def get_next_enrollment(self):
         """
@@ -209,6 +214,9 @@ class GSLessonEnrollment(models.Model):
                         "attended_hours": attended_hours,
                     }
                 )
+
+                for e in enrollments:
+                    e.is_in_certificate = True
 
 
 class GSCourseLesson(models.Model):

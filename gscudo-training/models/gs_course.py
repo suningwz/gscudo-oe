@@ -241,3 +241,22 @@ class GSCourse(models.Model):
         Return a random 6 character string.
         """
         return str(random.randint(100000, 999999))
+
+    def participants_mail(self):
+        self.ensure_one()
+
+        mail = []
+        missing = []
+        for enrollment in self.gs_worker_ids:
+            worker = enrollment.gs_worker_id
+            if worker.email:
+                mail.append(worker.email)
+            else:
+                missing.append(worker.name)
+
+        message = ""  # f"<p>Mail presenti:<br/><pre>{'\n'.join(mail)}</pre></p>"
+        if missing:
+            # FIXME finish this
+            message += ""  # f"<p>Mail mancanti:<ul/>{'\n'.join(mail)}</ul></p>"
+
+        return self.env["gs_message_wizard"].create({"message": message})
