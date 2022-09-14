@@ -32,7 +32,7 @@ class CertificateMassDownloader(http.Controller):
                 if not cert.message_main_attachment_id:
                     return Response("Attestato mancante", status=400)
                 archive.writestr(
-                    cert.message_main_attachment_id.name,
+                    cert.message_main_attachment_id.name.replace("/", ""),
                     base64.b64decode(cert.message_main_attachment_id.datas),
                 )
 
