@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 import base64
 import logging
 from tempfile import NamedTemporaryFile

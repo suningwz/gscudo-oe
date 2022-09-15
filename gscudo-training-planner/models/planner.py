@@ -11,12 +11,6 @@ class GSTrainingPlanner(models.Model):
     name = fields.Char(
         string="Nome", compute="_compute_name", readonly=True, store=True
     )
-
-    # FIXME enroll workers
-    # FIXME enrollment status related (inverse)
-
-    # creation_date = fields.Date(string="Data creazione")
-
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Cliente",
@@ -139,7 +133,7 @@ class GSTrainingPlanner(models.Model):
     material_price = fields.Float(string="Prezzo Materiali", tracking=True)
     material_order_ref = fields.Char(string="Rif. ordine materiali", tracking=True)
 
-    note = fields.Text(string="Note")
+    note = fields.Text(string="Note", tracking=True)
 
     course_attendants = fields.Integer(string="Partecipanti/Edizioni", tracking=True)
     # tot_qty = fields.Integer(string="Q.tà", tracking=True)

@@ -1,9 +1,8 @@
 # from datetime import datetime
-from calendar import month
 import re
+from datetime import date, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
-from datetime import date, timedelta
 
 
 COMPETITOR_TYPE = [
@@ -58,10 +57,16 @@ class CrmLead(models.Model):
     pec = fields.Char(string="Addressee PEC")
 
     tmk_user_id = fields.Many2one(
-        comodel_name="res.users", string="Telemarketing operator", tracking=True, index=True,
+        comodel_name="res.users",
+        string="Telemarketing operator",
+        tracking=True,
+        index=True,
     )
     gs_partner_division_id = fields.Many2one(
-        comodel_name="gs_partner_division", string="Division", tracking=True, index=True,
+        comodel_name="gs_partner_division",
+        string="Division",
+        tracking=True,
+        index=True,
     )
 
     position_inail = fields.Char(string="Posizione INAIL")
@@ -75,27 +80,28 @@ class CrmLead(models.Model):
     balance_year = fields.Integer(string="Anno bilancio", default="")
     employee_qty = fields.Integer(string="Addetti")
     ateco_id = fields.Many2one(
-        string="Descrizione ATECO 2007", comodel_name="ateco.category",
+        string="Descrizione ATECO 2007",
+        comodel_name="ateco.category",
     )
     rating = fields.Integer(string="Rating")
     share_capital = fields.Float(string="Capitale Sociale")
     credit_limit = fields.Float(string="Fido")
     prejudicials = fields.Boolean(string="Pregiudizievoli")
 
-    add_contact_name1 = fields.Char(string='Nome contatto 1')
-    add_position_1  = fields.Char(string='Ruolo 1')
-    add_email_1 = fields.Char(string='Email 1')
-    add_phone_1  = fields.Char(string='Telefono 1')
+    add_contact_name1 = fields.Char(string="Nome contatto 1")
+    add_position_1 = fields.Char(string="Ruolo 1")
+    add_email_1 = fields.Char(string="Email 1")
+    add_phone_1 = fields.Char(string="Telefono 1")
 
-    add_contact_name2 = fields.Char(string='Nome contatto 2')
-    add_position_2  = fields.Char(string='Ruolo 2')
-    add_email_2 = fields.Char(string='Email 2')
-    add_phone_2  = fields.Char(string='Telefono 2')
-    
-    add_contact_name3 = fields.Char(string='Nome contatto 3')
-    add_position_3  = fields.Char(string='Ruolo 3')
-    add_email_3 = fields.Char(string='Email 3')
-    add_phone_3  = fields.Char(string='Telefono 3')
+    add_contact_name2 = fields.Char(string="Nome contatto 2")
+    add_position_2 = fields.Char(string="Ruolo 2")
+    add_email_2 = fields.Char(string="Email 2")
+    add_phone_2 = fields.Char(string="Telefono 2")
+
+    add_contact_name3 = fields.Char(string="Nome contatto 3")
+    add_position_3 = fields.Char(string="Ruolo 3")
+    add_email_3 = fields.Char(string="Email 3")
+    add_phone_3 = fields.Char(string="Telefono 3")
 
     ##### Competitors
     # def COMPETITOR_TYPE(self):
@@ -117,7 +123,8 @@ class CrmLead(models.Model):
         string="Conc. Sicurezza",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     training_competitor_type = fields.Selection(
@@ -131,7 +138,8 @@ class CrmLead(models.Model):
         string="Conc. Formazione",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     food_competitor_type = fields.Selection(
@@ -145,7 +153,8 @@ class CrmLead(models.Model):
         string="Conc. Alimentare",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     machdir_competitor_type = fields.Selection(
@@ -159,7 +168,8 @@ class CrmLead(models.Model):
         string="Conc. Dirett. Macchine",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     healthsurv_competitor_type = fields.Selection(
@@ -173,7 +183,8 @@ class CrmLead(models.Model):
         string="Conc. Sorv. Sanit.",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     environment_competitor_type = fields.Selection(
@@ -187,7 +198,8 @@ class CrmLead(models.Model):
         string="Conc. Ambientale",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     management_competitor_type = fields.Selection(
@@ -201,7 +213,8 @@ class CrmLead(models.Model):
         string="Conc. Sistemi Gest.",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     has_competitors = fields.Boolean(
@@ -211,9 +224,6 @@ class CrmLead(models.Model):
         string="È cliente", compute="_compute_has_competitor", store=True
     )
 
-
-   
-   
     @api.depends(
         "safety_competitor_type",
         "training_competitor_type",
@@ -228,6 +238,15 @@ class CrmLead(models.Model):
             record.is_customer = False
 
             if (
+                # "est"
+                # in (
+                #     record.safety_competitor_type,
+                #     record.training_competitor_type,
+                #     record.food_competitor_type,
+                #     record.machdir_competitor_type,
+                #     record.healthsurv_competitor_type,
+                #     record.environment_competitor_type,
+                # )
                 record.safety_competitor_type == "est"
                 or record.training_competitor_type == "est"
                 or record.food_competitor_type == "est"
@@ -238,6 +257,15 @@ class CrmLead(models.Model):
                 record.has_competitors = True
 
             if (
+                # "cli"
+                # in (
+                #     record.safety_competitor_type,
+                #     record.training_competitor_type,
+                #     record.food_competitor_type,
+                #     record.machdir_competitor_type,
+                #     record.healthsurv_competitor_type,
+                #     record.environment_competitor_type,
+                # )
                 record.safety_competitor_type == "cli"
                 or record.training_competitor_type == "cli"
                 or record.food_competitor_type == "cli"
@@ -247,21 +275,22 @@ class CrmLead(models.Model):
             ):
                 record.is_customer = True
 
-    last_accepted_offer = fields.Date(string='Ultima offerta accettata')
-    next_expiring_offer = fields.Date(string='Prossima offerta in scadenza')
-    customer_status = fields.Char(string='Status', compute='_compute_customer_status', store=True)
-    
-   
+    last_accepted_offer = fields.Date(string="Ultima offerta accettata")
+    next_expiring_offer = fields.Date(string="Prossima offerta in scadenza")
+    customer_status = fields.Char(
+        string="Status", compute="_compute_customer_status", store=True
+    )
+
     @api.depends("last_accepted_offer")
     def _compute_customer_status(self):
         for record in self:
             if record.last_accepted_offer:
-                if record.last_accepted_offer > date.today() - timedelta(days = 365):
-                    record.customer_status = 'Cliente'
+                if record.last_accepted_offer > date.today() - timedelta(days=365):
+                    record.customer_status = "Cliente"
                 else:
-                    record.customer_status = 'Dormiente'
+                    record.customer_status = "Dormiente"
             else:
-                record.customer_status = 'Potenziale'
+                record.customer_status = "Potenziale"
 
     @api.constrains("vat", "country_id")
     def _check_vat_ita(self):
