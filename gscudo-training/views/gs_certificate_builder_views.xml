@@ -6,13 +6,20 @@
         <field name="model">gs_certificate_builder</field>
         <field name="arch" type="xml">
             <form>
+                <header attrs="{'invisible': [('is_enough', '=', False)]}">
+                    <button
+                        type="object"
+                        name="generate"
+                        string="Genera certificato"
+                        class="oe_highlight"
+                    />
+                </header>
                 <sheet>
                     <group>
                         <field name="gs_worker_id" />
                         <field name="partner_id" />
                         <field name="gs_course_type_id" />
                         <field name="is_enough" />
-                        <button type="object" name="generate" string="Genera certificato" />
                         <field name="attended_hours_display" />
                         <field name="gs_lesson_enrollment_ids">
                             <tree default_order="lesson_start_time asc">
@@ -44,6 +51,7 @@
                 <field name="gs_course_type_id" />
                 <field name="attended_hours_display" />
                 <field name="is_enough" />
+                <field name="last_lesson_date" optional="hide"/>
             </tree>
         </field>
     </record>
@@ -58,8 +66,11 @@
                 <field name="gs_course_type_id" />
 
                 <filter string="Sufficienti" name="filter_is_enough" domain="[('is_enough', '=', True)]" />
-                <!-- <separator />
-                <filter string="Passati" name="filter_is_past" domain="[('last_lesson_date', '&lt;', context_today())]" /> -->
+                <filter string="Non sufficienti" name="filter_not_is_enough" domain="[('is_enough', '!=', True)]" />
+                <separator />
+                <filter string="Passati" name="filter_is_past" domain="[('last_lesson_date', '&lt;=', context_today().strftime('%Y-%m-%d'))]" />
+                <filter string="Futuri" name="filter_is_future" domain="[('last_lesson_date', '&gt;', context_today().strftime('%Y-%m-%d'))]" />
+                <filter string="Date mancanti" name="filter_date_undefined" domain="[('last_lesson_date', '=', False)]" />
 
                 <group expand="1" string="Group By">
                     <filter string="Lavoratore" name="gs_worker_id" context="{'group_by': 'gs_worker_id'}" />

@@ -7,8 +7,6 @@ class GSCertificateBuilder(models.Model):
     _description = "Creatore manuale certificati"
     _auto = False
 
-    # FIXME change access rules
-    # FIXME better view (button)
     # FIXME mass update is_in_certificate
 
     name = fields.Char(string="Nome", compute="_compute_name")
@@ -28,9 +26,7 @@ class GSCertificateBuilder(models.Model):
     attended_hours_display = fields.Char(
         "Ore seguite", compute="_compute_attended_hours_display"
     )
-    last_lesson_date = fields.Date(
-        string="Data ultima lezione", compute="_compute_gs_lesson_enrollment_ids"
-    )
+    last_lesson_date = fields.Date(string="Data ultima lezione")
 
     def _compute_name(self):
         for record in self:
@@ -46,10 +42,6 @@ class GSCertificateBuilder(models.Model):
                     ("gs_course_type_id", "=", record.gs_course_type_id.id),
                     ("is_in_certificate", "=", False),
                 ],
-            )
-
-            record.last_lesson_date = max(
-                [l.lesson_start_time for l in record.gs_lesson_enrollment_ids]
             )
 
     def _compute_attended_hours_display(self):
@@ -122,13 +114,18 @@ class GSCertificateBuilder(models.Model):
                         else false
                     end as is_enough,
                     sum(le.attended_hours) as attended_hours,
-                    ct.duration as duration
+                    ct.duration as duration,
                     -- ct.duration * ct.min_attendance as min_hours
+                    case
+                        when max(coalesce(l.start_time, '2099-12-31')) = '2099-12-31' then null
+                        else max(l.start_time)
+                    end as last_lesson_date
                 from
                     gs_lesson_enrollment as le
                     left outer join gs_course as c on le.gs_course_id = c.id
                     left outer join gs_course_type as ct on c.gs_course_type_id = ct.id
                     inner join gs_worker as w on le.gs_worker_id = w.id
+                    inner join gs_course_lesson as l on le.gs_course_lesson_id = l.id
                 where
                     le.is_in_certificate = false
                     or le.is_in_certificate is null
