@@ -1,5 +1,5 @@
-from sqlite3 import complete_statement
-from odoo import _, api, fields, models
+# pylint: disable=too-many-lines
+from odoo import api, fields, models
 
 
 class ComunicazioneB8(models.Model):
@@ -7,17 +7,20 @@ class ComunicazioneB8(models.Model):
     _description = "Comunicazione Inail modello 3B"
 
     name = fields.Char(string="Comunicazione", compute="_compute_name", store=True)
-    @api.depends("partner_id","year")
+
+    @api.depends("partner_id", "year")
     def _compute_name(self):
         for record in self:
             if record.partner_id:
-               
+
                 record.name = (
                     (record.partner_id.name or "")
-                    + " (" + (str(record.year) or "") + ")"
-                    )
+                    + " ("
+                    + (str(record.year) or "")
+                    + ")"
+                )
             else:
-                record.name="Non definito"
+                record.name = "Non definito"
 
     active = fields.Boolean(string="Attivo", default=True)
     complete = fields.Boolean(string="Completa", default=False)
@@ -55,8 +58,12 @@ class ComunicazioneB8(models.Model):
         string="Numero totale lavoratori visitati con formulazione del giudizio di idoneità nell"
         "anno di riferimento (F)"
     )
-    datiSorveglianzaSanitaria46_m = fields.Integer(string="Numero lavoratori idonei (M)")
-    datiSorveglianzaSanitaria46_f = fields.Integer(string="Numero lavoratori idonei (F)")
+    datiSorveglianzaSanitaria46_m = fields.Integer(
+        string="Numero lavoratori idonei (M)"
+    )
+    datiSorveglianzaSanitaria46_f = fields.Integer(
+        string="Numero lavoratori idonei (F)"
+    )
     datiSorveglianzaSanitaria41_m = fields.Integer(
         string="Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni ) (M)"
     )
@@ -91,7 +98,7 @@ class ComunicazioneB8(models.Model):
     # )
     # datiSorveglianzaSanitaria28_m = fields.Integer(string="Numero lavoratori idonei (M)")
     # datiSorveglianzaSanitaria28_f = fields.Integer(string="Numero lavoratori idonei (F)")
-    
+
     # datiSorveglianzaSanitaria41_m = fields.Integer(
     #     string="Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni ) (M)"
     # )
@@ -195,8 +202,12 @@ class ComunicazioneB8(models.Model):
         string="Rischi Posturali Inidonei (F)"
     )
 
-    esposizioneRischiLavorativi3_sogg_m = fields.Integer(string="Agenti chimici Sogg (M)")
-    esposizioneRischiLavorativi3_sogg_f = fields.Integer(string="Agenti chimici Sogg (F)")
+    esposizioneRischiLavorativi3_sogg_m = fields.Integer(
+        string="Agenti chimici Sogg (M)"
+    )
+    esposizioneRischiLavorativi3_sogg_f = fields.Integer(
+        string="Agenti chimici Sogg (F)"
+    )
 
     esposizioneRischiLavorativi3_visit_m = fields.Integer(
         string="Agenti chimici Visit (M)"
@@ -327,8 +338,12 @@ class ComunicazioneB8(models.Model):
         string="Agenti biologici Inidonei (F)"
     )
 
-    esposizioneRischiLavorativi8_sogg_m = fields.Integer(string="Videoterminali Sogg (M)")
-    esposizioneRischiLavorativi8_sogg_f = fields.Integer(string="Videoterminali Sogg (F)")
+    esposizioneRischiLavorativi8_sogg_m = fields.Integer(
+        string="Videoterminali Sogg (M)"
+    )
+    esposizioneRischiLavorativi8_sogg_f = fields.Integer(
+        string="Videoterminali Sogg (F)"
+    )
 
     esposizioneRischiLavorativi8_visit_m = fields.Integer(
         string="Videoterminali Visit (M)"
@@ -727,8 +742,12 @@ class ComunicazioneB8(models.Model):
         string="Rischi Posturali Inidonei (F)"
     )
 
-    esposizioneRischiLavorativi3_sogg_m = fields.Integer(string="Agenti chimici Sogg (M)")
-    esposizioneRischiLavorativi3_sogg_f = fields.Integer(string="Agenti chimici Sogg (F)")
+    esposizioneRischiLavorativi3_sogg_m = fields.Integer(
+        string="Agenti chimici Sogg (M)"
+    )
+    esposizioneRischiLavorativi3_sogg_f = fields.Integer(
+        string="Agenti chimici Sogg (F)"
+    )
 
     esposizioneRischiLavorativi3_visit_m = fields.Integer(
         string="Agenti chimici Visit (M)"
@@ -859,8 +878,12 @@ class ComunicazioneB8(models.Model):
         string="Agenti biologici Inidonei (F)"
     )
 
-    esposizioneRischiLavorativi8_sogg_m = fields.Integer(string="Videoterminali Sogg (M)")
-    esposizioneRischiLavorativi8_sogg_f = fields.Integer(string="Videoterminali Sogg (F)")
+    esposizioneRischiLavorativi8_sogg_m = fields.Integer(
+        string="Videoterminali Sogg (M)"
+    )
+    esposizioneRischiLavorativi8_sogg_f = fields.Integer(
+        string="Videoterminali Sogg (F)"
+    )
 
     esposizioneRischiLavorativi8_visit_m = fields.Integer(
         string="Videoterminali Visit (M)"
@@ -1199,7 +1222,6 @@ class ComunicazioneB8(models.Model):
         string="Alcol - N. casi di dipendenza confermati dal Centro Specialistico (F)"
     )
 
-
     adempimenti43a_m = fields.Integer(
         string="Droghe - N. lav. Controllati nell'anno con test di screening (M)"
     )
@@ -1223,7 +1245,3 @@ class ComunicazioneB8(models.Model):
     adempimenti43c_f = fields.Integer(
         string="Droghe - N. casi di dipendenza confermati dal Centro Specialistico (F)"
     )
-
-
-
-

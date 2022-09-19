@@ -1,70 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data>
+    <!-- inail_malprof tree -->
+    <record id="inail_malprof_tree" model="ir.ui.view">
+        <field name="name">Tabelle SawGest inail_malprof tree</field>
+        <field name="model">inail_malprof</field>
+        <field name="arch" type="xml">
 
-        <!-- inail_malprof tree -->
-        <record id="inail_malprof_tree" model="ir.ui.view">
-            <field name="name">Tabelle SawGest inail_malprof tree</field>
-            <field name="model">inail_malprof</field>
-            <field name="arch" type="xml">
-
-                <tree default_order="name">
-                    <field name = "id" optional="hide" />
-                    <field name = "name" />
-                    <field name = "cod_malattia" />
-                    <field name = "desc_malattia" />
-                    <field name = "cod_gruppo" />
-                    <field name = "cod_agente" />
-                    <field name = "desc_agente" />
-                    <field name = "cod_lst" />
-                    <field name = "active" optional="hide" />
+            <tree default_order="name">
+                <field name = "id" optional="hide" />
+                <field name = "name" />
+                <field name = "cod_malattia" />
+                <field name = "desc_malattia" />
+                <field name = "cod_gruppo" />
+                <field name = "cod_agente" />
+                <field name = "desc_agente" />
+                <field name = "cod_lst" />
+                <field name = "active" optional="hide" />
 
 
-                </tree>
+            </tree>
 
-            </field>
-        </record>
-
-
-        <!-- inail_malprof search -->
-        <record id="inail_malprof_search" model="ir.ui.view">
-            <field name="name">Tabelle SawGest inail_malprof tree</field>
-            <field name="model">inail_malprof</field>
-            <field name="arch" type="xml">
-                <search string="Search ">
-                    <field name = "id" />
-                    <field name = "name" />
-                    <field name = "cod_malattia" />
-                    <field name = "desc_malattia" />
-                    <field name = "cod_gruppo" />
-                    <field name = "cod_agente" />
-                    <field name = "desc_agente" />
-                    <field name = "cod_lst" />
-                    <field name = "active" />
-                    <field name = "create_uid" />
-                    <field name = "create_date" />
-                    <field name = "write_uid" />
-                    <field name = "write_date" />
+        </field>
+    </record>
 
 
-                </search>
+    <!-- inail_malprof search -->
+    <record id="inail_malprof_search" model="ir.ui.view">
+        <field name="name">Tabelle SawGest inail_malprof tree</field>
+        <field name="model">inail_malprof</field>
+        <field name="arch" type="xml">
+            <search string="Search ">
+                <field name = "id" />
+                <field name = "name" />
+                <field name = "cod_malattia" />
+                <field name = "desc_malattia" />
+                <field name = "cod_gruppo" />
+                <field name = "cod_agente" />
+                <field name = "desc_agente" />
+                <field name = "cod_lst" />
+                <field name = "active" />
+                <field name = "create_uid" />
+                <field name = "create_date" />
+                <field name = "write_uid" />
+                <field name = "write_date" />
 
-            </field>
-        </record>
+
+            </search>
+
+        </field>
+    </record>
 
 
-        <!-- inail_malprof action -->
-        <record id="view_inail_malprof_action" model="ir.actions.act_window">
-            <field name="name">Malattie Professionali</field>
-            <field name="res_model">inail_malprof</field>
-            <field name="view_mode">tree,form</field>
-            <field name="view_id" ref="inail_malprof_tree" />
-        </record>
+    <!-- inail_malprof action -->
+    <record id="view_inail_malprof_action" model="ir.actions.act_window">
+        <field name="name">Malattie Professionali</field>
+        <field name="res_model">inail_malprof</field>
+        <field name="view_mode">tree,form</field>
+        <field name="view_id" ref="inail_malprof_tree" />
+    </record>
 
 
-        <!-- inail_malprof menu -->
-        <menuitem id="view_inail_malprof_menu" name="Malattie Prof." parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="60" action="view_inail_malprof_action" />
-
-
-    </data>
+    <!-- inail_malprof menu -->
+    <menuitem id="view_inail_malprof_menu" name="Malattie Prof." parent="gscudo-surveillance.view_inail_mod3b_main_menu" sequence="60" action="view_inail_malprof_action" />
 </odoo>

@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
-    <data >
-        <menuitem id="gssurveillance_menu_root" name="Sorveglianza Sanitaria" web_icon="gscudo-surveillance,static/description/surveillance.jpg" 
-        />
-        <menuitem name="Configurazione" id="gscudo-surveillance.gssurveillance_menu_settings" parent="gscudo-surveillance.gssurveillance_menu_root" groups="group_surveillance_manager" sequence="90" />
-       
-    </data>
-
-
+    <menuitem
+        id="gssurveillance_menu_root"
+        name="Sorveglianza Sanitaria"
+        web_icon="gscudo-surveillance,static/description/surveillance.jpg"
+    />
+    <menuitem
+        name="Configurazione"
+        id="gscudo-surveillance.gssurveillance_menu_settings"
+        parent="gscudo-surveillance.gssurveillance_menu_root"
+        groups="group_surveillance_manager" sequence="90"
+    />
 </odoo>
-
-
