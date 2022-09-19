@@ -196,6 +196,14 @@ class GSCourseEnrollment(models.Model):
                 for l in e.gs_lesson_enrollment_ids:
                     l.gs_worker_id = vals.get("gs_worker_id")
 
+        elif "gs_worker_certificate_id" in vals:
+            for e in self:
+                for l in e.gs_lesson_enrollment_ids:
+                    cert = self.env["gs_worker_certificate"].browse(
+                        vals.get("gs_worker_certificate_id")
+                    )
+                    l.gs_worker_id = cert.gs_worker_id
+
         return super().write(vals)
 
     def unlink(self):

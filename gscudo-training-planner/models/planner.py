@@ -73,6 +73,11 @@ class GSTrainingPlanner(models.Model):
     price_unit = fields.Float(string="Prezzo articolo")
     product_uom_qty = fields.Float(string="Quantità", digits="Product Unit of Measure")
     discount = fields.Float(string="Sconto")
+    discount_percent = fields.Float(string="Sconto", compute="_compute_discount_percent")
+
+    def _compute_discount_percent(self):
+        for record in self:
+            record.discount_percent = record.discount / 100
 
     price_subtotal = fields.Monetary(string="Totale")
 
