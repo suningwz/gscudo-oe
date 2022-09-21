@@ -72,7 +72,7 @@ class GSTrainingPlanner(models.Model):
     currency_id = fields.Many2one(related="sale_order_id.currency_id")
     price_unit = fields.Float(string="Prezzo articolo")
     product_uom_qty = fields.Float(string="Quantità", digits="Product Unit of Measure")
-    discount = fields.Float(string="Sconto")
+    discount = fields.Float(string="Sconto * 100")
     discount_percent = fields.Float(string="Sconto", compute="_compute_discount_percent")
 
     def _compute_discount_percent(self):
