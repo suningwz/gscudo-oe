@@ -59,6 +59,13 @@
     </record>
 
     <!-- gs_medical_check_frequency menu -->
-    <menuitem id="gs_medical_check_frequency_menu" name="Frequenze" parent="gssurveillance_menu_settings" sequence="40" action="view_gs_medical_check_frequency_action" groups="group_surveillance_manager" />
+    <menuitem
+        id="gs_medical_check_frequency_menu"
+        name="Frequenze"
+        parent="gssurveillance_menu_settings"
+        sequence="40"
+        action="view_gs_medical_check_frequency_action"
+        groups="group_surveillance_manager"
+    />
 
 </odoo>

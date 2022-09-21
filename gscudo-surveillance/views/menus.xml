@@ -9,6 +9,7 @@
         name="Configurazione"
         id="gscudo-surveillance.gssurveillance_menu_settings"
         parent="gscudo-surveillance.gssurveillance_menu_root"
-        groups="group_surveillance_manager" sequence="90"
+        groups="group_surveillance_manager"
+        sequence="90"
     />
 </odoo>

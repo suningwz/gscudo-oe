@@ -20,8 +20,10 @@
         "views/gs_medical_check_frequency_views.xml",
         "views/gs_medical_check_type_views.xml",
         "views/gs_worker_medical_check_views.xml",
+        "views/gs_medical_planner_views.xml",
         "views/gs_worker_views.xml",
         "views/inail_mod3b_views.xml",
         "views/inail_malprof_views.xml",
+        "data/sale_order_actions.xml",
     ],
 }

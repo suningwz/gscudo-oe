@@ -49,6 +49,13 @@
     </record>
 
     <!-- gs_medical_check_type menu -->
-    <menuitem id="gs_medical_check_type_menu" name="Controlli" parent="gssurveillance_menu_settings" sequence="40" action="view_gs_medical_check_type_action" groups="group_surveillance_manager" />
+    <menuitem
+        id="gs_medical_check_type_menu"
+        name="Controlli"
+        parent="gssurveillance_menu_settings"
+        sequence="40"
+        action="view_gs_medical_check_type_action"
+        groups="group_surveillance_manager"
+    />
 
 </odoo>

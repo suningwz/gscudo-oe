@@ -93,6 +93,8 @@ class ResPartner(models.Model):
     fire_officers_number = fields.Integer(string="Nr Addetti Antincendio")
     first_aid_attendants_number = fields.Integer(string="Nr Addetti Primo Soccorso")
     evacuation_coordinators_number = fields.Integer(string="Nr Addetti Evacuazione")
+    main_doctor_id = fields.Many2one(comodel_name="res.partner", string="Medico coordinatore")
+    other_doctors = fields.Char(string="Medici coordinati")
     doctor = fields.Char(string="Medico")
     doctor_notes = fields.Text(string="Medico Note")
     spring_code = fields.Char(string="spring_code")
@@ -104,15 +106,6 @@ class ResPartner(models.Model):
     is_competitor = fields.Boolean(string="È un competitor", default=False)
     is_frontoffice = fields.Boolean(string="È Frontoffice", default=False)
     is_backoffice = fields.Boolean(string="È Backoffice", default=False)
-
-    ##### Competitors
-    # def get_competitor_type(self):
-    #     return [
-    #         ("", "non definito "),
-    #         ("int", "interno "),
-    #         ("est", "esterno "),
-    #         ("cli", "cliente"),
-    #     ]
 
     safety_competitor_type = fields.Selection(
         string="Sicurezza gestione",

@@ -4,3 +4,5 @@ from . import gs_worker_medical_check
 from . import inail_malprof
 from . import inail_mod3b
 from . import inail_mod3b_malatt
+from . import gs_medical_planner
+from . import sale_order

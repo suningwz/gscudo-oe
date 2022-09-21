@@ -65,10 +65,12 @@ class ComunicazioneB8(models.Model):
         string="Numero lavoratori idonei (F)"
     )
     datiSorveglianzaSanitaria41_m = fields.Integer(
-        string="Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni ) (M)"
+        string="Numero lavoratori con idoneità parziali "
+        + "( temporanee e permanenti con prescrizioni e/o limitazioni ) (M)"
     )
     datiSorveglianzaSanitaria41_f = fields.Integer(
-        string="Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni ) (F)"
+        string="Numero lavoratori con idoneità parziali "
+        + "( temporanee e permanenti con prescrizioni e/o limitazioni ) (F)"
     )
     datiSorveglianzaSanitaria47_m = fields.Integer(
         string="Numero lavoratori temporaneamente inidonei (M)"
@@ -100,10 +102,12 @@ class ComunicazioneB8(models.Model):
     # datiSorveglianzaSanitaria28_f = fields.Integer(string="Numero lavoratori idonei (F)")
 
     # datiSorveglianzaSanitaria41_m = fields.Integer(
-    #     string="Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni ) (M)"
+    #     string="Numero lavoratori con idoneità parziali "
+    #     + "( temporanee e permanenti con prescrizioni e/o limitazioni ) (M)"
     # )
     # datiSorveglianzaSanitaria41_f = fields.Integer(
-    #     string="Numero lavoratori con idoneità parziali ( temporanee e permanenti con prescrizioni e/o limitazioni ) (F)"
+    #     string="Numero lavoratori con idoneità parziali "
+    #     + "( temporanee e permanenti con prescrizioni e/o limitazioni ) (F)"
     # )
     # datiSorveglianzaSanitaria34_m = fields.Integer(
     #     string="Numero lavoratori temporaneamente inidonei (M)"

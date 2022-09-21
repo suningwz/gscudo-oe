@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+
+    <!-- gs_medical_planner form view -->
+    <record id="gs_medical_planner_view_form" model="ir.ui.view">
+        <field name="name">gs_medical_planner_view_form</field>
+        <field name="model">gs_medical_planner</field>
+        <field name="arch" type="xml">
+            <form>
+                <sheet>
+                    <h1>
+                        <field name="name" nolabel="True" />
+                    </h1>
+                    <group col="2">
+                        <group string="Dati cliente">
+                            <field name="partner_id"/>
+                            <field name="sg_esolver_id"/>
+                            <field name="employee_number"/>
+                            <field name="city"/>
+                            <field name="state_id"/>
+                            <field name="pec_address"/>
+                        </group>
+                        <group string="Dati contratto">
+                            <field name="sale_order_id"/>
+                            <field name="sale_state"
+                                decoration-danger="sale_state=='cancel'"
+                                decoration-warning="sale_state=='draft'"
+                            />
+                            <field name="contract_start_date" widget="date"/>
+                            <field name="contract_duration"/>
+                            <field name="contract_end_date" widget="date"/>
+                        </group>
+                        <group string="Dati fornitore">
+                            <field name="supplier_id"/>
+                            <field name="supplier_note"/>
+                            <field name="main_doctor_id"/>
+                            <field name="other_doctors"/>
+                            <field name="doctor_note"/>
+                            <field name="assignment_date"/>
+                        </group>
+                        <group string="Dati gestione">
+                            <field name="date_pec"/>
+                            <field name="is_nomination_acquired"/>
+                            <field name="nomination_note"/>
+                            <field name="is_data_acquired"/>
+                            <field name="is_gs_managed"/>
+                        </group>
+                        <group string="Dati fatturazione">
+                            <field name="last_visit_invoice_date"/>
+                            <field name="last_assignment_invoice_date"/>
+                        </group>
+                        <group string="Note" colspan="2">
+                            <!-- <field name="sawgest_client_url" widget="url" attrs="{'invisible':[('sawgest_client_url', '=', False)]}"/>
+                            <field name="sawgest_offer_url" widget="url" attrs="{'invisible':[('sawgest_offer_url', '=', False)]}"/> -->
+                            <field name="internal_note"/>
+                        </group>
+                    </group>
+                </sheet>
+                <div class="oe_chatter">
+                    <field name="activity_ids" widget="mail_activity"/>
+                    <field name="message_follower_ids" widget="mail_followers"/>
+                    <field name="message_ids" widget="mail_thread"/>
+                </div>
+            </form>
+        </field>
+    </record>
+
+    <!-- gs_medical_planner search view -->
+    <record id="gs_medical_planner_view_search" model="ir.ui.view">
+        <field name="name">gs_medical_planner_view_search</field>
+        <field name="model">gs_medical_planner</field>
+        <field name="arch" type="xml">
+            <search>
+                <field name="partner_id" />
+                <field name="sale_order_id" />
+                <field name="contract_end_date" />
+                <field name="supplier_id" />
+                <field name="main_doctor_id" />
+            </search>
+        </field>
+    </record>
+
+    <!-- gs_medical_planner tree view -->
+    <record id="gs_medical_planner_view_tree" model="ir.ui.view">
+        <field name="name">gs_medical_planner_view_tree</field>
+        <field name="model">gs_medical_planner</field>
+        <field name="arch" type="xml">
+            <tree>
+                <field name="partner_id" optional="show"/>
+                <field name="sale_order_id" optional="show"/>
+                <field name="employee_number" optional="show"/>
+                <field name="supplier_id" optional="show"/>
+                <field name="main_doctor_id" optional="show"/>
+                <field name="other_doctors" optional="show"/>
+                <field name="city" optional="show"/>
+                <field name="state_id" optional="show"/>
+                <!-- FIXME add more fields -->
+            </tree>
+        </field>
+    </record>
+
+    <!-- gs_medical_planner view action -->
+    <record model="ir.actions.act_window" id="gs_medical_planner_action_window">
+        <field name="name">Pianificatore</field>
+        <field name="res_model">gs_medical_planner</field>
+        <field name="view_mode">tree,form</field>
+    </record>
+
+    <!-- gs_medical_planner menu action -->
+    <menuitem
+        name="Pianificatore"
+        id="gs_medical_planner"
+        parent="gscudo-surveillance.gssurveillance_menu_root"
+        sequence="50"
+        action="gs_medical_planner_action_window"
+        groups="base.group_user"
+    />
+
+</odoo>

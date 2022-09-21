@@ -100,6 +100,13 @@
     </record>
 
     <!-- gs_worker_medical_check menu -->
-    <menuitem id="gs_worker_medical_check_menu" name="Visite / Controlli" parent="gssurveillance_menu_root" sequence="40" action="view_gs_worker_medical_check_action" groups="base.group_user" />
+    <menuitem
+        id="gs_worker_medical_check_menu"
+        name="Visite / Controlli"
+        parent="gssurveillance_menu_root"
+        sequence="40"
+        action="view_gs_worker_medical_check_action"
+        groups="base.group_user"
+    />
 
 </odoo>
