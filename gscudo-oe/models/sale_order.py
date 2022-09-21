@@ -8,9 +8,9 @@ class SaleOrder(models.Model):
         comodel_name="gs_product_family", string="Famiglia"
     )
 
+    active = fields.Boolean(string="Attivo", default=True)
     internal_note = fields.Text(string="Note interne")
     subject = fields.Char(string="Oggetto")
-
 
     sg_offer_id = fields.Integer(string="ID Offerta SaWGest")
     sg_url = fields.Char(

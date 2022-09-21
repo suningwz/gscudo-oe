@@ -21,7 +21,6 @@
         "crm_lead_vat",
         "sale",
         "l10n_it_ateco",
-        "sale",
         "gscudo-worddoc",
         "industry_fsm",
         "project_stage_state",
