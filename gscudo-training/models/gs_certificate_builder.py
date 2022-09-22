@@ -91,10 +91,10 @@ class GSCertificateBuilder(models.Model):
         return {
             "name": "Certificato generato",
             "type": "ir.actions.act_window",
-            # "view_mode": "form",
+            "view_mode": "tree,form",
             "res_model": "gs_worker_certificate",
-            "res_id": new_cert_id.id,
-            # "domain": [("id", "=", new_cert_id.id)],
+            # "res_id": new_cert_id.id,
+            "domain": [("id", "=", new_cert_id.id)],
             "target": "new",
         }
 

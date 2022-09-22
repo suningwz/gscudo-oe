@@ -82,7 +82,7 @@
     </record>
 
     <record id="gs_certificate_builder_action_view_tree" model="ir.actions.act_window">
-        <field name="name">Certificate builder</field>
+        <field name="name">Certificate Builder</field>
         <field name="res_model">gs_certificate_builder</field>
         <field name="view_mode">tree,form</field>
         <field name="view_id" ref="gs_certificate_builder_view_tree" />
@@ -90,9 +90,9 @@
 
     <menuitem
         id="gs_certificate_builder_menu"
-        name="Certificate builder"
+        name="Certificate Builder"
         parent="gs_training_menu_backoffice"
-        sequence="90"
+        sequence="75"
         action="gs_certificate_builder_action_view_tree"
         groups="group_training_backoffice"
     />
