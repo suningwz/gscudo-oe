@@ -17,6 +17,7 @@
                         <field name="attended_hours" widget="float_time" />
                         <field name="implicit" />
                         <field name="previous_enrollment_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
+                        <field name="is_in_certificate" string="Conteggiato" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
@@ -41,6 +42,7 @@
                 <field name="is_attendant" />
                 <field name="implicit" />
                 <field name="previous_enrollment_id" />
+                <field name="is_in_certificate" string="Conteggiato" optional="hide" />
             </tree>
         </field>
     </record>

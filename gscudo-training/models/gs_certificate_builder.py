@@ -7,8 +7,6 @@ class GSCertificateBuilder(models.Model):
     _description = "Creatore manuale certificati"
     _auto = False
 
-    # FIXME mass update is_in_certificate
-
     name = fields.Char(string="Nome", compute="_compute_name")
     gs_worker_id = fields.Many2one(comodel_name="gs_worker", string="Lavoratore")
     partner_id = fields.Many2one(comodel_name="res.partner", string="Azienda")
@@ -66,7 +64,8 @@ class GSCertificateBuilder(models.Model):
 
         previous_enrollment_id = False
         for enrollment in sorted(
-            self.gs_lesson_enrollment_ids, key=lambda e: e.lesson_start_time
+            [e for e in self.gs_lesson_enrollment_ids if e.attended_hours > 0],
+            key=lambda e: e.lesson_start_time,
         ):
             enrollment.previous_enrollment_id = previous_enrollment_id
             previous_enrollment_id = enrollment
@@ -87,19 +86,17 @@ class GSCertificateBuilder(models.Model):
         for enrollment in self.gs_lesson_enrollment_ids:
             enrollment.is_in_certificate = True
 
-        # FIXME go back to the tree
         return {
             "name": "Certificato generato",
             "type": "ir.actions.act_window",
             "view_mode": "tree,form",
             "res_model": "gs_worker_certificate",
-            # "res_id": new_cert_id.id,
             "domain": [("id", "=", new_cert_id.id)],
             "target": "current",
         }
 
     def init(self):
-        """At module install crate the view."""
+        """At module install create the view."""
         self._cr.execute(
             """
             drop view if exists gs_certificate_builder;
