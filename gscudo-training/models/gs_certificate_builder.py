@@ -95,7 +95,7 @@ class GSCertificateBuilder(models.Model):
             "res_model": "gs_worker_certificate",
             # "res_id": new_cert_id.id,
             "domain": [("id", "=", new_cert_id.id)],
-            "target": "new",
+            "target": "current",
         }
 
     def init(self):
