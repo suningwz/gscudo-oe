@@ -1,5 +1,6 @@
 import base64
-import logging  # pylint: disable=unused-import
+import json
+import logging
 import datetime
 from datetime import datetime
 from tempfile import NamedTemporaryFile
@@ -15,6 +16,50 @@ try:
     from jinja2.exceptions import UndefinedError
 except (ImportError, IOError) as err:
     _logger.error(err)
+
+
+CERT_KEYS = [
+    "name",
+    "birth_date",
+    "birth_place",
+    "fiscalcode",
+    "partner",
+    "job_description",
+    "course_name",
+    "law_ref",
+    "duration",
+    "lessons",
+    "attended_hours",
+    "min_attendance",
+    "ateco",
+    "issue_date",
+    "issue_serial",
+]
+
+LESSON_KEYS = [
+    "date",
+    "location",
+    "duration",
+    "teacher",
+    "coteacher",
+]
+
+
+def check_attachment_data(data: dict):
+    """
+    Checks if attachment_data is well formed.
+    Returns the first missing key if the dict is malformed, else None.
+    """
+    for key in CERT_KEYS:
+        if data.get(key, False) is False:
+            return key
+
+    for key in LESSON_KEYS:
+        if data["lessons"].get(key, False) is False:
+            # FIXME return the lesson date
+            return key
+
+    return None
 
 
 class GSWorkerCertificate(models.Model):
@@ -101,6 +146,7 @@ class GSWorkerCertificate(models.Model):
         """
         When a certificate is created, automatically set the issue number.
         Also, if this is a multicertificate, set the appropriate certificate type.
+        Also, create the static data.
         """
         if "gs_training_certificate_type_id" in vals:
             certificate_type = self.env["gs_training_certificate_type"].browse(
@@ -162,6 +208,77 @@ class GSWorkerCertificate(models.Model):
         certificate = super().create(vals)
         if certificate.type == "C":
             certificate.issue_serial = f"CERT-{certificate.id}"
+
+            def hours(time: int):
+                if time is False:
+                    return False
+                hours = int(time)
+                mins = int((time - hours) * 60)
+                return f"{hours}:{mins:02}"
+
+            def address(partner):
+                if any(
+                    key is False
+                    for key in [
+                        partner.name,
+                        partner.street,
+                        partner.zip,
+                        partner.city,
+                        partner.state_id.code,
+                    ]
+                ):
+                    return False
+                return (
+                    f"{partner.name} {partner.street} {partner.zip} "
+                    f"{partner.city} ({partner.state_id.code})"
+                )
+
+            attachment_data = {
+                "name": certificate.gs_worker_id.name,
+                "birth_date": certificate.gs_worker_id.birth_date.strftime("%d/%m/%Y"),
+                "birth_place": (
+                    certificate.gs_worker_id.birth_place
+                    if certificate.gs_worker_id.birth_place
+                    else certificate.gs_worker_id.birth_country
+                ),
+                "fiscalcode": certificate.gs_worker_id.fiscalcode,
+                "partner": certificate.gs_worker_id.contract_partner_id.name,
+                "job_description": certificate.gs_worker_id.contract_job_description,
+                "course_name": certificate.test_id.gs_course_id.gs_course_type_id.name,
+                "law_ref": certificate.gs_training_certificate_type_id.law_ref,
+                "duration": hours(certificate.test_id.gs_course_id.duration),
+                "lessons": [
+                    {
+                        "date": e.gs_course_lesson_id.start_time.strftime("%d-%m-%Y"),
+                        "location": address(e.gs_course_lesson_id.location_partner_id),
+                        "duration": hours(e.gs_course_lesson_id.duration),
+                        "teacher": e.gs_course_lesson_id.teacher_partner_id.name,
+                        "coteacher": (
+                            e.gs_course_lesson_id.coteacher_partner_id.name
+                            if e.gs_course_lesson_id.coteacher_partner_id.name
+                            is not False
+                            else ""
+                        ),
+                    }
+                    for e in certificate.compute_enrollments()
+                    if not e.gs_course_lesson_id.generate_certificate
+                ],
+                "attended_hours": hours(certificate.attended_hours),
+                "min_attendance": int(certificate.min_attendance * 100),
+                "ateco": certificate.gs_worker_id.contract_partner_id.main_ateco_id.code,
+                "issue_date": certificate.issue_date.strftime("%d/%m/%Y"),
+                "issue_serial": certificate.issue_serial,
+            }
+
+            key = check_attachment_data(attachment_data)
+            if key:
+                # FIXME better error message
+                raise UserError(
+                    f"Missing {key} for {certificate.gs_worker_id.fiscalcode}."
+                )
+
+            certificate.attachment_data = json.dumps(attachment_data)
+
         return certificate
 
     external_link = fields.Char(string="Link Esterno")
@@ -488,6 +605,7 @@ class GSWorkerCertificate(models.Model):
 
         return action
 
+    attachment_data = fields.Text(string="Dati certificati (JSON)")
     attachment = fields.Binary(
         related="message_main_attachment_id.datas", string="Attestato"
     )
@@ -543,36 +661,10 @@ class GSWorkerCertificate(models.Model):
         Generates a docx/pdf document for the certificate.
         """
 
-        def hours(time: int):
-            if time is False:
-                return False
-            hours = int(time)
-            mins = int((time - hours) * 60)
-            return f"{hours}:{mins:02}"
-
-        def address(partner):
-            if any(
-                key is False
-                for key in [
-                    partner.name,
-                    partner.street,
-                    partner.zip,
-                    partner.city,
-                    partner.state_id.code,
-                ]
-            ):
-                return False
-            return (
-                f"{partner.name} {partner.street} {partner.zip} "
-                f"{partner.city} ({partner.state_id.code})"
-            )
-
         # here self should always be a single certificate, so we could remove this loop
         for certificate in self:
             if certificate.test_id and not certificate.test_id.gs_course_id.is_internal:
-                raise UserError(
-                    "Impossibile generare certificati per corsi non gestiti."
-                )
+                raise UserError("Impossibile generare attestati per corsi non gestiti.")
 
             if self.env["ir.attachment"].search(
                 [
@@ -586,62 +678,76 @@ class GSWorkerCertificate(models.Model):
             if not doc_template:
                 raise UserError("Template mancante")
 
-            if certificate.gs_worker_id.birth_date is False:
+            if not certificate.attachment_data:
+                raise UserError("Dati mancanti")
+
+            data = json.loads(certificate.attachment_data)
+
+            # FIXME recheck data?
+            # extract data checking into a function
+            key = check_attachment_data(data)
+            if key:
+                # FIXME better error message
                 raise UserError(
-                    f"Data di nascita lavoratore {certificate.gs_worker_id.name} mancante"
+                    f"Malformed data for certificate {certificate.issue_serial}."
                 )
 
-            # select the data
-            data = {
-                "name": certificate.gs_worker_id.name,
-                "birth_date": certificate.gs_worker_id.birth_date.strftime("%d/%m/%Y"),
-                "birth_place": (
-                    certificate.gs_worker_id.birth_place
-                    if certificate.gs_worker_id.birth_place
-                    else certificate.gs_worker_id.birth_country
-                ),
-                "fiscalcode": certificate.gs_worker_id.fiscalcode,
-                "partner": certificate.gs_worker_id.contract_partner_id.name,
-                "job_description": certificate.gs_worker_id.contract_job_description,
-                "course_name": certificate.test_id.gs_course_id.gs_course_type_id.name,
-                "law_ref": certificate.gs_training_certificate_type_id.law_ref,
-                "duration": hours(certificate.test_id.gs_course_id.duration),
-                "lessons": [
-                    {
-                        "date": e.gs_course_lesson_id.start_time.strftime("%d-%m-%Y"),
-                        "location": address(e.gs_course_lesson_id.location_partner_id),
-                        "duration": hours(e.gs_course_lesson_id.duration),
-                        "teacher": e.gs_course_lesson_id.teacher_partner_id.name,
-                        "coteacher": (
-                            e.gs_course_lesson_id.coteacher_partner_id.name
-                            if e.gs_course_lesson_id.coteacher_partner_id.name
-                            is not False
-                            else ""
-                        ),
-                    }
-                    for e in certificate.compute_enrollments()
-                    if not e.gs_course_lesson_id.generate_certificate
-                ],
-                "attended_hours": hours(certificate.attended_hours),
-                "min_attendance": int(certificate.min_attendance * 100),
-                "ateco": certificate.gs_worker_id.contract_partner_id.main_ateco_id.code,
-                "issue_date": certificate.issue_date.strftime("%d/%m/%Y"),
-                "issue_serial": certificate.issue_serial,
-            }
+            # if certificate.gs_worker_id.birth_date is False:
+            #     raise UserError(
+            #         f"Data di nascita lavoratore {certificate.gs_worker_id.name} mancante"
+            #     )
 
-            for key, value in data.items():
-                if value is False:
-                    raise UserError(
-                        f"Parametro '{key}' mancante per certificato {certificate.issue_serial}"
-                    )
+            # # select the data
+            # data = {
+            #     "name": certificate.gs_worker_id.name,
+            #     "birth_date": certificate.gs_worker_id.birth_date.strftime("%d/%m/%Y"),
+            #     "birth_place": (
+            #         certificate.gs_worker_id.birth_place
+            #         if certificate.gs_worker_id.birth_place
+            #         else certificate.gs_worker_id.birth_country
+            #     ),
+            #     "fiscalcode": certificate.gs_worker_id.fiscalcode,
+            #     "partner": certificate.gs_worker_id.contract_partner_id.name,
+            #     "job_description": certificate.gs_worker_id.contract_job_description,
+            #     "course_name": certificate.test_id.gs_course_id.gs_course_type_id.name,
+            #     "law_ref": certificate.gs_training_certificate_type_id.law_ref,
+            #     "duration": hours(certificate.test_id.gs_course_id.duration),
+            #     "lessons": [
+            #         {
+            #             "date": e.gs_course_lesson_id.start_time.strftime("%d-%m-%Y"),
+            #             "location": address(e.gs_course_lesson_id.location_partner_id),
+            #             "duration": hours(e.gs_course_lesson_id.duration),
+            #             "teacher": e.gs_course_lesson_id.teacher_partner_id.name,
+            #             "coteacher": (
+            #                 e.gs_course_lesson_id.coteacher_partner_id.name
+            #                 if e.gs_course_lesson_id.coteacher_partner_id.name
+            #                 is not False
+            #                 else ""
+            #             ),
+            #         }
+            #         for e in certificate.compute_enrollments()
+            #         if not e.gs_course_lesson_id.generate_certificate
+            #     ],
+            #     "attended_hours": hours(certificate.attended_hours),
+            #     "min_attendance": int(certificate.min_attendance * 100),
+            #     "ateco": certificate.gs_worker_id.contract_partner_id.main_ateco_id.code,
+            #     "issue_date": certificate.issue_date.strftime("%d/%m/%Y"),
+            #     "issue_serial": certificate.issue_serial,
+            # }
 
-            for lesson in data["lessons"]:
-                for key, value in lesson.items():
-                    if value is False:
-                        raise UserError(
-                            f"Parametro lezione '{key}' mancante "
-                            f"per certificato {certificate.issue_serial}"
-                        )
+            # for key, value in data.items():
+            #     if value is False:
+            #         raise UserError(
+            #             f"Parametro '{key}' mancante per certificato {certificate.issue_serial}"
+            #         )
+
+            # for lesson in data["lessons"]:
+            #     for key, value in lesson.items():
+            #         if value is False:
+            #             raise UserError(
+            #                 f"Parametro lezione '{key}' mancante "
+            #                 f"per certificato {certificate.issue_serial}"
+            #             )
 
             # create the document
             with NamedTemporaryFile("w+b") as f:
