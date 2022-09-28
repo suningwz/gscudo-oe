@@ -53,11 +53,19 @@
         <field name="arch" type="xml">
             <search string="">
                 <field name="name" />
+                <field name="gs_worker_id" />
+                <field name="gs_course_lesson_id" />
 
-                <filter name="filter_archived" domain="[('active','=',0)]" string="Archiviati" />
+                <filter name="filter_attendant" domain="[('is_attendant','=',True)]" string="Presente" />
+                <filter name="filter_not_attendant" domain="[('is_attendant','=',False)]" string="Assente" />
+                <separator />
+                <filter name="filter_counted" domain="[('is_in_certificate','=',True)]" string="Conteggiato" />
+                <filter name="filter_not_counted" domain="[('is_in_certificate','=',False)]" string="Non conteggiato" />
 
                 <group expand="1" string="Group By">
-                    <filter string="Gruppo" name="name" context="{'group_by':'name'}" />
+                    <filter string="Lavoratore" name="group_by_worker" context="{'group_by':'gs_worker_id'}" />
+                    <filter string="Corso" name="group_by_course" context="{'group_by':'gs_course_id'}" />
+                    <filter string="Lavoratore" name="group_by_worker" context="{'group_by':'gs_worker_id'}" />
                 </group>
             </search>
         </field>
