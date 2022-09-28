@@ -26,6 +26,7 @@
                         <field name="note" />
                         <!-- <field name="gs_possible_course_ids" readonly="1" /> -->
                         <field name="enrollments" />
+                        <field name="attachment_data" groups="base.user_admin" />
                     </group>
                 </sheet>
                 <div class="oe_chatter">
