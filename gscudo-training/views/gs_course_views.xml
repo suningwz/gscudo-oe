@@ -241,6 +241,14 @@ action = {
         <field name="binding_model_id" ref="model_gs_course" />
     </record>
 
+    <record id="gs_course_action_participants_mail" model="ir.actions.server">
+        <field name="name">Mail partecipanti</field>
+        <field name="model_id" ref="model_gs_course" />
+        <field name="state">code</field>
+        <field name="code">action = record.participants_mail()</field>
+        <field name="binding_model_id" ref="model_gs_course" />
+    </record>
+
     <!-- gs_course menu -->
     <menuitem
         id="gs_course_menu"

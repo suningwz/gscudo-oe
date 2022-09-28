@@ -290,21 +290,33 @@ class GSCourse(models.Model):
         """
         return str(random.randint(100000, 999999))
 
-    # def participants_mail(self):
-    #     self.ensure_one()
+    def participants_mail(self):
+        """Print a list of the participants' mails"""
+        self.ensure_one()
 
-    #     mail = []
-    #     missing = []
-    #     for enrollment in self.gs_worker_ids:
-    #         worker = enrollment.gs_worker_id
-    #         if worker.email:
-    #             mail.append(worker.email)
-    #         else:
-    #             missing.append(worker.name)
+        mail = []
+        missing = []
+        for enrollment in self.gs_worker_ids:
+            worker = enrollment.gs_worker_id
+            if worker.email:
+                mail.append(worker.email)
+            else:
+                missing.append(worker.name)
 
-    #     message = ""  # f"<p>Mail presenti:<br/><pre>{'\n'.join(mail)}</pre></p>"
-    #     if missing:
-    #         # FIXME finish this
-    #         message += ""  # f"<p>Mail mancanti:<ul/>{'\n'.join(mail)}</ul></p>"
+        def stringify(l):
+            return "<ul>" + "\n".join(["<li>" + m + "</li>" for m in l]) + "</ul>"
 
-    #     return self.env["gs_message_wizard"].create({"message": message})
+        message = f"<p>Mail presenti:<br/>{stringify(mail)}</p>"
+        if missing:
+            message += f"<p>Mail mancanti:<br/>{stringify(missing)}</p>"
+
+        message = self.env["gs_message_wizard"].create({"message": message})
+
+        return {
+            "name": "Attenzione" if missing else "Ok",
+            "type": "ir.actions.act_window",
+            "view_mode": "form",
+            "res_model": "gs_message_wizard",
+            "res_id": message.id,
+            "target": "new",
+        }
