@@ -590,9 +590,9 @@ class GSWorkerCertificate(models.Model):
                     {
                         "name": (
                             f"{certificate.gs_worker_id.fiscalcode} - "
-                            f"{certificate.test_id.gs_course_id.protocol} - "
-                            f"{certificate.issue_date}"
-                            ".docx"
+                            + f"{certificate.test_id.gs_course_id.protocol} - "
+                            if certificate.test_id.gs_course_id.protocol
+                            else "" + f"{certificate.issue_date}" + ".docx"
                         ),
                         "description": f"Generato il {datetime.now().date()}",
                         "res_model": "gs_worker_certificate",
