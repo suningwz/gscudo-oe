@@ -254,11 +254,8 @@ class GSWorkerMassImportWizard(models.TransientModel):
                 + "</ul></p>"
             )
 
-            message = self.env["gs_message_wizard"].create({"message": text})
-
         else:
             text = f"<p>{len(lines)} lavoratori importati</p>"
-            message = self.env["gs_message_wizard"].create({"message": text})
 
         self.update_chatter(
             res_model="res.partner",
@@ -267,11 +264,7 @@ class GSWorkerMassImportWizard(models.TransientModel):
             datas=self.data,
         )
 
-        return {
-            "name": "Attenzione" if errors else "Ok",
-            "type": "ir.actions.act_window",
-            "view_mode": "form",
-            "res_model": "gs_message_wizard",
-            "res_id": message.id,
-            "target": "new",
-        }
+        return self.env["gs_message_wizard"].display_message(
+            title="Attenzione" if errors else "Ok",
+            message=text,
+        )

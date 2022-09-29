@@ -5,6 +5,13 @@
         <field name="model">gs_training_planner</field>
         <field name="arch" type="xml">
             <form>
+                <!-- <header>
+                    <button 
+                        name="send_first_email"
+                        type="object"
+                        string="Invia mail proposta"
+                    />
+                </header> -->
                 <sheet>
                     <group col="2">
                         <group colspan="2">
@@ -213,26 +220,10 @@
                 <field name="material_price" optional="hide" />
                 <field name="material_order_ref" optional="hide" />
                 <field name="note" optional="hide" />
+                <field name="is_first_mail_sent" optional="hide" />
             </tree>
         </field>
     </record>
-
-    <!-- <record id="gs_training_planner_view_calendar" model="ir.ui.view">
-        <field name="name">Calendario Pianif</field>
-        <field name="model">gs_training_planner</field>
-        <field name="arch" type="xml">
-            <calendar
-                date_start="course_start_date"
-                date_end="course_end_date"
-                color="place"
-                quick_add="False"
-                mode="month"
-            >
-                <field name="name" />
-                <field name="place" />
-            </calendar>
-        </field>
-    </record> -->
 
     <!-- actions opening views on models -->
     <record model="ir.actions.act_window" id="gs_training_planner_action_window">
@@ -242,7 +233,16 @@
         <field name="view_mode">tree,form</field>
     </record>
 
-    <!-- actions -->
+    <!-- other actions -->
+    <record id="planner_first_mail_action_server" model="ir.actions.server">
+        <field name="name">Invia prima mail</field>
+        <field name="model_id" ref="model_gs_training_planner"/>
+        <field name="binding_model_id" ref="model_gs_training_planner"/>
+        <field name="state">code</field>
+        <field name="code">action = records.send_first_emails()</field>
+    </record>
+
+    <!-- menu actions -->
     <menuitem
         name="Pianificatore"
         id="gscudo-training-planner.menu_list"

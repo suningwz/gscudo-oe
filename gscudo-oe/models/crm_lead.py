@@ -285,7 +285,10 @@ class CrmLead(models.Model):
     def _compute_customer_status(self):
         for record in self:
             if record.last_accepted_offer:
-                if record.last_accepted_offer > date.today() - timedelta(days=365):
+                if (
+                    record.last_accepted_offer > (date.today() - timedelta(days=365))
+                    or record.last_expiring_contract > date.today()
+                ):
                     record.customer_status = "Cliente"
                 else:
                     record.customer_status = "Dormiente"
@@ -306,3 +309,5 @@ class CrmLead(models.Model):
             if record.user_id is not False:
                 if record.user_id.tmk_user_id is not False:
                     record.tmk_user_id = record.user_id.tmk_user_id.id
+
+    last_expiring_contract = fields.Date(string="Ultima scadenza contratto")
