@@ -61,7 +61,7 @@
                         <field
                             name="gs_worker_certificate_id"
                             domain="[
-                                ('gs_course_enrollment_ids', '=', False),
+                                ('gs_course_enrollment_id', '=', False),
                                 '|',
                                 '|',
                                 (

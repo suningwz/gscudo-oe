@@ -29,6 +29,7 @@
                         <field name="max_workers" />
                         <field name="state" />
                         <field name="external_url" widget="url" />
+                        <field name="published" />
                         <field name="note" />
                         <field name="id_sawgest" />
                         <field name="parent_course_id" options="{'no_create':True,'no_edit':True,'no_create_edit': True,'no_quick_create': True}" />
@@ -229,6 +230,14 @@ action = {
     'target': 'current',
 }
         </field>
+        <field name="binding_model_id" ref="model_gs_course" />
+    </record>
+
+    <record id="gs_course_action_go_to_builder" model="ir.actions.server">
+        <field name="name">Certificate Builder</field>
+        <field name="model_id" ref="model_gs_course" />
+        <field name="state">code</field>
+        <field name="code">action = records.go_to_builder_action()</field>
         <field name="binding_model_id" ref="model_gs_course" />
     </record>
 

@@ -80,7 +80,7 @@ class GSWorkerMassImportWizard(models.TransientModel):
                     line_errors.append(f"{key} mancante")
 
             if line["sesso"] not in ("M", "F"):
-                line_errors.append(f"errore {key}")
+                line_errors.append("errore sesso")
 
             if (
                 line.notna()["data_nascita"]
@@ -117,6 +117,7 @@ class GSWorkerMassImportWizard(models.TransientModel):
 
         res.message_post(body=body, attachment_ids=[attachment.id])
 
+    # pylint: disable-next
     def import_workers(self):
         """Reads the supplied file and creates the workers."""
         try:

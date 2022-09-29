@@ -32,7 +32,7 @@
                             <field name="product_id" options="{'no_create': True, 'no_create_edit':True}" />
                             <field name="product_uom_qty" readonly="1" />
                             <field name="price_unit" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" />
-                            <field name="discount" widget="percentage" readonly="1" />
+                            <field name="discount_percent" widget="percentage" readonly="1" />
                             <field name="price_subtotal" widget="monetary" options="{'currency_field': 'currency_id'}" readonly="1" />
                             <field name="place" />
                         </group>
@@ -88,8 +88,12 @@
                                     name="gs_worker_certificate_id"
                                     domain="[
                                         ('gs_worker_id.contract_partner_id', '=', parent.partner_id),
+                                        ('gs_course_enrollment_id', '=', False),
+                                        '|',
+                                        '|',
                                         ('gs_training_certificate_type_id', '=', parent.gs_training_certificate_type_id),
-                                        ('gs_course_enrollment_id', '=', False)
+                                        ('gs_training_certificate_type_id.weaker_certificate_ids', 'in', [parent.gs_training_certificate_type_id]),
+                                        ('gs_training_certificate_type_id.stronger_certificate_ids', 'in', [parent.gs_training_certificate_type_id]),
                                     ]"
                                     options="{'no_create': True, 'no_create_edit':True}"
                                 />

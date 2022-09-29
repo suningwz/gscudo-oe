@@ -41,8 +41,9 @@ class GSWorkerCertificate(models.Model):
         for certificate in self:
             certificate.name = (
                 f"{certificate.gs_worker_id.name} - "
-                f"{certificate.gs_training_certificate_type_id.name} - "
-                f"{certificate.issue_date if certificate.type == 'C' else 'ESIGENZA'}"
+                + f"{certificate.gs_training_certificate_type_id.name}"
+                + (" (aggiornamento)" if certificate.is_update else "")
+                + f" - {certificate.issue_date if certificate.type == 'C' else 'ESIGENZA'}"
             )
 
     gs_worker_id = fields.Many2one(
@@ -60,26 +61,22 @@ class GSWorkerCertificate(models.Model):
         index=True,
         tracking=True,
     )
-
     has_training_manager = fields.Boolean(
         string="Manager Formativo",
         related="gs_worker_id.contract_partner_id.has_training_manager",
         index=True,
     )
-
     has_safety = fields.Boolean(
         string="RSPP/Supporto RSPP",
         related="gs_worker_id.contract_partner_id.has_safety",
         index=True,
     )
-
     gs_training_certificate_type_id = fields.Many2one(
         comodel_name="gs_training_certificate_type",
         string="Tipo certificazione",
         required=True,
         tracking=True,
     )
-
     type = fields.Selection(
         string="Tipo",
         selection=[
@@ -91,9 +88,7 @@ class GSWorkerCertificate(models.Model):
         tracking=True,
         index=True,
     )
-
     note = fields.Char(string="Note")
-
     issue_date = fields.Date(
         string="Data certificato", required=True, tracking=True, index=True
     )
@@ -170,7 +165,6 @@ class GSWorkerCertificate(models.Model):
         return certificate
 
     external_link = fields.Char(string="Link Esterno")
-
     active = fields.Boolean(
         string="Attivo",
         compute="_compute_active",
@@ -216,9 +210,7 @@ class GSWorkerCertificate(models.Model):
                     )
 
     is_update = fields.Boolean(string="Aggiornamento", tracking=True)
-
     expiry_date = fields.Date(string="Data scadenza (sawgest)")
-
     expiration_date = fields.Date(
         string="Data scadenza",
         compute="_compute_expiration_date",
@@ -227,7 +219,11 @@ class GSWorkerCertificate(models.Model):
         tracking=True,
     )
 
-    @api.depends("issue_date", "gs_training_certificate_type_id.validity_interval")
+    @api.depends(
+        "issue_date",
+        "gs_training_certificate_type_id",
+        "gs_training_certificate_type_id.validity_interval",
+    )
     def _compute_expiration_date(self):
         """
         Computes the expiration date of the certificate.
@@ -403,9 +399,9 @@ class GSWorkerCertificate(models.Model):
     )
     def _compute_gs_course_enrollment_id(self):
         for record in self:
-            record.gs_course_enrollment_id = False
+            # record.gs_course_enrollment_id = False
             if record.gs_course_enrollment_id.state == "X":
-                continue
+                record.gs_course_enrollment_id = False
             if record.gs_course_enrollment_ids:
                 potential_enrollment = max(
                     record.gs_course_enrollment_ids, key=lambda e: e.enrollment_date
@@ -415,6 +411,10 @@ class GSWorkerCertificate(models.Model):
                     "X-annullato",
                 ):
                     record.gs_course_enrollment_id = potential_enrollment
+                else:
+                    record.gs_course_enrollment_id = False
+            else:
+                record.gs_course_enrollment_id = False
 
     is_renewed = fields.Boolean(string="In rinnovo", compute="_compute_is_renewed")
 
@@ -491,6 +491,13 @@ class GSWorkerCertificate(models.Model):
     attachment = fields.Binary(
         related="message_main_attachment_id.datas", string="Attestato"
     )
+    is_attachment_present = fields.Boolean(
+        string="Attestato presente", compute="_compute_is_attachment_present"
+    )
+
+    def _compute_is_attachment_present(self):
+        for record in self:
+            record.is_attachment_present = bool(record.message_main_attachment_id)
 
     sg_id = fields.Integer(string="ID SawGest")
     sg_updated_at = fields.Datetime(string="Data Aggiornamento Sawgest")
@@ -669,6 +676,33 @@ class GSWorkerCertificate(models.Model):
                         ),
                     }
                 )
+
+    def mass_download(self):
+        """Download files for the selected certificates."""
+        if not self:
+            raise UserError("Nessun certificato selezionato")
+
+        missing = []
+        for record in self:
+            if not record.message_main_attachment_id:
+                missing.append(record)
+
+        if missing:
+            raise UserError(
+                "Attestati mancanti per certificati "
+                + ", ".join([r.issue_serial for r in missing])
+            )
+
+        action = {
+            "type": "ir.actions.act_url",
+            "url": (
+                "gscudo-training/doc/certificate/"
+                + ",".join([str(record.id) for record in self])
+            ),
+            "target": "new",
+        }
+
+        return action
 
 
 class GSWorker(models.Model):

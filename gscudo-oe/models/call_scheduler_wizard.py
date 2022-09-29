@@ -66,9 +66,12 @@ class CallScheduler(models.TransientModel):
                 "res_model": active_model,
                 "res_model_id": res_model_id.id,
                 "res_id": record.id,
-                "user_id": record.user_id.id
-                or record.tmk_user_id.id
-                or self.env.user.id,
+                "user_id": (
+                    self.user_id.id
+                    or record.user_id.id
+                    or record.tmk_user_id.id
+                    or self.env.user.id
+                ),
                 "date_deadline": call_date,
                 "summary": self.summary,
                 "activity_category": "default",

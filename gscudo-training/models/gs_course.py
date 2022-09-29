@@ -6,17 +6,33 @@ from odoo.exceptions import UserError
 class GSCourse(models.Model):
     _name = "gs_course"
     _description = "Corso"
-    _inherit = ["mail.thread", "mail.activity.mixin"]
+    _inherit = ["mail.thread", "mail.activity.mixin", "documents.mixin"]
 
     def _get_document_folder(self):
         return self.env["documents.folder"].search([("name", "=", "Formazione")])
 
-    def _get_document_tags(self):
-        # pylint: disable-next=no-else-return
-        if self.generate_certificate:
-            return self.env["documents.tag"].search([("name", "=", "Test finale")])
-        else:
-            return self.env["documents.tag"].search([("name", "=", "Foglio firme")])
+    def _get_document_vals(self, attachment):
+        """
+        Return values used to create a `documents.document`
+        """
+        self.ensure_one()
+        document_vals = {}
+        if self._check_create_documents():
+            if "registr" in attachment.name.lower():
+                tag = self.env["documents.tag"].search([("name", "=", "Foglio firme")])
+            elif "test" in attachment.name.lower():
+                tag = self.env["documents.tag"].search([("name", "=", "Test finale")])
+            else:
+                tag = self.env["documents.tag"].search([("name", "=", "Altro")])
+
+            document_vals = {
+                "attachment_id": attachment.id,
+                "name": attachment.name or self.display_name,
+                "folder_id": self._get_document_folder().id,
+                "owner_id": self._get_document_owner().id,
+                "tag_ids": [(6, 0, tag.ids)],
+            }
+        return document_vals
 
     name = fields.Char(string="Corso", index=True, compute="_compute_name", store=True)
 
@@ -177,6 +193,7 @@ class GSCourse(models.Model):
     external_url = fields.Char(
         string="URL esterno", compute="_compute_external_url", store=True
     )
+    published = fields.Boolean(string="Pubblicato sul sito", default=False)
 
     id_sawgest = fields.Integer(string="Id Sawgest", index=True)
 
@@ -234,9 +251,60 @@ class GSCourse(models.Model):
 
         return action
 
+    def go_to_builder_action(self):
+        """
+        Go to the certificate builder filtered by the workers
+        enrolled in the course and the appropriate course type.
+        """
+        worker_ids = set([])
+        course_type_ids = set([])
+        for record in self:
+            course_type_ids.add(record.gs_course_type_id.id)
+            for lesson in record.gs_course_lesson_ids:
+                worker_ids.update(
+                    [
+                        e.gs_worker_id.id
+                        for e in lesson.gs_worker_ids
+                        if e.state not in ["X", "I", "P"]
+                    ]
+                )
+
+        worker_ids.discard(False)
+
+        return {
+            "name": "Certificate Builder",
+            "type": "ir.actions.act_window",
+            "view_mode": "tree,form",
+            "res_model": "gs_certificate_builder",
+            "domain": [
+                ("gs_worker_id.id", "in", list(worker_ids)),
+                ("gs_course_type_id.id", "in", list(course_type_ids)),
+            ],
+            "target": "current",
+        }
+
     @staticmethod
     def rand():
         """
         Return a random 6 character string.
         """
         return str(random.randint(100000, 999999))
+
+    # def participants_mail(self):
+    #     self.ensure_one()
+
+    #     mail = []
+    #     missing = []
+    #     for enrollment in self.gs_worker_ids:
+    #         worker = enrollment.gs_worker_id
+    #         if worker.email:
+    #             mail.append(worker.email)
+    #         else:
+    #             missing.append(worker.name)
+
+    #     message = ""  # f"<p>Mail presenti:<br/><pre>{'\n'.join(mail)}</pre></p>"
+    #     if missing:
+    #         # FIXME finish this
+    #         message += ""  # f"<p>Mail mancanti:<ul/>{'\n'.join(mail)}</ul></p>"
+
+    #     return self.env["gs_message_wizard"].create({"message": message})

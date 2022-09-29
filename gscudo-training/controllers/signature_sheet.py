@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 import base64
 import json
 import logging

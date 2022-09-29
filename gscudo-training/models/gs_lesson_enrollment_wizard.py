@@ -117,3 +117,36 @@ class GSLessonSingleEnrollmentWizard(models.TransientModel):
 
         # previous_enrollment_id = e.id
         # gs_course_lesson = gs_course_lesson.next_lesson()
+
+    class GSLessonReenrollmentWizard(models.AbstractModel):
+        _name = "gs_lesson_reenrollment_wizard"
+        _description = "Wizard di reiscrizione parziale"
+
+        gs_course_lesson_id = fields.Many2one(
+            comodel_name="gs_course_lesson", readonly=True
+        )
+        selected_certificate_id = fields.Many2one(
+            comodel_name="gs_worker_certificate",
+            string="Certificato per reiscrizione",
+            required=True,
+        )
+        selected_course_id = fields.Many2one(
+            comodel_name="gs_course",
+            string="Corso precedente",
+            required=True,
+        )
+        selected_lesson_id = fields.Many2one(
+            comodel_name="gs_course_lesson",
+            string="Lezione precedente",
+            required=True,
+        )
+
+        def reenroll(self):
+            """
+            Create the enrollment and connect it to the old one to keep
+            track of the lessons attended by the worker.
+            """
+            if self.selected_certificate_id.gs_worker_id in (
+                self.selected
+            ):
+                pass

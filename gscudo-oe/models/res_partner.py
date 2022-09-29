@@ -11,8 +11,9 @@ COMPETITOR_TYPE = [
 class ResPartner(models.Model):
     _inherit = "res.partner"
 
+    sg_closed_at = fields.Datetime(string="Chiusura su SG")
     sg_clients_id = fields.Integer(string="ID Cliente SaWGest", index=True)
-    sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ",index=True) 
+    sg_branches_id = fields.Integer(string="ID Ufficio SaWGest ", index=True)
     sg_employee_id = fields.Integer(string="ID Impiegato SaWGest", index=True)
     sg_esolver_id = fields.Integer(string="ID ESolver", index=True)
     cartsan_uo_id = fields.Integer(string="ID Cartsan Un. Operativa", index=True)
@@ -22,6 +23,7 @@ class ResPartner(models.Model):
     sg_url = fields.Char(
         string="Vedi in SaWGest", compute="_compute_sg_url", store=False
     )
+    sg_note = fields.Text(string="Note Sawgest")
 
     def _compute_sg_url(self):
         irconfigparam = self.env["ir.config_parameter"]
@@ -34,24 +36,31 @@ class ResPartner(models.Model):
                     record.sg_url = False
 
     tmk_user_id = fields.Many2one(
-        comodel_name="res.users", string="Telemarketing operator", index=True,
+        comodel_name="res.users", string="Telemarketing operator", index=True
     )
     gs_partner_division_id = fields.Many2one(
-        comodel_name="gs_partner_division", string="Division", index=True,
+        comodel_name="gs_partner_division", string="Division", index=True
     )
 
     revenue = fields.Integer(string="Fatturato")
     balance_year = fields.Integer(string="Anno bilancio", default="")
     employee_qty = fields.Integer(string="Addetti")
     main_ateco_id = fields.Many2one(
-        comodel_name="ateco.category", string="Descrizione ATECO 2007", index=True,
+        comodel_name="ateco.category", string="Descrizione ATECO 2007", index=True
     )
     rating = fields.Integer(string="Rating")
     share_capital = fields.Float(string="Capitale Sociale")
     # credit_limit = fields.Float(string='Fido')
     prejudicials = fields.Boolean(string="Pregiudizievoli")
+    split_payment = fields.Boolean(string="Split payment")
 
     #### From SAWGest
+
+    solicitor = fields.Char(string="Legale Rappresentante")
+    employer = fields.Char(string="Datore di lavoro")
+
+    privacy_policy = fields.Boolean(string="Privacy policy")
+    marketing_consent = fields.Boolean(string="Marketing consent")
 
     position_inail = fields.Char(string="Posizione INAIL")
     position_inps = fields.Char(string="Posizione INPS")
@@ -73,12 +82,13 @@ class ResPartner(models.Model):
     administrative_contact_phone = fields.Char(string="administrative_contact_phone")
 
     employee_number = fields.Integer(string="N. Impiegati")
+    main_branch = fields.Boolean(string="Sede principale")
 
     rspp = fields.Char(string="Nominativo RSPP")
     rspp_notes = fields.Text(string="RSPP Note")
     rls = fields.Char(string="RLS")
     fire_officer = fields.Char(string="Resp. Antincedio")
-    prevention_managers_number = fields.Integer(string="Numero Addetti ")
+    prevention_managers_number = fields.Integer(string="Numero Addetti")
     managers_number = fields.Integer(string="Nr Dirigenti")
     fire_officers_number = fields.Integer(string="Nr Addetti Antincendio")
     first_aid_attendants_number = fields.Integer(string="Nr Addetti Primo Soccorso")
@@ -87,6 +97,7 @@ class ResPartner(models.Model):
     doctor_notes = fields.Text(string="Medico Note")
     spring_code = fields.Char(string="spring_code")
     medical_supplier = fields.Char(string="Fornitore Sorveglianza Sanitaria")
+    construction_site = fields.Boolean(string="construction_site")
 
     is_saleagent = fields.Boolean(string="Agente", default=False)
     is_telemarketer = fields.Boolean(string="Telemarketer", default=False)
@@ -114,7 +125,8 @@ class ResPartner(models.Model):
         string="Conc. Sicurezza",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     training_competitor_type = fields.Selection(
@@ -128,7 +140,8 @@ class ResPartner(models.Model):
         string="Conc. Formazione",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     food_competitor_type = fields.Selection(
@@ -142,7 +155,8 @@ class ResPartner(models.Model):
         string="Conc. Alimentare",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     machdir_competitor_type = fields.Selection(
@@ -171,7 +185,8 @@ class ResPartner(models.Model):
         string="Conc. Sorv. Sanit.",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     environment_competitor_type = fields.Selection(
@@ -185,7 +200,8 @@ class ResPartner(models.Model):
         string="Conc. Ambientale",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     management_competitor_type = fields.Selection(
@@ -199,7 +215,8 @@ class ResPartner(models.Model):
         string="Conc. Sistemi Gest.",
         comodel_name="res.partner",
         domain="[('is_competitor','=',True)]",
-        tracking=True, index=True,
+        tracking=True,
+        index=True,
     )
 
     has_competitors = fields.Boolean(

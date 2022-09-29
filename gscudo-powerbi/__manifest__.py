@@ -20,7 +20,7 @@
     "license": "Other proprietary",
     "website": "http://www.grupposcudo.it",
     "category": "GruppoScudo",
-    "version": "14.0.1.22",
+    "version": "14.0.1.23",
     # any module necessary for this one to work correctly
     "depends": [
         "base",

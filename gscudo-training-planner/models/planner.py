@@ -11,12 +11,6 @@ class GSTrainingPlanner(models.Model):
     name = fields.Char(
         string="Nome", compute="_compute_name", readonly=True, store=True
     )
-
-    # FIXME enroll workers
-    # FIXME enrollment status related (inverse)
-
-    # creation_date = fields.Date(string="Data creazione")
-
     partner_id = fields.Many2one(
         comodel_name="res.partner",
         string="Cliente",
@@ -78,7 +72,12 @@ class GSTrainingPlanner(models.Model):
     currency_id = fields.Many2one(related="sale_order_id.currency_id")
     price_unit = fields.Float(string="Prezzo articolo")
     product_uom_qty = fields.Float(string="Quantità", digits="Product Unit of Measure")
-    discount = fields.Float(string="Sconto")
+    discount = fields.Float(string="Sconto * 100")
+    discount_percent = fields.Float(string="Sconto", compute="_compute_discount_percent")
+
+    def _compute_discount_percent(self):
+        for record in self:
+            record.discount_percent = record.discount / 100
 
     price_subtotal = fields.Monetary(string="Totale")
 
@@ -139,7 +138,7 @@ class GSTrainingPlanner(models.Model):
     material_price = fields.Float(string="Prezzo Materiali", tracking=True)
     material_order_ref = fields.Char(string="Rif. ordine materiali", tracking=True)
 
-    note = fields.Text(string="Note")
+    note = fields.Text(string="Note", tracking=True)
 
     course_attendants = fields.Integer(string="Partecipanti/Edizioni", tracking=True)
     # tot_qty = fields.Integer(string="Q.tà", tracking=True)
