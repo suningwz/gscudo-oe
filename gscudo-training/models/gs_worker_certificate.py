@@ -321,7 +321,6 @@ class GSWorkerCertificate(models.Model):
         string="Richiesto", compute="_compute_is_required", store=True, index=True
     )
 
-    # LOW depends
     @api.depends("gs_worker_id", "gs_training_certificate_type_id")
     def _compute_is_required(self):
         for certificate in self:

@@ -214,7 +214,6 @@ class GSWorkerMassImportWizard(models.TransientModel):
             worker.gs_worker_contract_id = current_contract.id
 
             current_job = None
-            # TODO ???
             for job in worker.gs_worker_job_ids:
                 if job.gs_worker_contract_id == current_contract:
                     current_job = job
