@@ -27,10 +27,7 @@
         "views/gs_course_views.xml",
         "views/gs_enrollment_wizard_views.xml",
         "data/sale_order_actions.xml",
+        "data/mail_template.xml",
     ],
     "demo": [],
 }
-
-# 13.08
-# 16
-# marche

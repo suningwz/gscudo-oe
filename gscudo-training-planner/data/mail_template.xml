@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo noupdate="0">
+
+    <record id="course_proposal_mail_template" model="mail.template">
+        <field name="name">Template formazione programmazione corso</field>
+        <field name="model_id" ref="model_gs_training_planner" />
+        <field name="auto_delete" eval="False" />
+        <field name="email_from">segreteria.corsi@grupposcudo.it</field>
+        <field name="email_to">${object.partner_id.email | safe}</field>
+        <field name="subject">Formazione - Offerta ${object.sale_order_id.name | safe} - Programmazione corsi</field>
+        <field name="body_html">
+            <![CDATA[
+<p class="MsoNormal">Buongiorno,<o:p></o:p></p><p class="MsoNormal">facciamo seguito all’incarico in oggetto per comunicarvi le prossime date dei corsi di Vostro interesse:<o:p></o:p></p>
+<p class="MsoNormal"><b><span style="color:#0070C0"><o:p>&nbsp;</o:p></span></b></p>
+<p class="MsoNormal" style="margin-top:7.5pt"><b><span style="color:#0070C0">Titolo: ${object.product_id.name}</span></b></p>
+<p class="MsoNormal"><b><span style="color:#0070C0">Data e ora</span></b>: ${object.course_start_date}<o:p></o:p></p>
+<p class="MsoNormal"><b><span style="color:#0070C0">Sede del corso:</span>&nbsp;${object.place}<o:p></o:p></b></p>
+<p class="MsoNormal"><b><span style="color:#0070C0">Lavoratori da iscrivere:&nbsp;</span></b>${object.course_attendants}<o:p></o:p></p>
+<p class="MsoNormal"><o:p>&nbsp;</o:p></p>
+<p class="xmsonormal"><o:p>&nbsp;</o:p></p>
+<p class="xmsonormal">I corsi in presenza vengono attivati al raggiungimento di un numero minimo di partecipanti e sono comunque a numero chiuso.<o:p></o:p></p>
+<p class="xmsonormal">In questa fase vengono proposte le date che, <u>al momento</u>, hanno ancora posti disponibili.
+<o:p></o:p></p>
+<p class="xmsonormal"><b>La disponibilità potrà essere verificata <u>solo dopo</u> aver ricevuto
+<span style="background:yellow;mso-highlight:yellow">i dati (colonne in giallo modello xls qui allegato)</span> dei lavoratori interessati
+</b><o:p></o:p></p>
+<p class="xmsonormal"><b><span style="color:#0070C0">&nbsp;</span></b><o:p></o:p></p>
+<p class="xmsonormal"><b><u>Procedura di accesso ai locali – prevenzione della diffusione del CORONAVIRUS</u></b><o:p></o:p></p>
+<p class="xmsonormal" style="text-align:justify">In applicazione alle norme di prevenzione sulla diffusione del Coronavirus, Vi invitiamo a comunicare alle persone convocate di
+<b><u>NON PRESENTARSI QUALORA MANIFESTINO SINTOMATOLOGIE RICONDUCIBILI A CONTAGIO</u>
+</b>(TOSSE, RAFFREDDORE, FEBBRE ECC…); <o:p></o:p></p>
+<p class="xmsonormal" style="text-align:justify">Ricordiamo che, salvo modifiche normative, è necessario:<o:p></o:p></p>
+<p class="xmsonormal">- evitare assembramenti<o:p></o:p></p>
+<p class="xmsonormal">- rispettare le norme comportamentali di prevenzione riportate nei cartelli affissi all’interno dei locali
+<o:p></o:p></p>
+<p class="xmsonormal">- indossare, correttamente, i DPI (mascherine)<o:p></o:p></p>
+<p class="xmsonormal"><o:p>&nbsp;</o:p></p>
+<p class="xmsonormal"><span style="background:yellow;mso-highlight:yellow">Per quanto riguarda i corsi in e-learning restiamo in attesa dei dati delle persone da iscrivere che dovranno disporre di un proprio indirizzo mail al quale saranno collegate le credenziali di accesso.</span><o:p></o:p></p>
+<p class="xmsonormal"><o:p>&nbsp;</o:p></p>
+<p class="xmsonormal"><o:p>&nbsp;</o:p></p>
+<p class="xmsonormal"><o:p>&nbsp;</o:p></p>
+<p class="xmsonormal">Cordiali saluti<o:p></o:p></p>
+
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt"><strong></strong>&nbsp;</p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt"><strong>Segreteria Corsi<br></strong></p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt">&nbsp;</p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt"></p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt"><img class="img-fluid o_we_custom_image o_we_selected_image" src="/web/image/26528-bca1efed/logo.png?access_token=68ae5022-29bd-4a67-a1f3-b0c0baa27d49" style="width:299px;">&nbsp;</p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt"><strong style="FONT-SIZE:10pt">Gruppo Scudo S.r.l.</strong> </p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt"><strong>Sede legale</strong>: Via Generale Caneva Carlo n. 1 - 33100 Udine (UD) - T +39 0432 500479 - 
+F +39 0432 200174<br><strong>Filiali</strong>: Cordenons (PN) - T +39 0434 924148; Tolmezzo (UD) - T +39 0433 44713 <br><strong><br>
+P. IVA e C.F.</strong> 02486160308 –&nbsp;<span style="font-weight:bolder;font-size: 13.3333px;">SDI</span><span style="font-size:13.3333px;">: USAL8PV&nbsp;</span><span style="font-size:13.3333px;">–</span><span style="font-size:10pt;">&nbsp;</span><strong style="font-size:10pt;">Capitale sociale</strong><span style="font-size:10pt;"> €. 700.000,00</span><span style="font-size:13.3333px;">&nbsp;</span><span style="font-size:13.3333px;">i.v.</span></p>
+<p style="FONT-SIZE:10pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt">PEC: 
+<a href="mailto:grupposcudo@pec.it">grupposcudo@pec.it</a> <br>Web: <a style="FONT-SIZE:9pt" href="http://www.grupposcudo.it">www.grupposcudo.it</a><span style="FONT-SIZE:10pt"></span></p><span style="FONT-SIZE:8pt">
+<p style="FONT-SIZE:8pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt">Ai 
+sensi del D.Lgs. 30 giugno 2003 n°196 - “Codice in materia di protezione dei 
+dati personali” e del GDPR 679/16 - Regolamento europeo sulla protezione dei 
+dati personali, si precisa che le informazioni contenute in questo in questa 
+e-mail e negli eventuali allegati sono riservate e destinate all'uso esclusivo 
+del destinatario sopraindicato. Si rende noto che esse possono riguardare un 
+messaggio confidenziale e di natura privilegiata. Non è consentita la loro 
+lettura indebita, la loro duplicazione e la loro divulgazione. Qualora questo 
+messaggio Le fosse pervenuto per errore, La invito ad eliminarlo senza copiarlo 
+o inoltrarlo a terzi, dandomene gentilmente comunicazione. La ringrazio per la 
+collaborazione. I dati personali sono trattati esclusivamente per le finalità 
+oggetto della presente comunicazione ed in conformità con la legislazione 
+vigente.</p>
+<p style="FONT-SIZE:8pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt">This 
+message contains confidential information intended only for use of the 
+addressee. If you are not the addressee, and have received this message by 
+mistake, please delete it and immediately notify us. You may not copy or 
+disseminate this message to anyone. Thank you.</p>
+<p style="FONT-SIZE:8pt;MARGIN-BOTTOM: 5pt; FONT-FAMILY: ARIAL; MARGIN-TOP: 0pt">Diese 
+Mitteilung ist vertraulich und nur für den Adressaten bestimmt. Weitergabe oder 
+Vervielfältigung durch andere als den Adressaten ist verboten. Wenn Sie die 
+Sendung irrtümlich erhalten, verständigen Sie bitte unverzüglich den Absender. 
+Danke. </p></span>
+            ]]>
+        </field>
+    </record>
+
+</odoo>

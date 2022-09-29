@@ -1,5 +1,5 @@
 import base64
-import logging  # pylint: disable=unused-import
+import logging
 import datetime
 from datetime import datetime
 from tempfile import NamedTemporaryFile

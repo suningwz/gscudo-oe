@@ -73,7 +73,9 @@ class GSTrainingPlanner(models.Model):
     price_unit = fields.Float(string="Prezzo articolo")
     product_uom_qty = fields.Float(string="Quantità", digits="Product Unit of Measure")
     discount = fields.Float(string="Sconto * 100")
-    discount_percent = fields.Float(string="Sconto", compute="_compute_discount_percent")
+    discount_percent = fields.Float(
+        string="Sconto", compute="_compute_discount_percent"
+    )
 
     def _compute_discount_percent(self):
         for record in self:
@@ -193,3 +195,47 @@ class GSTrainingPlanner(models.Model):
         self.sale_order_line_id = False
 
     old_id = fields.Integer(string="Vecchio ID")
+
+    is_first_mail_sent = fields.Boolean(string="Prima mail", default=False)
+
+    def send_first_emails(self):
+        """Sends the first mail."""
+        mail_template = self.env.ref(
+            "gscudo-training-planner.course_proposal_mail_template"
+        )
+
+        errors = []
+
+        for line in self:
+            if line.is_first_mail_sent:
+                errors.append({"line": line, "error": "prima mail già mandata"})
+                continue
+            if not line.course_start_date:
+                errors.append({"line": line, "error": "data corso mancante"})
+            if not line.place:
+                errors.append({"line": line, "error": "luogo mancante"})
+            if line.course_attendants == 0:
+                errors.append({"line": line, "error": "nessun iscritto"})
+            mail_template.send_mail(line.id)
+            line.is_first_mail_sent = True
+            line.message_post(body="Prima mail mandata")
+
+        if errors:
+            text = (
+                "<p>Mail non inviate:<ul>"
+                + "".join(
+                    [
+                        "<li>" + e["line"].name + " - " + e["error"] + "</li>"
+                        for e in errors
+                    ]
+                )
+                + "</ul></p>"
+            )
+
+            return self.env["gs_message_wizard"].display_message(
+                title="Attenzione", message=text
+            )
+
+        return self.env["gs_message_wizard"].display_message(
+            title="Ok", message="Mail inviate"
+        )
