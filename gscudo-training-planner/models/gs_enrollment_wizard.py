@@ -12,21 +12,6 @@ class GSPlannerCertificateEnrollmentWizard(models.TransientModel):
     gs_training_certificate_type_id = fields.Many2one(comodel_name="gs_course_type")
     partner_id = fields.Many2one(comodel_name="res.partner")
 
-    # def _compute_gs_training_certificate_type_id(self):
-    #     for record in self:
-    #         active_requirements = self.env["gs_worker_certificate"].browse(
-    #             self.env.context.get("active_ids")
-    #         )
-
-    #         ids = set(
-    #             requirement.gs_worker_id.contract_partner_id
-    #             for requirement in active_requirements
-    #         )
-    #         if len(ids) != 1:
-    #             raise ValidationError("Selezionate esigenze di tipo diverso.")
-
-    #         record.gs_training_certificate_type_id = ids.pop()
-
     @api.onchange("gs_planner_id")
     def _onchange_gs_planner_id(self):
         active_requirements = self.env["gs_worker_certificate"].browse(

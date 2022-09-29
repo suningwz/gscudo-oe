@@ -212,6 +212,7 @@ class GSLessonEnrollment(models.Model):
                         "issue_date": test.gs_course_lesson_id.start_time.date(),
                         "test_id": test.id,
                         "attended_hours": attended_hours,
+                        "document_template_id": test.gs_course_id.document_template_id.id,
                     }
                 )
 

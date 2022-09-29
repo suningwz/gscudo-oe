@@ -96,6 +96,11 @@ class GSWorkerCertificate(models.Model):
     issue_serial = fields.Char(
         string="Protocollo certificato", store=True, tracking=True, index=True
     )
+    document_template_id = fields.Many2one(
+        comodel_name="word_template",
+        string="Modello attestato",
+        domain=[("model.model", "=", "gs_worker_certificate")],
+    )
 
     @api.model
     def create(self, vals):
@@ -559,7 +564,10 @@ class GSWorkerCertificate(models.Model):
             ):
                 continue
 
-            doc_template = certificate.test_id.gs_course_id.document_template_id
+            doc_template = (
+                certificate.document_template_id
+                or certificate.test_id.gs_course_id.document_template_id
+            )
             if not doc_template:
                 raise UserError("Template mancante")
 
@@ -603,10 +611,20 @@ class GSWorkerCertificate(models.Model):
             if not certificate.attachment_data:
                 certificate.attachment_data = json.dumps(data)
 
+    def _get_partner_id(self):
+        """
+        Returns the partner linked to the certificate.
+        Mostly here to be overridden in the planner module.
+        Raises ValueError if called on a recordset holding multiple certificates.
+        """
+        self.ensure_one()
+        return self.gs_worker_id.contract_partner_id
+
     def _get_attachment_data(self):
         """
         Returns the attachment data if present, else compute it and return it.
         Raises UserError on missing data.
+        Raises ValueError if called on a recordset holding multiple certificates.
         """
 
         def hours(time: int):
@@ -633,6 +651,8 @@ class GSWorkerCertificate(models.Model):
                 f"{partner.city} ({partner.state_id.code})"
             )
 
+        self.ensure_one()
+
         if self.attachment_data:
             data = json.loads(self.attachment_data)
         else:
@@ -651,7 +671,7 @@ class GSWorkerCertificate(models.Model):
                     else self.gs_worker_id.birth_country
                 ),
                 "fiscalcode": self.gs_worker_id.fiscalcode,
-                "partner": self.gs_worker_id.contract_partner_id.name,
+                "partner": self._get_partner_id().name,
                 "job_description": self.gs_worker_id.contract_job_description,
                 "course_name": self.test_id.gs_course_id.gs_course_type_id.name,
                 "law_ref": self.gs_training_certificate_type_id.law_ref,
@@ -703,11 +723,11 @@ class GSWorkerCertificate(models.Model):
                 try:
                     certificate.attachment_data = certificate._get_attachment_data()
                     done.append(certificate.id)
-                except UserError as _:
+                except UserError as e:
+                    _logger.error("Certificate %d: %s", certificate.id, e)
                     continue
 
         _logger.info("Made %d certificates static", len(done))
-        _logger.info("Ids: %s", done)
 
     def mass_download(self):
         """Download files for the selected certificates."""

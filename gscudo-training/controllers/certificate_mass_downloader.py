@@ -1,3 +1,5 @@
+# pylint: disable=no-self-use
+
 import base64
 from tempfile import NamedTemporaryFile
 import zipfile
@@ -11,7 +13,7 @@ class CertificateMassDownloader(http.Controller):
         "/gscudo-training/doc/certificate/<string:ids>",
         auth="user",
     )
-    def download_certificates(self, **kw):  # pylint: disable=no-self-use
+    def download_certificates(self, **kw):
         """
         Download the selected certificates.
         ids should be in the form id1,id2,id3,...,idn
