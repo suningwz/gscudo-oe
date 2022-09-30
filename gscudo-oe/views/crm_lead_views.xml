@@ -33,6 +33,7 @@
                 <!-- <field name="is_customer" /> -->
                 <field name="last_accepted_offer"/>
                 <field name="next_expiring_offer"/>
+                <field name="last_expiring_contract"/>
                 <!-- <field name="customer_status"/> -->
                 
             </field>

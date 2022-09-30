@@ -281,7 +281,7 @@ class CrmLead(models.Model):
         string="Status", compute="_compute_customer_status", store=True
     )
 
-    @api.depends("last_accepted_offer")
+    @api.depends("last_accepted_offer", "last_expiring_contract")
     def _compute_customer_status(self):
         for record in self:
             if record.last_accepted_offer:
