@@ -196,18 +196,18 @@ class GSTrainingPlanner(models.Model):
 
     old_id = fields.Integer(string="Vecchio ID")
 
-    is_first_mail_sent = fields.Boolean(string="Prima mail", default=False)
+    is_proposal_mail_sent = fields.Boolean(string="Prima mail", default=False)
 
-    def send_first_emails(self):
+    def send_proposal_mails(self):
         """Sends the first mail."""
         mail_template = self.env.ref(
-            "gscudo-training-planner.course_proposal_mail_template"
+            "gscudo-training-planner.training_proposal_mail_template"
         )
 
         errors = []
 
         for line in self:
-            if line.is_first_mail_sent:
+            if line.is_proposal_mail_sent:
                 errors.append({"line": line, "error": "prima mail già mandata"})
                 continue
             if not line.course_start_date:
@@ -217,7 +217,7 @@ class GSTrainingPlanner(models.Model):
             if line.course_attendants == 0:
                 errors.append({"line": line, "error": "nessun iscritto"})
             mail_template.send_mail(line.id)
-            line.is_first_mail_sent = True
+            line.is_proposal_mail_sent = True
             line.message_post(body="Prima mail mandata")
 
         if errors:

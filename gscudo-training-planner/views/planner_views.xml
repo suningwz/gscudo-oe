@@ -220,7 +220,7 @@
                 <field name="material_price" optional="hide" />
                 <field name="material_order_ref" optional="hide" />
                 <field name="note" optional="hide" />
-                <field name="is_first_mail_sent" optional="hide" />
+                <field name="is_proposal_mail_sent" optional="hide" />
             </tree>
         </field>
     </record>
@@ -234,12 +234,12 @@
     </record>
 
     <!-- other actions -->
-    <record id="planner_first_mail_action_server" model="ir.actions.server">
-        <field name="name">Invia prima mail</field>
+    <record id="training_planner_proposal_mail_action" model="ir.actions.server">
+        <field name="name">Invia mail programmazione corso</field>
         <field name="model_id" ref="model_gs_training_planner"/>
         <field name="binding_model_id" ref="model_gs_training_planner"/>
         <field name="state">code</field>
-        <field name="code">action = records.send_first_emails()</field>
+        <field name="code">action = records.send_proposal_mails()</field>
     </record>
 
     <!-- menu actions -->
